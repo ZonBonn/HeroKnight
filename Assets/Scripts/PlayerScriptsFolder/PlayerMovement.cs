@@ -1,0 +1,842 @@
+using System.Diagnostics;
+using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
+using UnityEngine;
+
+public enum State { Null, Idle, Run, Attack1, Attack2, Attack3, Die, Jump, Roll, ClimbingOnWall, ClimbingActionWall, Fall, Hit, BlockIdle, BlockHit }
+
+// Idle, Run, Jump == Normal ???
+public class PlayerMovement : MonoBehaviour
+{
+    [SerializeField] private float MOVE_SPEED = 5f;
+    private float ROLL_SPEED;
+    private const float JUMP_FORCE = 14f;
+    private Rigidbody2D rb2D;
+    private Vector3 moveDir;
+    private CapsuleCollider2D capsuleCollider2D;
+    [SerializeField] private LayerMask platFormLayerMask;
+    [SerializeField] private LayerMask wallLayerMask;
+    private State playerState;
+    private PlayerAnimation playerAnimation;
+    private SpriteRenderer spriteRenderer;
+
+    // combo attacks
+    private bool canQueueNextAttack;
+    private bool canMoveToAttack2;
+    private bool canMoveToAttack3;
+
+    // Flag thời gian kéo dài hiệu lực vật lý
+    bool isPressedSpace = false; // <=> == isJumping
+    // đánh dấu nhảy đúng một frame rồi thôi tắt nó thành false luôn
+    // bool isPressedF = false; // <=> == isRolling
+    bool isJumpFromWall = false;
+    
+    private float LastMoveDir;
+    private float DefaultGravityScale = 3.5f;
+    private bool TouchedWallAlwaysFalse;
+    private float TouchedWallAlwaysFalseTimer;
+    private int WallDirX;
+
+    private void Awake()
+    {
+        rb2D = gameObject.GetComponent<Rigidbody2D>();
+        capsuleCollider2D = gameObject.GetComponent<CapsuleCollider2D>();
+    }
+
+    private void Start()
+    {
+        playerAnimation = gameObject.GetComponent<PlayerAnimation>();
+        playerState = State.Idle;
+        spriteRenderer = playerAnimation.GetSpriteRenderer();
+        playerAnimation.OnChangeLastFrames += OnEndOfAttackSprites;
+        playerAnimation.OnChangeLastFrames += OnEndOfRollSprites;
+        playerAnimation.OnChangeLastFrames += OnEndOfJumpSprites;
+        playerAnimation.OnChangeLastFrames += OnEndOfFallSprites;
+        playerAnimation.OnChangeLastFrames += OnEndOfRunSprites;
+        playerAnimation.OnChangeEachFrames += HandlerAttackFrames;
+        // playerAnimation.OnChangeIDXFrame += HandlerJumpFrame;
+    }
+
+    private void Update()
+    {
+        if (playerState == State.Die)
+            return;
+        // INPUTS HANDLER:
+        float moveX = 0f;
+        float moveY = 0f;
+
+        switch (playerState)
+        {
+            case State.Idle:
+                // set action
+                if (Input.GetKeyDown(KeyCode.Space) && IsGrounded() == true)
+                {
+                    isPressedSpace = true;
+                }
+
+                // set state
+                if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && IsGrounded() == true)
+                {
+                    playerState = State.Run;
+                }
+
+                if (IsGrounded() == false)
+                {
+                    playerState = State.Jump;
+                }
+
+                if (Input.GetMouseButtonDown(0))
+                {
+                    playerState = State.Attack1;
+                }
+
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    ROLL_SPEED = 10f;
+                    playerState = State.Roll;
+                }
+                if (Input.GetMouseButton(1))
+                {
+                    playerState = State.BlockIdle;
+                }
+                break;
+
+            case State.Run:
+                // set action
+                if (Input.GetKey(KeyCode.A))
+                {
+                    moveX = -1f;
+                    LastMoveDir = -1f;
+                }
+
+                if (Input.GetKey(KeyCode.D))
+                {
+                    moveX = +1f;
+                    LastMoveDir = +1f;
+                }
+
+                if (Input.GetKeyDown(KeyCode.Space) && IsGrounded() == true)
+                {
+                    isPressedSpace = true;
+                }
+
+                // set state (KHÔNG CẦN ƯU TIÊN VÌ CÁI NÀO IF CUỐI CÙNG SẼ ĐƯỢC ƯU TIÊN MÀ :))
+                if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D) && IsGrounded() == true)
+                {
+                    playerState = State.Idle;
+                }
+
+                if (IsGrounded() == false)
+                {
+                    playerState = State.Jump;
+                }
+
+                if (Input.GetMouseButtonDown(0))
+                {
+                    if (canMoveToAttack2 == true)
+                    {
+                        playerState = State.Attack2;
+                        canMoveToAttack2 = false;
+                        break;
+                    }
+                    else if (canMoveToAttack3 == true)
+                    {
+                        playerState = State.Attack3;
+                        canMoveToAttack3 = false;
+                        break;
+                    }
+                    playerState = State.Attack1;
+                }
+
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    ROLL_SPEED = 10f;
+                    playerState = State.Roll;
+                }
+                if (Input.GetMouseButton(1))
+                {
+                    playerState = State.BlockIdle;
+                }
+                break;
+
+            case State.Jump:
+                // khi đang ở trạng thái nhảy
+                // set state
+                if (IsGrounded() == true) // ngay khi chạm đất
+                {
+                    // set state
+                    if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D) && IsGrounded() == true)
+                    {
+                        playerState = State.Idle;
+                    }
+
+                    if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && IsGrounded() == true)
+                    {
+                        playerState = State.Run;
+                    }
+
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        if (canMoveToAttack2 == true)
+                        {
+                            playerState = State.Attack2;
+                            canMoveToAttack2 = false;
+                            break;
+                        }
+                        else if (canMoveToAttack3 == true)
+                        {
+                            playerState = State.Attack3;
+                            canMoveToAttack3 = false;
+                            break;
+                        }
+                        playerState = State.Attack1;
+                    }
+
+                    if (Input.GetKeyDown(KeyCode.F))
+                    {
+                        ROLL_SPEED = 10f;
+                        playerState = State.Roll;
+                    }
+                }
+                else if (IsGrounded() == false) // khi ở trạng thái jump trên không, vì 
+                // trên không vẫn di chuyển được nên phải cộng thêm giá trị khi di chuyển trên không nữa, còn chuyển trạng thái thì không cần
+                {
+                    // set action
+                    if (Input.GetKey(KeyCode.A))
+                    {
+                        moveX = -1f;
+                        LastMoveDir = -1f;
+                    }
+                    else if (Input.GetKey(KeyCode.D))
+                    {
+                        moveX = +1f;
+                        LastMoveDir = +1f;
+                    }
+
+                    // set state while on air
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        if (canMoveToAttack2 == true)
+                        {
+                            playerState = State.Attack2;
+                            canMoveToAttack2 = false;
+                            break;
+                        }
+                        else if (canMoveToAttack3 == true)
+                        {
+                            playerState = State.Attack3;
+                            canMoveToAttack3 = false;
+                            break;
+                        }
+                        playerState = State.Attack1;
+                    }
+
+                    if (Input.GetKey(KeyCode.W) && IsTouchedWall() == true)
+                    {
+                        playerState = State.ClimbingOnWall;
+                        rb2D.gravityScale = 0f; // không cho rơi xuống khi đang leo
+                    }
+                }
+                break;
+
+            case State.Fall:
+
+                if (IsGrounded() == true) // ngay khi chạm đất
+                {
+                    // set state
+                    if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D) && IsGrounded() == true)
+                    {
+                        playerState = State.Idle;
+                    }
+
+                    if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && IsGrounded() == true)
+                    {
+                        playerState = State.Run;
+                    }
+
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        playerState = State.Attack1;
+                    }
+
+                    if (Input.GetKeyDown(KeyCode.F))
+                    {
+                        ROLL_SPEED = 10f;
+                        playerState = State.Roll;
+                    }
+                }
+                else if (IsGrounded() == false) // khi ở trạng thái fall trên không, vì 
+                // trên không vẫn di chuyển được nên phải cộng thêm giá trị khi di chuyển trên không nữa, còn chuyển trạng thái thì không cần
+                {
+                    // set action
+                    if (Input.GetKey(KeyCode.A))
+                    {
+                        moveX = -1f;
+                        LastMoveDir = -1f;
+                    }
+                    else if (Input.GetKey(KeyCode.D))
+                    {
+                        moveX = +1f;
+                        LastMoveDir = +1f;
+                    }
+
+                    // set state while on air
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        playerState = State.Attack1;
+                    }
+
+                    if (Input.GetKey(KeyCode.W) && IsTouchedWall() == true)
+                    {
+                        playerState = State.ClimbingOnWall;
+                        rb2D.gravityScale = 0f; // không cho rơi xuống khi đang leo
+                    }
+                }
+                break;
+
+            case State.Attack1:
+                // do phải chạy hết aniamtion tới frame cuối thì mới được chuyển state => xử lý riêng ở delegate Action
+                if (Input.GetMouseButtonDown(0)) // Clicked mouse during attack1 state
+                {
+                    if (canQueueNextAttack == true && playerState == State.Attack1)
+                    {
+                        canMoveToAttack2 = true;
+                    }
+                }
+
+                if (Input.GetKeyDown(KeyCode.F) && IsGrounded() == true)
+                {
+                    ROLL_SPEED = 10f;
+                    playerState = State.Roll;
+                }
+                break;
+
+            case State.Attack2:
+                if (Input.GetMouseButtonDown(0))
+                {
+                    if (canQueueNextAttack == true && playerState == State.Attack2)
+                    {
+                        canMoveToAttack3 = true;
+                    }
+                }
+
+                if (Input.GetKeyDown(KeyCode.F) && IsGrounded() == true)
+                {
+                    ROLL_SPEED = 10f;
+                    playerState = State.Roll;
+                }
+                break;
+
+            case State.Attack3:
+                if (Input.GetKeyDown(KeyCode.F) && IsGrounded() == true)
+                {
+                    ROLL_SPEED = 10f;
+                    playerState = State.Roll;
+                }
+                break;
+
+            case State.Roll:
+                float rollSpeedDropMultiplier = 0.3f;
+                ROLL_SPEED -= ROLL_SPEED * rollSpeedDropMultiplier * Time.deltaTime;
+                float rollSpeedMinimum = 5f; // == MOVE_SPEED
+
+                if (ROLL_SPEED <= rollSpeedMinimum) // đây là 1 trong 2 cách chuyển từ state roll -> state khác: chờ tới khi tốc độ lăn về với tốc độ MOVE_SPEED
+                {
+                    if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
+                        playerState = State.Idle;
+                    if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
+                        playerState = State.Run;
+                    if (Input.GetKey(KeyCode.Space))
+                        playerState = State.Jump;
+                    if (Input.GetMouseButtonDown(0))
+                        playerState = State.Attack1;
+                }
+
+                // về sau thì khi roll sẽ không nhận damage thì sẽ thêm các chức năng khi đang rolling TẠI ĐÂY
+                break;
+
+            case State.ClimbingOnWall:
+                if (!Input.GetKey(KeyCode.W)) // chừng nào không còn ấn nút nữa
+                {
+                    rb2D.gravityScale = DefaultGravityScale;
+                    playerState = State.Jump; // lúc thực hiện state này chỉ khi đang nhảy => lúc không còn thực hiện thì vẫn đang là State Jump => quay trở lại State Jump
+                }
+                else if (Input.GetKey(KeyCode.W)) // chừng nào còn ấn nút W để duy trì trạng thái leo tường
+                {
+                    if (Input.GetKeyDown(KeyCode.Space))
+                    {
+                        // if (!IsTouchedWall())
+                        // {
+                        //     rb2D.gravityScale = DefaultGravityScale;
+                        //     playerState = State.Jump;
+                        //     break;
+                        // }
+
+                        if (Input.GetKey(KeyCode.A) && (WallDirX == 1 || LastMoveDir > 0))
+                        {
+                            // moveX = -1f;
+                            // LastMoveDir = -1f;
+                            // không cần cập nhật last move vì khi state = Jump nó sẽ tự cập nhật
+                            isPressedSpace = true;
+                            playerState = State.Jump;
+                            rb2D.gravityScale = DefaultGravityScale;
+                            TouchedWallAlwaysFalseTimer = 0.15f; // cho thêm một khoảng thời gian rất ngắn tại đây để IsTochedWall luôn luôn == false
+                            isJumpFromWall = true;
+                        }
+
+                        if (Input.GetKey(KeyCode.D) && (WallDirX == -1 || LastMoveDir < 0))
+                        {
+                            isPressedSpace = true;
+                            playerState = State.Jump;
+                            rb2D.gravityScale = DefaultGravityScale;
+                            TouchedWallAlwaysFalseTimer = 0.15f;
+                            isJumpFromWall = true;
+                        }
+                    }
+                }
+                break;
+
+            case State.Die:
+
+                break;
+
+            case State.Hit:
+
+                break;
+
+            case State.BlockIdle:
+                if (!Input.GetMouseButton(1))
+                {
+                    if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D) && IsGrounded() == true)
+                    {
+                        playerState = State.Idle;
+                    }
+
+                    if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && IsGrounded() == true)
+                    {
+                        playerState = State.Run;
+                    }
+                }
+                break;
+
+            case State.BlockHit:
+
+                break;
+        }
+
+        moveDir = new Vector2(moveX, moveY).normalized;
+        // UnityEngine.Debug.Log(playerState);
+
+        // ANIMATIONS HANDLER:
+        playerAnimation.AnimationHandler(playerState); // cho nó tự chuyển animation theo state, hợp lý đấy đỡ phải gọi gây rối
+
+        // FlipSPrite Handler;
+        FlipDir();
+    }
+
+    private void FixedUpdate()
+    {
+        if (playerState == State.Die)
+            return;
+        // PHYSICS HANDLER:
+        if (playerState == State.Idle || playerState == State.Run || playerState == State.Jump || playerState == State.Fall) // Normal State == Idle, Run, Jump
+        {
+            JumpPhysicsHandler();
+            MovementPhysicsHandler();
+        }
+        else if (playerState == State.Attack1 || playerState == State.Attack2 || playerState == State.Attack3)
+        {
+            // thực hiện attack
+            // handler physic attack in here --> in here <--
+            if (IsGrounded() == true)
+            {
+                rb2D.linearVelocity = new Vector2(0, rb2D.linearVelocity.y);
+            }
+            else if (IsGrounded() == false)
+            {
+                rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x, rb2D.linearVelocity.y);
+            }
+        }
+        else if (playerState == State.Roll)
+        {
+            float RollDir = LastMoveDir;
+            rb2D.linearVelocity = new Vector2(ROLL_SPEED * RollDir, rb2D.linearVelocity.y);
+        }
+        else if (playerState == State.ClimbingOnWall && IsTouchedWall() == true)
+        {
+            rb2D.linearVelocity = new Vector2(0, 0);
+        }
+        else if (playerState == State.BlockIdle)
+        {
+            rb2D.linearVelocity = new Vector2(0, 0);
+        }
+    }
+
+    private void MovementPhysicsHandler()
+    {
+        SomeControllOnAir();
+    }
+
+    private void JumpPhysicsHandler()
+    {
+        if (isPressedSpace == true && (IsGrounded() == true || IsTouchedWall() == true || isJumpFromWall == true)) // nếu có thể nhảy: 2 mức nhảy, nhảy khi ở tường sẽ cao hơn ở đất
+        {
+            if (IsGrounded() == true)
+            {
+                rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x, JUMP_FORCE); // khi nhảy vẫn giữ lại vận tốc rb2D.linearVelocity.x trước đó => không bị kẹt cứng một chỗ
+                isPressedSpace = false;
+            }
+            else // == else if(IsTouchedWall() == true)
+            {
+                // UnityEngine.Debug.Log("Nhảy ra từ tường");
+                float JUMP_FORCE_ON_WALL = JUMP_FORCE + 4;
+                rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x, JUMP_FORCE_ON_WALL); // khi nhảy vẫn giữ lại vận tốc rb2D.linearVelocity.x trước đó => không bị kẹt cứng một chỗ
+                isPressedSpace = false;
+                isJumpFromWall = false;
+            }
+        }
+    }
+
+    private void SomeControllOnAir()
+    {
+        float maxSpeedOnAir = 6f;
+        float midAirControlSpeed = 10f;
+
+        if (moveDir.x != 0) // di chuyển
+        {
+            if (IsGrounded() == true) // dưới đất
+            {
+                rb2D.linearVelocity = new Vector2(moveDir.x * MOVE_SPEED, rb2D.linearVelocity.y);
+            }
+            else // trên không
+            {
+                if (moveDir.x > 0) // == 1f ?
+                {
+                    rb2D.linearVelocity += new Vector2(midAirControlSpeed * Time.deltaTime, 0f); // tăng dần đều mỗi giây tăng được midAirControlSpeed tốc độ
+                    rb2D.linearVelocity = new Vector2(Mathf.Clamp(rb2D.linearVelocity.x, -maxSpeedOnAir, +maxSpeedOnAir), rb2D.linearVelocity.y);
+                }
+
+                if (moveDir.x < 0) // == -1f ?
+                {
+                    rb2D.linearVelocity += new Vector2(-midAirControlSpeed * Time.deltaTime, 0f);
+                    rb2D.linearVelocity = new Vector2(Mathf.Clamp(rb2D.linearVelocity.x, -maxSpeedOnAir, +maxSpeedOnAir), rb2D.linearVelocity.y);
+                }
+            }
+        }
+        else // đứng yên
+        {
+            if (IsGrounded() == true) // dưới đất
+            {
+                rb2D.linearVelocity = new Vector2(moveDir.x * MOVE_SPEED, rb2D.linearVelocity.y);
+            }
+            else // trên không
+            {
+                rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x, rb2D.linearVelocity.y);
+            }
+        }
+    }
+
+    private void OnEndOfAttackSprites() // được chạy khi cuối cùng của frame của attack
+    {
+        // set state
+        if (playerState == State.Attack1)
+        {
+            if (IsGrounded() == true) // attack on ground
+            {
+                if (canMoveToAttack2 == true)
+                {
+                    playerState = State.Attack2;
+                    canMoveToAttack2 = false;
+                }
+                else if (canMoveToAttack2 == false)
+                {
+                    if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
+                    {
+                        playerState = State.Idle;
+                    }
+
+                    if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
+                    {
+                        playerState = State.Run;
+                    }
+
+                    if (Input.GetKeyDown(KeyCode.Space) && IsGrounded() == true)
+                    {
+                        isPressedSpace = true;
+                    }
+                }
+            }
+            else if (IsGrounded() == false) // attack on air
+            {
+                if (canMoveToAttack2 == true)
+                {
+                    playerState = State.Attack2;
+                    canMoveToAttack2 = false;
+                }
+                else if (canMoveToAttack2 == false)
+                {
+                    playerState = State.Jump;
+                }
+            }
+        }
+        else if (playerState == State.Attack2)
+        {
+            if (IsGrounded() == true) // attack on ground
+            {
+                if (canMoveToAttack3 == true)
+                {
+                    playerState = State.Attack3;
+                    canMoveToAttack3 = false;
+                }
+                else if (canMoveToAttack3 == false)
+                {
+                    if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
+                    {
+                        playerState = State.Idle;
+                    }
+
+                    if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
+                    {
+                        playerState = State.Run;
+                    }
+
+                    if (Input.GetKeyDown(KeyCode.Space) && IsGrounded() == true)
+                    {
+                        isPressedSpace = true;
+                    }
+                }
+            }
+            else if (IsGrounded() == false)
+            {
+                if (canMoveToAttack3 == true)
+                {
+                    playerState = State.Attack3;
+                    canMoveToAttack3 = false;
+                }
+                else if (canMoveToAttack3 == false)
+                {
+                    playerState = State.Jump;
+                }
+            }
+        }
+        else if (playerState == State.Attack3)
+        {
+            if (IsGrounded() == true) // attack on ground
+            {
+                if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
+                {
+                    playerState = State.Idle;
+                }
+
+                if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
+                {
+                    playerState = State.Run;
+                }
+
+                if (Input.GetKeyDown(KeyCode.Space) && IsGrounded() == true)
+                {
+                    isPressedSpace = true;
+                }
+            }
+            else if (IsGrounded() == false) // attack on air
+            {
+                playerState = State.Jump;
+            }
+        }
+    }
+
+    private void OnEndOfRollSprites() // đây là 1 trong 2 cách chuyển từ state roll -> state khác: đợi tới frame cuối của roll
+    {
+        if (playerState == State.Roll) // on the ground
+        // check playerState == Roll vì Invoke được gọi tất cả hàm đăng ký ngay cả hàm này nhưng chỉ hoạt động hàm này khi đang trạng thái Roll thôi
+        {
+            if (IsGrounded() == true)
+            {
+                if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
+                {
+                    playerState = State.Idle;
+                }
+
+                if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
+                {
+                    playerState = State.Run;
+                }
+
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    isPressedSpace = true;
+                }
+            }
+            else if (IsGrounded() == false && playerState == State.Roll) // on air
+            {
+                playerState = State.Jump;
+            }
+        }
+    }
+
+    private void OnEndOfJumpSprites()
+    {
+        if (playerState == State.Jump && IsGrounded() == false)
+        {
+            playerState = State.Fall;
+        }
+         // có thể cho nó reset về attack 1 nhanh hơn nhưng ME thích cuối :D
+        canMoveToAttack2 = false; 
+        canMoveToAttack3 = false;
+    }
+
+    private void OnEndOfRunSprites()
+    {
+        // có thể cho nó reset về attack 1 nhanh hơn nhưng ME thích cuối :D
+        canMoveToAttack2 = false;
+        canMoveToAttack3 = false;
+    }
+
+    private void OnEndOfFallSprites()
+    {
+        // có thể cho nó reset về attack 1 nhanh hơn nhưng ME thích cuối :D
+        canMoveToAttack2 = false;
+        canMoveToAttack3 = false;
+    }
+
+    private void HandlerAttackFrames(int idxFrame, Sprite[] currentSprite) // một số frame chuyển canQueueAttack = true, rồi check nếu trong khoảng frame đấy nếu bấm chuột trái và canQueueAttack == true thì next combo attack
+    {
+        if (currentSprite == playerAnimation.Attack1Sprites || currentSprite == playerAnimation.Attack2Sprites || currentSprite == playerAnimation.Attack3Sprites)
+        {
+            if (0 < idxFrame && idxFrame < 5) // hard code phần attack nhưng thôi kệ
+            {
+                canQueueNextAttack = true;
+            }
+            else if (idxFrame < 1 || idxFrame >= 5)
+            {
+                canQueueNextAttack = false;
+            }
+            if (idxFrame == 5 && (CanTransformRun() || CanTransformRoll() || CanTransformJump()))
+            {
+                // creatAttackPoint -> in here <-
+                CanTransformRun();
+                CanTransformRoll();
+                CanTransformJump();
+            }
+
+        }
+
+    }
+
+    private void FlipDir()
+    {
+        if (playerState == State.ClimbingOnWall && WallDirX != 0) // special sprites handler
+        {
+            if (WallDirX == 1)
+            {
+                spriteRenderer.flipX = false;
+            }
+            else if (WallDirX == -1)
+            {
+                spriteRenderer.flipX = true;
+            }
+        }
+        else
+        {
+            if (moveDir.x > 0)
+            {
+                spriteRenderer.flipX = false;
+            }
+            else if (moveDir.x < 0)
+            {
+                spriteRenderer.flipX = true;
+            }
+        }
+    }
+
+    private bool IsGrounded()
+    {
+        WallDirX = 0;
+        RaycastHit2D rayCastHit2D = Physics2D.BoxCast(capsuleCollider2D.bounds.center, capsuleCollider2D.bounds.size, 0f, Vector2.down, 0.1f, platFormLayerMask);
+        if (rayCastHit2D.collider != null)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private bool IsTouchedWall()
+    {
+        if (TouchedWallAlwaysFalseTimer > 0) // ignore touched wall as soon as jump out from wall by timer
+        {
+            TouchedWallAlwaysFalseTimer -= Time.deltaTime;
+            return false;
+        }
+
+        float rayLength = (capsuleCollider2D.size.x * .5f) + 0.01f;
+        Vector2 origin = capsuleCollider2D.bounds.center;
+        bool leftHit = Physics2D.Raycast(origin, Vector2.left, rayLength, wallLayerMask);
+        bool rightHit = Physics2D.Raycast(origin, Vector2.right, rayLength, wallLayerMask);
+        UnityEngine.Debug.DrawRay(origin, Vector2.left * rayLength, Color.red);
+        UnityEngine.Debug.DrawRay(origin, Vector2.right * rayLength, Color.red);
+
+        if (leftHit == true && rightHit == false)
+        {
+            WallDirX = -1;
+            LastMoveDir = -1f;
+            return true;
+        }
+
+        if (rightHit == true && leftHit == false)
+        {
+            WallDirX = +1;
+            LastMoveDir = +1f;
+            return true;
+        }
+
+        // UnityEngine.Debug.DrawRay(origin, Vector2.right * rayLength, Color.red);
+        WallDirX = 0;
+        return false;
+    }
+
+    private bool CanTransformIdle()
+    {
+        if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
+        {
+            playerState = State.Idle;
+            return true;
+        }
+        return false;
+    }
+
+    private bool CanTransformRun()
+    {
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
+        {
+            playerState = State.Run;
+            return true;
+        }
+        return false;
+    }
+
+    private bool CanTransformJump()
+    {
+        if (Input.GetKey(KeyCode.Space) && IsGrounded() == true)
+        {
+            isPressedSpace = true;
+            return true;
+        }
+        return false;
+    }
+
+    private bool CanTransformRoll()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            ROLL_SPEED = 10f;
+            playerState = State.Roll;
+            return true;
+        }
+        return false;
+    }
+
+    public State GetPlayerState()
+    {
+        return playerState;
+    }
+}
