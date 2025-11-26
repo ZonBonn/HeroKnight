@@ -217,6 +217,17 @@ public class EnemyPathFindingMovement : MonoBehaviour
         }
         return true;
     }
+    
+    private bool IsWallFront()
+    {
+
+        return true;
+    }
+
+    private bool IsCeilingAbove() // hàm này nếu đúng thì có nghĩa là cao hơn enemy => bỏ không nhảy được còn đâu thì ngược lại
+    {
+        return true;
+    }
     // ========================================================
     
 
