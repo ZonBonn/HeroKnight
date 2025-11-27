@@ -74,7 +74,7 @@ public class EnemyAI : MonoBehaviour
 
         if (lastCheckedCurrentEnemyStateAction != currentEnemyStateAction)
         {
-            Debug.Log(currentEnemyStateAction);
+            // Debug.Log(currentEnemyStateAction);
             lastCheckedCurrentEnemyStateAction = currentEnemyStateAction;
         }
     }
@@ -124,6 +124,13 @@ public class EnemyAI : MonoBehaviour
 
     private void IdleActionHandler()
     {
+        // if (enemyPathFindingMovement.IsHole() || Input.GetKeyDown(KeyCode.L)) // tmp
+        // {
+        //     currentEnemyStateAction = EnemyStateAction.Jump;
+        //     isJumping = true;
+        //     return;
+        // }
+        enemyPathFindingMovement.StopMovingPhysicalHandler();
         Immediately_m_RTCTimer();
         if (m_IdleTimer > 0)
         {

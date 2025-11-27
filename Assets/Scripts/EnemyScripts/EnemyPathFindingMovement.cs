@@ -212,7 +212,8 @@ public class EnemyPathFindingMovement : MonoBehaviour
         UnityEngine.Vector3 StartPoint =  dir + (currentVisualDir == -1 ? UnityEngine.Vector3.left : UnityEngine.Vector3.right) * 0.1f;
         RaycastHit2D rayCastHit2D = Physics2D.Raycast(StartPoint, UnityEngine.Vector2.down, 1.2f, platFormLayerMask);
 
-        // Debug.DrawRay(StartPoint, UnityEngine.Vector2.down * 1.2f, Color.pink);
+        Debug.DrawRay(StartPoint, UnityEngine.Vector2.down * 1.2f, Color.pink);
+        float realDistance = rayCastHit2D.distance;
         
         if (rayCastHit2D.collider != null)
         {
@@ -221,7 +222,7 @@ public class EnemyPathFindingMovement : MonoBehaviour
         return true;
     }
 
-    private bool IsCanJump()
+    private bool IfCanJumpOverTheInFrontWall()
     {
         return IsWallInFront() && !IsWallTooHigh();
     }
@@ -245,10 +246,47 @@ public class EnemyPathFindingMovement : MonoBehaviour
         return false;
     }
 
-    private bool IsWallTooHigh() // hàm này nếu đúng thì có nghĩa là cao hơn enemy => bỏ không nhảy được còn đâu thì ngược lại
+    private bool IsBlockedDuringJump() // hàm này nếu đúng thì có nghĩa là cao hơn enemy => bỏ không nhảy được còn đâu thì ngược lại
     {
         // mô phỏng một capsule tại đây nhảy xem có nhảy qua được không ?
         // --> continue your work in here <--- IN HERE
+        UnityEngine.Vector3 direct = new UnityEngine.Vector3(currentVisualDir, 1).normalized;
+
+        RaycastHit2D rayCastHit2D = Physics2D.CapsuleCast(capsuleCollider2D.bounds.center, 
+        capsuleCollider2D.bounds.size, 
+        capsuleCollider2D.direction, 
+        0f, 
+        direct, 
+        3.5f,  // độ cao cao nhất mà có thể nhảy được tính từ 0
+        wallLayerMask);
+
+        if(rayCastHit2D.collider != null)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    private bool IsWallTooHigh()
+    {
+        UnityEngine.Vector3 StartPoint = new UnityEngine.Vector3(capsuleCollider2D.bounds.center.x, capsuleCollider2D.bounds.center.y + 2.5f);
+        UnityEngine.Vector3 directScanning = currentVisualDir == -1 ? UnityEngine.Vector3.left : UnityEngine.Vector3.right;
+        float distanceScanning = capsuleCollider2D.size.x + 0.2f; 
+
+        RaycastHit2D rayCastHit2D = Physics2D.CapsuleCast(
+        StartPoint, 
+        capsuleCollider2D.size, 
+        capsuleCollider2D.direction, 
+        0f, 
+        directScanning, 
+        distanceScanning, 
+        wallLayerMask
+        );
+
+        if(rayCastHit2D.collider != null)
+        {
+            return false;
+        }
         return true;
     }
     // ========================================================
