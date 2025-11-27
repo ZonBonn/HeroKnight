@@ -227,7 +227,6 @@ public class EnemyPathFindingMovement : MonoBehaviour
         return IsWallInFront() && !IsWallTooHigh();
     }
 
-    
     private bool IsWallInFront()
     {
         float rayLength = (capsuleCollider2D.size.x * .5f) + 0.01f;
