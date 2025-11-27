@@ -29,6 +29,8 @@ public class EnemyPathFindingMovement : MonoBehaviour
     public int currentVisualDir;
     
     public LayerMask platFormLayerMask;
+    public LayerMask wallLayerMask;
+
     private void Start()
     {
         enemyAnimation = gameObject.GetComponent<EnemyAnimation>();
@@ -45,6 +47,7 @@ public class EnemyPathFindingMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        IsWallInFront();
         if(enemyAI.currentEnemyStateAction == EnemyAI.EnemyStateAction.Chase || enemyAI.currentEnemyStateAction == EnemyAI.EnemyStateAction.Patrol)
         {
             MovementPhysicPlatformerHandler();
@@ -217,15 +220,35 @@ public class EnemyPathFindingMovement : MonoBehaviour
         }
         return true;
     }
-    
-    private bool IsWallFront()
-    {
 
-        return true;
+    private bool IsCanJump()
+    {
+        return IsWallInFront() && !IsWallTooHigh();
     }
 
-    private bool IsCeilingAbove() // hàm này nếu đúng thì có nghĩa là cao hơn enemy => bỏ không nhảy được còn đâu thì ngược lại
+    
+    private bool IsWallInFront()
     {
+        float rayLength = (capsuleCollider2D.size.x * .5f) + 0.01f;
+
+        UnityEngine.Vector3 dir;
+        dir = currentVisualDir == -1 ? UnityEngine.Vector3.left : UnityEngine.Vector3.right;
+        UnityEngine.Vector3 origin = capsuleCollider2D.bounds.center;
+        float RayLenght = (capsuleCollider2D.size.x * .5f) + 0.1f;
+
+        RaycastHit2D rayCastHit2D = Physics2D.Raycast(origin, dir, RayLenght, wallLayerMask);
+        Debug.DrawRay(origin, dir * RayLenght, Color.blueViolet);
+        if(rayCastHit2D.collider != null)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private bool IsWallTooHigh() // hàm này nếu đúng thì có nghĩa là cao hơn enemy => bỏ không nhảy được còn đâu thì ngược lại
+    {
+        // mô phỏng một capsule tại đây nhảy xem có nhảy qua được không ?
+        // --> continue your work in here <--- IN HERE
         return true;
     }
     // ========================================================
