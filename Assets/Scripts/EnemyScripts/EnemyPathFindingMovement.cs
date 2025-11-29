@@ -7,7 +7,7 @@ public class EnemyPathFindingMovement : MonoBehaviour
 {
     public const float MOVE_SPEED = 2f;
     public const float JUMP_FORCE = 14f;
-    private const float PUSH_FORCE = 2f;
+    private const float PUSH_FORCE = 4.8f;
     private int currentIdxPath;
     private List<UnityEngine.Vector3> PathOnVector;
     public GridMap gridMap;
@@ -133,7 +133,8 @@ public class EnemyPathFindingMovement : MonoBehaviour
     {
         if (IsGrounded() == true)
         {
-            rb2d.linearVelocity = new UnityEngine.Vector2(rb2d.linearVelocity.x * PUSH_FORCE, JUMP_FORCE);
+            // Debug.Log(rb2d.linearVelocity.x * PUSH_FORCE + " " +  JUMP_FORCE);
+            rb2d.linearVelocity = new UnityEngine.Vector2(currentVisualDir * PUSH_FORCE, JUMP_FORCE);
             // isPressedSpace = false;
         }
     }
@@ -229,8 +230,6 @@ public class EnemyPathFindingMovement : MonoBehaviour
 
     private bool IsWallInFront()
     {
-        float rayLength = (capsuleCollider2D.size.x * .5f) + 0.01f;
-
         UnityEngine.Vector3 dir;
         dir = currentVisualDir == -1 ? UnityEngine.Vector3.left : UnityEngine.Vector3.right;
         UnityEngine.Vector3 origin = capsuleCollider2D.bounds.center;
@@ -248,8 +247,8 @@ public class EnemyPathFindingMovement : MonoBehaviour
     private bool IsBlockedDuringJump() // hàm này nếu đúng thì có nghĩa là cao hơn enemy => bỏ không nhảy được còn đâu thì ngược lại
     {
         // mô phỏng một capsule tại đây nhảy xem có nhảy qua được không ?
-        // --> continue your work in here <--- IN HERE
-        UnityEngine.Vector3 direct = new UnityEngine.Vector3(currentVisualDir, 1).normalized;
+        // UnityEngine.Vector3 direct = new UnityEngine.Vector3(currentVisualDir, 1).normalized;
+        UnityEngine.Vector3 direct = UnityEngine.Vector3.up;
 
         RaycastHit2D rayCastHit2D = Physics2D.CapsuleCast(capsuleCollider2D.bounds.center, 
         capsuleCollider2D.bounds.size, 
@@ -268,7 +267,8 @@ public class EnemyPathFindingMovement : MonoBehaviour
 
     private bool IsWallTooHigh()
     {
-        UnityEngine.Vector3 StartPoint = new UnityEngine.Vector3(capsuleCollider2D.bounds.center.x, capsuleCollider2D.bounds.center.y + 2.5f);
+        const float maxJumpHeight = 2.5f;
+        UnityEngine.Vector3 StartPoint = new UnityEngine.Vector3(capsuleCollider2D.bounds.center.x, capsuleCollider2D.bounds.center.y + maxJumpHeight);
         UnityEngine.Vector3 directScanning = currentVisualDir == -1 ? UnityEngine.Vector3.left : UnityEngine.Vector3.right;
         float distanceScanning = capsuleCollider2D.size.x + 0.2f; 
 
