@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8407954784760050260}
   - component: {fileID: 6896749445905288176}
   - component: {fileID: 1215949409068962390}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TX Tileset Ground_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -77,8 +77,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1883702859
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: -7190719572971877601, guid: 157cbc340d2b7e64ab85168e80e95550, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

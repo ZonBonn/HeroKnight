@@ -13,6 +13,7 @@ public class EnemyAI : MonoBehaviour
     public Transform rightPoint;
     public Transform chaseLeftPoint;
     public Transform chaseRightPoint;
+    private Transform nullTransform = null; // đây sẽ là vị trí mà currentToward hướng tới khi đang trong các trạng thái khác ngoài state Patrol
     private Enemy enemy;
     private EnemyAnimation enemyAnimation;
     public LayerMask playerLayerMask;
@@ -83,6 +84,21 @@ public class EnemyAI : MonoBehaviour
     private void PatrolActionHandler()
     {
         Immediately_m_RTCTimer();
+
+        if (currentToward != lastCheckedCurrentToward)
+        {
+            if(currentToward == nullTransform)
+            {
+                enemyPathFindingMovement.MoveTo(lastCheckedCurrentToward.position);
+                currentToward = lastCheckedCurrentToward;
+            }
+            else
+            {
+                enemyPathFindingMovement.MoveTo(currentToward.position);
+                lastCheckedCurrentToward = currentToward;
+            }
+        }
+
         if (Vector3.Distance(gameObject.transform.position, currentToward.position) <= 0.6f)
         {
             currentEnemyStateAction = EnemyStateAction.Idle;
@@ -98,24 +114,17 @@ public class EnemyAI : MonoBehaviour
             }
             enemyPathFindingMovement.StopMovingPhysicalHandler();
         }
-        // else if (currentToward != lastCheckedCurrentToward)
-        // {
-        //     enemyPathFindingMovement.MoveTo(currentToward.position);
-        //     lastCheckedCurrentToward = currentToward;
-        // }
-        else if(IsSearchedPlayerAround() == true) // alway finds player in here <-- SearchingPlayerAround();
+        
+        if(IsSearchedPlayerAround() == true) // alway finds player in here <-- SearchingPlayerAround();
         {
+            currentToward = nullTransform; // đổi hướng khi chuyển trạng thái cho đỡ phải tốn chi phí, lại còn tạo ra random hướng của mỗi enemy
             currentEnemyStateAction = EnemyStateAction.Chase;
             return;
         }
-        else // không hề tối ưu liên tục tìm đường rất mất thời gian tính toán đi tính toán lại -> không tối ưu fix in the future
-        {
-            enemyPathFindingMovement.MoveTo(currentToward.position);
-            lastCheckedCurrentToward = currentToward;
-        }
-
+        
         if (enemyPathFindingMovement.IsHole() || Input.GetKeyDown(KeyCode.L) || enemyPathFindingMovement.IfCanJumpOverTheInFrontWall())
         {
+            currentToward = nullTransform;
             Debug.Log("Is Hole:" + enemyPathFindingMovement.IsHole() + "  ;;;   IfCanJumpOverTheInFrontWall:" + enemyPathFindingMovement.IfCanJumpOverTheInFrontWall());
             currentEnemyStateAction = EnemyStateAction.Jump;
             isJumping = true;
