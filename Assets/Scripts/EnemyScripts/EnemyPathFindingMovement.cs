@@ -7,7 +7,7 @@ public class EnemyPathFindingMovement : MonoBehaviour
 {
     public const float MOVE_SPEED = 2f;
     public const float JUMP_FORCE = 14f;
-    private const float PUSH_FORCE = 4.8f;
+    private const float PUSH_FORCE = 5.5f;
     private int currentIdxPath;
     private List<UnityEngine.Vector3> PathOnVector;
     public GridMap gridMap;
@@ -193,7 +193,9 @@ public class EnemyPathFindingMovement : MonoBehaviour
     
     public bool IsGrounded()
     {
-        RaycastHit2D rayCastHit2D = Physics2D.BoxCast(capsuleCollider2D.bounds.center, capsuleCollider2D.bounds.size, 0f, UnityEngine.Vector2.down, 0.01f, platFormLayerMask);
+        // RaycastHit2D rayCastHit2D = Physics2D.BoxCast(capsuleCollider2D.bounds.center, capsuleCollider2D.bounds.size, 0f, UnityEngine.Vector2.down, 0.01f, platFormLayerMask);
+        RaycastHit2D rayCastHit2D = Physics2D.Raycast(capsuleCollider2D.bounds.center, UnityEngine.Vector3.down, capsuleCollider2D.size.y * 0.5f + 0.05f, platFormLayerMask);
+        
         // Debug.DrawRay(capsuleCollider2D.bounds.center, ) // in xem box cast có dai qua k in here continue your work
         if (rayCastHit2D.collider != null)
         {
@@ -223,7 +225,7 @@ public class EnemyPathFindingMovement : MonoBehaviour
         return true;
     }
 
-    private bool IfCanJumpOverTheInFrontWall()
+    public bool IfCanJumpOverTheInFrontWall()
     {
         return IsWallInFront() && !IsWallTooHigh();
     }
@@ -233,7 +235,7 @@ public class EnemyPathFindingMovement : MonoBehaviour
         UnityEngine.Vector3 dir;
         dir = currentVisualDir == -1 ? UnityEngine.Vector3.left : UnityEngine.Vector3.right;
         UnityEngine.Vector3 origin = capsuleCollider2D.bounds.center;
-        float RayLenght = (capsuleCollider2D.size.x * .5f) + 0.1f;
+        float RayLenght = (capsuleCollider2D.size.x * .5f) + 0.5f;
 
         RaycastHit2D rayCastHit2D = Physics2D.Raycast(origin, dir, RayLenght, wallLayerMask);
         Debug.DrawRay(origin, dir * RayLenght, Color.blueViolet);

@@ -752,7 +752,9 @@ public class PlayerMovement : MonoBehaviour
     private bool IsGrounded()
     {
         WallDirX = 0;
-        RaycastHit2D rayCastHit2D = Physics2D.BoxCast(capsuleCollider2D.bounds.center, capsuleCollider2D.bounds.size, 0f, Vector2.down, 0.1f, platFormLayerMask);
+        // RaycastHit2D rayCastHit2D = Physics2D.BoxCast(capsuleCollider2D.bounds.center, capsuleCollider2D.bounds.size, 0f, Vector2.down, 0.1f, platFormLayerMask);
+        
+        RaycastHit2D rayCastHit2D = Physics2D.Raycast(capsuleCollider2D.bounds.center, Vector3.down, capsuleCollider2D.size.y * 0.5f + 0.05f, platFormLayerMask);
         if (rayCastHit2D.collider != null)
         {
             return true;

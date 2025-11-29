@@ -74,7 +74,7 @@ public class EnemyAI : MonoBehaviour
 
         if (lastCheckedCurrentEnemyStateAction != currentEnemyStateAction)
         {
-            // Debug.Log(currentEnemyStateAction);
+            Debug.Log(currentEnemyStateAction);
             lastCheckedCurrentEnemyStateAction = currentEnemyStateAction;
         }
     }
@@ -114,8 +114,9 @@ public class EnemyAI : MonoBehaviour
             lastCheckedCurrentToward = currentToward;
         }
 
-        if (enemyPathFindingMovement.IsHole() || Input.GetKeyDown(KeyCode.L))
+        if (enemyPathFindingMovement.IsHole() || Input.GetKeyDown(KeyCode.L) || enemyPathFindingMovement.IfCanJumpOverTheInFrontWall())
         {
+            Debug.Log("Is Hole:" + enemyPathFindingMovement.IsHole() + "  ;;;   IfCanJumpOverTheInFrontWall:" + enemyPathFindingMovement.IfCanJumpOverTheInFrontWall());
             currentEnemyStateAction = EnemyStateAction.Jump;
             isJumping = true;
             return;
@@ -168,7 +169,7 @@ public class EnemyAI : MonoBehaviour
             currentEnemyStateAction = EnemyStateAction.Patrol;
             return;
         }
-        if (enemyPathFindingMovement.IsHole() || Input.GetKeyDown(KeyCode.L))
+        if (enemyPathFindingMovement.IsHole() || Input.GetKeyDown(KeyCode.L) || enemyPathFindingMovement.IfCanJumpOverTheInFrontWall())
         {
             currentEnemyStateAction = EnemyStateAction.Jump;
             isJumping = true;
@@ -230,6 +231,19 @@ public class EnemyAI : MonoBehaviour
                 currentEnemyStateAction = EnemyStateAction.ReadyToAttack;
                 return;
             }
+            if (Vector3.Distance(gameObject.transform.position, Player.Instance.GetPlayerPosition()) < 4f && 
+            IsSearchedPlayerAround() == true && 
+            Vector3.Distance(gameObject.transform.position, Player.Instance.GetPlayerPosition()) >= 2f)
+            {
+                currentEnemyStateAction = EnemyStateAction.Chase;
+                return;
+            }
+            currentEnemyStateAction = EnemyStateAction.Chase;
+            return;
+        }
+        else // chưa tiếp đất mà đang trên không
+        {
+            // do nothing
         }
     }
     // =============================================================
@@ -283,7 +297,7 @@ public class EnemyAI : MonoBehaviour
         // đây sẽ là hai đểm ChaseWaypointA hoặc ChaseWaypointB
         float DistanceVisual = Vector3.Distance(gameObject.transform.position, maxDistanceVisualPoint);
         RaycastHit2D raycastHit2D = Physics2D.Raycast(gameObject.transform.position, VisualDir, DistanceVisual, playerLayerMask);
-        Debug.DrawLine(gameObject.transform.position, maxDistanceVisualPoint, Color.red, 0.1f);
+        Debug.DrawLine(gameObject.transform.position, maxDistanceVisualPoint, Color.darkBlue, 0.1f);
         if (raycastHit2D.collider != null)
         {
             return true;

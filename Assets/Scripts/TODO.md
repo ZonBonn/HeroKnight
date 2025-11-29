@@ -1,3 +1,1 @@
-+ fix lỗi chỉ đánh một lần
-
-+ viết thêm một hàm check tường trước mặt để nhảy
++ patrol -> jump khi dang o cho can idle roi ???
