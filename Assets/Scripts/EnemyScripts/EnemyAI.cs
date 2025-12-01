@@ -17,7 +17,7 @@ public class EnemyAI : MonoBehaviour
     private Enemy enemy;
     private EnemyAnimation enemyAnimation;
     public LayerMask playerLayerMask;
-    private float idleTimer = 3f;
+    private float idleTimer;
     private float m_IdleTimer;
     private float rTCTimer = 0.5f;
     private float m_RTCTimer;
@@ -37,6 +37,8 @@ public class EnemyAI : MonoBehaviour
         lastCheckedCurrentToward = currentToward == rightPoint ? leftPoint : rightPoint;
         enemyAnimation.OnChangeEachFrames += EnemyLastAttackFrameHandler;
         enemyAnimation.OnChangeEachFrames += EnemyLastJumpFrameHandler;
+
+        idleTimer = UnityEngine.Random.Range(2.5f, 3f);
     }
 
     private void Update()

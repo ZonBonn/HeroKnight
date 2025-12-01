@@ -24,7 +24,6 @@ public class EnemyPathFindingMovement : MonoBehaviour
     // findPlayer || player vars
     // public FindPlayer_S findPlayer;
 
-    public PlayerAnimation playerAnimation;
     public PlayerMovement playerMovement;
     public int currentVisualDir;
     
