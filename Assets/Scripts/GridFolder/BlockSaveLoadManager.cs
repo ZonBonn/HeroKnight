@@ -36,6 +36,7 @@ public class BlockSaveLoadManager : MonoBehaviour
     private void Start()
     {
         saveFilePath = Application.persistentDataPath + "/blockedNodesHeroKnight.json";
+        // Debug.Log(saveFilePath);
         pathFinding = refGridMap.pathFinding;
         LoadData();
         AddlyBlockNode();

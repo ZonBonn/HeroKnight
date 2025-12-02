@@ -8,7 +8,7 @@ public class GridMap : MonoBehaviour
     public BlockSaveLoadManager refBlockSaveLoadManager;
     private void Awake()
     {
-        pathFinding = new PathFinding(60, 30, 1, new Vector3(-16, -6, 0));
+        pathFinding = new PathFinding(84, 46, 1, new Vector3(-20, -10, 0));
     }
     private void Update()
     {

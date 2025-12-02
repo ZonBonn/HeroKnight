@@ -46,6 +46,7 @@ public class EnemyPathFindingMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        IsHole();
         IsWallInFront();
         if(enemyAI.currentEnemyStateAction == EnemyAI.EnemyStateAction.Chase || enemyAI.currentEnemyStateAction == EnemyAI.EnemyStateAction.Patrol)
         {
@@ -219,9 +220,9 @@ public class EnemyPathFindingMovement : MonoBehaviour
         
         if (rayCastHit2D.collider != null)
         {
-            return false;
+            return false; 
         }
-        return true;
+        return false; // lẽ ra chỗ này return true nhưng mà có vẻ cơ chế nhảy không cần thiết lắm
     }
 
     public bool IfCanJumpOverTheInFrontWall()
@@ -240,7 +241,7 @@ public class EnemyPathFindingMovement : MonoBehaviour
         Debug.DrawRay(origin, dir * RayLenght, Color.blueViolet);
         if(rayCastHit2D.collider != null)
         {
-            return true;
+            return false; // lẽ ra chỗ này return true nhưng mà có vẻ cơ chế nhảy không cần thiết lắm
         }
         return false;
     }
@@ -285,7 +286,7 @@ public class EnemyPathFindingMovement : MonoBehaviour
 
         if(rayCastHit2D.collider != null)
         {
-            return false;
+            return true; // lẽ ra chỗ này return false nhưng mà có vẻ cơ chế nhảy không cần thiết lắm
         }
         return true;
     }
