@@ -197,7 +197,7 @@ public class EnemyPathFindingMovement : MonoBehaviour
         RaycastHit2D rayCastHit2D = Physics2D.Raycast(capsuleCollider2D.bounds.center, UnityEngine.Vector3.down, capsuleCollider2D.size.y * 0.5f + 0.05f, platFormLayerMask);
         
         // Debug.DrawRay(capsuleCollider2D.bounds.center, ) // in xem box cast có dai qua k in here continue your work
-        if (rayCastHit2D.collider != null)
+        if (rayCastHit2D.collider != null) // nếu có va chạm với platformLayerMask -> có đang chạm mặt đất -> true
         {
             return true;
         }
@@ -218,11 +218,11 @@ public class EnemyPathFindingMovement : MonoBehaviour
         Debug.DrawRay(StartPoint, UnityEngine.Vector2.down * 1.2f, Color.pink);
         float realDistance = rayCastHit2D.distance;
         
-        if (rayCastHit2D.collider != null)
+        if (rayCastHit2D.collider != null) // nếu có va chạm với collider -> platFormLayerMask -> không có hố -> false
         {
             return false; 
         }
-        return false; // lẽ ra chỗ này return true nhưng mà có vẻ cơ chế nhảy không cần thiết lắm
+        return true; // lẽ ra chỗ này return true nhưng mà có vẻ cơ chế nhảy không cần thiết lắm
     }
 
     public bool IfCanJumpOverTheInFrontWall()
@@ -239,9 +239,9 @@ public class EnemyPathFindingMovement : MonoBehaviour
 
         RaycastHit2D rayCastHit2D = Physics2D.Raycast(origin, dir, RayLenght, wallLayerMask);
         Debug.DrawRay(origin, dir * RayLenght, Color.blueViolet);
-        if(rayCastHit2D.collider != null)
+        if(rayCastHit2D.collider != null) // có va chạm với wallLayerMask -> có tường -> true
         {
-            return false; // lẽ ra chỗ này return true nhưng mà có vẻ cơ chế nhảy không cần thiết lắm
+            return true; // lẽ ra chỗ này return true nhưng mà có vẻ cơ chế nhảy không cần thiết lắm
         }
         return false;
     }
@@ -284,9 +284,9 @@ public class EnemyPathFindingMovement : MonoBehaviour
         wallLayerMask
         );
 
-        if(rayCastHit2D.collider != null)
+        if(rayCastHit2D.collider != null) // kiểm tra tường phía trên -> nếu có va chạm với tường -> cao -> false
         {
-            return true; // lẽ ra chỗ này return false nhưng mà có vẻ cơ chế nhảy không cần thiết lắm
+            return false; // lẽ ra chỗ này return false nhưng mà có vẻ cơ chế nhảy không cần thiết lắm
         }
         return true;
     }

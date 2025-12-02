@@ -77,7 +77,7 @@ public class EnemyAI : MonoBehaviour
 
         if (lastCheckedCurrentEnemyStateAction != currentEnemyStateAction)
         {
-            Debug.Log(currentEnemyStateAction);
+            // Debug.Log(currentEnemyStateAction);
             lastCheckedCurrentEnemyStateAction = currentEnemyStateAction;
         }
     }
