@@ -37,6 +37,7 @@ public class EnemyAI : MonoBehaviour
         lastCheckedCurrentToward = currentToward == rightPoint ? leftPoint : rightPoint;
         enemyAnimation.OnChangeEachFrames += EnemyLastAttackFrameHandler;
         enemyAnimation.OnChangeEachFrames += EnemyLastJumpFrameHandler;
+        enemyAnimation.OnChangeEachFrames += CreateAttackPoint;
 
         idleTimer = UnityEngine.Random.Range(2.5f, 3f);
     }
@@ -314,6 +315,24 @@ public class EnemyAI : MonoBehaviour
             return true;
         }
         return false;
+    }
+    
+    private void CreateAttackPoint(int idxFrame, Sprite[] sprites)// hàm này được gọi ở fame thứ 4 (tính từ 0) của enemy
+    {
+        if(sprites == enemyAnimation.AttackSprites && idxFrame == 4)
+        {
+            const float attackDistance = 0.7f;
+            int dirVisual = enemyPathFindingMovement.currentVisualDir;
+            Vector3 attackPosition = new Vector3(gameObject.transform.position.x * dirVisual + attackDistance, gameObject.transform.position.y, gameObject.transform.position.z);
+            Debug.Log(attackPosition);
+        }
+        
+    }
+
+    private bool IsPlayerInAttackPoint(Vector3 attackPoint)
+    {
+        return true;
+        //  --> continue your work in here <--
     }
     // =============================================================
     
