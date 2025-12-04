@@ -324,15 +324,45 @@ public class EnemyAI : MonoBehaviour
             const float attackDistance = 0.7f;
             int dirVisual = enemyPathFindingMovement.currentVisualDir;
             Vector3 attackPosition = new Vector3(gameObject.transform.position.x * dirVisual + attackDistance, gameObject.transform.position.y, gameObject.transform.position.z);
-            Debug.Log(attackPosition);
+            // Debug.Log(attackPosition);
+            bool IsHitedPlayer = IsPlayerInAttackPoint(attackPosition);
+            if(IsHitedPlayer == true)
+            {
+                Debug.Log("Damage Player: " + UnityEngine.Random.Range(45, 50));
+                // damage player in here
+            }
         }
         
     }
 
-    private bool IsPlayerInAttackPoint(Vector3 attackPoint)
+    private bool IsPlayerInAttackPoint(Vector3 attackPosition)
     {
-        return true;
-        //  --> continue your work in here <--
+        Vector3 PlayerPosition = Player.Instance.GetPlayerPosition();
+        Vector3 EnemyPosition = gameObject.transform.position;
+
+        // distance handler
+        float distanceBtwEnemyAndAttackPosition = Vector3.Distance(attackPosition, EnemyPosition);
+        float distanceBtwPlayerAndEnemy = Vector3.Distance(PlayerPosition, EnemyPosition);
+        // nếu khoảng cách người chơi tới enemy mà <= khoảng cách từ enemy tới attack position => có nghĩa là đang trong phạm vi nhận sát thương
+        bool IsInRangeAttack = distanceBtwPlayerAndEnemy <= distanceBtwEnemyAndAttackPosition;
+
+        
+        //visual handler
+        bool IsInVision;
+        Vector3 EnemyDirectToPlayer = PlayerPosition-EnemyPosition;
+        float EnemyAngleVisualDirectToPlayer = Mathf.Atan2(EnemyDirectToPlayer.x, EnemyDirectToPlayer.y) * Mathf.Rad2Deg; // góc được tạo bởi trục Ox và Vector hướng từ góc nhìn enemy tới player
+        int currentEnemyVisual = enemyPathFindingMovement.currentVisualDir;
+        // đem so nó liệu có đang thuộc vào góc nhìn của enemy không ?
+        if(currentEnemyVisual == +1)
+        {
+            IsInVision = -70 <= EnemyAngleVisualDirectToPlayer && EnemyAngleVisualDirectToPlayer <= 70;
+        }
+        else // currentEnemyVisual == -1 or currentEnemyVisual == 0
+        {
+            IsInVision = -110 <= EnemyAngleVisualDirectToPlayer && EnemyAngleVisualDirectToPlayer <= 110;
+        }
+        // Debug.Log("IsInRangeAttack: " + IsInRangeAttack + "        IsInVision: " + IsInVision);
+        return IsInRangeAttack && IsInVision;
     }
     // =============================================================
     
