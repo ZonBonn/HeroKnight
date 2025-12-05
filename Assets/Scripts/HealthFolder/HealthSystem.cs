@@ -1,12 +1,18 @@
 using System;
 
-public class HealthSystem
+public class HealthSystem // đây là nơi thực sự chứa hp
 {
     private float currentHealth;
-    private float maxHealth = 100f;
+    private float maxHealth;
 
     public Action OnTriggerHealthBarChange;
     public Action OnTriggerHealthBarAsZero;
+
+    public HealthSystem(float maxHealth)
+    {
+        this.maxHealth = maxHealth;
+        currentHealth = maxHealth;
+    }
 
     public void Damage(float damageAmount)
     {
@@ -14,11 +20,10 @@ public class HealthSystem
         if(currentHealth < 0)
         {
             currentHealth = 0;
-            // trigger
-            OnTriggerHealthBarAsZero?.Invoke();
+
+            OnTriggerHealthBarAsZero.Invoke();
         }
-        // trigger
-        OnTriggerHealthBarChange?.Invoke();
+        OnTriggerHealthBarChange.Invoke();
     }
 
     public void Heal(float healAmount)
@@ -28,12 +33,10 @@ public class HealthSystem
         {
             currentHealth = maxHealth;
         }
-
-        //trigger
-        OnTriggerHealthBarChange?.Invoke();
+        OnTriggerHealthBarChange.Invoke();
     }
 
-    public float GetHealthNormalized(float currentHealth)
+    public float GetHealthNormalized()
     {
         return currentHealth / maxHealth;
     }
