@@ -17,11 +17,11 @@ public class PlayerHealthSystem // class này lưu giữ HP thật
     public void Damage(float damageAmount)
     {
         currentHealth -= damageAmount;
-        if(currentHealth < 0)
+        if(currentHealth <= 0)
         {
             currentHealth = 0;
 
-            OnTriggerPlayerHealthChange?.Invoke();
+            OnTriggerPlayerHealthAsZero?.Invoke();
         }
 
         OnTriggerPlayerHealthChange?.Invoke();

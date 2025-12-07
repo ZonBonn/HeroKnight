@@ -1534,6 +1534,10 @@ PrefabInstance:
       propertyPath: chaseRightPoint
       value: 
       objectReference: {fileID: 1114488981}
+    - target: {fileID: 7703920037629606784, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
+      propertyPath: playerHealthStaminaHandler
+      value: 
+      objectReference: {fileID: 319703039}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1554,6 +1558,7 @@ GameObject:
   - component: {fileID: 319703038}
   - component: {fileID: 319703035}
   - component: {fileID: 319703034}
+  - component: {fileID: 319703039}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -1845,6 +1850,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d690fd4afaa9e1a4d9478905498faf44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
+--- !u!114 &319703039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 319703031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c27572aa0610c7044b2a15e260ba738e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealthStaminaHandler
 --- !u!1 &366387369
 GameObject:
   m_ObjectHideFlags: 0
@@ -2704,6 +2721,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 489245038}
+  - component: {fileID: 489245039}
   m_Layer: 5
   m_Name: HealthBarContainer
   m_TagString: Untagged
@@ -2732,6 +2750,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &489245039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 489245037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cac23b58af1165b4082476e22c7bf5ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealthBar
 --- !u!1 &496221158
 GameObject:
   m_ObjectHideFlags: 0
@@ -2812,6 +2842,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 517907650}
+  - component: {fileID: 517907651}
   m_Layer: 5
   m_Name: StaminaBarContainer
   m_TagString: Untagged
@@ -2840,6 +2871,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &517907651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 517907649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9406c6f03653fab4eb24a3e73f3d3a01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStaminaBar
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -5620,6 +5663,10 @@ PrefabInstance:
       propertyPath: chaseRightPoint
       value: 
       objectReference: {fileID: 42839532}
+    - target: {fileID: 7703920037629606784, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
+      propertyPath: playerHealthStaminaHandler
+      value: 
+      objectReference: {fileID: 319703039}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6071,7 +6118,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 191.39996, y: -32.000015}
+  m_AnchoredPosition: {x: 191.39996, y: -32}
   m_SizeDelta: {x: 155, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &896979230
@@ -6188,6 +6235,10 @@ PrefabInstance:
       propertyPath: chaseRightPoint
       value: 
       objectReference: {fileID: 713391642}
+    - target: {fileID: 7703920037629606784, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
+      propertyPath: playerHealthStaminaHandler
+      value: 
+      objectReference: {fileID: 319703039}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7019,6 +7070,10 @@ PrefabInstance:
       propertyPath: chaseRightPoint
       value: 
       objectReference: {fileID: 1358972816}
+    - target: {fileID: 7703920037629606784, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
+      propertyPath: playerHealthStaminaHandler
+      value: 
+      objectReference: {fileID: 319703039}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -19269,6 +19324,10 @@ PrefabInstance:
       propertyPath: chaseRightPoint
       value: 
       objectReference: {fileID: 1449554747}
+    - target: {fileID: 7703920037629606784, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
+      propertyPath: playerHealthStaminaHandler
+      value: 
+      objectReference: {fileID: 319703039}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

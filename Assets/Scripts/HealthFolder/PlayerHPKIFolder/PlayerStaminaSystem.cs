@@ -1,9 +1,11 @@
 using System;
+using UnityEngine;
 
 public class PlayerStaminaSystem // class này lưu giữ KI thật
 {
     private float currentStamina;
     private float maxStamina;
+    private float staminaRegenAmount;
 
     public Action OnTriggerPlayerStaminaChange;
     public Action OnTriggerPlayerStaminaAsZero;
@@ -12,12 +14,13 @@ public class PlayerStaminaSystem // class này lưu giữ KI thật
     {
         currentStamina = maxStamina;
         this.maxStamina = maxStamina;
+        staminaRegenAmount = 30f;
     }
 
     public void Damage(float damageAmount)
     {
         currentStamina -= damageAmount;
-        if(currentStamina < 0)
+        if(currentStamina <= 0)
         {
             currentStamina = 0;
             
@@ -36,8 +39,22 @@ public class PlayerStaminaSystem // class này lưu giữ KI thật
         OnTriggerPlayerStaminaChange?.Invoke();
     }
 
+    public void RegenStamina()
+    {
+        currentStamina += staminaRegenAmount * Time.deltaTime;
+        if(currentStamina >= maxStamina)
+        {
+            currentStamina = maxStamina;
+        }
+    }
+
     public float GetStaminaNormalized()
     {
         return currentStamina / maxStamina;
+    }
+
+    public void Update()
+    {
+        RegenStamina();
     }
 }

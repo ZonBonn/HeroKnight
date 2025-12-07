@@ -22,7 +22,7 @@ public class EnemyAI : MonoBehaviour
     private float rTCTimer = 0.5f;
     private float m_RTCTimer;
 
-    public HealthHandler playerHealthHandler; // ???
+    public PlayerHealthStaminaHandler playerHealthStaminaHandler; // ???
 
     private bool isJumping;
     private void Awake()
@@ -333,6 +333,7 @@ public class EnemyAI : MonoBehaviour
                 Debug.Log("Damage Player: " + UnityEngine.Random.Range(45, 50));
                 // damage player in here
                 // playerHealthHandler.Damage(UnityEngine.Random.Range(45, 50));
+                playerHealthStaminaHandler.DamageHealth(UnityEngine.Random.Range(45, 50));
             }
         }
         

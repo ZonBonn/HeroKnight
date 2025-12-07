@@ -5,16 +5,16 @@ public class PlayerHealthStaminaHandler : MonoBehaviour // class này quản lý
     private PlayerHealthSystem playerHealthSystem = new PlayerHealthSystem(100f);
     private PlayerStaminaSystem playerStaminaSystem = new  PlayerStaminaSystem(100f);
 
-    private PlayerHealthBar playerHealthBar;
-    private PlayerStaminaBar playerStaminaBar;
+    public PlayerHealthBar playerHealthBar;
+    public PlayerStaminaBar playerStaminaBar;
 
     private void Awake()
     {
-        playerHealthBar = gameObject.GetComponent<PlayerHealthBar>();
+        // playerHealthBar = gameObject.GetComponent<PlayerHealthBar>();
         // playerHealthBar.playerHealthSystem = playerHealthSystem; // làm như này thì playerHealthSystem không được encapsulation
         playerHealthBar.SetUp(playerHealthSystem);
 
-        playerStaminaBar = gameObject.GetComponent<PlayerStaminaBar>();
+        // playerStaminaBar = gameObject.GetComponent<PlayerStaminaBar>();
         // playerStaminaBar.playerStaminaSystem = playerStaminaSystem; // làm như này thì playerStaminaSystem không được encapsulation
         playerStaminaBar.SetUp(playerStaminaSystem);
     }
@@ -49,5 +49,19 @@ public class PlayerHealthStaminaHandler : MonoBehaviour // class này quản lý
     public PlayerStaminaSystem GetPlayerStaminaSystem()
     {
         return playerStaminaSystem;
+    }
+
+    private void Update()
+    {
+#if UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            HealHealth(100);
+        }
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            DamageHealth(100);
+        }
+        #endif
     }
 }

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerStaminaBar : MonoBehaviour
+public class PlayerStaminaBar : MonoBehaviour // class này nhiệm vụ hiển thị UI theo biến currentcurrentStamina của PlayerStaminaSystem
 {
     private Transform Bar;
 
@@ -13,13 +13,17 @@ public class PlayerStaminaBar : MonoBehaviour
     {
         Bar = gameObject.transform.Find("Bar");
         staminaImage = Bar.GetComponent<Image>();
+    }
 
-        playerStaminaSystem.OnTriggerPlayerStaminaChange += TriggerStaminaBarChange;
+    private void Update()
+    {
+        playerStaminaSystem.Update();
     }
 
     public void SetUp(PlayerStaminaSystem playerStaminaSystem)
     {
         this.playerStaminaSystem = playerStaminaSystem;
+        playerStaminaSystem.OnTriggerPlayerStaminaChange += TriggerStaminaBarChange;
     }
 
     private void TriggerStaminaBarChange()
