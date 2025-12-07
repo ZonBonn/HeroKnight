@@ -1559,6 +1559,7 @@ GameObject:
   - component: {fileID: 319703035}
   - component: {fileID: 319703034}
   - component: {fileID: 319703039}
+  - component: {fileID: 319703040}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -1633,7 +1634,7 @@ Transform:
   m_GameObject: {fileID: 319703031}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -14.98, y: 0.65, z: 0}
+  m_LocalPosition: {x: -12.51, y: 0.65, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1862,6 +1863,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c27572aa0610c7044b2a15e260ba738e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealthStaminaHandler
+  playerHealthBar: {fileID: 489245039}
+  playerStaminaBar: {fileID: 517907651}
+--- !u!114 &319703040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 319703031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f979a219e2ff8f418ba718b0a41cfe8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
 --- !u!1 &366387369
 GameObject:
   m_ObjectHideFlags: 0

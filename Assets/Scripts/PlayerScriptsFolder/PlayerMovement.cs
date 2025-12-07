@@ -37,6 +37,10 @@ public class PlayerMovement : MonoBehaviour
     private float TouchedWallAlwaysFalseTimer;
     private int WallDirX;
 
+    private PlayerAttack playerAttack;
+
+    private int currentPlayerVisualDirection;
+
     private void Awake()
     {
         rb2D = gameObject.GetComponent<Rigidbody2D>();
@@ -55,6 +59,8 @@ public class PlayerMovement : MonoBehaviour
         playerAnimation.OnChangeLastFrames += OnEndOfRunSprites;
         playerAnimation.OnChangeEachFrames += HandlerAttackFrames;
         // playerAnimation.OnChangeIDXFrame += HandlerJumpFrame;
+
+        playerAttack = gameObject.GetComponent<PlayerAttack>();
     }
 
     private void Update()
@@ -713,7 +719,9 @@ public class PlayerMovement : MonoBehaviour
             }
             if (idxFrame == 5 && (CanTransformRun() || CanTransformRoll() || CanTransformJump()))
             {
-                // creatAttackPoint -> in here <-
+                // creatAttackPoint -> in here <- // continue your work in here --> IN HERE <--
+                playerAttack.CreatePointAttack();
+
                 CanTransformRun();
                 CanTransformRoll();
                 CanTransformJump();
@@ -730,10 +738,13 @@ public class PlayerMovement : MonoBehaviour
             if (WallDirX == 1)
             {
                 spriteRenderer.flipX = false;
+                currentPlayerVisualDirection = -1;
+
             }
             else if (WallDirX == -1)
             {
                 spriteRenderer.flipX = true;
+                currentPlayerVisualDirection = +1;
             }
         }
         else
@@ -741,10 +752,12 @@ public class PlayerMovement : MonoBehaviour
             if (moveDir.x > 0)
             {
                 spriteRenderer.flipX = false;
+                currentPlayerVisualDirection = +1; // phai
             }
             else if (moveDir.x < 0)
             {
                 spriteRenderer.flipX = true;
+                currentPlayerVisualDirection = -1; // trai
             }
         }
     }
@@ -840,5 +853,10 @@ public class PlayerMovement : MonoBehaviour
     public State GetPlayerState()
     {
         return playerState;
+    }
+
+    public int GetPlayerVisualDirection()
+    {
+        return currentPlayerVisualDirection;
     }
 }

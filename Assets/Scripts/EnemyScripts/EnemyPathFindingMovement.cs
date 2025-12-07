@@ -196,7 +196,7 @@ public class EnemyPathFindingMovement : MonoBehaviour
         // RaycastHit2D rayCastHit2D = Physics2D.BoxCast(capsuleCollider2D.bounds.center, capsuleCollider2D.bounds.size, 0f, UnityEngine.Vector2.down, 0.01f, platFormLayerMask);
         RaycastHit2D rayCastHit2D = Physics2D.Raycast(capsuleCollider2D.bounds.center, UnityEngine.Vector3.down, capsuleCollider2D.size.y * 0.5f + 0.05f, platFormLayerMask);
         
-        // Debug.DrawRay(capsuleCollider2D.bounds.center, ) // in xem box cast có dai qua k in here continue your work
+        // Debug.DrawRay(capsuleCollider2D.bounds.center, ) // in xem box cast có dai qua k
         if (rayCastHit2D.collider != null) // nếu có va chạm với platformLayerMask -> có đang chạm mặt đất -> true
         {
             return true;

@@ -304,7 +304,7 @@ public class EnemyAI : MonoBehaviour
         enemyPathFindingMovement.currentVisualDir = enemyPathFindingMovement.LeftOrRightPlatformer(moveDirX) == true ? 1 : -1;
     }
 
-    private bool IsSearchedPlayerAround() // continue your work in here --> IN HERE <--
+    private bool IsSearchedPlayerAround() 
     {
         Vector2 VisualDir = enemyPathFindingMovement.currentVisualDir == -1 ? Vector2.left : Vector2.right;
         Vector3 maxDistanceVisualPoint = VisualDir == Vector2.left ? chaseLeftPoint.position : chaseRightPoint.position;
