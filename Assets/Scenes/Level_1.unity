@@ -1543,33 +1543,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
---- !u!1 &319478034 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7628453824878567232, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
-  m_PrefabInstance: {fileID: 909190284}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &319478044
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 319478034}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b90bb98886a06f6409b24a80fb91aa61, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &319703031
 GameObject:
   m_ObjectHideFlags: 0
@@ -6264,6 +6237,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LightEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 7628453824878567232, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7703920037629606784, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
       propertyPath: leftPoint
       value: 
@@ -6287,10 +6264,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7628453824878567232, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 319478044}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
 --- !u!1 &911776648
 GameObject:

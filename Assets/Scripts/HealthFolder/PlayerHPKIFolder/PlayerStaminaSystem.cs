@@ -53,6 +53,11 @@ public class PlayerStaminaSystem // class này lưu giữ KI thật
         return currentStamina / maxStamina;
     }
 
+    public float GetCurrentStamina()
+    {
+        return currentStamina;
+    }
+
     public void Update()
     {
         RegenStamina();

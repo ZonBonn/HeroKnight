@@ -8,6 +8,7 @@ public class EnemyPathFindingMovement : MonoBehaviour
     public const float MOVE_SPEED = 2f;
     public const float JUMP_FORCE = 14f;
     private const float PUSH_FORCE = 5.5f;
+    private const float KNOCK_BACK_FORCE = 1f;
     private int currentIdxPath;
     private List<UnityEngine.Vector3> PathOnVector;
     public GridMap gridMap;
@@ -191,6 +192,14 @@ public class EnemyPathFindingMovement : MonoBehaviour
         }
     }
     
+    public void KnockBack(int AttackerCurrentVisual)
+    {
+        rb2d.linearVelocity = new UnityEngine.Vector3(KNOCK_BACK_FORCE * AttackerCurrentVisual, rb2d.linearVelocity.y);
+    }
+    // ========================================================
+
+    
+    // ========== CHECK FUNCTION FOR MOVEMENT PHYSIC ============
     public bool IsGrounded()
     {
         // RaycastHit2D rayCastHit2D = Physics2D.BoxCast(capsuleCollider2D.bounds.center, capsuleCollider2D.bounds.size, 0f, UnityEngine.Vector2.down, 0.01f, platFormLayerMask);

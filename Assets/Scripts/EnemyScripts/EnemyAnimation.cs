@@ -22,8 +22,8 @@ public class EnemyAnimation : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
 
-    public Action<int, Sprite[]> OnChangeEachFrames;
-    public Action OnChangeLastFrames;
+    public Action<int, Sprite[]> OnTriggerEachFrames;
+    public Action OnTriggerLastFrames;
 
     private void Awake()
     {
@@ -48,7 +48,7 @@ public class EnemyAnimation : MonoBehaviour
             spriteRenderer.sprite = CurrentSprites[idxBodyFrames++];
             m_timerChangeIdxBodyFrameBodyFrame = timerChangeIdxBodyFrames;
 
-            OnChangeEachFrames?.Invoke(idxBodyFrames, CurrentSprites);
+            OnTriggerEachFrames?.Invoke(idxBodyFrames, CurrentSprites);
         }
         if (idxBodyFrames == CurrentSprites.Length) // đoạn này thực hiện khi chạy m_timerChangeIdxBodyFrameBodyFrame của frame cuối cùng rồi
         {
@@ -61,7 +61,7 @@ public class EnemyAnimation : MonoBehaviour
                 idxBodyFrames = CurrentSprites.Length-1; // stop at the last frame if isLoop == false
             }
 
-            OnChangeLastFrames?.Invoke();
+            OnTriggerLastFrames?.Invoke();
         }
     } 
 

@@ -29,7 +29,7 @@ public class PlayerHealthStaminaHandler : MonoBehaviour // class này quản lý
         playerHealthSystem.Heal(healAmount);
     }
 
-    public void DamageStamina(float damageAmount)
+    private void DamageStamina(float damageAmount)
     {
         playerStaminaSystem.Damage(damageAmount);
     }
@@ -39,6 +39,16 @@ public class PlayerHealthStaminaHandler : MonoBehaviour // class này quản lý
         playerStaminaSystem.Heal(healAmount);
     }
 
+    public bool TryToUseStamina(float manaCost)
+    {
+        float currentStamina = playerStaminaSystem.GetCurrentStamina();
+        if(manaCost > currentStamina)
+        {
+            return false;
+        }
+        DamageStamina(manaCost);
+        return true;
+    }
 
 
     public PlayerHealthSystem GetPlayerHealthSystem()

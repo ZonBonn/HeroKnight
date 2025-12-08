@@ -720,14 +720,12 @@ public class PlayerMovement : MonoBehaviour
 
             if(idxFrame == 5)
             {
+                UnityEngine.Debug.Log("created attack point");
                 playerAttack.CreatePointAttack(currentSprite);
             }
 
             if (idxFrame == 5 && (CanTransformRun() || CanTransformRoll() || CanTransformJump()))
             {
-                // creatAttackPoint -> in here <- // continue your work in here --> IN HERE <--
-                
-
                 CanTransformRun();
                 CanTransformRoll();
                 CanTransformJump();

@@ -20,7 +20,12 @@ public class EnemyAI : MonoBehaviour
     private float idleTimer;
     private float m_IdleTimer;
     private float rTCTimer = 0.5f;
-    private float m_RTCTimer;
+    private float m_RTCTimer; // thời gian chờ ready to combat để chuyển thành attack
+
+    private bool IsPlayerAround;
+    private Vector3 PlayerPosition;
+    private Vector3 EnemyPosition;
+    private float DistanceEnemyToPlayer;
 
     public PlayerHealthStaminaHandler playerHealthStaminaHandler; // ???
 
@@ -37,9 +42,9 @@ public class EnemyAI : MonoBehaviour
         currentEnemyStateAction = EnemyStateAction.Patrol;
         currentToward = UnityEngine.Random.Range(-1, 1) > 0 ? rightPoint : leftPoint;
         lastCheckedCurrentToward = currentToward == rightPoint ? leftPoint : rightPoint;
-        enemyAnimation.OnChangeEachFrames += EnemyLastAttackFrameHandler;
-        enemyAnimation.OnChangeEachFrames += EnemyLastJumpFrameHandler;
-        enemyAnimation.OnChangeEachFrames += CreateAttackPoint;
+        enemyAnimation.OnTriggerEachFrames += TriggerEnemyLastAttackFrameHandler;
+        enemyAnimation.OnTriggerEachFrames += TriggerEnemyLastJumpFrameHandler;
+        enemyAnimation.OnTriggerEachFrames += TriggerCreateAttackPoint;
 
         idleTimer = UnityEngine.Random.Range(2.5f, 3f);
     }
@@ -47,6 +52,11 @@ public class EnemyAI : MonoBehaviour
     private void Update()
     {
         if(currentEnemyStateAction == EnemyStateAction.Die) return;
+
+        IsPlayerAround = IsSearchedPlayerAround();
+        PlayerPosition = Player.Instance.GetPlayerPosition();
+        EnemyPosition = gameObject.transform.position;
+        DistanceEnemyToPlayer = Vector3.Distance(PlayerPosition, EnemyPosition);
 
         switch (currentEnemyStateAction)
         {
@@ -108,11 +118,12 @@ public class EnemyAI : MonoBehaviour
             }
         }
 
-        if (Vector3.Distance(gameObject.transform.position, currentToward.position) <= 0.6f)
+        if (Vector3.Distance(EnemyPosition, currentToward.position) <= 0.6f)
         {
             currentEnemyStateAction = EnemyStateAction.Idle;
             m_IdleTimer = idleTimer;
             // Debug.Log("Đổi hướng");
+            // Debug.Log("Đổi thanh Idle");
             if (currentToward == leftPoint)
             {
                 currentToward = rightPoint;
@@ -124,7 +135,7 @@ public class EnemyAI : MonoBehaviour
             enemyPathFindingMovement.StopMovingPhysicalHandler();
         }
         
-        if(IsSearchedPlayerAround() == true) // alway finds player in here <-- SearchingPlayerAround();
+        if(IsPlayerAround) // alway finds player in here <-- SearchingPlayerAround();
         {
             currentToward = nullTransform; // đổi hướng khi chuyển trạng thái cho đỡ phải tốn chi phí, lại còn tạo ra random hướng của mỗi enemy
             currentEnemyStateAction = EnemyStateAction.Chase;
@@ -139,6 +150,7 @@ public class EnemyAI : MonoBehaviour
             isJumping = true;
             return;
         }
+        ReadyToAttackImmediately();
     }
 
     private void IdleActionHandler()
@@ -158,31 +170,33 @@ public class EnemyAI : MonoBehaviour
         else
         {
             currentEnemyStateAction = EnemyStateAction.Patrol;
+            // Debug.Log("Đổi thanh Patrol");
             return;
         }
-        if(IsSearchedPlayerAround() == true)// alway finds player in here <-- SearchingPlayerAround();
+        if(IsPlayerAround)// alway finds player in here <-- SearchingPlayerAround();
         {
             currentEnemyStateAction = EnemyStateAction.Chase;
             return;
-        } 
+        }
+        ReadyToAttackImmediately();
     }
 
     private void ChaseActionHandler()
     {
         AlwayTowardToPlayer();
         Immediately_m_RTCTimer();
-        if (Vector3.Distance(gameObject.transform.position, Player.Instance.GetPlayerPosition()) <= 1.5f && IsSearchedPlayerAround() == true)
+        if (DistanceEnemyToPlayer <= 1.5f && IsPlayerAround == true)
         {
             currentEnemyStateAction = EnemyStateAction.ReadyToAttack;
             return;
         }
         else
         {
-            enemyPathFindingMovement.MoveTo(Player.Instance.GetPlayerPosition());
+            enemyPathFindingMovement.MoveTo(PlayerPosition);
             // trong lúc đang đuổi theo nên check hố chướng ngại vật các thứ v.v tại đây --> IN HERE <-- tại đây
         }
 
-        if (Vector3.Distance(gameObject.transform.position, Player.Instance.GetPlayerPosition()) >= 4f && IsSearchedPlayerAround() == false)
+        if (DistanceEnemyToPlayer >= 4f && IsPlayerAround == false)
         {
             currentEnemyStateAction = EnemyStateAction.Patrol;
             return;
@@ -203,10 +217,10 @@ public class EnemyAI : MonoBehaviour
             currentEnemyStateAction = EnemyStateAction.ReadyToAttack;
             return;
         }    
-        if (IsSearchedPlayerAround() == false && Vector3.Distance(gameObject.transform.position, Player.Instance.GetPlayerPosition()) <= 1f)
+        if (IsPlayerAround == false && DistanceEnemyToPlayer <= 1f)
         {
             // while attacking player and dont see the player
-            enemyPathFindingMovement.MoveTo(Player.Instance.GetPlayerPosition());
+            enemyPathFindingMovement.MoveTo(PlayerPosition);
         }
     }
 
@@ -216,19 +230,19 @@ public class EnemyAI : MonoBehaviour
         // viết hàm luôn luôn nhìn về hướng player khi đang ở trạng thái readyTOAttack tại đây
         AlwayTowardToPlayer();
         enemyPathFindingMovement.StopMovingPhysicalHandler();
-        if (Vector3.Distance(gameObject.transform.position, Player.Instance.GetPlayerPosition()) <= 1f && IsSearchedPlayerAround() == true && m_RTCTimer <= 0)
+        if (DistanceEnemyToPlayer <= 1f && IsPlayerAround == true && m_RTCTimer <= 0)
         {
             currentEnemyStateAction = EnemyStateAction.Attack;
             return;
         }
-        if (Vector3.Distance(gameObject.transform.position, Player.Instance.GetPlayerPosition()) >= 4f && IsSearchedPlayerAround() == false)
+        if (DistanceEnemyToPlayer >= 4f && IsPlayerAround == false)
         {
             currentEnemyStateAction = EnemyStateAction.Patrol;
             return;
         }
-        if (Vector3.Distance(gameObject.transform.position, Player.Instance.GetPlayerPosition()) < 4f && 
-        IsSearchedPlayerAround() == true && 
-        Vector3.Distance(gameObject.transform.position, Player.Instance.GetPlayerPosition()) >= 2f)
+        if (DistanceEnemyToPlayer < 4f && 
+        IsPlayerAround == true && 
+        DistanceEnemyToPlayer >= 2f)
         {
             currentEnemyStateAction = EnemyStateAction.Chase;
             return;
@@ -239,19 +253,19 @@ public class EnemyAI : MonoBehaviour
     {
         if(enemyPathFindingMovement.IsGrounded() == true && isJumping == false) // đã tiếp đất thì mới được chuyển trạng thái 
         {
-            if (Vector3.Distance(gameObject.transform.position, Player.Instance.GetPlayerPosition()) >= 4f && IsSearchedPlayerAround() == false)
+            if (DistanceEnemyToPlayer >= 4f && IsPlayerAround == false)
             {
                 currentEnemyStateAction = EnemyStateAction.Patrol;
                 return;
             }
-            if (Vector3.Distance(gameObject.transform.position, Player.Instance.GetPlayerPosition()) <= 1.5f && IsSearchedPlayerAround() == true)
+            if (DistanceEnemyToPlayer <= 1.5f && IsPlayerAround == true)
             {
                 currentEnemyStateAction = EnemyStateAction.ReadyToAttack;
                 return;
             }
-            if (Vector3.Distance(gameObject.transform.position, Player.Instance.GetPlayerPosition()) < 4f && 
-            IsSearchedPlayerAround() == true && 
-            Vector3.Distance(gameObject.transform.position, Player.Instance.GetPlayerPosition()) >= 2f)
+            if (DistanceEnemyToPlayer < 4f && 
+            IsPlayerAround == true && 
+            DistanceEnemyToPlayer >= 2f)
             {
                 currentEnemyStateAction = EnemyStateAction.Chase;
                 return;
@@ -272,8 +286,9 @@ public class EnemyAI : MonoBehaviour
     // =============================================================
 
 
+
     //======== HANDLER ANIMATION BY EACH FRAMES =========
-    private void EnemyLastAttackFrameHandler(int idxFrame, Sprite[] sprites)
+    private void TriggerEnemyLastAttackFrameHandler(int idxFrame, Sprite[] sprites)
     {
         if (sprites == enemyAnimation.AttackSprites && idxFrame == enemyAnimation.AttackSprites.Length - 1)
         {
@@ -281,7 +296,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
     
-    private void EnemyLastJumpFrameHandler(int idxFrame, Sprite[] sprites)
+    private void TriggerEnemyLastJumpFrameHandler(int idxFrame, Sprite[] sprites)
     {
         if(sprites == enemyAnimation.JumpSprites && idxFrame == enemyAnimation.JumpSprites.Length)
         {
@@ -299,7 +314,9 @@ public class EnemyAI : MonoBehaviour
     }
 
     private void AlwayTowardToPlayer(){
-        Vector2 DirToTarget = Player.Instance.GetPlayerPosition() - gameObject.transform.position;
+        Vector3 PlayerPosition = Player.Instance.GetPlayerPosition();
+        Vector3 EnemyPosition = gameObject.transform.position;
+        Vector2 DirToTarget = PlayerPosition - EnemyPosition;
                 
         // handler Visual Direction and Flip Direction
         float tmpDirToTargetX = DirToTarget.x;
@@ -315,12 +332,13 @@ public class EnemyAI : MonoBehaviour
 
     private bool IsSearchedPlayerAround() 
     {
+        Vector3 EnemyPosition = gameObject.transform.position;
         Vector2 VisualDir = enemyPathFindingMovement.currentVisualDir == -1 ? Vector2.left : Vector2.right;
         Vector3 maxDistanceVisualPoint = VisualDir == Vector2.left ? chaseLeftPoint.position : chaseRightPoint.position;
         // đây sẽ là hai đểm ChaseWaypointA hoặc ChaseWaypointB
-        float DistanceVisual = Vector3.Distance(gameObject.transform.position, maxDistanceVisualPoint);
-        RaycastHit2D raycastHit2D = Physics2D.Raycast(gameObject.transform.position, VisualDir, DistanceVisual, playerLayerMask);
-        Debug.DrawLine(gameObject.transform.position, maxDistanceVisualPoint, Color.darkBlue, 0.1f);
+        float DistanceVisual = Vector3.Distance(EnemyPosition, maxDistanceVisualPoint);
+        RaycastHit2D raycastHit2D = Physics2D.Raycast(EnemyPosition, VisualDir, DistanceVisual, playerLayerMask);
+        Debug.DrawLine(EnemyPosition, maxDistanceVisualPoint, Color.darkBlue, 0.1f);
         if (raycastHit2D.collider != null)
         {
             return true;
@@ -328,18 +346,19 @@ public class EnemyAI : MonoBehaviour
         return false;
     }
     
-    private void CreateAttackPoint(int idxFrame, Sprite[] sprites)// hàm này được gọi ở fame thứ 4 (tính từ 0) của enemy
+    private void TriggerCreateAttackPoint(int idxFrame, Sprite[] sprites)// hàm này được gọi ở fame thứ 4 (tính từ 0) của enemy
     {
+        Vector3 EnemyPosition = gameObject.transform.position;
         if(sprites == enemyAnimation.AttackSprites && idxFrame == 4)
         {
             const float attackDistance = 0.7f;
             int dirVisual = enemyPathFindingMovement.currentVisualDir;
-            Vector3 attackPosition = new Vector3(gameObject.transform.position.x + dirVisual * attackDistance, gameObject.transform.position.y, gameObject.transform.position.z);
+            Vector3 attackPosition = new Vector3(EnemyPosition.x + dirVisual * attackDistance, EnemyPosition.y, EnemyPosition.z);
             // Debug.Log(attackPosition);
             bool IsHitedPlayer = IsPlayerInAttackPoint(attackPosition);
             if(IsHitedPlayer == true)
             {
-                Debug.Log("Damage Player: " + UnityEngine.Random.Range(45, 50));
+                // Debug.Log("Damage Player: " + UnityEngine.Random.Range(45, 50));
                 // damage player in here
                 // playerHealthHandler.Damage(UnityEngine.Random.Range(45, 50));
                 playerHealthStaminaHandler.DamageHealth(UnityEngine.Random.Range(45, 50));
@@ -363,19 +382,34 @@ public class EnemyAI : MonoBehaviour
         //visual handler
         bool IsInVision;
         Vector3 EnemyDirectToPlayer = PlayerPosition-EnemyPosition;
-        float EnemyAngleVisualDirectToPlayer = Mathf.Atan2(EnemyDirectToPlayer.x, EnemyDirectToPlayer.y) * Mathf.Rad2Deg; // góc được tạo bởi trục Ox và Vector hướng từ góc nhìn enemy tới player
+        float EnemyAngleVisualDirectToPlayer = Mathf.Atan2(EnemyDirectToPlayer.y, EnemyDirectToPlayer.x) * Mathf.Rad2Deg; // góc được tạo bởi trục Ox và Vector hướng từ góc nhìn enemy tới player
         int currentEnemyVisual = enemyPathFindingMovement.currentVisualDir;
         // đem so nó liệu có đang thuộc vào góc nhìn của enemy không ?
         if(currentEnemyVisual == +1)
         {
-            IsInVision = -70 <= EnemyAngleVisualDirectToPlayer && EnemyAngleVisualDirectToPlayer <= 70;
+            IsInVision = -70 <= EnemyAngleVisualDirectToPlayer &&  EnemyAngleVisualDirectToPlayer <= 70;
         }
         else // currentEnemyVisual == -1 or currentEnemyVisual == 0
         {
-            IsInVision = -110 <= EnemyAngleVisualDirectToPlayer && EnemyAngleVisualDirectToPlayer <= 110;
+            IsInVision = -110 >= EnemyAngleVisualDirectToPlayer || EnemyAngleVisualDirectToPlayer >= 110;
         }
+        // Debug.Log("EnemyAngleVisualDirectToPlayer:"+EnemyAngleVisualDirectToPlayer);
         // Debug.Log("IsInRangeAttack: " + IsInRangeAttack + "        IsInVision: " + IsInVision);
         return IsInRangeAttack && IsInVision;
+    }
+    
+    private void ReadyToAttackImmediately()
+    {
+        if(Vector3.Distance(gameObject.transform.position, Player.Instance.GetPlayerPosition()) <= 1.5f)
+        {
+            if(currentEnemyStateAction == EnemyStateAction.Patrol)
+            {
+                currentToward = nullTransform;
+            }
+            AlwayTowardToPlayer();
+            currentEnemyStateAction = EnemyStateAction.ReadyToAttack;
+            return;
+        }
     }
     // =============================================================
     
