@@ -3,7 +3,7 @@ using System;
 
 public class EnemyAI : MonoBehaviour
 {
-    public enum EnemyStateAction { Patrol, Chase, Attack, ReadyToAttack, Idle, Die, Jump };
+    public enum EnemyStateAction { Patrol, Chase, Attack, ReadyToAttack, Idle, Die, Jump, Hurt };
     public EnemyStateAction currentEnemyStateAction;
     private EnemyStateAction lastCheckedCurrentEnemyStateAction;
     private EnemyPathFindingMovement enemyPathFindingMovement = null;
@@ -73,6 +73,10 @@ public class EnemyAI : MonoBehaviour
             case EnemyStateAction.Jump:
                 enemyAnimation.AnimationHandler(EnemyState.Jump);
                 JumpActionHandler();
+                break;
+            case EnemyStateAction.Hurt:
+                enemyAnimation.AnimationHandler(EnemyState.Hurt);
+                HurtActionHandler();
                 break;
         }
 
@@ -260,6 +264,11 @@ public class EnemyAI : MonoBehaviour
             // do nothing
         }
     }
+    
+    private void HurtActionHandler()
+    {
+        
+    }
     // =============================================================
 
 
@@ -325,7 +334,7 @@ public class EnemyAI : MonoBehaviour
         {
             const float attackDistance = 0.7f;
             int dirVisual = enemyPathFindingMovement.currentVisualDir;
-            Vector3 attackPosition = new Vector3(gameObject.transform.position.x * dirVisual + attackDistance, gameObject.transform.position.y, gameObject.transform.position.z);
+            Vector3 attackPosition = new Vector3(gameObject.transform.position.x + dirVisual * attackDistance, gameObject.transform.position.y, gameObject.transform.position.z);
             // Debug.Log(attackPosition);
             bool IsHitedPlayer = IsPlayerInAttackPoint(attackPosition);
             if(IsHitedPlayer == true)

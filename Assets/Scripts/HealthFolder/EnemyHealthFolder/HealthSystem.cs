@@ -21,9 +21,9 @@ public class HealthSystem // đây là nơi thực sự chứa hp
         {
             currentHealth = 0;
 
-            OnTriggerHealthBarAsZero.Invoke();
+            OnTriggerHealthBarAsZero?.Invoke();
         }
-        OnTriggerHealthBarChange.Invoke();
+        OnTriggerHealthBarChange?.Invoke();
     }
 
     public void Heal(float healAmount)
@@ -33,7 +33,7 @@ public class HealthSystem // đây là nơi thực sự chứa hp
         {
             currentHealth = maxHealth;
         }
-        OnTriggerHealthBarChange.Invoke();
+        OnTriggerHealthBarChange?.Invoke();
     }
 
     public float GetHealthNormalized()

@@ -39,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
 
     private PlayerAttack playerAttack;
 
-    private int currentPlayerVisualDirection;
+    private int currentPlayerVisualDirection = +1;
 
     private void Awake()
     {
@@ -717,10 +717,16 @@ public class PlayerMovement : MonoBehaviour
             {
                 canQueueNextAttack = false;
             }
+
+            if(idxFrame == 5)
+            {
+                playerAttack.CreatePointAttack(currentSprite);
+            }
+
             if (idxFrame == 5 && (CanTransformRun() || CanTransformRoll() || CanTransformJump()))
             {
                 // creatAttackPoint -> in here <- // continue your work in here --> IN HERE <--
-                playerAttack.CreatePointAttack();
+                
 
                 CanTransformRun();
                 CanTransformRoll();
