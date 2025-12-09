@@ -26,8 +26,8 @@ public class PlayerAnimation : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
 
-    public Action<int, Sprite[]> OnChangeEachFrames;
-    public Action OnChangeLastFrames;
+    public Action<int, Sprite[]> OnChangeEachFrames; // chạy mọi frame của sprites (int [1 -> Sprite[].Length])
+    public Action<Sprite[]> OnChangeLastFrames; // chạy frame sau frame cuối cùng của sprites
 
     private void Awake()
     {
@@ -52,7 +52,7 @@ public class PlayerAnimation : MonoBehaviour
             spriteRenderer.sprite = CurrentSprites[idxBodyFrames++];
             m_timerChangeIdxBodyFrameBodyFrame = timerChangeIdxBodyFrames;
 
-            OnChangeEachFrames?.Invoke(idxBodyFrames, CurrentSprites);
+            OnChangeEachFrames?.Invoke(idxBodyFrames, CurrentSprites); // idxBodyFrames = [1-> CurrentSprites.Length]
         }
         if (idxBodyFrames == CurrentSprites.Length) // đoạn này thực hiện khi chạy m_timerChangeIdxBodyFrameBodyFrame của frame cuối cùng rồi
         {
@@ -65,7 +65,7 @@ public class PlayerAnimation : MonoBehaviour
                 idxBodyFrames = CurrentSprites.Length-1; // stop at the last frame if isLoop == false
             }
 
-            OnChangeLastFrames?.Invoke();
+            OnChangeLastFrames?.Invoke(CurrentSprites);
         }
     } 
 

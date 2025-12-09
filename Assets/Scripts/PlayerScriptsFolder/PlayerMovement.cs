@@ -65,6 +65,7 @@ public class PlayerMovement : MonoBehaviour
         playerAnimation.OnChangeLastFrames += OnEndOfRunSprites;
         playerAnimation.OnChangeEachFrames += HandlerAttackFrames;
         // playerAnimation.OnChangeIDXFrame += HandlerJumpFrame;
+        playerAnimation.OnChangeLastFrames += OnEndOfHurtSprites;
 
         playerAttack = gameObject.GetComponent<PlayerAttack>();
     }
@@ -466,7 +467,7 @@ public class PlayerMovement : MonoBehaviour
                 break;
 
             case State.Hit:
-
+                // do nothing when player got hited
                 break;
 
             case State.BlockIdle:
@@ -539,6 +540,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+// ====================== PHYSICAL HANDLERS FUNCTION ========================
     private void MovementPhysicsHandler()
     {
         SomeControllOnAir();
@@ -609,8 +611,11 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+// ===============================================================
 
-    private void OnEndOfAttackSprites() // được chạy khi cuối cùng của frame của attack
+    
+// ================== FRAMES HANDLERS FUNCTION ====================
+    private void OnEndOfAttackSprites(Sprite[] currentSprite) // được chạy khi cuối cùng của frame của attack
     {
         // optimize
         bool IsOnGroundedVar = IsGrounded();
@@ -739,14 +744,14 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void OnEndOfRollSprites() // đây là 1 trong 2 cách chuyển từ state roll -> state khác: đợi tới frame cuối của roll
+    private void OnEndOfRollSprites(Sprite[] currentSprite) // đây là 1 trong 2 cách chuyển từ state roll -> state khác: đợi tới frame cuối của roll
     {
-        // optimize
-        bool IsOnGroundedVar = IsGrounded();
-
         if (playerState == State.Roll) // on the ground
         // check playerState == Roll vì Invoke được gọi tất cả hàm đăng ký ngay cả hàm này nhưng chỉ hoạt động hàm này khi đang trạng thái Roll thôi
         {
+            // optimize
+            bool IsOnGroundedVar = IsGrounded();
+
             if (IsOnGroundedVar == true)
             {
                 if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
@@ -771,7 +776,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void OnEndOfJumpSprites()
+    private void OnEndOfJumpSprites(Sprite[] currentSprite)
     {
         if (playerState == State.Jump && IsGrounded() == false)
         {
@@ -782,14 +787,14 @@ public class PlayerMovement : MonoBehaviour
         canMoveToAttack3 = false;
     }
 
-    private void OnEndOfRunSprites()
+    private void OnEndOfRunSprites(Sprite[] currentSprite)
     {
         // có thể cho nó reset về attack 1 nhanh hơn nhưng ME thích cuối :D
         canMoveToAttack2 = false;
         canMoveToAttack3 = false;
     }
 
-    private void OnEndOfFallSprites()
+    private void OnEndOfFallSprites(Sprite[] currentSprite)
     {
         // có thể cho nó reset về attack 1 nhanh hơn nhưng ME thích cuối :D
         canMoveToAttack2 = false;
@@ -798,8 +803,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandlerAttackFrames(int idxFrame, Sprite[] currentSprite) // một số frame chuyển canQueueAttack = true, rồi check nếu trong khoảng frame đấy nếu bấm chuột trái và canQueueAttack == true thì next combo attack
     {
+        
         if (currentSprite == playerAnimation.Attack1Sprites || currentSprite == playerAnimation.Attack2Sprites || currentSprite == playerAnimation.Attack3Sprites)
         {
+            // UnityEngine.Debug.Log("idx Frame:" + idxFrame + " currentSprite:" + currentSprite);
             if (0 < idxFrame && idxFrame < 5) // hard code phần attack nhưng thôi kệ
             {
                 canQueueNextAttack = true;
@@ -811,7 +818,7 @@ public class PlayerMovement : MonoBehaviour
 
             if(idxFrame == 5)
             {
-                UnityEngine.Debug.Log("created attack point");
+                // UnityEngine.Debug.Log("created attack point");
                 playerAttack.CreatePointAttack(currentSprite);
             }
 
@@ -826,37 +833,29 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    private void FlipDir()
+    private void OnHandlerEachFramesHurt(int idxFrame, Sprite[] currentSprite) // bỏ mình knock back enemy thôi, chứ enemy knockback mình làm gì :)
     {
-        if (playerState == State.ClimbingOnWall && WallDirX != 0) // special sprites handler
+        if(currentSprite == playerAnimation.HurtSprites && idxFrame == 1)
         {
-            if (WallDirX == 1)
-            {
-                spriteRenderer.flipX = false;
-                currentPlayerVisualDirection = -1;
-
-            }
-            else if (WallDirX == -1)
-            {
-                spriteRenderer.flipX = true;
-                currentPlayerVisualDirection = +1;
-            }
-        }
-        else
-        {
-            if (moveDir.x > 0)
-            {
-                spriteRenderer.flipX = false;
-                currentPlayerVisualDirection = +1; // phai
-            }
-            else if (moveDir.x < 0)
-            {
-                spriteRenderer.flipX = true;
-                currentPlayerVisualDirection = -1; // trai
-            }
+            // knockback_ in hêre
         }
     }
 
+    private void OnEndOfHurtSprites(Sprite[] currentSprite)
+    {
+        if(currentSprite == playerAnimation.HurtSprites)
+        {
+            CanTransformIdle();
+            CanTransformRun();
+            CanTransformJump();
+            CanTransformRoll();
+            CanTransformBlockIdle();
+        }
+    }
+// ===============================================================
+
+    
+// ====================== SENSOR FUNCTION ========================
     private bool IsGrounded()
     {
         WallDirX = 0;
@@ -903,7 +902,10 @@ public class PlayerMovement : MonoBehaviour
         WallDirX = 0;
         return false;
     }
+// ===============================================================
 
+
+// ====================== SUPPORTING FUNCTION ========================
     private bool CanTransformIdle()
     {
         if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
@@ -945,6 +947,50 @@ public class PlayerMovement : MonoBehaviour
         return false;
     }
 
+    private bool CanTransformBlockIdle()
+    {
+        if (Input.GetMouseButton(1))
+        {
+            playerState = State.BlockIdle;
+            return true;
+        }
+        return false;
+    }
+// ===============================================================
+
+
+// ====================== ORTHERS FUNCTION ========================
+    private void FlipDir()
+    {
+        if (playerState == State.ClimbingOnWall && WallDirX != 0) // special sprites handler
+        {
+            if (WallDirX == 1)
+            {
+                spriteRenderer.flipX = false;
+                currentPlayerVisualDirection = -1;
+
+            }
+            else if (WallDirX == -1)
+            {
+                spriteRenderer.flipX = true;
+                currentPlayerVisualDirection = +1;
+            }
+        }
+        else
+        {
+            if (moveDir.x > 0)
+            {
+                spriteRenderer.flipX = false;
+                currentPlayerVisualDirection = +1; // phai
+            }
+            else if (moveDir.x < 0)
+            {
+                spriteRenderer.flipX = true;
+                currentPlayerVisualDirection = -1; // trai
+            }
+        }
+    }
+
     public State GetPlayerState()
     {
         return playerState;
@@ -954,4 +1000,6 @@ public class PlayerMovement : MonoBehaviour
     {
         return currentPlayerVisualDirection;
     }
+// ===============================================================
+
 }

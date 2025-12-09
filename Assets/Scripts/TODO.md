@@ -5,5 +5,6 @@
 + trang tri them mot so cho enemy (coc ban uong ruou cac thu)
 
 + đang làm knock back cho enemy, đang đoạn xử lý cuối frame của knock back thì làm gì rồi
++ frame đầu thì bị kock back và chạy cho tới hết frame thì thôi -> tiếp tục tại đây <-
 
 + 1 kinh nghiệm: file chỉ xử lý đúng theo tên fle còn các cái tham chiếu thì nên làm trong file handler => ví dụ PlayerHealthBar xử lý hiển thị thanh máu theo currentHealth của file PlayerHealthSystem => phải tham chiếu tới currentHealth để hiển thị => không tham chiếu trong PlayerHealthBar mà tham chiếu trong PlayerHealthStaminaHandler.

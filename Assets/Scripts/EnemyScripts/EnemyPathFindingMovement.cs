@@ -192,7 +192,7 @@ public class EnemyPathFindingMovement : MonoBehaviour
         }
     }
     
-    public void KnockBack(int AttackerCurrentVisual)
+    public void KnockBackPhysicalPlatformerHandler(int AttackerCurrentVisual)
     {
         rb2d.linearVelocity = new UnityEngine.Vector3(KNOCK_BACK_FORCE * AttackerCurrentVisual, rb2d.linearVelocity.y);
     }
