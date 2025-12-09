@@ -5,12 +5,15 @@ public class PlayerAttack : MonoBehaviour
     private PlayerMovement playerMovement;
     private PlayerAnimation playerAnimation;
     private PlayerHealthStaminaHandler playerHealthStaminaHandler;
+    private PlayerStaminaSystem playerStaminaSystem;
 
     public LayerMask enemyLayerMask;
 
-    private const float normalAttackManaCost = 20f;
+    private const float normalAttackManaCost = 25f;
 
     private CapsuleCollider2D capsuleCollider2D;
+
+    private bool canEnoughManaToAttack;
 
     private void Start()
     {
@@ -18,12 +21,13 @@ public class PlayerAttack : MonoBehaviour
         playerAnimation = gameObject.GetComponent<PlayerAnimation>();
         playerHealthStaminaHandler = gameObject.GetComponent<PlayerHealthStaminaHandler>();
         capsuleCollider2D = gameObject.GetComponent<CapsuleCollider2D>();
-        
+
+        playerStaminaSystem = playerHealthStaminaHandler.GetPlayerStaminaSystem();
     }
 
     public void CreatePointAttack(Sprite[] currentSprite)
     {
-        bool canEnoughManaToAttack = playerHealthStaminaHandler.TryToUseStamina(normalAttackManaCost);
+        canEnoughManaToAttack = playerHealthStaminaHandler.TryToUseStamina(normalAttackManaCost);
         if(canEnoughManaToAttack == true)
         {
             Vector3 playerPosition = Player.Instance.GetPlayerPosition();
@@ -62,5 +66,20 @@ public class PlayerAttack : MonoBehaviour
         {
             enemyHealthHandler.Damage(UnityEngine.Random.Range(30, 35));
         }
+    }
+
+    public float GetNormalAttackManaCost()
+    {
+        return normalAttackManaCost;
+    }
+
+    public bool GetCanEnoughManaToAttack()
+    {
+        return canEnoughManaToAttack;
+    }
+
+    public bool CanEnoughManaForNormalAttack()
+    {
+        return playerStaminaSystem.GetCurrentStamina() >= normalAttackManaCost;
     }
 }

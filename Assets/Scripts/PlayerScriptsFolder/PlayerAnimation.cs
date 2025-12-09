@@ -95,15 +95,15 @@ public class PlayerAnimation : MonoBehaviour
         }
         else if(sprites == Attack1Sprites)
         {
-            timerChangeIdxBodyFrames = 0.05f;
+            timerChangeIdxBodyFrames = 0.06f;
         }
         else if(sprites == Attack2Sprites)
         {
-            timerChangeIdxBodyFrames = 0.05f;
+            timerChangeIdxBodyFrames = 0.06f;
         }
         else if(sprites == Attack3Sprites)
         {
-            timerChangeIdxBodyFrames = 0.05f;
+            timerChangeIdxBodyFrames = 0.06f;
         }
         else if(sprites == JumpSprites)
         {

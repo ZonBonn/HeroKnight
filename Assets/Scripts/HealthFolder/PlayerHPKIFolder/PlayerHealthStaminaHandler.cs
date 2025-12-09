@@ -64,11 +64,11 @@ public class PlayerHealthStaminaHandler : MonoBehaviour // class này quản lý
     private void Update()
     {
 #if UNITY_EDITOR
-        if (Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.P) && Input.GetKeyDown(KeyCode.H))
         {
             HealHealth(100);
         }
-        if (Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.P) && Input.GetKeyDown(KeyCode.S))
         {
             DamageHealth(100);
         }

@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using NUnit.Framework;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -41,6 +42,11 @@ public class PlayerMovement : MonoBehaviour
 
     private int currentPlayerVisualDirection = +1;
 
+    private bool IsOnGroundedVar;
+    private bool IsTouchedWallVar;
+    private bool IsEnoughManaForNormalAttackVar;
+
+
     private void Awake()
     {
         rb2D = gameObject.GetComponent<Rigidbody2D>();
@@ -67,6 +73,13 @@ public class PlayerMovement : MonoBehaviour
     {
         if (playerState == State.Die)
             return;
+
+        // optimize
+        IsOnGroundedVar = IsGrounded();
+        IsTouchedWallVar = IsTouchedWall();
+        IsEnoughManaForNormalAttackVar = playerAttack.CanEnoughManaForNormalAttack();
+        
+        
         // INPUTS HANDLER:
         float moveX = 0f;
         float moveY = 0f;
@@ -75,35 +88,41 @@ public class PlayerMovement : MonoBehaviour
         {
             case State.Idle:
                 // set action
-                if (Input.GetKeyDown(KeyCode.Space) && IsGrounded() == true)
+                if (Input.GetKeyDown(KeyCode.Space) && IsOnGroundedVar == true)
                 {
                     isPressedSpace = true;
+                    break;
                 }
 
                 // set state
-                if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && IsGrounded() == true)
+                if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && IsOnGroundedVar == true)
                 {
                     playerState = State.Run;
+                    break;
                 }
 
-                if (IsGrounded() == false)
+                if (IsOnGroundedVar == false)
                 {
                     playerState = State.Jump;
+                    break;
                 }
 
-                if (Input.GetMouseButtonDown(0))
+                if (Input.GetMouseButtonDown(0) && IsEnoughManaForNormalAttackVar == true)
                 {
                     playerState = State.Attack1;
+                    break;
                 }
 
                 if (Input.GetKeyDown(KeyCode.F))
                 {
                     ROLL_SPEED = 10f;
                     playerState = State.Roll;
+                    break;
                 }
                 if (Input.GetMouseButton(1))
                 {
                     playerState = State.BlockIdle;
+                    break;
                 }
                 break;
 
@@ -121,23 +140,26 @@ public class PlayerMovement : MonoBehaviour
                     LastMoveDir = +1f;
                 }
 
-                if (Input.GetKeyDown(KeyCode.Space) && IsGrounded() == true)
+                if (Input.GetKeyDown(KeyCode.Space) && IsOnGroundedVar == true)
                 {
                     isPressedSpace = true;
+                    break;
                 }
 
                 // set state (KHÔNG CẦN ƯU TIÊN VÌ CÁI NÀO IF CUỐI CÙNG SẼ ĐƯỢC ƯU TIÊN MÀ :))
-                if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D) && IsGrounded() == true)
+                if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D) && IsOnGroundedVar == true)
                 {
                     playerState = State.Idle;
+                    break;
                 }
 
-                if (IsGrounded() == false)
+                if (IsOnGroundedVar == false)
                 {
                     playerState = State.Jump;
+                    break;
                 }
 
-                if (Input.GetMouseButtonDown(0))
+                if (Input.GetMouseButtonDown(0) && IsEnoughManaForNormalAttackVar == true)
                 {
                     if (canMoveToAttack2 == true)
                     {
@@ -152,36 +174,41 @@ public class PlayerMovement : MonoBehaviour
                         break;
                     }
                     playerState = State.Attack1;
+                    break;
                 }
 
                 if (Input.GetKeyDown(KeyCode.F))
                 {
                     ROLL_SPEED = 10f;
                     playerState = State.Roll;
+                    break;
                 }
                 if (Input.GetMouseButton(1))
                 {
                     playerState = State.BlockIdle;
+                    break;
                 }
                 break;
 
             case State.Jump:
                 // khi đang ở trạng thái nhảy
                 // set state
-                if (IsGrounded() == true) // ngay khi chạm đất
+                if (IsOnGroundedVar == true) // ngay khi chạm đất
                 {
                     // set state
-                    if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D) && IsGrounded() == true)
+                    if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D) && IsOnGroundedVar == true)
                     {
                         playerState = State.Idle;
+                        break;
                     }
 
-                    if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && IsGrounded() == true)
+                    if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && IsOnGroundedVar == true)
                     {
                         playerState = State.Run;
+                        break;
                     }
 
-                    if (Input.GetMouseButtonDown(0))
+                    if (Input.GetMouseButtonDown(0) && IsEnoughManaForNormalAttackVar == true)
                     {
                         if (canMoveToAttack2 == true)
                         {
@@ -196,15 +223,17 @@ public class PlayerMovement : MonoBehaviour
                             break;
                         }
                         playerState = State.Attack1;
+                        break;
                     }
 
                     if (Input.GetKeyDown(KeyCode.F))
                     {
                         ROLL_SPEED = 10f;
                         playerState = State.Roll;
+                        break;
                     }
                 }
-                else if (IsGrounded() == false) // khi ở trạng thái jump trên không, vì 
+                else if (IsOnGroundedVar == false) // khi ở trạng thái jump trên không, vì 
                 // trên không vẫn di chuyển được nên phải cộng thêm giá trị khi di chuyển trên không nữa, còn chuyển trạng thái thì không cần
                 {
                     // set action
@@ -220,7 +249,7 @@ public class PlayerMovement : MonoBehaviour
                     }
 
                     // set state while on air
-                    if (Input.GetMouseButtonDown(0))
+                    if (Input.GetMouseButtonDown(0) && IsEnoughManaForNormalAttackVar == true)
                     {
                         if (canMoveToAttack2 == true)
                         {
@@ -235,43 +264,49 @@ public class PlayerMovement : MonoBehaviour
                             break;
                         }
                         playerState = State.Attack1;
+                        break;
                     }
 
-                    if (Input.GetKey(KeyCode.W) && IsTouchedWall() == true)
+                    if (Input.GetKey(KeyCode.W) && IsTouchedWallVar == true)
                     {
                         playerState = State.ClimbingOnWall;
                         rb2D.gravityScale = 0f; // không cho rơi xuống khi đang leo
+                        break;
                     }
                 }
                 break;
 
             case State.Fall:
 
-                if (IsGrounded() == true) // ngay khi chạm đất
+                if (IsOnGroundedVar == true) // ngay khi chạm đất
                 {
                     // set state
-                    if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D) && IsGrounded() == true)
+                    if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D) && IsOnGroundedVar == true)
                     {
                         playerState = State.Idle;
+                        break;
                     }
 
-                    if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && IsGrounded() == true)
+                    if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && IsOnGroundedVar == true)
                     {
                         playerState = State.Run;
+                        break;
                     }
 
-                    if (Input.GetMouseButtonDown(0))
+                    if (Input.GetMouseButtonDown(0) && IsEnoughManaForNormalAttackVar == true)
                     {
                         playerState = State.Attack1;
+                        break;
                     }
 
                     if (Input.GetKeyDown(KeyCode.F))
                     {
                         ROLL_SPEED = 10f;
                         playerState = State.Roll;
+                        break;
                     }
                 }
-                else if (IsGrounded() == false) // khi ở trạng thái fall trên không, vì 
+                else if (IsOnGroundedVar == false) // khi ở trạng thái fall trên không, vì 
                 // trên không vẫn di chuyển được nên phải cộng thêm giá trị khi di chuyển trên không nữa, còn chuyển trạng thái thì không cần
                 {
                     // set action
@@ -287,22 +322,24 @@ public class PlayerMovement : MonoBehaviour
                     }
 
                     // set state while on air
-                    if (Input.GetMouseButtonDown(0))
+                    if (Input.GetMouseButtonDown(0) && IsEnoughManaForNormalAttackVar == true)
                     {
                         playerState = State.Attack1;
+                        break;
                     }
 
-                    if (Input.GetKey(KeyCode.W) && IsTouchedWall() == true)
+                    if (Input.GetKey(KeyCode.W) && IsTouchedWallVar == true)
                     {
                         playerState = State.ClimbingOnWall;
                         rb2D.gravityScale = 0f; // không cho rơi xuống khi đang leo
+                        break;
                     }
                 }
                 break;
 
             case State.Attack1:
                 // do phải chạy hết aniamtion tới frame cuối thì mới được chuyển state => xử lý riêng ở delegate Action
-                if (Input.GetMouseButtonDown(0)) // Clicked mouse during attack1 state
+                if (Input.GetMouseButtonDown(0) && IsEnoughManaForNormalAttackVar == true) // Clicked mouse during attack1 state
                 {
                     if (canQueueNextAttack == true && playerState == State.Attack1)
                     {
@@ -310,15 +347,16 @@ public class PlayerMovement : MonoBehaviour
                     }
                 }
 
-                if (Input.GetKeyDown(KeyCode.F) && IsGrounded() == true)
+                if (Input.GetKeyDown(KeyCode.F) && IsOnGroundedVar == true)
                 {
                     ROLL_SPEED = 10f;
                     playerState = State.Roll;
+                    break;
                 }
                 break;
 
             case State.Attack2:
-                if (Input.GetMouseButtonDown(0))
+                if (Input.GetMouseButtonDown(0) && IsEnoughManaForNormalAttackVar == true)
                 {
                     if (canQueueNextAttack == true && playerState == State.Attack2)
                     {
@@ -326,18 +364,20 @@ public class PlayerMovement : MonoBehaviour
                     }
                 }
 
-                if (Input.GetKeyDown(KeyCode.F) && IsGrounded() == true)
+                if (Input.GetKeyDown(KeyCode.F) && IsOnGroundedVar == true)
                 {
                     ROLL_SPEED = 10f;
                     playerState = State.Roll;
+                    break;
                 }
                 break;
 
             case State.Attack3:
-                if (Input.GetKeyDown(KeyCode.F) && IsGrounded() == true)
+                if (Input.GetKeyDown(KeyCode.F) && IsOnGroundedVar == true)
                 {
                     ROLL_SPEED = 10f;
                     playerState = State.Roll;
+                    break;
                 }
                 break;
 
@@ -349,13 +389,29 @@ public class PlayerMovement : MonoBehaviour
                 if (ROLL_SPEED <= rollSpeedMinimum) // đây là 1 trong 2 cách chuyển từ state roll -> state khác: chờ tới khi tốc độ lăn về với tốc độ MOVE_SPEED
                 {
                     if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
+                    {
                         playerState = State.Idle;
+                        break;
+                    }
+                        
                     if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
+                    {
                         playerState = State.Run;
+                        break;
+                    }
+                        
                     if (Input.GetKey(KeyCode.Space))
+                    {
                         playerState = State.Jump;
+                        break;
+                    }
+                        
                     if (Input.GetMouseButtonDown(0))
+                    {
                         playerState = State.Attack1;
+                        break;
+                    }
+                        
                 }
 
                 // về sau thì khi roll sẽ không nhận damage thì sẽ thêm các chức năng khi đang rolling TẠI ĐÂY
@@ -366,12 +422,13 @@ public class PlayerMovement : MonoBehaviour
                 {
                     rb2D.gravityScale = DefaultGravityScale;
                     playerState = State.Jump; // lúc thực hiện state này chỉ khi đang nhảy => lúc không còn thực hiện thì vẫn đang là State Jump => quay trở lại State Jump
+                    break;
                 }
                 else if (Input.GetKey(KeyCode.W)) // chừng nào còn ấn nút W để duy trì trạng thái leo tường
                 {
                     if (Input.GetKeyDown(KeyCode.Space))
                     {
-                        // if (!IsTouchedWall())
+                        // if (!IsTouchedWallVar)
                         // {
                         //     rb2D.gravityScale = DefaultGravityScale;
                         //     playerState = State.Jump;
@@ -388,6 +445,7 @@ public class PlayerMovement : MonoBehaviour
                             rb2D.gravityScale = DefaultGravityScale;
                             TouchedWallAlwaysFalseTimer = 0.15f; // cho thêm một khoảng thời gian rất ngắn tại đây để IsTochedWall luôn luôn == false
                             isJumpFromWall = true;
+                            break;
                         }
 
                         if (Input.GetKey(KeyCode.D) && (WallDirX == -1 || LastMoveDir < 0))
@@ -397,6 +455,7 @@ public class PlayerMovement : MonoBehaviour
                             rb2D.gravityScale = DefaultGravityScale;
                             TouchedWallAlwaysFalseTimer = 0.15f;
                             isJumpFromWall = true;
+                            break;
                         }
                     }
                 }
@@ -413,14 +472,16 @@ public class PlayerMovement : MonoBehaviour
             case State.BlockIdle:
                 if (!Input.GetMouseButton(1))
                 {
-                    if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D) && IsGrounded() == true)
+                    if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D) && IsOnGroundedVar == true)
                     {
                         playerState = State.Idle;
+                        break;
                     }
 
-                    if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && IsGrounded() == true)
+                    if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && IsOnGroundedVar == true)
                     {
                         playerState = State.Run;
+                        break;
                     }
                 }
                 break;
@@ -454,11 +515,11 @@ public class PlayerMovement : MonoBehaviour
         {
             // thực hiện attack
             // handler physic attack in here --> in here <--
-            if (IsGrounded() == true)
+            if (IsOnGroundedVar == true)
             {
                 rb2D.linearVelocity = new Vector2(0, rb2D.linearVelocity.y);
             }
-            else if (IsGrounded() == false)
+            else if (IsOnGroundedVar == false)
             {
                 rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x, rb2D.linearVelocity.y);
             }
@@ -468,7 +529,7 @@ public class PlayerMovement : MonoBehaviour
             float RollDir = LastMoveDir;
             rb2D.linearVelocity = new Vector2(ROLL_SPEED * RollDir, rb2D.linearVelocity.y);
         }
-        else if (playerState == State.ClimbingOnWall && IsTouchedWall() == true)
+        else if (playerState == State.ClimbingOnWall && IsTouchedWallVar == true)
         {
             rb2D.linearVelocity = new Vector2(0, 0);
         }
@@ -485,14 +546,18 @@ public class PlayerMovement : MonoBehaviour
 
     private void JumpPhysicsHandler()
     {
-        if (isPressedSpace == true && (IsGrounded() == true || IsTouchedWall() == true || isJumpFromWall == true)) // nếu có thể nhảy: 2 mức nhảy, nhảy khi ở tường sẽ cao hơn ở đất
+        // optimize
+        bool IsTouchedWallVar = IsTouchedWall();
+
+        bool IsOnGroundedVar = IsGrounded();
+        if (isPressedSpace == true && (IsOnGroundedVar == true || IsTouchedWallVar == true || isJumpFromWall == true)) // nếu có thể nhảy: 2 mức nhảy, nhảy khi ở tường sẽ cao hơn ở đất
         {
-            if (IsGrounded() == true)
+            if (IsOnGroundedVar == true)
             {
                 rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x, JUMP_FORCE); // khi nhảy vẫn giữ lại vận tốc rb2D.linearVelocity.x trước đó => không bị kẹt cứng một chỗ
                 isPressedSpace = false;
             }
-            else // == else if(IsTouchedWall() == true)
+            else // == else if(IsTouchedWallVar == true)
             {
                 // UnityEngine.Debug.Log("Nhảy ra từ tường");
                 float JUMP_FORCE_ON_WALL = JUMP_FORCE + 4;
@@ -505,12 +570,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void SomeControllOnAir()
     {
+        // optimize
+        bool IsOnGroundedVar = IsGrounded();
+
         float maxSpeedOnAir = 6f;
         float midAirControlSpeed = 10f;
-
+        
         if (moveDir.x != 0) // di chuyển
         {
-            if (IsGrounded() == true) // dưới đất
+            if (IsOnGroundedVar == true) // dưới đất
             {
                 rb2D.linearVelocity = new Vector2(moveDir.x * MOVE_SPEED, rb2D.linearVelocity.y);
             }
@@ -531,7 +599,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else // đứng yên
         {
-            if (IsGrounded() == true) // dưới đất
+            if (IsOnGroundedVar == true) // dưới đất
             {
                 rb2D.linearVelocity = new Vector2(moveDir.x * MOVE_SPEED, rb2D.linearVelocity.y);
             }
@@ -544,119 +612,142 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnEndOfAttackSprites() // được chạy khi cuối cùng của frame của attack
     {
+        // optimize
+        bool IsOnGroundedVar = IsGrounded();
+        bool IsEnoughManaForNormalAttackVar = playerAttack.CanEnoughManaForNormalAttack();
+        
         // set state
         if (playerState == State.Attack1)
         {
-            if (IsGrounded() == true) // attack on ground
+            if (IsOnGroundedVar == true) // attack on ground
             {
-                if (canMoveToAttack2 == true)
+                if (canMoveToAttack2 == true && IsEnoughManaForNormalAttackVar == true)
                 {
                     playerState = State.Attack2;
                     canMoveToAttack2 = false;
+                    return;
                 }
                 else if (canMoveToAttack2 == false)
                 {
                     if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
                     {
                         playerState = State.Idle;
+                        return;
                     }
 
                     if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
                     {
                         playerState = State.Run;
+                        return;
                     }
 
-                    if (Input.GetKeyDown(KeyCode.Space) && IsGrounded() == true)
+                    if (Input.GetKeyDown(KeyCode.Space) && IsOnGroundedVar == true)
                     {
                         isPressedSpace = true;
+                        return;
                     }
                 }
             }
-            else if (IsGrounded() == false) // attack on air
+            else if (IsOnGroundedVar == false) // attack on air
             {
-                if (canMoveToAttack2 == true)
+                if (canMoveToAttack2 == true && IsEnoughManaForNormalAttackVar == true)
                 {
                     playerState = State.Attack2;
                     canMoveToAttack2 = false;
+                    return;
                 }
                 else if (canMoveToAttack2 == false)
                 {
                     playerState = State.Jump;
+                    return;
                 }
             }
         }
         else if (playerState == State.Attack2)
         {
-            if (IsGrounded() == true) // attack on ground
+            if (IsOnGroundedVar == true) // attack on ground
             {
-                if (canMoveToAttack3 == true)
+                if (canMoveToAttack3 == true && IsEnoughManaForNormalAttackVar == true)
                 {
                     playerState = State.Attack3;
                     canMoveToAttack3 = false;
+                    return;
                 }
                 else if (canMoveToAttack3 == false)
                 {
                     if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
                     {
                         playerState = State.Idle;
+                        return;
                     }
 
                     if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
                     {
                         playerState = State.Run;
+                        return;
                     }
 
-                    if (Input.GetKeyDown(KeyCode.Space) && IsGrounded() == true)
+                    if (Input.GetKeyDown(KeyCode.Space) && IsOnGroundedVar == true)
                     {
                         isPressedSpace = true;
+                        return;
                     }
                 }
             }
-            else if (IsGrounded() == false)
+            else if (IsOnGroundedVar == false)
             {
-                if (canMoveToAttack3 == true)
+                if (canMoveToAttack3 == true && IsEnoughManaForNormalAttackVar == true)
                 {
                     playerState = State.Attack3;
                     canMoveToAttack3 = false;
+                    return;
                 }
                 else if (canMoveToAttack3 == false)
                 {
                     playerState = State.Jump;
+                    return;
                 }
             }
         }
         else if (playerState == State.Attack3)
         {
-            if (IsGrounded() == true) // attack on ground
+            if (IsOnGroundedVar == true) // attack on ground
             {
                 if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
                 {
                     playerState = State.Idle;
+                    return;
                 }
 
                 if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
                 {
                     playerState = State.Run;
+                    return;
                 }
 
-                if (Input.GetKeyDown(KeyCode.Space) && IsGrounded() == true)
+                if (Input.GetKeyDown(KeyCode.Space) && IsOnGroundedVar == true)
                 {
                     isPressedSpace = true;
+                    return;
                 }
             }
-            else if (IsGrounded() == false) // attack on air
+            else if (IsOnGroundedVar == false) // attack on air
             {
                 playerState = State.Jump;
+                return;
             }
         }
     }
 
     private void OnEndOfRollSprites() // đây là 1 trong 2 cách chuyển từ state roll -> state khác: đợi tới frame cuối của roll
     {
+        // optimize
+        bool IsOnGroundedVar = IsGrounded();
+
         if (playerState == State.Roll) // on the ground
         // check playerState == Roll vì Invoke được gọi tất cả hàm đăng ký ngay cả hàm này nhưng chỉ hoạt động hàm này khi đang trạng thái Roll thôi
         {
-            if (IsGrounded() == true)
+            if (IsOnGroundedVar == true)
             {
                 if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
                 {
@@ -673,7 +764,7 @@ public class PlayerMovement : MonoBehaviour
                     isPressedSpace = true;
                 }
             }
-            else if (IsGrounded() == false && playerState == State.Roll) // on air
+            else if (IsOnGroundedVar == false && playerState == State.Roll) // on air
             {
                 playerState = State.Jump;
             }

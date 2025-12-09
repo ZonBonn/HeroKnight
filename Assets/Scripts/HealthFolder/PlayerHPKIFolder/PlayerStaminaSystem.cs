@@ -41,11 +41,14 @@ public class PlayerStaminaSystem // class này lưu giữ KI thật
 
     public void RegenStamina()
     {
-        currentStamina += staminaRegenAmount * Time.deltaTime;
         if(currentStamina >= maxStamina)
         {
             currentStamina = maxStamina;
+            return;
         }
+        currentStamina += staminaRegenAmount * Time.deltaTime;
+        
+        OnTriggerPlayerStaminaChange?.Invoke();
     }
 
     public float GetStaminaNormalized()
