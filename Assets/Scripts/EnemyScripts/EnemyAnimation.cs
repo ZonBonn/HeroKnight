@@ -23,7 +23,7 @@ public class EnemyAnimation : MonoBehaviour
     private SpriteRenderer spriteRenderer;
 
     public Action<int, Sprite[]> OnTriggerEachFrames;
-    public Action OnTriggerLastFrames;
+    public Action<Sprite[]> OnTriggerLastFrames;
 
     private void Awake()
     {
@@ -61,7 +61,7 @@ public class EnemyAnimation : MonoBehaviour
                 idxBodyFrames = CurrentSprites.Length-1; // stop at the last frame if isLoop == false
             }
 
-            OnTriggerLastFrames?.Invoke();
+            OnTriggerLastFrames?.Invoke(CurrentSprites);
         }
     } 
 
@@ -99,7 +99,7 @@ public class EnemyAnimation : MonoBehaviour
         }
         else if(sprites == HurtSprites)
         {
-            timerChangeIdxBodyFrames = 0.2f;
+            timerChangeIdxBodyFrames = 0.1f;
         }
         else if(sprites == DeathSprites)
         {

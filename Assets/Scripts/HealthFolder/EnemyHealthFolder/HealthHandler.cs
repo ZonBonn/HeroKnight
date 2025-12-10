@@ -14,6 +14,9 @@ public class HealthHandler : MonoBehaviour // class thuộc về nhân vật s�
     // health bar spwan position
     private Transform healthBarPositionTransform;
 
+    // private for debunging
+    private float currentHealth;
+
     private void Awake()
     {
         healthBarPositionTransform = gameObject.transform.Find("HealthBarPosition").transform;
@@ -37,5 +40,11 @@ public class HealthHandler : MonoBehaviour // class thuộc về nhân vật s�
     public HealthSystem GetHealthSystem()
     {
         return healthSystem;
+    }
+
+    // for testing bug
+    private void Update()
+    {
+        currentHealth = healthSystem.GetCurrentHealth();
     }
 }

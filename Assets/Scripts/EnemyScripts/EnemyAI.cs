@@ -29,12 +29,19 @@ public class EnemyAI : MonoBehaviour
 
     public PlayerHealthStaminaHandler playerHealthStaminaHandler; // ???
 
+    public bool IsHurting; // ????
+
+    private HealthHandler enemyHealthHandler;
+
     private bool isJumping;
+
+    
     private void Awake()
     {
         enemyPathFindingMovement = gameObject.GetComponent<EnemyPathFindingMovement>();
         enemy = gameObject.GetComponent<Enemy>();
         enemyAnimation = gameObject.GetComponent<EnemyAnimation>();
+        enemyHealthHandler = gameObject.GetComponent<HealthHandler>();
     }
 
     private void Start()
@@ -45,6 +52,8 @@ public class EnemyAI : MonoBehaviour
         enemyAnimation.OnTriggerEachFrames += TriggerEnemyLastAttackFrameHandler;
         enemyAnimation.OnTriggerEachFrames += TriggerEnemyLastJumpFrameHandler;
         enemyAnimation.OnTriggerEachFrames += TriggerCreateAttackPoint;
+        enemyAnimation.OnTriggerLastFrames += TriggerEnemyLastHurtFrameHandler;
+        enemyHealthHandler.GetHealthSystem().OnTriggerHealthBarChange += TriggerHurtWhenHealthChange;
 
         idleTimer = UnityEngine.Random.Range(2.5f, 3f);
     }
@@ -281,7 +290,7 @@ public class EnemyAI : MonoBehaviour
     
     private void HurtActionHandler()
     {
-        
+        // do nothing or do not change the state during hurting
     }
     // =============================================================
 
@@ -302,6 +311,49 @@ public class EnemyAI : MonoBehaviour
         {
             isJumping = false;
         }
+    }
+    
+    
+    private void TriggerEnemyFirstHurtFrameHandler(Sprite[] sprites)
+    {
+        if(sprites == enemyAnimation.HurtSprites)
+        {
+            
+        }
+    }
+    
+    private void TriggerEnemyLastHurtFrameHandler(Sprite[] sprites)
+    {
+        bool IsPlayerAround = IsSearchedPlayerAround();
+        if(sprites == enemyAnimation.HurtSprites)
+        {
+            if (DistanceEnemyToPlayer <= 1.5f && IsPlayerAround == true && m_RTCTimer <= 0)
+            {
+                currentEnemyStateAction = EnemyStateAction.Attack;
+                return;
+            }
+            if (DistanceEnemyToPlayer < 4f && 
+            IsPlayerAround == true && 
+            DistanceEnemyToPlayer >= 2f)
+            {
+                currentEnemyStateAction = EnemyStateAction.Chase;
+                return;
+            }
+
+            Debug.Log("K nhảy vào state nào cả thì nhảy vào patrol");
+            currentEnemyStateAction = EnemyStateAction.Patrol; // safe state
+            return;
+            
+        }
+    }
+
+    private void TriggerHurtWhenHealthChange()
+    {
+        if(currentEnemyStateAction == EnemyStateAction.Hurt)
+        {
+            return;
+        }
+        currentEnemyStateAction = EnemyStateAction.Hurt;
     }
     // ===========================================================
     

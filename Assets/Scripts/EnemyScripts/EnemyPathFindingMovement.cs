@@ -8,7 +8,8 @@ public class EnemyPathFindingMovement : MonoBehaviour
     public const float MOVE_SPEED = 2f;
     public const float JUMP_FORCE = 14f;
     private const float PUSH_FORCE = 5.5f;
-    private const float KNOCK_BACK_FORCE = 1f;
+    private const float KNOCK_BACK_HORIZONTAL_FORCE = 3f;
+    private const float KNOCK_BACK_VERTICAL_FORCE = 1f;
     private int currentIdxPath;
     private List<UnityEngine.Vector3> PathOnVector;
     public GridMap gridMap;
@@ -57,7 +58,10 @@ public class EnemyPathFindingMovement : MonoBehaviour
         {
             JumpPhysicalPlatformerHandler();
         }
-        
+        else if(enemyAI.currentEnemyStateAction == EnemyAI.EnemyStateAction.Hurt)
+        {
+            KnockBackPhysicalPlatformerHandler(currentVisualDir * -1);
+        }
     }
 
     
@@ -194,7 +198,9 @@ public class EnemyPathFindingMovement : MonoBehaviour
     
     public void KnockBackPhysicalPlatformerHandler(int AttackerCurrentVisual)
     {
-        rb2d.linearVelocity = new UnityEngine.Vector3(KNOCK_BACK_FORCE * AttackerCurrentVisual, rb2d.linearVelocity.y);
+        UnityEngine.Vector3 playerPosition = Player.Instance.GetPlayerPosition();
+        UnityEngine.Vector3 dir = (gameObject.transform.position - playerPosition).normalized;
+        rb2d.linearVelocity = new UnityEngine.Vector3(KNOCK_BACK_HORIZONTAL_FORCE * AttackerCurrentVisual, rb2d.linearVelocity.y * KNOCK_BACK_VERTICAL_FORCE);
     }
     // ========================================================
 
