@@ -189,6 +189,10 @@ public class PlayerAnimation : MonoBehaviour
         {
             ChangeAnimation(DeathSprites, false);
         }
+        else if(state == State.Hit)
+        {
+            ChangeAnimation(HurtSprites, false);
+        }
     }
     
     public SpriteRenderer GetSpriteRenderer()

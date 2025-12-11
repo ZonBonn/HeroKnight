@@ -139,7 +139,7 @@ public class EnemyAnimation : MonoBehaviour
         }
         else if (state == EnemyState.Hurt)
         {
-            ChangeAnimation(HurtSprites, true);
+            ChangeAnimation(HurtSprites, false);
         }
     }
     

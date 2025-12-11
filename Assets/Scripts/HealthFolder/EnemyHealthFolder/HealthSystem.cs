@@ -17,7 +17,7 @@ public class HealthSystem // đây là nơi thực sự chứa hp
     public void Damage(float damageAmount)
     {
         currentHealth -= damageAmount; 
-        if(currentHealth < 0)
+        if(currentHealth <= 0)
         {
             currentHealth = 0;
 
@@ -29,7 +29,7 @@ public class HealthSystem // đây là nơi thực sự chứa hp
     public void Heal(float healAmount)
     {
         currentHealth += healAmount; 
-        if(currentHealth > maxHealth)
+        if(currentHealth >= maxHealth)
         {
             currentHealth = maxHealth;
         }

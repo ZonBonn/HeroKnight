@@ -48,8 +48,8 @@ public class EnemyPathFindingMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        IsHole();
-        IsWallInFront();
+        // IsHole();
+        // IsWallInFront();
         if(enemyAI.currentEnemyStateAction == EnemyAI.EnemyStateAction.Chase || enemyAI.currentEnemyStateAction == EnemyAI.EnemyStateAction.Patrol)
         {
             MovementPhysicPlatformerHandler();
@@ -163,16 +163,17 @@ public class EnemyPathFindingMovement : MonoBehaviour
     public void setTargetPosition(UnityEngine.Vector3 targetPosition, out List<PathNode_S> pathOnNode)
     {
         currentIdxPath = 0;
+        UnityEngine.Vector3 enemyPosition = getObjectPosition();
         if (enemy.monsterType == MonsterType.Ground)
         {
             if (playerMovement.GetPlayerState() != State.Die)
             {
-                PathOnVector = PathFinding.Instance.PathOnVector(getObjectPosition(), targetPosition, out List<PathNode_S> PathOnNode, enemy.monsterType);
+                PathOnVector = PathFinding.Instance.PathOnVector(enemyPosition, targetPosition, out List<PathNode_S> PathOnNode, enemy.monsterType);
                 pathOnNode = PathOnNode;
             }
             else
             {
-                PathOnVector = PathFinding.Instance.PathOnVector(getObjectPosition(), randomPosition(getObjectPosition()), out List<PathNode_S> PathOnNode, enemy.monsterType);
+                PathOnVector = PathFinding.Instance.PathOnVector(enemyPosition, randomPosition(enemyPosition), out List<PathNode_S> PathOnNode, enemy.monsterType);
                 pathOnNode = PathOnNode;
             }         
         }
@@ -180,12 +181,12 @@ public class EnemyPathFindingMovement : MonoBehaviour
         {
             if (playerMovement.GetPlayerState() != State.Die)
             {
-                PathOnVector = PathFinding.Instance.PathOnVector(getObjectPosition(), surroundingPlayerPos(getObjectPosition()), out List<PathNode_S> PathOnNode, enemy.monsterType);
+                PathOnVector = PathFinding.Instance.PathOnVector(enemyPosition, surroundingPlayerPos(enemyPosition), out List<PathNode_S> PathOnNode, enemy.monsterType);
                 pathOnNode = PathOnNode;
             }
             else
             {
-                PathOnVector = PathFinding.Instance.PathOnVector(getObjectPosition(), randomPosition(getObjectPosition()), out List<PathNode_S> PathOnNode, enemy.monsterType);
+                PathOnVector = PathFinding.Instance.PathOnVector(enemyPosition, randomPosition(enemyPosition), out List<PathNode_S> PathOnNode, enemy.monsterType);
                 pathOnNode = PathOnNode;
             }
         }

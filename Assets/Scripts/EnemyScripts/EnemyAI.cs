@@ -13,14 +13,14 @@ public class EnemyAI : MonoBehaviour
     public Transform rightPoint;
     public Transform chaseLeftPoint;
     public Transform chaseRightPoint;
-    private Transform nullTransform = null; // đây sẽ là vị trí mà currentToward hướng tới khi đang trong các trạng thái khác ngoài state Patrol
+    private Transform nullTransform = null; // đây sẽ là vị trí mà currentToward hướng tới khi đang trong các trạng thái khác ngoài state Patrol // khi bị Hurt Interupt là không thể vì khi đến gần thì nó tự chuyển thành RTC mà RTC sẽ đổi thanh nullTransform luôn rồi
     private Enemy enemy;
     private EnemyAnimation enemyAnimation;
     public LayerMask playerLayerMask;
     private float idleTimer;
-    private float m_IdleTimer;
+    private float m_IdleTimer; // nếu biến này bị Hurt interupt mà không reset có bị sao không nhỉ ? (lười mò để check quá :D, check sau tại đây, nếu có lỗi liên quan tới Idle và RTC)
     private float rTCTimer = 0.5f;
-    private float m_RTCTimer; // thời gian chờ ready to combat để chuyển thành attack
+    private float m_RTCTimer; // thời gian chờ ready to combat để chuyển thành attack // nếu biến này bị Hurt interupt mà không reset có bị sao không nhỉ ?  (lười mò để check quá :D, check sau tại đây nếu có lỗi liên quan tới Idle và RTC)
 
     private bool IsPlayerAround;
     private Vector3 PlayerPosition;
@@ -32,8 +32,11 @@ public class EnemyAI : MonoBehaviour
     public bool IsHurting; // ????
 
     private HealthHandler enemyHealthHandler;
+    private HealthSystem enemyHealthSystem;
+    private HealthBar enemyHealthBar;
 
     private bool isJumping;
+    private bool isDied = false;
 
     
     private void Awake()
@@ -49,18 +52,25 @@ public class EnemyAI : MonoBehaviour
         currentEnemyStateAction = EnemyStateAction.Patrol;
         currentToward = UnityEngine.Random.Range(-1, 1) > 0 ? rightPoint : leftPoint;
         lastCheckedCurrentToward = currentToward == rightPoint ? leftPoint : rightPoint;
+
+        enemyHealthSystem = enemyHealthHandler.GetHealthSystem();
+        enemyHealthBar = enemyHealthHandler.GetHealthBar();
+
         enemyAnimation.OnTriggerEachFrames += TriggerEnemyLastAttackFrameHandler;
         enemyAnimation.OnTriggerEachFrames += TriggerEnemyLastJumpFrameHandler;
         enemyAnimation.OnTriggerEachFrames += TriggerCreateAttackPoint;
         enemyAnimation.OnTriggerLastFrames += TriggerEnemyLastHurtFrameHandler;
-        enemyHealthHandler.GetHealthSystem().OnTriggerHealthBarChange += TriggerHurtWhenHealthChange;
+        enemyAnimation.OnTriggerLastFrames += TriggerEnemyLastDieFrameHandler;
+
+        enemyHealthSystem.OnTriggerHealthBarChange += TriggerHurtWhenHealthChange;
+        enemyHealthSystem.OnTriggerHealthBarAsZero += TriggerDieWhenHealthAsZero;
 
         idleTimer = UnityEngine.Random.Range(2.5f, 3f);
     }
 
     private void Update()
     {
-        if(currentEnemyStateAction == EnemyStateAction.Die) return;
+        if(isDied == true) return;
 
         IsPlayerAround = IsSearchedPlayerAround();
         PlayerPosition = Player.Instance.GetPlayerPosition();
@@ -96,6 +106,10 @@ public class EnemyAI : MonoBehaviour
             case EnemyStateAction.Hurt:
                 enemyAnimation.AnimationHandler(EnemyState.Hurt);
                 HurtActionHandler();
+                break;
+            case EnemyStateAction.Die:
+                enemyAnimation.AnimationHandler(EnemyState.Death);
+                DeathActionHandler();
                 break;
         }
 
@@ -154,7 +168,7 @@ public class EnemyAI : MonoBehaviour
         if (enemyPathFindingMovement.IsHole() || Input.GetKeyDown(KeyCode.L) || enemyPathFindingMovement.IfCanJumpOverTheInFrontWall())
         {
             currentToward = nullTransform;
-            Debug.Log("Is Hole:" + enemyPathFindingMovement.IsHole() + "  ;;;   IfCanJumpOverTheInFrontWall:" + enemyPathFindingMovement.IfCanJumpOverTheInFrontWall());
+            // Debug.Log("Is Hole:" + enemyPathFindingMovement.IsHole() + "  ;;;   IfCanJumpOverTheInFrontWall:" + enemyPathFindingMovement.IfCanJumpOverTheInFrontWall());
             currentEnemyStateAction = EnemyStateAction.Jump;
             isJumping = true;
             return;
@@ -292,11 +306,15 @@ public class EnemyAI : MonoBehaviour
     {
         // do nothing or do not change the state during hurting
     }
+    
+    private void DeathActionHandler()
+    {
+        // do nothing or do not change the state during Dying
+    }        
     // =============================================================
 
 
-
-    //======== HANDLER ANIMATION BY EACH FRAMES =========
+    // =============== HANDLER ENEMY ANIMATION BY EACH FRAMES ===============
     private void TriggerEnemyLastAttackFrameHandler(int idxFrame, Sprite[] sprites)
     {
         if (sprites == enemyAnimation.AttackSprites && idxFrame == enemyAnimation.AttackSprites.Length - 1)
@@ -312,7 +330,6 @@ public class EnemyAI : MonoBehaviour
             isJumping = false;
         }
     }
-    
     
     private void TriggerEnemyFirstHurtFrameHandler(Sprite[] sprites)
     {
@@ -340,24 +357,52 @@ public class EnemyAI : MonoBehaviour
                 return;
             }
 
-            Debug.Log("K nhảy vào state nào cả thì nhảy vào patrol");
+            // Debug.Log("K nhảy vào state nào cả thì nhảy vào patrol");
             currentEnemyStateAction = EnemyStateAction.Patrol; // safe state
             return;
             
         }
     }
 
+    private void TriggerEnemyLastDieFrameHandler(Sprite[] sprites)
+    {
+        if(sprites == enemyAnimation.DeathSprites)
+        {
+            isDied = true;
+        }
+    }
+    // ===========================================================
+    
+
+    // =============== HANDLER ENEMY HEALTH BY EACH FRAMES ===============
     private void TriggerHurtWhenHealthChange()
     {
+        if (enemyHealthSystem.GetCurrentHealth() <= 0)
+        {
+            // HP = 0 thì KHÔNG BAO GIỜ vào state Hurt
+            return;
+        }
         if(currentEnemyStateAction == EnemyStateAction.Hurt)
         {
             return;
         }
         currentEnemyStateAction = EnemyStateAction.Hurt;
     }
-    // ===========================================================
     
+    private void TriggerDieWhenHealthAsZero()
+    {
+        if(currentEnemyStateAction == EnemyStateAction.Die)
+        {
+            return;
+        }
+        currentEnemyStateAction = EnemyStateAction.Die;
 
+        // set something when enemy is died
+        enemyPathFindingMovement.StopMovingPhysicalHandler();
+        gameObject.layer = LayerMask.NameToLayer("DeadEnemy");
+        enemyHealthBar.gameObject.SetActive(false);
+    }
+    // ===========================================================
 
     // ========= SUPPORTING FUNCTION ========
     private void Immediately_m_RTCTimer()

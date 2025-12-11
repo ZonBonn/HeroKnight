@@ -30,7 +30,7 @@ public class PlayerHealthSystem // class này lưu giữ HP thật
     public void Heal(float healAmount)
     {
         currentHealth += healAmount;
-        if(currentHealth > maxHealth)
+        if(currentHealth >= maxHealth)
         {
             currentHealth = maxHealth;
         }
@@ -41,5 +41,10 @@ public class PlayerHealthSystem // class này lưu giữ HP thật
     public float GetHealthNormalized()
     {
         return currentHealth / maxHealth;
+    }
+
+    public float GetCurrentHealth()
+    {
+        return currentHealth;
     }
 }

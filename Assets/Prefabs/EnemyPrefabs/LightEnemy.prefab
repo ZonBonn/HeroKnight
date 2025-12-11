@@ -228,6 +228,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   playerHealthStaminaHandler: {fileID: 0}
+  IsHurting: 0
 --- !u!114 &6844258306073565937
 MonoBehaviour:
   m_ObjectHideFlags: 0

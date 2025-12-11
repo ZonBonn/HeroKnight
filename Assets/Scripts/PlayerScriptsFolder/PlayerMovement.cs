@@ -46,6 +46,9 @@ public class PlayerMovement : MonoBehaviour
     private bool IsTouchedWallVar;
     private bool IsEnoughManaForNormalAttackVar;
 
+    private PlayerHealthStaminaHandler playerHealthStaminaHandler;
+    private PlayerHealthSystem playerHealthSystem;
+
 
     private void Awake()
     {
@@ -55,19 +58,24 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
+        playerAttack = gameObject.GetComponent<PlayerAttack>();
+        playerHealthStaminaHandler = gameObject.GetComponent<PlayerHealthStaminaHandler>();
+        playerHealthSystem = playerHealthStaminaHandler.GetPlayerHealthSystem();
         playerAnimation = gameObject.GetComponent<PlayerAnimation>();
         playerState = State.Idle;
         spriteRenderer = playerAnimation.GetSpriteRenderer();
+        // animation trigger
         playerAnimation.OnChangeLastFrames += OnEndOfAttackSprites;
         playerAnimation.OnChangeLastFrames += OnEndOfRollSprites;
         playerAnimation.OnChangeLastFrames += OnEndOfJumpSprites;
         playerAnimation.OnChangeLastFrames += OnEndOfFallSprites;
         playerAnimation.OnChangeLastFrames += OnEndOfRunSprites;
         playerAnimation.OnChangeEachFrames += HandlerAttackFrames;
-        // playerAnimation.OnChangeIDXFrame += HandlerJumpFrame;
         playerAnimation.OnChangeLastFrames += OnEndOfHurtSprites;
+        //health stamina trigger
+        playerHealthSystem.OnTriggerPlayerHealthChange += TriggerHurtPlayerWhenHealthChange;
 
-        playerAttack = gameObject.GetComponent<PlayerAttack>();
+        
     }
 
     private void Update()
@@ -538,6 +546,10 @@ public class PlayerMovement : MonoBehaviour
         {
             rb2D.linearVelocity = new Vector2(0, 0);
         }
+        else if(playerState == State.Hit)
+        {
+            rb2D.linearVelocity = new Vector2(0, 0);
+        }
     }
 
 // ====================== PHYSICAL HANDLERS FUNCTION ========================
@@ -837,7 +849,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if(currentSprite == playerAnimation.HurtSprites && idxFrame == 1)
         {
-            // knockback_ in hêre
+            
         }
     }
 
@@ -853,6 +865,22 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 // ===============================================================
+
+
+// ================== HEALTH AND STAMINA TRIGGER HANDLERS FUNCTION ====================
+    private void TriggerHurtPlayerWhenHealthChange()
+    {
+        // if(playerHealthSystem.GetCurrentHealth() <= 0)
+        // {
+        //     return;
+        // }
+        if(playerState == State.Hit)
+        {
+            return;
+        }
+        playerState = State.Hit;
+    }
+// ====================================================================================
 
     
 // ====================== SENSOR FUNCTION ========================

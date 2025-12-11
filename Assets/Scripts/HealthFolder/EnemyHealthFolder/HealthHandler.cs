@@ -42,6 +42,11 @@ public class HealthHandler : MonoBehaviour // class thuộc về nhân vật s�
         return healthSystem;
     }
 
+    public HealthBar GetHealthBar()
+    {
+        return healthBar;
+    }
+
     // for testing bug
     private void Update()
     {

@@ -32,7 +32,7 @@ public class PlayerStaminaSystem // class này lưu giữ KI thật
     public void Heal(float healAmount)
     {
         currentStamina += healAmount;
-        if(currentStamina > maxStamina)
+        if(currentStamina >= maxStamina)
         {
             currentStamina = maxStamina;
         }
