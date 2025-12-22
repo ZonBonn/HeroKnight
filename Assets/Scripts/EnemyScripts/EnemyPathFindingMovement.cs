@@ -9,7 +9,7 @@ public class EnemyPathFindingMovement : MonoBehaviour
     public const float JUMP_FORCE = 14f;
     private const float PUSH_FORCE = 5.5f;
     private const float KNOCK_BACK_HORIZONTAL_FORCE = 3f;
-    private const float KNOCK_BACK_VERTICAL_FORCE = 1f;
+    private const float KNOCK_BACK_VERTICAL_FORCE = 1.5f;
     private int currentIdxPath;
     private List<UnityEngine.Vector3> PathOnVector;
     public GridMap gridMap;
@@ -201,7 +201,7 @@ public class EnemyPathFindingMovement : MonoBehaviour
     {
         UnityEngine.Vector3 playerPosition = Player.Instance.GetPlayerPosition();
         UnityEngine.Vector3 dir = (gameObject.transform.position - playerPosition).normalized;
-        rb2d.linearVelocity = new UnityEngine.Vector3(KNOCK_BACK_HORIZONTAL_FORCE * AttackerCurrentVisual, rb2d.linearVelocity.y * KNOCK_BACK_VERTICAL_FORCE);
+        rb2d.linearVelocity = new UnityEngine.Vector3(KNOCK_BACK_HORIZONTAL_FORCE * AttackerCurrentVisual, KNOCK_BACK_VERTICAL_FORCE);
     }
     // ========================================================
 

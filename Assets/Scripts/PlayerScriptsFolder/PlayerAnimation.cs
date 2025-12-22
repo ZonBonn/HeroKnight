@@ -127,7 +127,7 @@ public class PlayerAnimation : MonoBehaviour
         }
         else if(sprites == BlockHitSprites)
         {
-            timerChangeIdxBodyFrames = 0.2f;
+            timerChangeIdxBodyFrames = 0.05f;
         }
         else if(sprites == RollSprites)
         {
@@ -192,6 +192,10 @@ public class PlayerAnimation : MonoBehaviour
         else if(state == State.Hit)
         {
             ChangeAnimation(HurtSprites, false);
+        }
+        else if(state == State.BlockHit)
+        {
+            ChangeAnimation(BlockHitSprites, false);
         }
     }
     

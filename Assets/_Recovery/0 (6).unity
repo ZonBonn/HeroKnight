@@ -1865,7 +1865,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealthStaminaHandler
   playerHealthBar: {fileID: 489245039}
   playerStaminaBar: {fileID: 517907651}
-  playerMovement: {fileID: 0}
 --- !u!114 &319703040
 MonoBehaviour:
   m_ObjectHideFlags: 0

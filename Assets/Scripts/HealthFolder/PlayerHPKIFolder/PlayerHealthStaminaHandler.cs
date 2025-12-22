@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class PlayerHealthStaminaHandler : MonoBehaviour // class này quản lý HP và KI của nhân vật (cầu nối để khởi tạo hai class không thừa kế monobehaviour)
 {
@@ -7,6 +8,10 @@ public class PlayerHealthStaminaHandler : MonoBehaviour // class này quản lý
 
     public PlayerHealthBar playerHealthBar;
     public PlayerStaminaBar playerStaminaBar;
+
+    public PlayerMovement playerMovement;
+
+    public Action OnBlockIdleIsHited;
 
     private void Awake()
     {
@@ -19,9 +24,23 @@ public class PlayerHealthStaminaHandler : MonoBehaviour // class này quản lý
         playerStaminaBar.SetUp(playerStaminaSystem);
     }
 
+    private void Start()
+    {
+        playerMovement = gameObject.GetComponent<PlayerMovement>();
+    }
+
     public void DamageHealth(float damageAmount)
     {
-        playerHealthSystem.Damage(damageAmount);
+        
+
+        if(playerMovement.GetPlayerState() == State.BlockIdle) // đỡ được thì sao ?
+        {
+            OnBlockIdleIsHited?.Invoke();
+        }
+        else
+        {
+            playerHealthSystem.Damage(damageAmount);
+        }
     }
 
     public void HealHealth(float healAmount)

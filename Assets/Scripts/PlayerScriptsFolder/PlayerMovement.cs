@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask platFormLayerMask;
     [SerializeField] private LayerMask wallLayerMask;
     private State playerState;
+    private State lastCheckedPlayerState;
     private PlayerAnimation playerAnimation;
     private SpriteRenderer spriteRenderer;
 
@@ -49,6 +50,9 @@ public class PlayerMovement : MonoBehaviour
     private PlayerHealthStaminaHandler playerHealthStaminaHandler;
     private PlayerHealthSystem playerHealthSystem;
 
+    private float KNOCK_BACK_HORIZONTAL_FORCE = 5f;
+    private const float KNOCK_BACK_VERTICAL_FORCE = 5f;
+
 
     private void Awake()
     {
@@ -72,8 +76,11 @@ public class PlayerMovement : MonoBehaviour
         playerAnimation.OnChangeLastFrames += OnEndOfRunSprites;
         playerAnimation.OnChangeEachFrames += HandlerAttackFrames;
         playerAnimation.OnChangeLastFrames += OnEndOfHurtSprites;
+        playerAnimation.OnChangeLastFrames += OnEndOfBlockHitedFrame;
         //health stamina trigger
         playerHealthSystem.OnTriggerPlayerHealthChange += TriggerHurtPlayerWhenHealthChange;
+        // block idle trigger
+        playerHealthStaminaHandler.OnBlockIdleIsHited += TriggerWhenBlockIdleHited;
 
         
     }
@@ -496,12 +503,29 @@ public class PlayerMovement : MonoBehaviour
                 break;
 
             case State.BlockHit:
-
+                float knockBackSpeedDropMultiplier = 0.3f;// đây là 1 trong 2 cách chuyển từ state BlockHit -> state khác: chờ tới khi tốc độ KNOCK_BACK_HORIZONTAL_FORCE về với tốc độ knockBackSpeedMinimum
+                KNOCK_BACK_HORIZONTAL_FORCE = KNOCK_BACK_HORIZONTAL_FORCE - (knockBackSpeedDropMultiplier * Time.deltaTime);
+                float knockBackSpeedMinimum = 5f; 
+                if(KNOCK_BACK_HORIZONTAL_FORCE <= knockBackSpeedMinimum)
+                {
+                    // chuyển về tốc độ di chuyển bình thường chứ không phải là chuyển state ? chuyển state
+                    CanTransformIdle();
+                    CanTransformBlockIdle();
+                    CanTransformJump();
+                    CanTransformRoll();
+                    CanTransformRun();
+                }
                 break;
         }
 
         moveDir = new Vector2(moveX, moveY).normalized;
+
         // UnityEngine.Debug.Log(playerState);
+        // if(lastCheckedPlayerState != playerState)
+        // {
+        //     UnityEngine.Debug.Log(playerState);
+        //     lastCheckedPlayerState = playerState;
+        // }
 
         // ANIMATIONS HANDLER:
         playerAnimation.AnimationHandler(playerState); // cho nó tự chuyển animation theo state, hợp lý đấy đỡ phải gọi gây rối
@@ -549,6 +573,10 @@ public class PlayerMovement : MonoBehaviour
         else if(playerState == State.Hit)
         {
             rb2D.linearVelocity = new Vector2(0, 0);
+        }
+        else if(playerState == State.BlockHit)
+        {
+            rb2D.linearVelocity = new Vector2(KNOCK_BACK_HORIZONTAL_FORCE * (currentPlayerVisualDirection * -1), KNOCK_BACK_VERTICAL_FORCE);
         }
     }
 
@@ -622,6 +650,12 @@ public class PlayerMovement : MonoBehaviour
                 rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x, rb2D.linearVelocity.y);
             }
         }
+    }
+
+    public void KnockBackPhysicsHandler()
+    {
+        
+        rb2D.linearVelocity = new Vector2(KNOCK_BACK_HORIZONTAL_FORCE * (currentPlayerVisualDirection * -1f), KNOCK_BACK_VERTICAL_FORCE);
     }
 // ===============================================================
 
@@ -864,10 +898,22 @@ public class PlayerMovement : MonoBehaviour
             CanTransformBlockIdle();
         }
     }
+
+    private void OnEndOfBlockHitedFrame(Sprite[] currentSprite)
+    {
+        if(currentSprite == playerAnimation.BlockHitSprites)
+        {
+            CanTransformIdle();
+            CanTransformBlockIdle();
+            CanTransformJump();
+            CanTransformRoll();
+            CanTransformRun();
+        }
+    }
 // ===============================================================
 
 
-// ================== HEALTH AND STAMINA TRIGGER HANDLERS FUNCTION ====================
+// ================== HEALTH AND STAMINA AND BLOCK IDLE TRIGGER HANDLERS FUNCTION ====================
     private void TriggerHurtPlayerWhenHealthChange()
     {
         // if(playerHealthSystem.GetCurrentHealth() <= 0)
@@ -878,7 +924,13 @@ public class PlayerMovement : MonoBehaviour
         {
             return;
         }
-        playerState = State.Hit;
+        playerState = State.Hit; // đây là cách thay đổi playerState từ ngoài mà vẫn đảm bảo encapsulation =:D
+    }
+
+    private void TriggerWhenBlockIdleHited()
+    {
+        KNOCK_BACK_HORIZONTAL_FORCE = 7f;
+        playerState = State.BlockHit;
     }
 // ====================================================================================
 
