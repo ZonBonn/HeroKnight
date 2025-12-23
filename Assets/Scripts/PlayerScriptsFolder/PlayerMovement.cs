@@ -52,6 +52,9 @@ public class PlayerMovement : MonoBehaviour
 
     private float KNOCK_BACK_HORIZONTAL_FORCE = 5f;
     private const float KNOCK_BACK_VERTICAL_FORCE = 5f;
+    
+    private bool IsOnGroundedVarFixedUpdate;
+    private bool IsTouchedWallVarFixedUpdate;
 
 
     private void Awake()
@@ -94,6 +97,8 @@ public class PlayerMovement : MonoBehaviour
         IsOnGroundedVar = IsGrounded();
         IsTouchedWallVar = IsTouchedWall();
         IsEnoughManaForNormalAttackVar = playerAttack.CanEnoughManaForNormalAttack();
+
+        // UnityEngine.Debug.Log("IsGrounded:" + IsOnGroundedVar);
         
         
         // INPUTS HANDLER:
@@ -135,7 +140,7 @@ public class PlayerMovement : MonoBehaviour
                     playerState = State.Roll;
                     break;
                 }
-                if (Input.GetMouseButton(1))
+                if (Input.GetMouseButton(1) && IsOnGroundedVar == true)
                 {
                     playerState = State.BlockIdle;
                     break;
@@ -199,7 +204,7 @@ public class PlayerMovement : MonoBehaviour
                     playerState = State.Roll;
                     break;
                 }
-                if (Input.GetMouseButton(1))
+                if (Input.GetMouseButton(1) && IsOnGroundedVar == true)
                 {
                     playerState = State.BlockIdle;
                     break;
@@ -510,7 +515,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     // chuyển về tốc độ di chuyển bình thường chứ không phải là chuyển state ? chuyển state
                     CanTransformIdle();
-                    CanTransformBlockIdle();
+                    CanTransformBlockIdle(IsOnGroundedVar);
                     CanTransformJump();
                     CanTransformRoll();
                     CanTransformRun();
@@ -521,11 +526,11 @@ public class PlayerMovement : MonoBehaviour
         moveDir = new Vector2(moveX, moveY).normalized;
 
         // UnityEngine.Debug.Log(playerState);
-        // if(lastCheckedPlayerState != playerState)
-        // {
-        //     UnityEngine.Debug.Log(playerState);
-        //     lastCheckedPlayerState = playerState;
-        // }
+        if(lastCheckedPlayerState != playerState)
+        {
+            UnityEngine.Debug.Log(playerState);
+            lastCheckedPlayerState = playerState;
+        }
 
         // ANIMATIONS HANDLER:
         playerAnimation.AnimationHandler(playerState); // cho nó tự chuyển animation theo state, hợp lý đấy đỡ phải gọi gây rối
@@ -538,6 +543,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if (playerState == State.Die)
             return;
+
+        IsOnGroundedVarFixedUpdate = IsGrounded();
+        IsTouchedWallVarFixedUpdate = IsTouchedWall();
+
         // PHYSICS HANDLER:
         if (playerState == State.Idle || playerState == State.Run || playerState == State.Jump || playerState == State.Fall) // Normal State == Idle, Run, Jump
         {
@@ -589,17 +598,18 @@ public class PlayerMovement : MonoBehaviour
     private void JumpPhysicsHandler()
     {
         // optimize
-        bool IsTouchedWallVar = IsTouchedWall();
+        // bool IsOnGroundedVar = IsGrounded();
+        // bool IsTouchedWallVar = IsTouchedWall();
+        
 
-        bool IsOnGroundedVar = IsGrounded();
-        if (isPressedSpace == true && (IsOnGroundedVar == true || IsTouchedWallVar == true || isJumpFromWall == true)) // nếu có thể nhảy: 2 mức nhảy, nhảy khi ở tường sẽ cao hơn ở đất
+        if (isPressedSpace == true && (IsOnGroundedVarFixedUpdate == true || IsTouchedWallVarFixedUpdate == true || isJumpFromWall == true)) // nếu có thể nhảy: 2 mức nhảy, nhảy khi ở tường sẽ cao hơn ở đất
         {
-            if (IsOnGroundedVar == true)
+            if (IsOnGroundedVarFixedUpdate == true)
             {
                 rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x, JUMP_FORCE); // khi nhảy vẫn giữ lại vận tốc rb2D.linearVelocity.x trước đó => không bị kẹt cứng một chỗ
                 isPressedSpace = false;
             }
-            else // == else if(IsTouchedWallVar == true)
+            else // == else if(IsTouchedWallVarFixedUpdate == true)
             {
                 // UnityEngine.Debug.Log("Nhảy ra từ tường");
                 float JUMP_FORCE_ON_WALL = JUMP_FORCE + 4;
@@ -613,14 +623,14 @@ public class PlayerMovement : MonoBehaviour
     private void SomeControllOnAir()
     {
         // optimize
-        bool IsOnGroundedVar = IsGrounded();
+        // bool IsOnGroundedVar = IsGrounded();
 
         float maxSpeedOnAir = 6f;
         float midAirControlSpeed = 10f;
         
         if (moveDir.x != 0) // di chuyển
         {
-            if (IsOnGroundedVar == true) // dưới đất
+            if (IsOnGroundedVarFixedUpdate == true) // dưới đất
             {
                 rb2D.linearVelocity = new Vector2(moveDir.x * MOVE_SPEED, rb2D.linearVelocity.y);
             }
@@ -641,7 +651,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else // đứng yên
         {
-            if (IsOnGroundedVar == true) // dưới đất
+            if (IsOnGroundedVarFixedUpdate == true) // dưới đất
             {
                 rb2D.linearVelocity = new Vector2(moveDir.x * MOVE_SPEED, rb2D.linearVelocity.y);
             }
@@ -664,7 +674,7 @@ public class PlayerMovement : MonoBehaviour
     private void OnEndOfAttackSprites(Sprite[] currentSprite) // được chạy khi cuối cùng của frame của attack
     {
         // optimize
-        bool IsOnGroundedVar = IsGrounded();
+        // bool IsOnGroundedVar = IsGrounded();
         bool IsEnoughManaForNormalAttackVar = playerAttack.CanEnoughManaForNormalAttack();
         
         // set state
@@ -895,16 +905,16 @@ public class PlayerMovement : MonoBehaviour
             CanTransformRun();
             CanTransformJump();
             CanTransformRoll();
-            CanTransformBlockIdle();
+            CanTransformBlockIdle(IsOnGroundedVar);
         }
     }
 
     private void OnEndOfBlockHitedFrame(Sprite[] currentSprite)
     {
-        if(currentSprite == playerAnimation.BlockHitSprites)
+        if(currentSprite == playerAnimation.BlockHitSprites)// đây là 1 trong 2 cách chuyển từ state BlockHit -> state khác: chờ tới cuối frame thì mới đổi
         {
             CanTransformIdle();
-            CanTransformBlockIdle();
+            CanTransformBlockIdle(IsOnGroundedVar);
             CanTransformJump();
             CanTransformRoll();
             CanTransformRun();
@@ -1008,7 +1018,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool CanTransformJump()
     {
-        if (Input.GetKey(KeyCode.Space) && IsGrounded() == true)
+        if (Input.GetKey(KeyCode.Space) && IsOnGroundedVar == true)
         {
             isPressedSpace = true;
             return true;
@@ -1027,9 +1037,9 @@ public class PlayerMovement : MonoBehaviour
         return false;
     }
 
-    private bool CanTransformBlockIdle()
+    private bool CanTransformBlockIdle(bool IsGrounded)
     {
-        if (Input.GetMouseButton(1))
+        if (Input.GetMouseButton(1) && IsGrounded == true)
         {
             playerState = State.BlockIdle;
             return true;

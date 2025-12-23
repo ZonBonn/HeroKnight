@@ -115,7 +115,7 @@ public class PlayerAnimation : MonoBehaviour
         }
         else if(sprites == HurtSprites)
         {
-            timerChangeIdxBodyFrames = 0.2f;
+            timerChangeIdxBodyFrames = 0.1f;
         }
         else if(sprites == DeathSprites)
         {
