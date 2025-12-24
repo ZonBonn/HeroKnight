@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-public enum EnemyState {Idle, ReadyToCombat, Run, Attack, Jump, Hurt, Death, Fly}
+public enum EnemyState {Idle, ReadyToCombat, Run, Attack, Jump, Hurt, Death, Fly, Recovery}
 public class EnemyAnimation : MonoBehaviour
 { 
     public Sprite[] IdleSprites;
@@ -109,6 +109,10 @@ public class EnemyAnimation : MonoBehaviour
         {
             timerChangeIdxBodyFrames = 0.2f;
         }
+        else if(sprites == RecoverSprites)
+        {
+            timerChangeIdxBodyFrames = 0.2f;
+        }
     }
 
     public void AnimationHandler(EnemyState state)
@@ -140,6 +144,10 @@ public class EnemyAnimation : MonoBehaviour
         else if (state == EnemyState.Hurt)
         {
             ChangeAnimation(HurtSprites, false);
+        }
+        else if (state == EnemyState.Recovery)
+        {
+            ChangeAnimation(RecoverSprites, false);
         }
     }
     

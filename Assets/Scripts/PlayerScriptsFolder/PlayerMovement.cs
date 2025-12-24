@@ -97,15 +97,12 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
     
-            
-
         // optimize
         IsOnGroundedVar = IsGrounded();
         IsTouchedWallVar = IsTouchedWall();
         IsEnoughManaForNormalAttackVar = playerAttack.CanEnoughManaForNormalAttack();
 
-        // UnityEngine.Debug.Log("IsGrounded:" + IsOnGroundedVar);
-        
+        // UnityEngine.Debug.Log("IsGrounded:" + IsOnGroundedVar); 
         
         // INPUTS HANDLER:
         float moveX = 0f;
@@ -489,7 +486,7 @@ public class PlayerMovement : MonoBehaviour
                 break;
 
             case State.Die:
-
+                
                 break;
 
             case State.Hit:
@@ -532,11 +529,11 @@ public class PlayerMovement : MonoBehaviour
         moveDir = new Vector2(moveX, moveY).normalized;
 
         // UnityEngine.Debug.Log(playerState);
-        if(lastCheckedPlayerState != playerState)
-        {
-            UnityEngine.Debug.Log(playerState);
-            lastCheckedPlayerState = playerState;
-        }
+        // if(lastCheckedPlayerState != playerState)
+        // {
+        //     UnityEngine.Debug.Log(playerState);
+        //     lastCheckedPlayerState = playerState;
+        // }
 
         // ANIMATIONS HANDLER:
         playerAnimation.AnimationHandler(playerState); // cho nó tự chuyển animation theo state, hợp lý đấy đỡ phải gọi gây rối
@@ -548,7 +545,10 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         if (playerState == State.Die)
+        {
+            rb2D.linearVelocity = new Vector2(0, 0);
             return;
+        }
 
         IsOnGroundedVarFixedUpdate = IsGrounded();
         IsTouchedWallVarFixedUpdate = IsTouchedWall();
@@ -592,6 +592,10 @@ public class PlayerMovement : MonoBehaviour
         else if(playerState == State.BlockHit)
         {
             rb2D.linearVelocity = new Vector2(KNOCK_BACK_HORIZONTAL_FORCE * (currentPlayerVisualDirection * -1), KNOCK_BACK_VERTICAL_FORCE);
+        }
+        else if(playerState == State.Die)
+        {
+            
         }
     }
 
@@ -992,8 +996,8 @@ public class PlayerMovement : MonoBehaviour
         Vector2 origin = capsuleCollider2D.bounds.center;
         bool leftHit = Physics2D.Raycast(origin, Vector2.left, rayLength, wallLayerMask);
         bool rightHit = Physics2D.Raycast(origin, Vector2.right, rayLength, wallLayerMask);
-        UnityEngine.Debug.DrawRay(origin, Vector2.left * rayLength, Color.red);
-        UnityEngine.Debug.DrawRay(origin, Vector2.right * rayLength, Color.red);
+        // UnityEngine.Debug.DrawRay(origin, Vector2.left * rayLength, Color.red);
+        // UnityEngine.Debug.DrawRay(origin, Vector2.right * rayLength, Color.red);
 
         if (leftHit == true && rightHit == false)
         {

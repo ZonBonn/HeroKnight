@@ -3,7 +3,7 @@ using System;
 
 public class EnemyAI : MonoBehaviour
 {
-    public enum EnemyStateAction { Patrol, Chase, Attack, ReadyToAttack, Idle, Die, Jump, Hurt };
+    public enum EnemyStateAction { Patrol, Chase, Attack, ReadyToAttack, Idle, Die, Jump, Hurt, Recovery };
     public EnemyStateAction currentEnemyStateAction;
     private EnemyStateAction lastCheckedCurrentEnemyStateAction;
     private EnemyPathFindingMovement enemyPathFindingMovement = null;
@@ -38,6 +38,8 @@ public class EnemyAI : MonoBehaviour
     private bool isJumping;
     private bool isDied = false;
 
+    public PlayerMovement playerMovement;
+
     
     private void Awake()
     {
@@ -61,6 +63,7 @@ public class EnemyAI : MonoBehaviour
         enemyAnimation.OnTriggerEachFrames += TriggerCreateAttackPoint;
         enemyAnimation.OnTriggerLastFrames += TriggerEnemyLastHurtFrameHandler;
         enemyAnimation.OnTriggerLastFrames += TriggerEnemyLastDieFrameHandler;
+        enemyAnimation.OnTriggerLastFrames += TriggerEnemyLastRecoveryFrame;
 
         enemyHealthSystem.OnTriggerHealthBarChange += TriggerHurtWhenHealthChange;
         enemyHealthSystem.OnTriggerHealthBarAsZero += TriggerDieWhenHealthAsZero;
@@ -73,6 +76,17 @@ public class EnemyAI : MonoBehaviour
         if(isDied == true)
         {
             // recovery enemy in here ????
+#if UNITY_EDITOR
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                enemyHealthHandler.Heal(100);
+                //  enemyPathFindingMovement.StopMovingPhysicalHandler();
+                currentEnemyStateAction = EnemyStateAction.Recovery;
+                gameObject.layer = LayerMask.NameToLayer("Enemy");
+                enemyHealthBar.gameObject.SetActive(true);
+                isDied = false;
+            }
+            #endif
             return;
         }
         
@@ -116,13 +130,17 @@ public class EnemyAI : MonoBehaviour
                 enemyAnimation.AnimationHandler(EnemyState.Death);
                 DeathActionHandler();
                 break;
+            case EnemyStateAction.Recovery:
+                enemyAnimation.AnimationHandler(EnemyState.Recovery);
+                RecoveryActionHandler();
+                break;
         }
 
         // enemyAnimation.AnimationHandler(currentEnemyStateAction); // dòng này có cũng được không có cũng được vì case nào sẽ chạy animation đó rồi mà
 
         if (lastCheckedCurrentEnemyStateAction != currentEnemyStateAction)
         {
-            // Debug.Log(currentEnemyStateAction);
+            Debug.Log(currentEnemyStateAction);
             lastCheckedCurrentEnemyStateAction = currentEnemyStateAction;
         }
     }
@@ -275,6 +293,12 @@ public class EnemyAI : MonoBehaviour
             currentEnemyStateAction = EnemyStateAction.Chase;
             return;
         }
+        if(playerMovement.GetPlayerState() == State.Die) // --> error in here  <--
+        {
+            currentEnemyStateAction = EnemyStateAction.Patrol;
+            return;
+        }
+        // Debug.Log("rơi vào nhánh này khi không rơi vào bất kì nhánh nào của RTA");
     }
 
     private void JumpActionHandler()
@@ -316,6 +340,11 @@ public class EnemyAI : MonoBehaviour
     {
         // do nothing or do not change the state during Dying
     }        
+    
+    private void RecoveryActionHandler()
+    {
+        // do nothing or do not change the state during Recovering
+    }
     // =============================================================
 
 
@@ -374,6 +403,14 @@ public class EnemyAI : MonoBehaviour
         if(sprites == enemyAnimation.DeathSprites)
         {
             isDied = true;
+        }
+    }
+    
+    private void TriggerEnemyLastRecoveryFrame(Sprite[] sprites)
+    {
+        if(sprites == enemyAnimation.RecoverSprites)
+        {
+            currentEnemyStateAction = EnemyStateAction.Idle;
         }
     }
     // ===========================================================
@@ -502,7 +539,7 @@ public class EnemyAI : MonoBehaviour
     
     private void ReadyToAttackImmediately()
     {
-        if(Vector3.Distance(gameObject.transform.position, Player.Instance.GetPlayerPosition()) <= 1.5f)
+        if(Vector3.Distance(gameObject.transform.position, Player.Instance.GetPlayerPosition()) <= 1.5f && playerMovement.GetPlayerState() != State.Die)
         {
             if(currentEnemyStateAction == EnemyStateAction.Patrol)
             {

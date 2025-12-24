@@ -1531,6 +1531,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 880379943}
     - target: {fileID: 7703920037629606784, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
+      propertyPath: playerMovement
+      value: 
+      objectReference: {fileID: 319703034}
+    - target: {fileID: 7703920037629606784, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
       propertyPath: chaseRightPoint
       value: 
       objectReference: {fileID: 1114488981}
@@ -5679,6 +5683,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 142601857}
     - target: {fileID: 7703920037629606784, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
+      propertyPath: playerMovement
+      value: 
+      objectReference: {fileID: 319703034}
+    - target: {fileID: 7703920037629606784, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
       propertyPath: chaseRightPoint
       value: 
       objectReference: {fileID: 42839532}
@@ -6250,6 +6258,10 @@ PrefabInstance:
       propertyPath: chaseLeftPoint
       value: 
       objectReference: {fileID: 1016324238}
+    - target: {fileID: 7703920037629606784, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
+      propertyPath: playerMovement
+      value: 
+      objectReference: {fileID: 319703034}
     - target: {fileID: 7703920037629606784, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
       propertyPath: chaseRightPoint
       value: 
@@ -7085,6 +7097,10 @@ PrefabInstance:
       propertyPath: chaseLeftPoint
       value: 
       objectReference: {fileID: 639853799}
+    - target: {fileID: 7703920037629606784, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
+      propertyPath: playerMovement
+      value: 
+      objectReference: {fileID: 319703034}
     - target: {fileID: 7703920037629606784, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
       propertyPath: chaseRightPoint
       value: 
@@ -19339,6 +19355,10 @@ PrefabInstance:
       propertyPath: chaseLeftPoint
       value: 
       objectReference: {fileID: 718486695}
+    - target: {fileID: 7703920037629606784, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
+      propertyPath: playerMovement
+      value: 
+      objectReference: {fileID: 319703034}
     - target: {fileID: 7703920037629606784, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
       propertyPath: chaseRightPoint
       value: 

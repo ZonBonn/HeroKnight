@@ -157,38 +157,36 @@ public class EnemyPathFindingMovement : MonoBehaviour
 
     public void MoveTo(UnityEngine.Vector3 targetPosition)
     {
-        setTargetPosition(targetPosition, out List<PathNode_S> pathOnNode);
+        setTargetPosition(targetPosition);
     }
 
-    public void setTargetPosition(UnityEngine.Vector3 targetPosition, out List<PathNode_S> pathOnNode)
+    public void setTargetPosition(UnityEngine.Vector3 targetPosition)
     {
         currentIdxPath = 0;
         UnityEngine.Vector3 enemyPosition = getObjectPosition();
         if (enemy.monsterType == MonsterType.Ground)
         {
-            if (playerMovement.GetPlayerState() != State.Die)
-            {
-                PathOnVector = PathFinding.Instance.PathOnVector(enemyPosition, targetPosition, out List<PathNode_S> PathOnNode, enemy.monsterType);
-                pathOnNode = PathOnNode;
-            }
-            else
-            {
-                PathOnVector = PathFinding.Instance.PathOnVector(enemyPosition, randomPosition(enemyPosition), out List<PathNode_S> PathOnNode, enemy.monsterType);
-                pathOnNode = PathOnNode;
-            }         
+            // if (playerMovement.GetPlayerState() != State.Die)
+            // {
+            //     PathOnVector = PathFinding.Instance.PathOnVector(enemyPosition, targetPosition, out List<PathNode_S> PathOnNode, enemy.monsterType);
+            // }
+            // else
+            // {
+            //     PathOnVector = PathFinding.Instance.PathOnVector(enemyPosition, randomPosition(enemyPosition), out List<PathNode_S> PathOnNode, enemy.monsterType);
+            // }      
+            PathOnVector = PathFinding.Instance.PathOnVector(enemyPosition, targetPosition, out List<PathNode_S> PathOnNode, enemy.monsterType);   
         }
         else // sky monster
         {
-            if (playerMovement.GetPlayerState() != State.Die)
-            {
-                PathOnVector = PathFinding.Instance.PathOnVector(enemyPosition, surroundingPlayerPos(enemyPosition), out List<PathNode_S> PathOnNode, enemy.monsterType);
-                pathOnNode = PathOnNode;
-            }
-            else
-            {
-                PathOnVector = PathFinding.Instance.PathOnVector(enemyPosition, randomPosition(enemyPosition), out List<PathNode_S> PathOnNode, enemy.monsterType);
-                pathOnNode = PathOnNode;
-            }
+            // if (playerMovement.GetPlayerState() != State.Die)
+            // {
+            //     PathOnVector = PathFinding.Instance.PathOnVector(enemyPosition, surroundingPlayerPos(enemyPosition), out List<PathNode_S> PathOnNode, enemy.monsterType);
+            // }
+            // else
+            // {
+            //     PathOnVector = PathFinding.Instance.PathOnVector(enemyPosition, randomPosition(enemyPosition), out List<PathNode_S> PathOnNode, enemy.monsterType);
+            // }
+            PathOnVector = PathFinding.Instance.PathOnVector(enemyPosition, surroundingPlayerPos(enemyPosition), out List<PathNode_S> PathOnNode, enemy.monsterType);
         }
 
         if (PathOnVector != null && PathOnVector.Count > 1) // PathOnVector.Count == 1 tức là start = target -> không cần xóa
@@ -231,7 +229,7 @@ public class EnemyPathFindingMovement : MonoBehaviour
         UnityEngine.Vector3 StartPoint =  dir + (currentVisualDir == -1 ? UnityEngine.Vector3.left : UnityEngine.Vector3.right) * 0.1f;
         RaycastHit2D rayCastHit2D = Physics2D.Raycast(StartPoint, UnityEngine.Vector2.down, 1.2f, platFormLayerMask);
 
-        Debug.DrawRay(StartPoint, UnityEngine.Vector2.down * 1.2f, Color.pink);
+        // Debug.DrawRay(StartPoint, UnityEngine.Vector2.down * 1.2f, Color.pink);
         float realDistance = rayCastHit2D.distance;
         
         if (rayCastHit2D.collider != null) // nếu có va chạm với collider -> platFormLayerMask -> không có hố -> false
@@ -254,7 +252,7 @@ public class EnemyPathFindingMovement : MonoBehaviour
         float RayLenght = (capsuleCollider2D.size.x * .5f) + 0.5f;
 
         RaycastHit2D rayCastHit2D = Physics2D.Raycast(origin, dir, RayLenght, wallLayerMask);
-        Debug.DrawRay(origin, dir * RayLenght, Color.blueViolet);
+        // Debug.DrawRay(origin, dir * RayLenght, Color.blueViolet);
         if(rayCastHit2D.collider != null) // có va chạm với wallLayerMask -> có tường -> true
         {
             return true; // lẽ ra chỗ này return true nhưng mà có vẻ cơ chế nhảy không cần thiết lắm
