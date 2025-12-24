@@ -70,7 +70,12 @@ public class EnemyAI : MonoBehaviour
 
     private void Update()
     {
-        if(isDied == true) return;
+        if(isDied == true)
+        {
+            // recovery enemy in here ????
+            return;
+        }
+        
 
         IsPlayerAround = IsSearchedPlayerAround();
         PlayerPosition = Player.Instance.GetPlayerPosition();

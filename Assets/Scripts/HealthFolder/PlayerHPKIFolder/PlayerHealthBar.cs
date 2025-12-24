@@ -21,7 +21,7 @@ public class PlayerHealthBar : MonoBehaviour // class này nhiệm vụ hiển t
         playerHealthSystem.OnTriggerPlayerHealthChange += TriggerPlayerHealthBarChange;
     }
 
-    private void TriggerPlayerHealthBarChange()
+    private void TriggerPlayerHealthBarChange(float currentHealth)
     {
         healthImage.fillAmount = playerHealthSystem.GetHealthNormalized();
     }

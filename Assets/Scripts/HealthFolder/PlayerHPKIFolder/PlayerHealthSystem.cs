@@ -5,7 +5,7 @@ public class PlayerHealthSystem // class này lưu giữ HP thật
     private float currentHealth;
     private float maxHealth;
 
-    public Action OnTriggerPlayerHealthChange;
+    public Action<float> OnTriggerPlayerHealthChange;
     public Action OnTriggerPlayerHealthAsZero;
 
     public PlayerHealthSystem(float maxHealth)
@@ -24,7 +24,7 @@ public class PlayerHealthSystem // class này lưu giữ HP thật
             OnTriggerPlayerHealthAsZero?.Invoke();
         }
 
-        OnTriggerPlayerHealthChange?.Invoke();
+        OnTriggerPlayerHealthChange?.Invoke(currentHealth);
     }
 
     public void Heal(float healAmount)
@@ -35,7 +35,7 @@ public class PlayerHealthSystem // class này lưu giữ HP thật
             currentHealth = maxHealth;
         }
 
-        OnTriggerPlayerHealthChange?.Invoke();
+        OnTriggerPlayerHealthChange?.Invoke(currentHealth);
     }
 
     public float GetHealthNormalized()

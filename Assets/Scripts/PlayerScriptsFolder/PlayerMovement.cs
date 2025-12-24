@@ -82,6 +82,7 @@ public class PlayerMovement : MonoBehaviour
         playerAnimation.OnChangeLastFrames += OnEndOfBlockHitedFrame;
         //health stamina trigger
         playerHealthSystem.OnTriggerPlayerHealthChange += TriggerHurtPlayerWhenHealthChange;
+        playerHealthSystem.OnTriggerPlayerHealthChange += TriggerDieWhenPlayerHealthAsZero;
         // block idle trigger
         playerHealthStaminaHandler.OnBlockIdleIsHited += TriggerWhenBlockIdleHited;
 
@@ -91,7 +92,12 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         if (playerState == State.Die)
+        {
+            // recovery player in here ????
             return;
+        }
+    
+            
 
         // optimize
         IsOnGroundedVar = IsGrounded();
@@ -924,13 +930,13 @@ public class PlayerMovement : MonoBehaviour
 
 
 // ================== HEALTH AND STAMINA AND BLOCK IDLE TRIGGER HANDLERS FUNCTION ====================
-    private void TriggerHurtPlayerWhenHealthChange()
+    private void TriggerHurtPlayerWhenHealthChange(float currentHealth)
     {
         // if(playerHealthSystem.GetCurrentHealth() <= 0)
         // {
         //     return;
         // }
-        if(playerState == State.Hit)
+        if(playerState == State.Hit && currentHealth > 0)
         {
             return;
         }
@@ -941,6 +947,21 @@ public class PlayerMovement : MonoBehaviour
     {
         KNOCK_BACK_HORIZONTAL_FORCE = 7f;
         playerState = State.BlockHit;
+    }
+
+    private void TriggerDieWhenPlayerHealthAsZero(float currentHealth)
+    {
+        if(playerState == State.Die)
+        {
+            return;
+        }
+        if(currentHealth <= 0)
+        {
+            playerState = State.Die;
+            gameObject.layer = LayerMask.NameToLayer("DeadPlayer");
+            playerAnimation.AnimationHandler(playerState);
+        }
+        
     }
 // ====================================================================================
 
