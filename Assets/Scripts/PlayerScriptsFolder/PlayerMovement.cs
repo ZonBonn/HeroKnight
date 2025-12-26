@@ -94,6 +94,7 @@ public class PlayerMovement : MonoBehaviour
         if (playerState == State.Die)
         {
             // recovery player in here ????
+            
             return;
         }
     
@@ -961,9 +962,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if(currentHealth <= 0)
         {
-            playerState = State.Die;
-            gameObject.layer = LayerMask.NameToLayer("DeadPlayer");
-            playerAnimation.AnimationHandler(playerState);
+            CustomizePlayerDeathSetting();
         }
         
     }
@@ -1114,6 +1113,18 @@ public class PlayerMovement : MonoBehaviour
     public int GetPlayerVisualDirection()
     {
         return currentPlayerVisualDirection;
+    }
+
+    public void SetPlayerState(State playerState) // hàm này chỉ dùng cho class PlayerSupportTestTool chứ không được xử dụng cho bất kỳ class nào khác
+    {
+        this.playerState = playerState;
+    }
+
+    private void CustomizePlayerDeathSetting()
+    {
+        playerState = State.Die;
+        gameObject.layer = LayerMask.NameToLayer("DeadPlayer");
+        playerAnimation.AnimationHandler(playerState);
     }
 // ===============================================================
 

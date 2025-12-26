@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     private PlayerMovement playerMovement;
 
 
+
     private void Awake()
     {
         Instance = this;
@@ -25,17 +26,7 @@ public class Player : MonoBehaviour
     // TEST FUNCTION
     private void Update()
     {
-#if UNITY_EDITOR
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            playerHealthStaminaHandler.HealHealth(100);
-        }
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            playerHealthStaminaHandler.DamageHealth(100);
-        }
 
-        #endif
     }
 
     public Vector3 GetPlayerPosition()

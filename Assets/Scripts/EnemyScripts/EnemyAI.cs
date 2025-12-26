@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Security.Cryptography;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -76,17 +77,7 @@ public class EnemyAI : MonoBehaviour
         if(isDied == true)
         {
             // recovery enemy in here ????
-#if UNITY_EDITOR
-            if (Input.GetKeyDown(KeyCode.L))
-            {
-                enemyHealthHandler.Heal(100);
-                //  enemyPathFindingMovement.StopMovingPhysicalHandler();
-                currentEnemyStateAction = EnemyStateAction.Recovery;
-                gameObject.layer = LayerMask.NameToLayer("Enemy");
-                enemyHealthBar.gameObject.SetActive(true);
-                isDied = false;
-            }
-            #endif
+
             return;
         }
         
@@ -188,7 +179,7 @@ public class EnemyAI : MonoBehaviour
             return;
         }
         
-        if (enemyPathFindingMovement.IsHole() || Input.GetKeyDown(KeyCode.L) || enemyPathFindingMovement.IfCanJumpOverTheInFrontWall())
+        if (enemyPathFindingMovement.IsHole() || /*Input.GetKeyDown(KeyCode.L) ||*/ enemyPathFindingMovement.IfCanJumpOverTheInFrontWall())
         {
             currentToward = nullTransform;
             // Debug.Log("Is Hole:" + enemyPathFindingMovement.IsHole() + "  ;;;   IfCanJumpOverTheInFrontWall:" + enemyPathFindingMovement.IfCanJumpOverTheInFrontWall());
@@ -247,7 +238,7 @@ public class EnemyAI : MonoBehaviour
             currentEnemyStateAction = EnemyStateAction.Patrol;
             return;
         }
-        if (enemyPathFindingMovement.IsHole() || Input.GetKeyDown(KeyCode.L) || enemyPathFindingMovement.IfCanJumpOverTheInFrontWall())
+        if (enemyPathFindingMovement.IsHole() || /*Input.GetKeyDown(KeyCode.L) ||*/ enemyPathFindingMovement.IfCanJumpOverTheInFrontWall())
         {
             currentEnemyStateAction = EnemyStateAction.Jump;
             isJumping = true;
@@ -375,9 +366,10 @@ public class EnemyAI : MonoBehaviour
     
     private void TriggerEnemyLastHurtFrameHandler(Sprite[] sprites)
     {
-        bool IsPlayerAround = IsSearchedPlayerAround();
+        
         if(sprites == enemyAnimation.HurtSprites)
         {
+            bool IsPlayerAround = IsSearchedPlayerAround();
             if (DistanceEnemyToPlayer <= 1.5f && IsPlayerAround == true && m_RTCTimer <= 0)
             {
                 currentEnemyStateAction = EnemyStateAction.Attack;
@@ -549,6 +541,16 @@ public class EnemyAI : MonoBehaviour
             currentEnemyStateAction = EnemyStateAction.ReadyToAttack;
             return;
         }
+    }
+    
+    public void SetIsDied(bool isDied) // hàm này chỉ được tham chiếu bởi EnemySupportTestTool không được tham chiếu hàm này tới bất kì class nào khác
+    {
+        this.isDied = isDied;
+    }
+    
+    public bool GetIsDied()
+    {
+        return isDied;
     }
     // =============================================================
     
