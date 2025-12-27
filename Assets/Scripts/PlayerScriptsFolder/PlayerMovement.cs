@@ -56,6 +56,12 @@ public class PlayerMovement : MonoBehaviour
     private bool IsOnGroundedVarFixedUpdate;
     private bool IsTouchedWallVarFixedUpdate;
 
+    private const float ClampXLeft = -16.45f;
+    private const float ClampXRight = 60f;
+    private const float ClampYUp = 30f;
+    private const float ClamYDown = -6f;
+
+
 
     private void Awake()
     {
@@ -598,6 +604,7 @@ public class PlayerMovement : MonoBehaviour
         {
             
         }
+        LateFixedClampPosition();
     }
 
 // ====================== PHYSICAL HANDLERS FUNCTION ========================
@@ -1126,6 +1133,26 @@ public class PlayerMovement : MonoBehaviour
         gameObject.layer = LayerMask.NameToLayer("DeadPlayer");
         playerAnimation.AnimationHandler(playerState);
     }
+
+    private void LateFixedClampPosition() // giới hạn di chuyển người chơi trong map
+{
+    Vector2 pos = rb2D.position;
+    Vector2 velo = rb2D.linearVelocity;
+
+    if ((pos.x <= ClampXLeft && velo.x < 0) ||
+        (pos.x >= ClampXRight && velo.x > 0))
+    {
+        velo.x = 0;
+    }
+
+    if ((pos.y <= ClamYDown && velo.y < 0) ||
+        (pos.y >= ClampYUp && velo.y > 0))
+    {
+        velo.y = 0;
+    }
+
+    rb2D.linearVelocity = velo;
+}
 // ===============================================================
 
 }
