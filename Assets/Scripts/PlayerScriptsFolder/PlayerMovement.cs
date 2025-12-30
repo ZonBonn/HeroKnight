@@ -56,6 +56,7 @@ public class PlayerMovement : MonoBehaviour
     private bool IsOnGroundedVarFixedUpdate;
     private bool IsTouchedWallVarFixedUpdate;
 
+    // giới hạn tọa độ thế giới level 1
     private const float ClampXLeft = -16.45f;
     private const float ClampXRight = 60f;
     private const float ClampYUp = 30f;

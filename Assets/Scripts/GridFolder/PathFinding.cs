@@ -40,7 +40,7 @@ public class PathFinding
         }
     }
 
-    public List<Vector3> PathOnVector(Vector3 startWorldPosition, Vector3 endWorldPosition, out List<PathNode_S> PathOnNode, MonsterType monsterType) //hàm chuyển vị trí đường đi i,j -> đường đi theo world position
+    public List<Vector3> PathOnVector(Vector3 startWorldPosition, Vector3 endWorldPosition, out List<PathNode_S> PathOnNode/*, MonsterType monsterType*/) //hàm chuyển vị trí đường đi i,j -> đường đi theo world position
     {
         grid.worldPosToIJPos(startWorldPosition, out int startI, out int startJ);
         grid.worldPosToIJPos(endWorldPosition, out int endI, out int endJ);

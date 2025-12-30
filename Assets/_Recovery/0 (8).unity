@@ -1504,10 +1504,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2127240458153277581, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
-      propertyPath: playerHealthStaminaHandler
-      value: 
-      objectReference: {fileID: 319703039}
     - target: {fileID: 6844258306073565937, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
       propertyPath: gridMap
       value: 
@@ -5583,10 +5579,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2127240458153277581, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
-      propertyPath: playerHealthStaminaHandler
-      value: 
-      objectReference: {fileID: 319703039}
     - target: {fileID: 6844258306073565937, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
       propertyPath: gridMap
       value: 
@@ -6314,10 +6306,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2127240458153277581, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
-      propertyPath: playerHealthStaminaHandler
-      value: 
-      objectReference: {fileID: 319703039}
     - target: {fileID: 6844258306073565937, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
       propertyPath: gridMap
       value: 
@@ -7157,10 +7145,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2127240458153277581, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
-      propertyPath: playerHealthStaminaHandler
-      value: 
-      objectReference: {fileID: 319703039}
     - target: {fileID: 6844258306073565937, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
       propertyPath: gridMap
       value: 
@@ -19543,10 +19527,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2127240458153277581, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
-      propertyPath: playerHealthStaminaHandler
-      value: 
-      objectReference: {fileID: 319703039}
     - target: {fileID: 6844258306073565937, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
       propertyPath: gridMap
       value: 

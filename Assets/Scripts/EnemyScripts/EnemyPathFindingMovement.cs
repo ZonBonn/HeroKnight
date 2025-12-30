@@ -174,7 +174,7 @@ public class EnemyPathFindingMovement : MonoBehaviour
             // {
             //     PathOnVector = PathFinding.Instance.PathOnVector(enemyPosition, randomPosition(enemyPosition), out List<PathNode_S> PathOnNode, enemy.monsterType);
             // }      
-            PathOnVector = PathFinding.Instance.PathOnVector(enemyPosition, targetPosition, out List<PathNode_S> PathOnNode, enemy.monsterType);   
+            PathOnVector = PathFinding.Instance.PathOnVector(enemyPosition, targetPosition, out List<PathNode_S> PathOnNode/*, enemy.monsterType*/);   
         }
         else // sky monster
         {
@@ -186,7 +186,7 @@ public class EnemyPathFindingMovement : MonoBehaviour
             // {
             //     PathOnVector = PathFinding.Instance.PathOnVector(enemyPosition, randomPosition(enemyPosition), out List<PathNode_S> PathOnNode, enemy.monsterType);
             // }
-            PathOnVector = PathFinding.Instance.PathOnVector(enemyPosition, surroundingPlayerPos(enemyPosition), out List<PathNode_S> PathOnNode, enemy.monsterType);
+            PathOnVector = PathFinding.Instance.PathOnVector(enemyPosition, surroundingPlayerPos(enemyPosition), out List<PathNode_S> PathOnNode/*, enemy.monsterType*/);
         }
 
         if (PathOnVector != null && PathOnVector.Count > 1) // PathOnVector.Count == 1 tức là start = target -> không cần xóa

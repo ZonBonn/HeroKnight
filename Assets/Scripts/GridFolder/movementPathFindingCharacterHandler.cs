@@ -100,12 +100,12 @@ public class movementPathFindingCharacterHandler : MonoBehaviour
         {
             if (playerMovement.GetPlayerState() != State.Die)
             {
-                PathOnVector = PathFinding.Instance.PathOnVector(getObjectPosition(), targetPosition, out List<PathNode_S> PathOnNode, enemy.monsterType);
+                PathOnVector = PathFinding.Instance.PathOnVector(getObjectPosition(), targetPosition, out List<PathNode_S> PathOnNode/*, enemy.monsterType*/);
                 pathOnNode = PathOnNode;
             }
             else
             {
-                PathOnVector = PathFinding.Instance.PathOnVector(getObjectPosition(), randomPosition(getObjectPosition()), out List<PathNode_S> PathOnNode, enemy.monsterType);
+                PathOnVector = PathFinding.Instance.PathOnVector(getObjectPosition(), randomPosition(getObjectPosition()), out List<PathNode_S> PathOnNode/*, enemy.monsterType*/);
                 pathOnNode = PathOnNode;
             }         
         }
@@ -113,12 +113,12 @@ public class movementPathFindingCharacterHandler : MonoBehaviour
         {
             if (playerMovement.GetPlayerState() != State.Die)
             {
-                PathOnVector = PathFinding.Instance.PathOnVector(getObjectPosition(), surroundingPlayerPos(getObjectPosition()), out List<PathNode_S> PathOnNode, enemy.monsterType);
+                PathOnVector = PathFinding.Instance.PathOnVector(getObjectPosition(), surroundingPlayerPos(getObjectPosition()), out List<PathNode_S> PathOnNode/*, enemy.monsterType*/);
                 pathOnNode = PathOnNode;
             }
             else
             {
-                PathOnVector = PathFinding.Instance.PathOnVector(getObjectPosition(), randomPosition(getObjectPosition()), out List<PathNode_S> PathOnNode, enemy.monsterType);
+                PathOnVector = PathFinding.Instance.PathOnVector(getObjectPosition(), randomPosition(getObjectPosition()), out List<PathNode_S> PathOnNode/*, enemy.monsterType*/);
                 pathOnNode = PathOnNode;
             }
         }
