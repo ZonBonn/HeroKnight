@@ -6126,6 +6126,7 @@ GameObject:
   - component: {fileID: 897157666}
   - component: {fileID: 897157668}
   - component: {fileID: 897157667}
+  - component: {fileID: 897157670}
   - component: {fileID: 897157669}
   m_Layer: 0
   m_Name: Portal
@@ -6266,6 +6267,18 @@ CapsuleCollider2D:
   m_Offset: {x: 0.024222612, y: -0.024222255}
   m_Size: {x: 1.2331433, y: 2.8027532}
   m_Direction: 0
+--- !u!114 &897157670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 897157665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2372e9bc301501a4c95a51fb36b40aa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Portal
 --- !u!1001 &909190284
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21895,6 +21908,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2036365611}
+  - component: {fileID: 2036365613}
+  - component: {fileID: 2036365612}
   m_Layer: 0
   m_Name: GameHandler
   m_TagString: Untagged
@@ -21917,6 +21932,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2036365612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036365610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baaec4aac4083114fae53fc023e3c167, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameHandler
+--- !u!114 &2036365613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036365610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baaec4aac4083114fae53fc023e3c167, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameHandler
 --- !u!1 &2052928313
 GameObject:
   m_ObjectHideFlags: 0
