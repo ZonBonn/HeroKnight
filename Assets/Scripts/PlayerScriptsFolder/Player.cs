@@ -14,6 +14,8 @@ public class Player : MonoBehaviour
     {
         DontDestroyOnLoad(gameObject);
         Instance = this;
+
+        PlayerManager.Instance.RegisterPlayer(gameObject); // gửi PlayerGameObject đi cho các scene tiếp theo
     }
     private void Start()
     {

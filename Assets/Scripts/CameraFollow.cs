@@ -5,6 +5,14 @@ public class CameraFollow : MonoBehaviour
 
     public Transform playerTransform;
 
+    private void Start()
+    {
+        if(playerTransform == null) // tham chiếu cho các scene tiếp theo mà không được kéo thả thuận tiện như scene1
+        {
+            playerTransform = PlayerManager.Instance.GetPlayerGameObject().transform;
+        }
+    }
+
     private void LateUpdate()
     {
         Vector3 newPosition = playerTransform.position;
