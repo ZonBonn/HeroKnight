@@ -80,6 +80,12 @@ public class EnemyAI : MonoBehaviour
         enemyHealthSystem.OnTriggerHealthBarAsZero += TriggerDieWhenHealthAsZero;
 
         idleTimer = UnityEngine.Random.Range(2.5f, 3f);
+
+        // tham chiếu cho level 2
+        if(playerMovement == null)
+        {
+            playerMovement = PlayerManager.Instance.GetPlayerGameObject().GetComponent<PlayerMovement>();
+        }
     }
 
     private void Update()
@@ -141,7 +147,7 @@ public class EnemyAI : MonoBehaviour
 
         if (lastCheckedCurrentEnemyStateAction != currentEnemyStateAction)
         {
-            Debug.Log(currentEnemyStateAction);
+            // Debug.Log(currentEnemyStateAction);
             lastCheckedCurrentEnemyStateAction = currentEnemyStateAction;
         }
     }

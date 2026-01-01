@@ -663,6 +663,50 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &258660145
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 258660146}
+  - component: {fileID: 258660147}
+  m_Layer: 0
+  m_Name: PlayerSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &258660146
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 258660145}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -28, y: -6, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &258660147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 258660145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ac4b66c457c6eb44a286590626a5a29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerSpawner
 --- !u!1 &270966157
 GameObject:
   m_ObjectHideFlags: 0
@@ -1276,6 +1320,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HeavyEnemy (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 3303357594505969035, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
+      propertyPath: gridMap
+      value: 
+      objectReference: {fileID: 1162341017}
     - target: {fileID: 8944218315491927769, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
       propertyPath: m_LocalPosition.x
       value: -8.08
@@ -1349,6 +1397,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HeavyEnemy (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 3303357594505969035, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
+      propertyPath: gridMap
+      value: 
+      objectReference: {fileID: 1162341017}
     - target: {fileID: 8944218315491927769, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
       propertyPath: m_LocalPosition.x
       value: 48.921364
@@ -2000,6 +2052,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HeavyEnemy (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 3303357594505969035, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
+      propertyPath: gridMap
+      value: 
+      objectReference: {fileID: 1162341017}
     - target: {fileID: 8944218315491927769, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
       propertyPath: m_LocalPosition.x
       value: 35.011387
@@ -2648,6 +2704,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HeavyEnemy (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 3303357594505969035, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
+      propertyPath: gridMap
+      value: 
+      objectReference: {fileID: 1162341017}
     - target: {fileID: 8944218315491927769, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.5
@@ -14560,6 +14620,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6844258306073565937, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
+      propertyPath: gridMap
+      value: 
+      objectReference: {fileID: 1162341017}
     - target: {fileID: 7628453824878567232, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
       propertyPath: m_Name
       value: LightEnemy
@@ -14692,6 +14756,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraFollow
   playerTransform: {fileID: 0}
+  xLeftClamp: -17.5
+  xRightClamp: 42
+  yUpClamp: 16.5
+  yDownClamp: -6
 --- !u!114 &1678281187
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15521,6 +15589,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HeavyEnemy (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3303357594505969035, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
+      propertyPath: gridMap
+      value: 
+      objectReference: {fileID: 1162341017}
     - target: {fileID: 8944218315491927769, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.30118823
@@ -16509,6 +16581,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HeavyEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 3303357594505969035, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
+      propertyPath: gridMap
+      value: 
+      objectReference: {fileID: 1162341017}
     - target: {fileID: 8944218315491927769, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
       propertyPath: m_LocalPosition.x
       value: -12.370411
@@ -16713,3 +16789,4 @@ SceneRoots:
   - {fileID: 2038298059}
   - {fileID: 1162341018}
   - {fileID: 2119886862}
+  - {fileID: 258660146}

@@ -44,6 +44,12 @@ public class EnemyPathFindingMovement : MonoBehaviour
         
         rb2d = gameObject.GetComponent<Rigidbody2D>();
         capsuleCollider2D = gameObject.GetComponent<CapsuleCollider2D>();
+
+        // tham chiếu cho level 2
+        if(playerMovement == null)
+        {
+            playerMovement = PlayerManager.Instance.GetPlayerGameObject().GetComponent<PlayerMovement>();
+        }
     }
 
     private void FixedUpdate()
@@ -106,7 +112,7 @@ public class EnemyPathFindingMovement : MonoBehaviour
                 ++currentIdxPath;
                 if (currentIdxPath >= PathOnVector.Count)
                 {
-                    Debug.Log("Stop Moving");
+                    // Debug.Log("Stop Moving");
                     StopMovingPhysicalHandler();
                 }
             }

@@ -18,16 +18,6 @@ public class PlayerManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    
-    private void Start()
-    {
-        
-    }
-
-    private void Update()
-    {
-        
-    }
 
     public GameObject GetPlayerGameObject()
     {

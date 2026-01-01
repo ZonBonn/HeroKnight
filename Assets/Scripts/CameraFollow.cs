@@ -5,6 +5,11 @@ public class CameraFollow : MonoBehaviour
 
     public Transform playerTransform;
 
+    public float xLeftClamp;
+    public float xRightClamp;
+    public float yUpClamp;
+    public float yDownClamp;
+
     private void Start()
     {
         if(playerTransform == null) // tham chiếu cho các scene tiếp theo mà không được kéo thả thuận tiện như scene1
@@ -20,21 +25,21 @@ public class CameraFollow : MonoBehaviour
         float clampedY = playerTransform.position.y;
         if(clampedX < -8 || clampedX > 52 || clampedY < -2 || clampedY > 26)
         {
-            if(newPosition.x < -8)
+            if(newPosition.x < xLeftClamp)
             {
-                clampedX = -8;
+                clampedX = xLeftClamp;
             }
-            if(newPosition.x > 52)
+            if(newPosition.x > xRightClamp)
             {
-                clampedX = 52;
+                clampedX = xRightClamp;
             }
-            if(newPosition.y < -2)
+            if(newPosition.y < yDownClamp)
             {
-                clampedY = -2;
+                clampedY = yDownClamp;
             }
-            if(newPosition.y > 26)
+            if(newPosition.y > yUpClamp)
             {
-                clampedY = 26;
+                clampedY = yUpClamp;
             }
         }
         gameObject.transform.position = new Vector3(clampedX, clampedY, -10f);

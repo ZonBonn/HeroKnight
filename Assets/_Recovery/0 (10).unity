@@ -2929,10 +2929,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraFollow
   playerTransform: {fileID: 319703033}
-  xLeftClamp: -8
-  xRightClamp: 52
-  yUpClamp: 26
-  yDownClamp: -2
 --- !u!1 &542546872
 GameObject:
   m_ObjectHideFlags: 0

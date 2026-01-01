@@ -15,6 +15,12 @@ public class EnemyAttack : MonoBehaviour
         enemyAnimation = gameObject.GetComponent<EnemyAnimation>();
         
         enemyAnimation.OnTriggerEachFrames += TriggerCreateAttackPoint;
+
+        // tham chiếu cho level 2
+        if(playerHealthStaminaHandler == null)
+        {
+            playerHealthStaminaHandler = PlayerManager.Instance.GetPlayerGameObject().GetComponent<PlayerHealthStaminaHandler>();
+        }
     }
 
     

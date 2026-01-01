@@ -6,7 +6,7 @@ using Unity.Android.Gradle;
 [System.Serializable]
 public class BlockData // wrapper vì Utility.Json thực hiện trên object/class chứ không hoạt đông trên các DS độc lập đứng một mình
 {
-    public List<Vector2Int> BlockNodesList;
+    public List<Vector2Int> BlockNodesList; // chỉ dùng để container dữ liệu tạm thời và bên trong class BlockData để dùng được ToJson và FromJson
     public BlockData(List<Vector2Int> BlockNodesListOutSide)
     {
         this.BlockNodesList = BlockNodesListOutSide;
@@ -17,7 +17,7 @@ public class BlockSaveLoadManager : MonoBehaviour
 {
     public GridMap refGridMap;
     private PathFinding pathFinding;
-    List<Vector2Int> BlockNodeGridPositionList = new List<Vector2Int>();
+    List<Vector2Int> BlockNodeGridPositionList = new List<Vector2Int>(); // chỉ dùng để container dữ liệu lâu dài
 
     private string saveFilePath;
 
@@ -25,8 +25,11 @@ public class BlockSaveLoadManager : MonoBehaviour
 
     private void Awake()
     { 
-        string persistentPath = Path.Combine(Application.persistentDataPath, "blockedNodesHeroKnight.json"); // đường dẫn tới file "blockNodes.json" -> ngoài project folder
-        string sourcePath = Path.Combine(Application.streamingAssetsPath, "blockedNodesHeroKnight.json"); // đường dẫn tới file "blockNodes.json" ở trong Assets -> StreamingAssets
+        string fileName = $"blockedNodesHeroKnight{nameLevel}.json";
+        // Debug.Log(fileName);
+        
+        string persistentPath = Path.Combine(Application.persistentDataPath, fileName); // đường dẫn tới file "blockNodes.json" -> ngoài project folder
+        string sourcePath = Path.Combine(Application.streamingAssetsPath, fileName); // đường dẫn tới file "blockNodes.json" ở trong Assets -> StreamingAssets
 
         if (!File.Exists(persistentPath)) // nếu chưa tồn tại
         {
@@ -37,7 +40,7 @@ public class BlockSaveLoadManager : MonoBehaviour
 
     private void Start()
     {
-        saveFilePath = Application.persistentDataPath + "/blockedNodesHeroKnight.json";
+        saveFilePath = Application.persistentDataPath + $"/blockedNodesHeroKnight{nameLevel}.json";
         // Debug.Log(saveFilePath);
         pathFinding = refGridMap.pathFinding;
         LoadData();
@@ -46,11 +49,11 @@ public class BlockSaveLoadManager : MonoBehaviour
 
     private void LoadData()
     {
-        if (File.Exists(saveFilePath))
+        if (File.Exists(saveFilePath)) // file tồn tại
         {
-            string json = File.ReadAllText(saveFilePath);
-            BlockData data = JsonUtility.FromJson<BlockData>(json); // tự dộng gán các field trong class BlockData
-            BlockNodeGridPositionList = data.BlockNodesList;
+            string json = File.ReadAllText(saveFilePath); // đọc tất file json thành chuỗi
+            BlockData data = JsonUtility.FromJson<BlockData>(json); // tự dộng gán các field trong class BlockData // chuyển dữ liệu string json thành dữ liệu kiểu BlockData
+            BlockNodeGridPositionList = data.BlockNodesList; // chuyển xong rồi thì lấy dữ liệu ra từ data của kiểu BlockData thôi
         }
         else
         {
@@ -60,8 +63,8 @@ public class BlockSaveLoadManager : MonoBehaviour
 
     private void SaveData()
     {
-        string json = JsonUtility.ToJson(new BlockData(BlockNodeGridPositionList));
-        File.WriteAllText(saveFilePath, json);
+        string json = JsonUtility.ToJson(new BlockData(BlockNodeGridPositionList)); // chuyển dữ liệu của List<Vector2> -> string json
+        File.WriteAllText(saveFilePath, json); // ghi đè dữ liệu kiểu string json vào file tại đường dẫn saveFilePath (chính là file .json)
     }
 
     private void AddlyBlockNode()
