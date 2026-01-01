@@ -23,7 +23,7 @@ public class CameraFollow : MonoBehaviour
         Vector3 newPosition = playerTransform.position;
         float clampedX = playerTransform.position.x;
         float clampedY = playerTransform.position.y;
-        if(clampedX < -8 || clampedX > 52 || clampedY < -2 || clampedY > 26)
+        if(clampedX < xLeftClamp || clampedX > xRightClamp || clampedY < yDownClamp || clampedY > yUpClamp)
         {
             if(newPosition.x < xLeftClamp)
             {

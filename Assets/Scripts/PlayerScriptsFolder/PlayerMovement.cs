@@ -56,11 +56,13 @@ public class PlayerMovement : MonoBehaviour
     private bool IsOnGroundedVarFixedUpdate;
     private bool IsTouchedWallVarFixedUpdate;
 
-    // giới hạn tọa độ thế giới level 1
-    private const float ClampXLeft = -16.45f;
-    private const float ClampXRight = 60f;
-    private const float ClampYUp = 30f;
-    private const float ClamYDown = -6f;
+    // // giới hạn tọa độ thế giới level 1
+    // private const float ClampXLeft = -16.45f;
+    // private const float ClampXRight = 60f;
+    // private const float ClampYUp = 30f;
+    // private const float ClamYDown = -6f;
+    
+    // giờ gọi một tham chiếu LevelBoundary tại đây ? rồi tham chiếu tới biến ????? MY WAY ????
 
 
 
@@ -1140,14 +1142,14 @@ public class PlayerMovement : MonoBehaviour
     Vector2 pos = rb2D.position;
     Vector2 velo = rb2D.linearVelocity;
 
-    if ((pos.x <= ClampXLeft && velo.x < 0) ||
-        (pos.x >= ClampXRight && velo.x > 0))
+    if ((pos.x <= LevelBoundary.Instance.ClampXLeft && velo.x < 0) ||
+        (pos.x >= LevelBoundary.Instance.ClampXRight && velo.x > 0))
     {
         velo.x = 0;
     }
 
-    if ((pos.y <= ClamYDown && velo.y < 0) ||
-        (pos.y >= ClampYUp && velo.y > 0))
+    if ((pos.y <= LevelBoundary.Instance.ClampYDown && velo.y < 0) ||
+        (pos.y >= LevelBoundary.Instance.ClampYUp && velo.y > 0))
     {
         velo.y = 0;
     }
