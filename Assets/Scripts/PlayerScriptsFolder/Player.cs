@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public static Player Instance { get; private set; }
+    public static Player Instance { get; private set; } // lưu chữ instance (chính là cái component của người chơi (mỗi 1 component là một instance), để có thể gọi cái component này ở bất kì đâu)
 
     private PlayerHealthStaminaHandler playerHealthStaminaHandler;
     private PlayerHealthSystem playerHealthSystem;
@@ -12,9 +12,17 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
-        Instance = this;
-
+        
+        if(Instance == null)
+        {
+            DontDestroyOnLoad(gameObject);
+            Instance = this; // this == trỏ tới component được gán trong Object trong scene
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+            
         PlayerManager.Instance.RegisterPlayer(gameObject); // gửi PlayerGameObject đi cho các scene tiếp theo
     }
     private void Start()

@@ -21,6 +21,8 @@ public class BlockSaveLoadManager : MonoBehaviour
 
     private string saveFilePath;
 
+    public string nameLevel;
+
     private void Awake()
     { 
         string persistentPath = Path.Combine(Application.persistentDataPath, "blockedNodesHeroKnight.json"); // đường dẫn tới file "blockNodes.json" -> ngoài project folder

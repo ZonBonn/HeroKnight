@@ -6,9 +6,17 @@ public class GridMap : MonoBehaviour
 {
     public PathFinding pathFinding;
     public BlockSaveLoadManager refBlockSaveLoadManager;
+
+    [Header("Grid Settings")]
+    public int width = 84;
+    public int height = 46;
+    public float cellSize = 1f;
+    public Vector3 gridOrigin;   // chỉnh riêng cho từng level
+
     private void Awake()
     {
-        pathFinding = new PathFinding(84, 46, 1, new Vector3(-20, -10, 0));
+        pathFinding = new PathFinding(width, height, cellSize, gridOrigin);
+        // pathFinding = new PathFinding(84, 46, 1, new Vector3(-20, -10, 0));
     }
     private void Update()
     {

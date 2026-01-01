@@ -6288,7 +6288,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BlockSaveLoadManager
   refGridMap: {fileID: 1795464261}
-  nameLevel: Level1
 --- !u!4 &931815937
 Transform:
   m_ObjectHideFlags: 0
@@ -19396,10 +19395,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GridMap
   refBlockSaveLoadManager: {fileID: 931815936}
-  width: 84
-  height: 46
-  cellSize: 1
-  gridOrigin: {x: -20, y: -10, z: 0}
 --- !u!4 &1795464262
 Transform:
   m_ObjectHideFlags: 0

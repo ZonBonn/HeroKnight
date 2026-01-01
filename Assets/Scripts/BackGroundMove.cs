@@ -5,7 +5,7 @@ public class BackGroundMove : MonoBehaviour
     public GameObject playerGameObject;
 
     public Transform cameraTransform;
-    public float parallaxFactor = 0.3f;
+    public float parallaxFactor = 0.01f;
 
     private Vector3 lastCamPos;
 
