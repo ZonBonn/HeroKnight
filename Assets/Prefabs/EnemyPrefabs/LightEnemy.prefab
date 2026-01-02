@@ -57,7 +57,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1084362260994163107
 Transform:
   m_ObjectHideFlags: 0
@@ -209,6 +209,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   monsterType: 0
+  enemyType: 0
 --- !u!114 &7703920037629606784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -355,6 +356,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b1d26c283b13e146987ec345a21fdcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySensor
+  platFormLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
+  wallLayerMask:
+    serializedVersion: 2
+    m_Bits: 2176
 --- !u!114 &2127240458153277581
 MonoBehaviour:
   m_ObjectHideFlags: 0

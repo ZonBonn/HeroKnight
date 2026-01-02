@@ -32,6 +32,8 @@ public class EnemyPathFindingMovement : MonoBehaviour
     public LayerMask platFormLayerMask;
     public LayerMask wallLayerMask;
 
+    private EnemySensor enemySensor;
+
     private void Start()
     {
         enemyAnimation = gameObject.GetComponent<EnemyAnimation>();
@@ -44,6 +46,7 @@ public class EnemyPathFindingMovement : MonoBehaviour
         
         rb2d = gameObject.GetComponent<Rigidbody2D>();
         capsuleCollider2D = gameObject.GetComponent<CapsuleCollider2D>();
+        enemySensor = gameObject.GetComponent<EnemySensor>();
 
         // tham chiếu cho level 2
         if(playerMovement == null)
@@ -142,7 +145,7 @@ public class EnemyPathFindingMovement : MonoBehaviour
 
     public void JumpPhysicalPlatformerHandler()
     {
-        if (IsGrounded() == true)
+        if (enemySensor.IsGrounded() == true)
         {
             // Debug.Log(rb2d.linearVelocity.x * PUSH_FORCE + " " +  JUMP_FORCE);
             rb2d.linearVelocity = new UnityEngine.Vector2(currentVisualDir * PUSH_FORCE, JUMP_FORCE);
@@ -211,105 +214,6 @@ public class EnemyPathFindingMovement : MonoBehaviour
 
     
     // ========== CHECK FUNCTION FOR MOVEMENT PHYSIC ============
-    public bool IsGrounded()
-    {
-        // RaycastHit2D rayCastHit2D = Physics2D.BoxCast(capsuleCollider2D.bounds.center, capsuleCollider2D.bounds.size, 0f, UnityEngine.Vector2.down, 0.01f, platFormLayerMask);
-        RaycastHit2D rayCastHit2D = Physics2D.Raycast(capsuleCollider2D.bounds.center, UnityEngine.Vector3.down, capsuleCollider2D.size.y * 0.5f + 0.05f, platFormLayerMask);
-        
-        // Debug.DrawRay(capsuleCollider2D.bounds.center, ) // in xem box cast có dai qua k
-        if (rayCastHit2D.collider != null) // nếu có va chạm với platformLayerMask -> có đang chạm mặt đất -> true
-        {
-            return true;
-        }
-        return false;
-    }
-    
-    public bool IsHole()
-    {
-        var b = capsuleCollider2D.bounds;
-        UnityEngine.Vector3 DownLeft = b.min;
-        UnityEngine.Vector3 DownRight = new UnityEngine.Vector3(b.max.x, b.min.y);
-
-        UnityEngine.Vector3 dir;
-        dir = currentVisualDir == -1 ? DownLeft : DownRight;
-        UnityEngine.Vector3 StartPoint =  dir + (currentVisualDir == -1 ? UnityEngine.Vector3.left : UnityEngine.Vector3.right) * 0.1f;
-        RaycastHit2D rayCastHit2D = Physics2D.Raycast(StartPoint, UnityEngine.Vector2.down, 1.2f, platFormLayerMask);
-
-        // Debug.DrawRay(StartPoint, UnityEngine.Vector2.down * 1.2f, Color.pink);
-        float realDistance = rayCastHit2D.distance;
-        
-        if (rayCastHit2D.collider != null) // nếu có va chạm với collider -> platFormLayerMask -> không có hố -> false
-        {
-            return false; 
-        }
-        return true; // lẽ ra chỗ này return true nhưng mà có vẻ cơ chế nhảy không cần thiết lắm
-    }
-
-    public bool IfCanJumpOverTheInFrontWall()
-    {
-        return IsWallInFront() && !IsWallTooHigh();
-    }
-
-    private bool IsWallInFront()
-    {
-        UnityEngine.Vector3 dir;
-        dir = currentVisualDir == -1 ? UnityEngine.Vector3.left : UnityEngine.Vector3.right;
-        UnityEngine.Vector3 origin = capsuleCollider2D.bounds.center;
-        float RayLenght = (capsuleCollider2D.size.x * .5f) + 0.5f;
-
-        RaycastHit2D rayCastHit2D = Physics2D.Raycast(origin, dir, RayLenght, wallLayerMask);
-        // Debug.DrawRay(origin, dir * RayLenght, Color.blueViolet);
-        if(rayCastHit2D.collider != null) // có va chạm với wallLayerMask -> có tường -> true
-        {
-            return true; // lẽ ra chỗ này return true nhưng mà có vẻ cơ chế nhảy không cần thiết lắm
-        }
-        return false;
-    }
-
-    private bool IsBlockedDuringJump() // hàm này nếu đúng thì có nghĩa là cao hơn enemy => bỏ không nhảy được còn đâu thì ngược lại
-    {
-        // mô phỏng một capsule tại đây nhảy xem có nhảy qua được không ?
-        // UnityEngine.Vector3 direct = new UnityEngine.Vector3(currentVisualDir, 1).normalized;
-        UnityEngine.Vector3 direct = UnityEngine.Vector3.up;
-
-        RaycastHit2D rayCastHit2D = Physics2D.CapsuleCast(capsuleCollider2D.bounds.center, 
-        capsuleCollider2D.bounds.size, 
-        capsuleCollider2D.direction, 
-        0f, 
-        direct, 
-        3.5f,  // độ cao cao nhất mà có thể nhảy được tính từ 0
-        wallLayerMask);
-
-        if(rayCastHit2D.collider != null)
-        {
-            return false;
-        }
-        return true;
-    }
-
-    private bool IsWallTooHigh()
-    {
-        const float maxJumpHeight = 2.5f;
-        UnityEngine.Vector3 StartPoint = new UnityEngine.Vector3(capsuleCollider2D.bounds.center.x, capsuleCollider2D.bounds.center.y + maxJumpHeight);
-        UnityEngine.Vector3 directScanning = currentVisualDir == -1 ? UnityEngine.Vector3.left : UnityEngine.Vector3.right;
-        float distanceScanning = capsuleCollider2D.size.x + 0.2f; 
-
-        RaycastHit2D rayCastHit2D = Physics2D.CapsuleCast(
-        StartPoint, 
-        capsuleCollider2D.size, 
-        capsuleCollider2D.direction, 
-        0f, 
-        directScanning, 
-        distanceScanning, 
-        wallLayerMask
-        );
-
-        if(rayCastHit2D.collider != null) // kiểm tra tường phía trên -> nếu có va chạm với tường -> cao -> false
-        {
-            return false; // lẽ ra chỗ này return false nhưng mà có vẻ cơ chế nhảy không cần thiết lắm
-        }
-        return true;
-    }
     // ========================================================
     
 
@@ -422,3 +326,115 @@ public class EnemyPathFindingMovement : MonoBehaviour
     }
     // ===========================================================
 }
+
+// REFACTED CODE
+// public bool IsGrounded()
+    // {
+    //     // RaycastHit2D rayCastHit2D = Physics2D.BoxCast(capsuleCollider2D.bounds.center, capsuleCollider2D.bounds.size, 0f, UnityEngine.Vector2.down, 0.01f, platFormLayerMask);
+    //     RaycastHit2D rayCastHit2D = Physics2D.Raycast(capsuleCollider2D.bounds.center, UnityEngine.Vector3.down, capsuleCollider2D.size.y * 0.5f + 0.05f, platFormLayerMask);
+        
+    //     // Debug.DrawRay(capsuleCollider2D.bounds.center, ) // in xem box cast có dai qua k
+    //     if (rayCastHit2D.collider != null) // nếu có va chạm với platformLayerMask -> có đang chạm mặt đất -> true
+    //     {
+    //         return true;
+    //     }
+    //     return false;
+    // }
+    
+    // public bool IsHole()
+    // {
+    //     var b = capsuleCollider2D.bounds;
+    //     UnityEngine.Vector3 DownLeft = b.min;
+    //     UnityEngine.Vector3 DownRight = new UnityEngine.Vector3(b.max.x, b.min.y);
+
+    //     UnityEngine.Vector3 dir;
+    //     dir = currentVisualDir == -1 ? DownLeft : DownRight;
+    //     UnityEngine.Vector3 StartPoint =  dir + (currentVisualDir == -1 ? UnityEngine.Vector3.left : UnityEngine.Vector3.right) * 0.1f;
+    //     RaycastHit2D rayCastHit2D = Physics2D.Raycast(StartPoint, UnityEngine.Vector2.down, 1.2f, platFormLayerMask);
+
+    //     // Debug.DrawRay(StartPoint, UnityEngine.Vector2.down * 1.2f, Color.pink);
+    //     float realDistance = rayCastHit2D.distance;
+        
+    //     if (rayCastHit2D.collider != null) // nếu có va chạm với collider -> platFormLayerMask -> không có hố -> false
+    //     {
+    //         return false; 
+    //     }
+    //     return true; // lẽ ra chỗ này return true nhưng mà có vẻ cơ chế nhảy không cần thiết lắm
+    // }
+
+    // public bool IfCanJumpOverTheInFrontWall()
+    // {
+    //     Debug.Log("IsWallInFront:" + IsWallOrGroundInFront() + " IsWallOrGroundTooHigh:" + !IsWallOrGroundTooHigh());
+    //     return IsWallOrGroundInFront() && !IsWallOrGroundTooHigh();
+    // }
+
+    // private bool IsWallOrGroundInFront()
+    // {
+    //     UnityEngine.Vector3 dir;
+    //     dir = currentVisualDir == -1 ? UnityEngine.Vector3.left : UnityEngine.Vector3.right;
+    //     UnityEngine.Vector3 origin = capsuleCollider2D.bounds.center;
+    //     float RayLenght = (capsuleCollider2D.size.x * .5f) + 0.5f;
+
+    //     RaycastHit2D rayCastHit2DWallLayerMask = Physics2D.Raycast(origin, dir, RayLenght, wallLayerMask);
+    //     RaycastHit2D rayCastHit2DPlatformLayerMask = Physics2D.Raycast(origin, dir, RayLenght, platFormLayerMask);
+    //     // Debug.DrawRay(origin, dir * RayLenght, Color.blueViolet);
+    //     if(rayCastHit2DWallLayerMask.collider != null || rayCastHit2DPlatformLayerMask.collider != null) // có va chạm với wallLayerMask -> có tường -> true
+    //     {
+    //         return true; // lẽ ra chỗ này return true nhưng mà có vẻ cơ chế nhảy không cần thiết lắm
+    //     }
+    //     return false;
+    // }
+
+    // private bool IsBlockedDuringJump() // hàm này nếu đúng thì có nghĩa là cao hơn enemy => bỏ không nhảy được còn đâu thì ngược lại
+    // {
+    //     // mô phỏng một capsule tại đây nhảy xem có nhảy qua được không ?
+    //     // UnityEngine.Vector3 direct = new UnityEngine.Vector3(currentVisualDir, 1).normalized;
+    //     UnityEngine.Vector3 direct = UnityEngine.Vector3.up;
+
+    //     RaycastHit2D rayCastHit2D = Physics2D.CapsuleCast(capsuleCollider2D.bounds.center, 
+    //     capsuleCollider2D.bounds.size, 
+    //     capsuleCollider2D.direction, 
+    //     0f, 
+    //     direct, 
+    //     3.5f,  // độ cao cao nhất mà có thể nhảy được tính từ 0
+    //     wallLayerMask);
+
+    //     if(rayCastHit2D.collider != null)
+    //     {
+    //         return false;
+    //     }
+    //     return true;
+    // }
+
+    // private bool IsWallOrGroundTooHigh()
+    // {
+    //     const float maxJumpHeight = 2.5f;
+    //     UnityEngine.Vector3 StartPoint = new UnityEngine.Vector3(capsuleCollider2D.bounds.center.x, capsuleCollider2D.bounds.center.y + maxJumpHeight);
+    //     UnityEngine.Vector3 directScanning = currentVisualDir == -1 ? UnityEngine.Vector3.left : UnityEngine.Vector3.right;
+    //     float distanceScanning = capsuleCollider2D.size.x + 0.2f; 
+
+    //     RaycastHit2D rayCastHit2DWallLayerMask = Physics2D.CapsuleCast(
+    //     StartPoint, 
+    //     capsuleCollider2D.size, 
+    //     capsuleCollider2D.direction, 
+    //     0f, 
+    //     directScanning, 
+    //     distanceScanning, 
+    //     wallLayerMask
+    //     );
+    //     RaycastHit2D rayCastHit2DPlatformLayerMask = Physics2D.CapsuleCast(
+    //     StartPoint, 
+    //     capsuleCollider2D.size, 
+    //     capsuleCollider2D.direction, 
+    //     0f, 
+    //     directScanning, 
+    //     distanceScanning, 
+    //     platFormLayerMask
+    //     );
+
+    //     if(rayCastHit2DWallLayerMask.collider != null || rayCastHit2DPlatformLayerMask.collider != null) // kiểm tra tường phía trên -> nếu có va chạm với tường -> cao -> true
+    //     {
+    //         return true; // lẽ ra chỗ này return true nhưng mà có vẻ cơ chế nhảy không cần thiết lắm
+    //     }
+    //     return false;
+    // }

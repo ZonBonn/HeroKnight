@@ -147,7 +147,7 @@ public class EnemyAI : MonoBehaviour
 
         if (lastCheckedCurrentEnemyStateAction != currentEnemyStateAction)
         {
-            // Debug.Log(currentEnemyStateAction);
+            Debug.Log(currentEnemyStateAction);
             lastCheckedCurrentEnemyStateAction = currentEnemyStateAction;
         }
     }
@@ -194,11 +194,11 @@ public class EnemyAI : MonoBehaviour
             currentEnemyStateAction = EnemyStateAction.Chase;
             return;
         }
-        
-        if (enemyPathFindingMovement.IsHole() || /*Input.GetKeyDown(KeyCode.L) ||*/ enemyPathFindingMovement.IfCanJumpOverTheInFrontWall())
+        Debug.Log("Is Hole:" + enemySensor.IsHole() + "  ;;;   IfCanJumpOverTheInFrontWall:" + enemySensor.IfCanJumpOverTheInFrontWall());
+        if (enemySensor.IsHole() || /*Input.GetKeyDown(KeyCode.L) ||*/ enemySensor.IfCanJumpOverTheInFrontWall())
         {
             currentToward = nullTransform;
-            // Debug.Log("Is Hole:" + enemyPathFindingMovement.IsHole() + "  ;;;   IfCanJumpOverTheInFrontWall:" + enemyPathFindingMovement.IfCanJumpOverTheInFrontWall());
+            
             currentEnemyStateAction = EnemyStateAction.Jump;
             isJumping = true;
             return;
@@ -254,7 +254,7 @@ public class EnemyAI : MonoBehaviour
             currentEnemyStateAction = EnemyStateAction.Patrol;
             return;
         }
-        if (enemyPathFindingMovement.IsHole() || /*Input.GetKeyDown(KeyCode.L) ||*/ enemyPathFindingMovement.IfCanJumpOverTheInFrontWall())
+        if (enemySensor.IsHole() || /*Input.GetKeyDown(KeyCode.L) ||*/ enemySensor.IfCanJumpOverTheInFrontWall())
         {
             currentEnemyStateAction = EnemyStateAction.Jump;
             isJumping = true;
@@ -310,7 +310,7 @@ public class EnemyAI : MonoBehaviour
 
     private void JumpActionHandler()
     {
-        if(enemyPathFindingMovement.IsGrounded() == true && isJumping == false) // đã tiếp đất thì mới được chuyển trạng thái 
+        if(enemySensor.IsGrounded() == true && isJumping == false) // đã tiếp đất thì mới được chuyển trạng thái 
         {
             if (DistanceEnemyToPlayer >= DISENGAGE_DISTANCE && IsPlayerAround == false)
             {
