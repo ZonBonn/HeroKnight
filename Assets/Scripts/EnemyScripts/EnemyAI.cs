@@ -150,6 +150,8 @@ public class EnemyAI : MonoBehaviour
             Debug.Log(currentEnemyStateAction);
             lastCheckedCurrentEnemyStateAction = currentEnemyStateAction;
         }
+
+        // Debug.Log(currentEnemyStateAction);
     }
     
     // ========== STATE ENEMY HANDLERS ==========
@@ -194,13 +196,14 @@ public class EnemyAI : MonoBehaviour
             currentEnemyStateAction = EnemyStateAction.Chase;
             return;
         }
-        Debug.Log("Is Hole:" + enemySensor.IsHole() + "  ;;;   IfCanJumpOverTheInFrontWall:" + enemySensor.IfCanJumpOverTheInFrontWall());
+        // Debug.Log("Is Hole:" + enemySensor.IsHole() + "  ;;;   IfCanJumpOverTheInFrontWall:" + enemySensor.IfCanJumpOverTheInFrontWall());
         if (enemySensor.IsHole() || /*Input.GetKeyDown(KeyCode.L) ||*/ enemySensor.IfCanJumpOverTheInFrontWall())
         {
             currentToward = nullTransform;
-            
-            currentEnemyStateAction = EnemyStateAction.Jump;
             isJumping = true;
+            // enemyPathFindingMovement.hasLeaveGround = true;
+            currentEnemyStateAction = EnemyStateAction.Jump;
+            
             return;
         }
         ReadyToAttackImmediately();
@@ -256,8 +259,10 @@ public class EnemyAI : MonoBehaviour
         }
         if (enemySensor.IsHole() || /*Input.GetKeyDown(KeyCode.L) ||*/ enemySensor.IfCanJumpOverTheInFrontWall())
         {
-            currentEnemyStateAction = EnemyStateAction.Jump;
             isJumping = true;
+            // enemyPathFindingMovement.hasLeaveGround = true;
+            currentEnemyStateAction = EnemyStateAction.Jump;
+            
             return;
         }
     }
@@ -308,23 +313,27 @@ public class EnemyAI : MonoBehaviour
         // Debug.Log("rơi vào nhánh này khi không rơi vào bất kì nhánh nào của RTA");
     }
 
-    private void JumpActionHandler()
+    private void JumpActionHandler() // xử lý trạng thái STATE khi đang trong state == State.Jump
     {
-        if(enemySensor.IsGrounded() == true && isJumping == false) // đã tiếp đất thì mới được chuyển trạng thái 
+        // nhảy thì không làm gì khác nữa trừ khi nào mà nhảy xong chạm đất thì thôi mới bắt đầu chuyển trạng thái
+        if(/*enemySensor.IsGrounded() == true &&*/ isJumping == false) // đã tiếp đất thì mới được chuyển trạng thái 
         {
-            if (DistanceEnemyToPlayer >= DISENGAGE_DISTANCE && IsPlayerAround == false)
+            if (DistanceEnemyToPlayer >= DISENGAGE_DISTANCE && IsPlayerAround == false /*&& enemyPathFindingMovement.hasLeaveGround == false*/)
             {
+                Debug.Log("isJumping:" + isJumping);
+                Debug.Log("Jump -> Patrol");
                 currentEnemyStateAction = EnemyStateAction.Patrol;
                 return;
             }
-            if (DistanceEnemyToPlayer <= READY_TO_ATTACK_DISTANCE && IsPlayerAround == true)
+            if (DistanceEnemyToPlayer <= READY_TO_ATTACK_DISTANCE && IsPlayerAround == true /*&& enemyPathFindingMovement.hasLeaveGround == false*/)
             {
                 currentEnemyStateAction = EnemyStateAction.ReadyToAttack;
                 return;
             }
             if (DistanceEnemyToPlayer < DISENGAGE_DISTANCE && 
             IsPlayerAround == true && 
-            DistanceEnemyToPlayer >= CHASE_MIN_DISTANCE)
+            DistanceEnemyToPlayer >= CHASE_MIN_DISTANCE/* && 
+            enemyPathFindingMovement.hasLeaveGround == false*/)
             {
                 currentEnemyStateAction = EnemyStateAction.Chase;
                 return;
@@ -332,7 +341,7 @@ public class EnemyAI : MonoBehaviour
             currentEnemyStateAction = EnemyStateAction.Chase;
             return;
         }
-        else // chưa tiếp đất mà đang trên không
+        else // chưa tiếp đất mà đang trên không // isJumping == true
         {
             // do nothing
         }
@@ -368,7 +377,7 @@ public class EnemyAI : MonoBehaviour
     {
         if(sprites == enemyAnimation.JumpSprites && idxFrame == enemyAnimation.JumpSprites.Length)
         {
-            isJumping = false;
+            // isJumping = false;
         }
     }
     
@@ -567,6 +576,21 @@ public class EnemyAI : MonoBehaviour
     public bool GetIsDied()
     {
         return isDied;
+    }
+    
+    public bool GetIsJumping()
+    {
+        return isJumping;
+    }
+
+    public void SetIsJumpingTrueOutside()
+    {
+        isJumping = true;
+    }
+
+    public void SetIsJumpingFalseOutside()
+    {
+        isJumping = false;
     }
     // =============================================================
     

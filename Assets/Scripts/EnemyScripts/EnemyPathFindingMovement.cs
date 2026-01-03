@@ -23,6 +23,8 @@ public class EnemyPathFindingMovement : MonoBehaviour
     private Rigidbody2D rb2d;
     private CapsuleCollider2D capsuleCollider2D;
 
+    // public bool hasLeaveGround = false;
+
     // findPlayer || player vars
     // public FindPlayer_S findPlayer;
 
@@ -57,6 +59,7 @@ public class EnemyPathFindingMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // Debug.Log("linearVelocityX:" + rb2d.linearVelocityX);
         // IsHole();
         // IsWallInFront();
         if(enemyAI.currentEnemyStateAction == EnemyAI.EnemyStateAction.Chase || enemyAI.currentEnemyStateAction == EnemyAI.EnemyStateAction.Patrol)
@@ -86,7 +89,7 @@ public class EnemyPathFindingMovement : MonoBehaviour
                 ++currentIdxPath;
                 if (currentIdxPath >= PathOnVector.Count)
                 {
-                    Debug.Log("Stop Moving");
+                    // Debug.Log("Stop Moving");
                     StopMovingPhysicalHandler();
                 }
             }
@@ -101,7 +104,7 @@ public class EnemyPathFindingMovement : MonoBehaviour
             }
         }
     }
-    
+     
     public void MovementPhysicPlatformerHandler()
     {
         if (PathOnVector != null)
@@ -142,13 +145,44 @@ public class EnemyPathFindingMovement : MonoBehaviour
             }
         }
     }
-
+ 
     public void JumpPhysicalPlatformerHandler()
     {
-        if (enemySensor.IsGrounded() == true)
+        bool IsGroundedVar = enemySensor.IsGrounded();
+        Debug.Log("IsGroundedVar:" + IsGroundedVar);
+        // if(enemyAI.GetIsJumping() == true || IsGroundedVar == false) return;
+
+        if (IsGroundedVar == true && rb2d.linearVelocityY < 0.1f/*&& hasLeaveGround == false*/) // chưa rời khỏi mặt đất
         {
+            const float maxJumpHeight = 3f; // chiều cao tối đa mà Enemy có thể nhảy được
             // Debug.Log(rb2d.linearVelocity.x * PUSH_FORCE + " " +  JUMP_FORCE);
-            rb2d.linearVelocity = new UnityEngine.Vector2(currentVisualDir * PUSH_FORCE, JUMP_FORCE);
+            float obstacleHeight = enemySensor.GetObstacleHeight(); // kiểm tra chiều cao của chướng ngại vật trước khi quyết định lực nhảy 
+            Debug.Log("obstacleHeight:" + obstacleHeight);
+            if(obstacleHeight == 0f) return;
+
+            float extraHeight = 0.2f;//0.6f; // cộng dư chiều cao lần 2 :D (cho chắc chắn nhảy phát qua luôn :D)
+            float targetHeight = obstacleHeight + extraHeight;
+            if(targetHeight > maxJumpHeight) return; // nếu chiều cao vật quá cao thì thôi bỏ không nhảy nữa
+
+            // áp dung công thức vật lý: v = Sqrt(2 × g × h): g: gia tốc kéo vật rơi xuống, v: vận tốc nhảy theo trục y
+            float g = Mathf.Abs(Physics2D.gravity.y * rb2d.gravityScale);
+            float jumpVelocity = Mathf.Sqrt(2f * g * targetHeight);
+            float moveVelocity = currentVisualDir * PUSH_FORCE;
+            
+            float xLinearVelocity = rb2d.linearVelocityX;
+            if(xLinearVelocity == 0)
+            {
+                moveVelocity = currentVisualDir * PUSH_FORCE;
+            }
+            else
+            {
+                moveVelocity = (currentVisualDir * PUSH_FORCE) + xLinearVelocity;
+            }
+            Debug.Log("jumpVelocity:" + jumpVelocity + "     obstacleHeight:" + obstacleHeight + "     xVelocity:" + moveVelocity);
+            rb2d.linearVelocity = new UnityEngine.Vector2(moveVelocity, jumpVelocity);
+            // enemyAI.SetIsJumpingTrueOutside();
+            // hasLeaveGround = true;
+            return;
             // isPressedSpace = false;
         }
     }

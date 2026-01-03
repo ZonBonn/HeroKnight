@@ -6,6 +6,9 @@
 
 + VIỆC CẦN LÀM:
 + error 1: nếu Enemy trong trạng thái RTC (rồi người chơi chạy thẳng đi) rồi chuyển về patrol (có thực sự chuyển về patrol từ RTC ??) thì sao ??
++ error 1.1: (chase -> patrol): check xem có vấn đề gì ? (enemy di chuyển quay đi quay lại một chỗ)
++ error 1.2: RTC -> patrol: check xem có vấn đều gì ? (enemy di chuyển tới một vị trí nhất định thì bị kẹt ?)
++ jump xong lại thành patrol ?? đã jump thì chỉ có nhảy nhảy xong ít nhất 1 lần rồi mới chuyển thành trạng thái khác
 + desgin map level 2
 
 + TIẾP TỤC:

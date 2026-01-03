@@ -8,6 +8,7 @@ public class EnemySensor : MonoBehaviour
     private CapsuleCollider2D capsuleCollider2D;
     public LayerMask platFormLayerMask;
     public LayerMask wallLayerMask;
+    private const float FORWARD_CHECK_EXTRA = 0.5f;
 
     void Start()
     {
@@ -49,7 +50,7 @@ public class EnemySensor : MonoBehaviour
         return false;
     }
 
-    public float GetObstacleHeight()
+    public float GetObstacleHeight() // viết lại cái hàm này 
     {
         Vector3 dir = enemyPathFindingMovement.currentVisualDir == -1 ? Vector3.left : Vector3.right;
         Vector3 basePos = capsuleCollider2D.bounds.min;
@@ -57,8 +58,10 @@ public class EnemySensor : MonoBehaviour
         for(int idx = heights.Length-2 ; idx >= 0; idx--)
         {
             Vector3 origin = basePos + Vector3.up * heights[idx];
-            RaycastHit2D hitplatFormLayerMask = Physics2D.Raycast(origin, dir, 0.6f, platFormLayerMask);
-            RaycastHit2D hitWallLayerMask = Physics2D.Raycast(origin, dir, 0.6f, wallLayerMask);
+            float RayLenght = (capsuleCollider2D.size.x * .5f) + FORWARD_CHECK_EXTRA;
+            RaycastHit2D hitplatFormLayerMask = Physics2D.Raycast(origin, dir, RayLenght, platFormLayerMask);
+            RaycastHit2D hitWallLayerMask = Physics2D.Raycast(origin, dir, RayLenght, wallLayerMask);
+            Debug.DrawRay(origin, dir*RayLenght, Color.yellow);
             if (hitplatFormLayerMask.collider != null || hitWallLayerMask.collider != null)
             {
                 return heights[idx+1]; // dư chiều cao ra chút cho chắc chắn nhảy qua
@@ -70,8 +73,7 @@ public class EnemySensor : MonoBehaviour
 
     public bool IfCanJumpOverTheInFrontWall()
     {
-        Debug.Log("IsWallInFront:" + IsWallOrGroundInFront() + " IsWallOrGroundTooHigh:" + !IsWallOrGroundTooHigh(out float ObstacleHeight));
-        return IsWallOrGroundInFront() && !IsWallOrGroundTooHigh(out float ObstacleHeight1);
+        return IsWallOrGroundInFront() && !IsWallOrGroundTooHigh();
     }
 
     private bool IsWallOrGroundInFront()
@@ -79,11 +81,11 @@ public class EnemySensor : MonoBehaviour
         UnityEngine.Vector3 dir;
         dir = enemyPathFindingMovement.currentVisualDir == -1 ? UnityEngine.Vector3.left : UnityEngine.Vector3.right;
         UnityEngine.Vector3 origin = capsuleCollider2D.bounds.center;
-        float RayLenght = (capsuleCollider2D.size.x * .5f) + 0.5f;
+        float RayLenght = (capsuleCollider2D.size.x * .5f) + FORWARD_CHECK_EXTRA;
 
         RaycastHit2D rayCastHit2DWallLayerMask = Physics2D.Raycast(origin, dir, RayLenght, wallLayerMask);
         RaycastHit2D rayCastHit2DPlatformLayerMask = Physics2D.Raycast(origin, dir, RayLenght, platFormLayerMask);
-        // Debug.DrawRay(origin, dir * RayLenght, Color.blueViolet);
+        Debug.DrawRay(origin, dir * RayLenght, Color.blueViolet);
         if(rayCastHit2DWallLayerMask.collider != null || rayCastHit2DPlatformLayerMask.collider != null) // có va chạm với wallLayerMask -> có tường -> true
         {
             return true; // lẽ ra chỗ này return true nhưng mà có vẻ cơ chế nhảy không cần thiết lắm
@@ -112,7 +114,7 @@ public class EnemySensor : MonoBehaviour
         return true;
     }
 
-    private bool IsWallOrGroundTooHigh(out float ObstacleHeight)
+    private bool IsWallOrGroundTooHigh()
     {
         const float maxJumpHeight = 2.5f;
         UnityEngine.Vector3 StartPoint = new UnityEngine.Vector3(capsuleCollider2D.bounds.center.x, capsuleCollider2D.bounds.center.y + maxJumpHeight);
@@ -140,10 +142,8 @@ public class EnemySensor : MonoBehaviour
 
         if(rayCastHit2DWallLayerMask.collider != null || rayCastHit2DPlatformLayerMask.collider != null) // kiểm tra tường phía trên -> nếu có va chạm với tường -> cao -> true
         {
-            ObstacleHeight = GetObstacleHeight();
             return true; // lẽ ra chỗ này return true nhưng mà có vẻ cơ chế nhảy không cần thiết lắm
         }
-        ObstacleHeight = 0;
         return false;
     }
 
