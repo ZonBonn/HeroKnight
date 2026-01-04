@@ -8,7 +8,7 @@ public class EnemySensor : MonoBehaviour
     private CapsuleCollider2D capsuleCollider2D;
     public LayerMask platFormLayerMask;
     public LayerMask wallLayerMask;
-    private const float FORWARD_CHECK_EXTRA = 0.7f;
+    private const float FORWARD_CHECK_EXTRA = 0.7f; // 0.7f;
 
     void Start()
     {

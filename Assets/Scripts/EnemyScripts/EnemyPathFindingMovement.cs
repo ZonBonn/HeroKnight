@@ -36,6 +36,10 @@ public class EnemyPathFindingMovement : MonoBehaviour
 
     private EnemySensor enemySensor;
 
+    private bool IsGroundedVar;
+
+    private const float AIR_MIN_X_VELOCITY = 2.5f;
+
     private void Start()
     {
         enemyAnimation = gameObject.GetComponent<EnemyAnimation>();
@@ -68,7 +72,9 @@ public class EnemyPathFindingMovement : MonoBehaviour
         }
         else if(enemyAI.currentEnemyStateAction == EnemyAI.EnemyStateAction.Jump)
         {
+            IsGroundedVar = enemySensor.IsGrounded();
             JumpPhysicalPlatformerHandler();
+            MaintainHorizontalVelocityInAir();
         }
         else if(enemyAI.currentEnemyStateAction == EnemyAI.EnemyStateAction.Hurt)
         {
@@ -105,7 +111,7 @@ public class EnemyPathFindingMovement : MonoBehaviour
         }
     }
      
-    public void MovementPhysicPlatformerHandler()
+    private void MovementPhysicPlatformerHandler()
     {
         if (PathOnVector != null)
         {
@@ -146,9 +152,9 @@ public class EnemyPathFindingMovement : MonoBehaviour
         }
     }
  
-    public void JumpPhysicalPlatformerHandler()
+    private void JumpPhysicalPlatformerHandler()
     {
-        bool IsGroundedVar = enemySensor.IsGrounded();
+        // bool IsGroundedVar = enemySensor.IsGrounded();
         // Debug.Log("IsGroundedVar:" + IsGroundedVar);
         // if(enemyAI.GetIsJumping() == true || IsGroundedVar == false) return;
 
@@ -191,6 +197,16 @@ public class EnemyPathFindingMovement : MonoBehaviour
         }
     }
     
+    private void MaintainHorizontalVelocityInAir()
+    {
+        if(IsGroundedVar == true) return;
+        float velocityX = rb2d.linearVelocityX;
+        if(Mathf.Abs(velocityX) <= AIR_MIN_X_VELOCITY)
+        {
+            rb2d.linearVelocity = new UnityEngine.Vector2(currentVisualDir * AIR_MIN_X_VELOCITY, rb2d.linearVelocityY);
+        }
+    }
+
     public void StopMovingByVector()
     {
         PathOnVector = null;

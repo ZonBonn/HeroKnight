@@ -182,7 +182,7 @@ public class EnemyAI : MonoBehaviour
         // C2: không tối ưu pathfinding
         // enemyPathFindingMovement.MoveTo(currentToward.position); 
 
-        Debug.Log(Vector3.Distance(EnemyPosition, currentToward.position));
+        // Debug.Log(Vector3.Distance(EnemyPosition, currentToward.position));
         if (Vector3.Distance(EnemyPosition, currentToward.position) <= PATROL_REACHED_DISTANCE)
         {
             currentEnemyStateAction = EnemyStateAction.Idle;
@@ -330,7 +330,7 @@ public class EnemyAI : MonoBehaviour
     private void JumpActionHandler() // xử lý trạng thái STATE khi đang trong state == State.Jump
     {
         // nhảy thì không làm gì khác nữa trừ khi nào mà nhảy xong chạm đất thì thôi mới bắt đầu chuyển trạng thái
-        if(/*enemySensor.IsGrounded() == true &&*/ isJumping == false) // đã tiếp đất thì mới được chuyển trạng thái 
+        if(enemySensor.IsGrounded() == true && isJumping == false) // đã tiếp đất thì mới được chuyển trạng thái 
         {
             if (DistanceEnemyToPlayer >= DISENGAGE_DISTANCE && IsPlayerAround == false /*&& enemyPathFindingMovement.hasLeaveGround == false*/)
             {
