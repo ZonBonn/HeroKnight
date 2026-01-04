@@ -43,7 +43,7 @@ public class EnemyAI : MonoBehaviour
     private EnemySensor enemySensor;
 
     private const float READY_TO_COMBAT_COOLDOWN = 0.5f;
-    private const float PATROL_REACHED_DISTANCE = 0.6f; // ngưỡng xác nhận đã tới vị trí tuần tra
+    private const float PATROL_REACHED_DISTANCE = 0.8f; // ngưỡng xác nhận đã tới vị trí tuần tra
     private const float READY_TO_ATTACK_DISTANCE = 1.5f; // ngưỡng enemy sẽ vào trạng thái chuẩn bị tấn công
     private const float ATTACK_DISTANCE = 1f; // ngưỡng mà enemy sẽ tấn công
     private const float  DISENGAGE_DISTANCE = 4f; // ngưỡng mà enemy quyết định còn đuổi hay không đuổi tiếp ??? nó như là MAX_CHASE vậy
@@ -80,6 +80,7 @@ public class EnemyAI : MonoBehaviour
         enemyHealthSystem.OnTriggerHealthBarAsZero += TriggerDieWhenHealthAsZero;
 
         idleTimer = UnityEngine.Random.Range(2.5f, 3f);
+        m_IdleTimer = idleTimer;
 
         // tham chiếu cho level 2
         if(playerMovement == null)
@@ -159,24 +160,33 @@ public class EnemyAI : MonoBehaviour
     {
         Immediately_m_RTCTimer();
 
-        if (currentToward != lastCheckedCurrentToward)
+        // C1: tối ưu path finding
+        if (currentToward != lastCheckedCurrentToward) // dành cho từ trang thái Chase, Jump -> Patrol
         {
             if(currentToward == nullTransform)
             {
                 enemyPathFindingMovement.MoveTo(lastCheckedCurrentToward.position);
                 currentToward = lastCheckedCurrentToward;
             }
-            else
+            else // currentToward == lastCheckedCurrentToward;  dành cho từ trang thái IDLE -> Patrol
             {
-                enemyPathFindingMovement.MoveTo(currentToward.position);
+                enemyPathFindingMovement.MoveTo(currentToward.position); 
                 lastCheckedCurrentToward = currentToward;
             }
         }
+        else //currentToward == lastCheckedCurrentToward
+        {
+            
+        }
 
+        // C2: không tối ưu pathfinding
+        // enemyPathFindingMovement.MoveTo(currentToward.position); 
+
+        Debug.Log(Vector3.Distance(EnemyPosition, currentToward.position));
         if (Vector3.Distance(EnemyPosition, currentToward.position) <= PATROL_REACHED_DISTANCE)
         {
             currentEnemyStateAction = EnemyStateAction.Idle;
-            m_IdleTimer = idleTimer;
+            // m_IdleTimer = idleTimer;
             // Debug.Log("Đổi hướng");
             // Debug.Log("Đổi thanh Idle");
             if (currentToward == leftPoint)
@@ -199,8 +209,9 @@ public class EnemyAI : MonoBehaviour
         // Debug.Log("Is Hole:" + enemySensor.IsHole() + "  ;;;   IfCanJumpOverTheInFrontWall:" + enemySensor.IfCanJumpOverTheInFrontWall());
         if (enemySensor.IsHole() || /*Input.GetKeyDown(KeyCode.L) ||*/ enemySensor.IfCanJumpOverTheInFrontWall())
         {
+            Debug.Log("Is Hole:" + enemySensor.IsHole() + "  ;;;   IfCanJumpOverTheInFrontWall:" + enemySensor.IfCanJumpOverTheInFrontWall());
             currentToward = nullTransform;
-            isJumping = true;
+            // isJumping = true;
             // enemyPathFindingMovement.hasLeaveGround = true;
             currentEnemyStateAction = EnemyStateAction.Jump;
             
@@ -225,12 +236,14 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
+            m_IdleTimer = idleTimer; // reset lại biến thời gian đứng IDLE
             currentEnemyStateAction = EnemyStateAction.Patrol;
             // Debug.Log("Đổi thanh Patrol");
             return;
         }
         if(IsPlayerAround)// alway finds player in here <-- SearchingPlayerAround();
         {
+            m_IdleTimer = idleTimer;// reset lại biến thời gian đứng IDLE
             currentEnemyStateAction = EnemyStateAction.Chase;
             return;
         }
@@ -259,7 +272,8 @@ public class EnemyAI : MonoBehaviour
         }
         if (enemySensor.IsHole() || /*Input.GetKeyDown(KeyCode.L) ||*/ enemySensor.IfCanJumpOverTheInFrontWall())
         {
-            isJumping = true;
+            Debug.Log("Is Hole:" + enemySensor.IsHole() + "  ;;;   IfCanJumpOverTheInFrontWall:" + enemySensor.IfCanJumpOverTheInFrontWall());
+            // isJumping = true;
             // enemyPathFindingMovement.hasLeaveGround = true;
             currentEnemyStateAction = EnemyStateAction.Jump;
             
@@ -320,8 +334,8 @@ public class EnemyAI : MonoBehaviour
         {
             if (DistanceEnemyToPlayer >= DISENGAGE_DISTANCE && IsPlayerAround == false /*&& enemyPathFindingMovement.hasLeaveGround == false*/)
             {
-                Debug.Log("isJumping:" + isJumping);
-                Debug.Log("Jump -> Patrol");
+                // Debug.Log("isJumping:" + isJumping);
+                // Debug.Log("Jump -> Patrol");
                 currentEnemyStateAction = EnemyStateAction.Patrol;
                 return;
             }

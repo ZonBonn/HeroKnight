@@ -111,7 +111,7 @@ public class EnemyPathFindingMovement : MonoBehaviour
         {
             UnityEngine.Vector3 targetPosition = PathOnVector[currentIdxPath];
             
-            if (UnityEngine.Vector3.Distance(gameObject.transform.position, targetPosition) <= 0.6f)
+            if (UnityEngine.Vector3.Distance(gameObject.transform.position, targetPosition) <= 0.6f) // 0.6f == PATROL_REACHED_DISTANCE
             {
                 // Debug.Log(Vector3.Distance(gameObject.transform.position, targetPosition));
                 // Debug.Log("Đã tới ô thứ: " + currentIdxPath);
@@ -149,15 +149,15 @@ public class EnemyPathFindingMovement : MonoBehaviour
     public void JumpPhysicalPlatformerHandler()
     {
         bool IsGroundedVar = enemySensor.IsGrounded();
-        Debug.Log("IsGroundedVar:" + IsGroundedVar);
+        // Debug.Log("IsGroundedVar:" + IsGroundedVar);
         // if(enemyAI.GetIsJumping() == true || IsGroundedVar == false) return;
 
-        if (IsGroundedVar == true && rb2d.linearVelocityY < 0.1f/*&& hasLeaveGround == false*/) // chưa rời khỏi mặt đất
+        if (IsGroundedVar == true && rb2d.linearVelocityY < 0.1f && enemyAI.GetIsJumping() == false/*&& hasLeaveGround == false*/) // chưa rời khỏi mặt đất
         {
             const float maxJumpHeight = 3f; // chiều cao tối đa mà Enemy có thể nhảy được
             // Debug.Log(rb2d.linearVelocity.x * PUSH_FORCE + " " +  JUMP_FORCE);
             float obstacleHeight = enemySensor.GetObstacleHeight(); // kiểm tra chiều cao của chướng ngại vật trước khi quyết định lực nhảy 
-            Debug.Log("obstacleHeight:" + obstacleHeight);
+            // Debug.Log("obstacleHeight:" + obstacleHeight);
             if(obstacleHeight == 0f) return;
 
             float extraHeight = 0.2f;//0.6f; // cộng dư chiều cao lần 2 :D (cho chắc chắn nhảy phát qua luôn :D)
@@ -178,12 +178,16 @@ public class EnemyPathFindingMovement : MonoBehaviour
             {
                 moveVelocity = (currentVisualDir * PUSH_FORCE) + xLinearVelocity;
             }
-            Debug.Log("jumpVelocity:" + jumpVelocity + "     obstacleHeight:" + obstacleHeight + "     xVelocity:" + moveVelocity);
+            // Debug.Log("jumpVelocity:" + jumpVelocity + "     obstacleHeight:" + obstacleHeight + "     xVelocity:" + moveVelocity);
             rb2d.linearVelocity = new UnityEngine.Vector2(moveVelocity, jumpVelocity);
-            // enemyAI.SetIsJumpingTrueOutside();
+            enemyAI.SetIsJumpingTrueOutside();
             // hasLeaveGround = true;
             return;
             // isPressedSpace = false;
+        }
+        else if(IsGroundedVar == true && rb2d.linearVelocityY < 0.1f && enemyAI.GetIsJumping() == true) // khi tiếp đất sau khi nhảy thì các điều kiện này sẽ là hợp lý nhất
+        {
+            enemyAI.SetIsJumpingFalseOutside();
         }
     }
     
@@ -218,6 +222,13 @@ public class EnemyPathFindingMovement : MonoBehaviour
             //     PathOnVector = PathFinding.Instance.PathOnVector(enemyPosition, randomPosition(enemyPosition), out List<PathNode_S> PathOnNode, enemy.monsterType);
             // }      
             PathOnVector = PathFinding.Instance.PathOnVector(enemyPosition, targetPosition, out List<PathNode_S> PathOnNode/*, enemy.monsterType*/);   
+
+            for(int i = 0 ; i < PathOnVector.Count-1 ; i++)
+            {
+                // Debug.Log("Vẽ từ " + PathOnVector[i] + " Vẽ tới: " + PathOnVector[i]);
+                Debug.DrawLine(PathOnVector[i], PathOnVector[i+1], Color.black, 5f);
+            }
+
         }
         else // sky monster
         {
@@ -230,6 +241,12 @@ public class EnemyPathFindingMovement : MonoBehaviour
             //     PathOnVector = PathFinding.Instance.PathOnVector(enemyPosition, randomPosition(enemyPosition), out List<PathNode_S> PathOnNode, enemy.monsterType);
             // }
             PathOnVector = PathFinding.Instance.PathOnVector(enemyPosition, surroundingPlayerPos(enemyPosition), out List<PathNode_S> PathOnNode/*, enemy.monsterType*/);
+        
+            for(int i = 0 ; i < PathOnVector.Count-1 ; i++)
+            {
+                Debug.Log("Vẽ từ " + PathOnVector[i] + " Vẽ tới: " + PathOnVector[i]);
+                Debug.DrawLine(PathOnVector[i], PathOnVector[i+1], Color.black);
+            }
         }
 
         if (PathOnVector != null && PathOnVector.Count > 1) // PathOnVector.Count == 1 tức là start = target -> không cần xóa

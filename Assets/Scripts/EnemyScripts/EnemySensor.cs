@@ -8,7 +8,7 @@ public class EnemySensor : MonoBehaviour
     private CapsuleCollider2D capsuleCollider2D;
     public LayerMask platFormLayerMask;
     public LayerMask wallLayerMask;
-    private const float FORWARD_CHECK_EXTRA = 0.5f;
+    private const float FORWARD_CHECK_EXTRA = 0.7f;
 
     void Start()
     {
@@ -53,8 +53,9 @@ public class EnemySensor : MonoBehaviour
     public float GetObstacleHeight() // viết lại cái hàm này 
     {
         Vector3 dir = enemyPathFindingMovement.currentVisualDir == -1 ? Vector3.left : Vector3.right;
-        Vector3 basePos = capsuleCollider2D.bounds.min;
-        float[] heights = {0.4f, 1.0f, 1.6f, 2.2f, 2.5f};
+        Bounds b = capsuleCollider2D.bounds;
+        Vector3 basePos = new Vector3(b.center.x, b.min.y, 0f);
+        float[] heights = {0.1f, 0.5f, 1.0f, 1.5f, 2f, 2.5f};
         for(int idx = heights.Length-2 ; idx >= 0; idx--)
         {
             Vector3 origin = basePos + Vector3.up * heights[idx];
@@ -152,7 +153,7 @@ public class EnemySensor : MonoBehaviour
         // RaycastHit2D rayCastHit2D = Physics2D.BoxCast(capsuleCollider2D.bounds.center, capsuleCollider2D.bounds.size, 0f, UnityEngine.Vector2.down, 0.01f, platFormLayerMask);
         RaycastHit2D rayCastHit2D = Physics2D.Raycast(capsuleCollider2D.bounds.center, UnityEngine.Vector3.down, capsuleCollider2D.size.y * 0.5f + 0.05f, platFormLayerMask);
         
-        // Debug.DrawRay(capsuleCollider2D.bounds.center, ) // in xem box cast có dai qua k
+        Debug.DrawRay(capsuleCollider2D.bounds.center, UnityEngine.Vector3.down * (capsuleCollider2D.size.y * 0.5f + 0.05f), Color.green); // in xem box cast có dai qua k
         if (rayCastHit2D.collider != null) // nếu có va chạm với platformLayerMask -> có đang chạm mặt đất -> true
         {
             return true;
@@ -171,7 +172,7 @@ public class EnemySensor : MonoBehaviour
         UnityEngine.Vector3 StartPoint =  dir + (enemyPathFindingMovement.currentVisualDir == -1 ? UnityEngine.Vector3.left : UnityEngine.Vector3.right) * 0.1f;
         RaycastHit2D rayCastHit2D = Physics2D.Raycast(StartPoint, UnityEngine.Vector2.down, 1.2f, platFormLayerMask);
 
-        // Debug.DrawRay(StartPoint, UnityEngine.Vector2.down * 1.2f, Color.pink);
+        Debug.DrawRay(StartPoint, UnityEngine.Vector2.down * 1.2f, Color.pink);
         float realDistance = rayCastHit2D.distance;
         
         if (rayCastHit2D.collider != null) // nếu có va chạm với collider -> platFormLayerMask -> không có hố -> false
