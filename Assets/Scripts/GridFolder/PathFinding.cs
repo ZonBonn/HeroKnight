@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Lumin;
 using ZonBon.Utils;
 
 
@@ -45,7 +46,17 @@ public class PathFinding
         grid.worldPosToIJPos(startWorldPosition, out int startI, out int startJ);
         grid.worldPosToIJPos(endWorldPosition, out int endI, out int endJ);
 
-        PathOnNode = Path(startI, startJ, endI, endJ);
+        // MỤC NÀY ĐỂ PHÙ HỢP VỚI TỰA GAME PLATFORM TÙY CHỈNH SAO CHO MỤC ENDI VÀ ENDJ NÓ Ở Ô STANDABLE CHỨ KHÔNG PHẢI TRÊN KHÔNG THÌ SẼ KHÔNG NULL
+        if(TryGetGroundNodeBelow(endI, endJ, out PathNode_S groundNode) == false)
+        {
+            PathOnNode = null;
+            return null;
+        }
+
+        int groundNodeEndI = groundNode.i;
+        int groundNodeEndJ = groundNode.j;
+
+        PathOnNode = Path(startI, startJ, groundNodeEndI, groundNodeEndJ);
         List<Vector3> PathOnVector = new List<Vector3>();
 
         if (PathOnNode != null)
@@ -100,26 +111,30 @@ public class PathFinding
             {
                 openMinHeapList.removeNodeAtFirst(); openHashSet.Remove(currentNode);
                 closeHashSet.Add(currentNode);
-                foreach (PathNode_S NeighbourNode in currentNode.NeighboursList)
+                foreach (PathNode_S NeighbourNode in currentNode.NeighboursList) // duyệt qua các neighbourNode của currentNode
                 {
                     if (NeighbourNode.isWalkable == false)
                     {
                         closeHashSet.Add(NeighbourNode);
                         continue;
                     }
-                    if (closeHashSet.Contains(NeighbourNode)) continue;
+                    if (closeHashSet.Contains(NeighbourNode)) continue;// nếu đã bị từng là currentNode (nếu từng là currentNode thì có nghĩa là đã được tính chi phí tối ưu)
 
-                    // (still little disunderstanding) (hiểu khối code nay hoạt động@@@@@@@@@@@@@@@@@)
+                    // MỤC NÀY ĐỂ PHÙ HỢP VỚI TỰA GAME PLATFORM
+                    if(IsStandable(NeighbourNode) == false) continue;
+
+                    // tentativeGCost == chi phí đi từ ô start -> currentNode + tới ô neighbourNode <==> startNode -> neighbourNode
                     int tentativeGCost = currentNode.gCost + calculateDistanceBtwTwoNode(currentNode, NeighbourNode);
-                    if (tentativeGCost < NeighbourNode.gCost)
+                    if (tentativeGCost < NeighbourNode.gCost) // nếu đường đi từ ô startNode -> neighbourNode tốt hơn đường trước đó
                     {
-                        NeighbourNode.gCost = tentativeGCost;
-                        NeighbourNode.hCost = calculateDistanceBtwTwoNode(NeighbourNode, endNode);
-                        NeighbourNode.calculateFCost();
-                        NeighbourNode.cameFromThisNode = currentNode;
+                        NeighbourNode.gCost = tentativeGCost; // set lại từ startNode -> neighbourNode
+                        NeighbourNode.hCost = calculateDistanceBtwTwoNode(NeighbourNode, endNode); // tính lại từ neighbourNode -> endNode (chắc khởi tạo vì H Cost luôn như vậy mà )
+                        NeighbourNode.calculateFCost(); // tính lại neighbourNode's F Cost
+                        NeighbourNode.cameFromThisNode = currentNode; // set đương mới
                 
-                        if (openHashSet.Contains(NeighbourNode) == false)
+                        if (openHashSet.Contains(NeighbourNode) == false) // chưa chứa trong Open thì (lần đầu gặp node này)
                         {
+                            // Ném vào để sau này tính toán
                             openMinHeapList.addNewNode(NeighbourNode);
                             openHashSet.Add(NeighbourNode);
                         }
@@ -189,8 +204,10 @@ public class PathFinding
         {
             int xDistance = Mathf.Abs(a.i - b.i);
             int yDistance = Mathf.Abs(a.j - b.j);
-            int DiagonalMove = Mathf.Min(xDistance, yDistance);
-            int StraightMove = Mathf.Abs(xDistance - yDistance);
+            // vì đi chéo mỗi lần sẽ mất 1 x và 1 y => số lượng ô di chuyển sẽ ít đi => ít chi phí (dù 1 lần đi chéo tốn chi phí hơn 1 lần đi thẳng, nhưng số lượng ô cần đi ít hơn)
+            // số lượng ô đi != chi phí đi tới 1 ô theo thẳng hoặc chéo
+            int DiagonalMove = Mathf.Min(xDistance, yDistance); // tính số lần đi chéo (vì đi chéo sẽ tới ô cần tới nhanh hơn đi thẳng thì đi tốn chi phí (mặc dù đi chéo tốn chi phí hơn nhưng số lượng ô cần đi ít hơn))
+            int StraightMove = Mathf.Abs(xDistance - yDistance); // sau khi đi hết chéo thì HIỆU số còn lại chính là số lần BẮT BUỘC phải đi thẳng
             return DiagonalMove * MOVE_DIAGONAL_COST + StraightMove * MOVE_STRAIGHT_COST;
         }
         else
@@ -284,4 +301,53 @@ public class PathFinding
     {
         return SetRootLocation;
     }
+
+    private bool IsStandable(PathNode_S pathNode_S)
+    {
+        if(pathNode_S == null) return false;
+        PathNode_S NodeBelow = grid.getNodeTypeByGridPosition(pathNode_S.i, pathNode_S.j-1);
+        return NodeBelow != null && NodeBelow.getIsWalkable() == false;
+    }
+
+    private bool TryGetGroundNodeBelow(int endI, int endJ, out PathNode_S groundNode)
+    {
+        groundNode = null;
+
+        PathNode_S startNode = grid.GetNodeType(endI, endJ);
+
+        if(startNode != null && IsStandable(startNode) == true)
+        {
+            groundNode = startNode;
+            return true;
+        }
+
+        for(int j = endJ -1 ; j >= 0 ; j--)
+        {
+            PathNode_S node = grid.getNodeTypeByGridPosition(endI, j);
+            
+            // C1: dò tìm Node Standable đầu tiên dưới Node endI, endJ
+            // if(node == null) continue;
+
+            // if(IsStandable(node) == true)
+            // {
+            //     groundNode = node;
+            //     return true;
+            // }
+
+            // C2: tìm  Node IsWakable == false đầu tiên
+            if (node.getIsWalkable() == false)
+            {
+                PathNode_S standNode = grid.getNodeTypeByGridPosition(endI, j+1);
+                if(IsStandable(standNode) == true)
+                {
+                    groundNode = standNode;
+                    return true;
+                }
+            }
+        }
+        return false;
+
+    }
 }
+
+// REFACTOR CODE

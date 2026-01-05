@@ -90,7 +90,7 @@ public class Grid_S<NodeType>
 
     public void SetNodeType(int i, int j, NodeType value) // set value khi có một tọa độ hợp lệ là i, j
     {
-        if (i >= 0 && i < width && j >= 0 && j < height)
+        if (isInGrid(i, j) == true)
         {
             gridArr[i, j] = value;
             debugTextArr[i, j].text = gridArr[i, j].ToString();
@@ -143,7 +143,7 @@ public class Grid_S<NodeType>
     }
     public string GetDebugArr(int i, int j)
     {
-        if (i >= 0 && i < width && j >= 0 && j < height)
+        if (isInGrid(i, j) == true)
         {
             return debugTextArr[i, j].text;
         }
@@ -182,11 +182,15 @@ public class Grid_S<NodeType>
     public NodeType getNodeTypeByWorldPosition(Vector3 WorldPosition)
     {
         worldPosToIJPos(WorldPosition, out int i, out int j);
-        return gridArr[i, j];
+        if (isInGrid(i, j) == true)
+            return gridArr[i, j];
+        return default(NodeType);
     }
 
     public NodeType getNodeTypeByGridPosition(int i, int j)
     {
-        return gridArr[i, j];
+        if (isInGrid(i, j) == true)
+            return gridArr[i, j];
+        return default(NodeType);
     }
 }

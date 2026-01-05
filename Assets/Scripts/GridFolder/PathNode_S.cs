@@ -8,9 +8,9 @@ public class PathNode_S : IComparable<PathNode_S>
     public int j;
     public List<PathNode_S> NeighboursList;
 
-    public int gCost;
-    public int hCost; // chi phí từ startNode tới currentNode
-    public int fCost; // chi phí (ước tính == heuristic) từ currentNode tới endNode
+    public int gCost;// chi phí từ startNode tới currentNode
+    public int hCost; // chi phí (ước tính == heuristic) từ currentNode tới endNode; heuristic luôn thấp hơn hoặc bằng chi phí thật (vì nó chọn đường tốt nhất bỏ qua cả các ô bị block) và chính cái này sẽ quyết định cái nào được ưu tiên xét trước
+    public int fCost; 
     public PathNode_S cameFromThisNode;
     public bool isWalkable;
 
