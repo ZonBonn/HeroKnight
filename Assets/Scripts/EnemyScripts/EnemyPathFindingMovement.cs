@@ -150,6 +150,11 @@ public class EnemyPathFindingMovement : MonoBehaviour
                 
             }
         }
+        else
+        {
+            // nếu không tìm được đường
+            // Debug.Log("Không có đường");
+        }
     }
  
     private void JumpPhysicalPlatformerHandler()
@@ -227,42 +232,21 @@ public class EnemyPathFindingMovement : MonoBehaviour
     {
         currentIdxPath = 0;
         UnityEngine.Vector3 enemyPosition = getObjectPosition();
-        if (enemy.monsterType == MonsterType.Ground)
+
+        PathOnVector = PathFinding.Instance.PathOnVector(enemyPosition, targetPosition, out List<PathNode_S> PathOnNode/*, enemy.monsterType*/);   
+
+        // KHÔNG TÌM ĐƯỢC ĐƯỜNG TỚI TARGET
+        if (PathOnVector == null || PathOnVector.Count == 0)
         {
-            // if (playerMovement.GetPlayerState() != State.Die)
-            // {
-            //     PathOnVector = PathFinding.Instance.PathOnVector(enemyPosition, targetPosition, out List<PathNode_S> PathOnNode, enemy.monsterType);
-            // }
-            // else
-            // {
-            //     PathOnVector = PathFinding.Instance.PathOnVector(enemyPosition, randomPosition(enemyPosition), out List<PathNode_S> PathOnNode, enemy.monsterType);
-            // }      
-            PathOnVector = PathFinding.Instance.PathOnVector(enemyPosition, targetPosition, out List<PathNode_S> PathOnNode/*, enemy.monsterType*/);   
-
-            for(int i = 0 ; i < PathOnVector.Count-1 ; i++)
-            {
-                // Debug.Log("Vẽ từ " + PathOnVector[i] + " Vẽ tới: " + PathOnVector[i]);
-                Debug.DrawLine(PathOnVector[i], PathOnVector[i+1], Color.black, 5f);
-            }
-
+            StopMovingPhysicalHandler();
+            Debug.Log("Không có đường");
+            return;
         }
-        else // sky monster
+
+        for(int i = 0 ; i < PathOnVector.Count-1 ; i++)
         {
-            // if (playerMovement.GetPlayerState() != State.Die)
-            // {
-            //     PathOnVector = PathFinding.Instance.PathOnVector(enemyPosition, surroundingPlayerPos(enemyPosition), out List<PathNode_S> PathOnNode, enemy.monsterType);
-            // }
-            // else
-            // {
-            //     PathOnVector = PathFinding.Instance.PathOnVector(enemyPosition, randomPosition(enemyPosition), out List<PathNode_S> PathOnNode, enemy.monsterType);
-            // }
-            PathOnVector = PathFinding.Instance.PathOnVector(enemyPosition, surroundingPlayerPos(enemyPosition), out List<PathNode_S> PathOnNode/*, enemy.monsterType*/);
-        
-            for(int i = 0 ; i < PathOnVector.Count-1 ; i++)
-            {
-                Debug.Log("Vẽ từ " + PathOnVector[i] + " Vẽ tới: " + PathOnVector[i]);
-                Debug.DrawLine(PathOnVector[i], PathOnVector[i+1], Color.black);
-            }
+            // Debug.Log("Vẽ từ " + PathOnVector[i] + " Vẽ tới: " + PathOnVector[i]);
+            Debug.DrawLine(PathOnVector[i], PathOnVector[i+1], Color.black, 5f);
         }
 
         if (PathOnVector != null && PathOnVector.Count > 1) // PathOnVector.Count == 1 tức là start = target -> không cần xóa
@@ -342,6 +326,12 @@ public class EnemyPathFindingMovement : MonoBehaviour
     public List<UnityEngine.Vector3> getPathOnVector()
     {
         return PathOnVector;
+    }
+    
+    public bool IsHavePath()
+    {
+        if(PathOnVector == null) return false;
+        return true;
     }
     // ==========================================================
 

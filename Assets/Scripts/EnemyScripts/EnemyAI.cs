@@ -187,7 +187,7 @@ public class EnemyAI : MonoBehaviour
         {
             currentEnemyStateAction = EnemyStateAction.Idle;
             // m_IdleTimer = idleTimer;
-            // Debug.Log("Đổi hướng");
+            Debug.Log("Đổi hướng");
             // Debug.Log("Đổi thanh Idle");
             if (currentToward == leftPoint)
             {
@@ -263,6 +263,11 @@ public class EnemyAI : MonoBehaviour
         {
             enemyPathFindingMovement.MoveTo(PlayerPosition);
             // trong lúc đang đuổi theo nên check hố chướng ngại vật các thứ v.v tại đây --> IN HERE <-- tại đây
+            if(enemyPathFindingMovement.IsHavePath() == false) // nếu đang đuổi theo mà không thấy player thì thôi quay về patrol
+            {
+                currentEnemyStateAction = EnemyStateAction.Patrol;
+                return;
+            }
         }
 
         if (DistanceEnemyToPlayer >= DISENGAGE_DISTANCE && IsPlayerAround == false)

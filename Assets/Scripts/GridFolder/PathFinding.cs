@@ -113,6 +113,7 @@ public class PathFinding
                 closeHashSet.Add(currentNode);
                 foreach (PathNode_S NeighbourNode in currentNode.NeighboursList) // duyệt qua các neighbourNode của currentNode
                 {
+                    // TÙY CHỈNH CÁCH CHỌN NODE Ở ĐÂY
                     if (NeighbourNode.isWalkable == false)
                     {
                         closeHashSet.Add(NeighbourNode);
@@ -121,7 +122,8 @@ public class PathFinding
                     if (closeHashSet.Contains(NeighbourNode)) continue;// nếu đã bị từng là currentNode (nếu từng là currentNode thì có nghĩa là đã được tính chi phí tối ưu)
 
                     // MỤC NÀY ĐỂ PHÙ HỢP VỚI TỰA GAME PLATFORM
-                    if(IsStandable(NeighbourNode) == false) continue;
+                    // if(IsStandable(NeighbourNode) == false) continue;
+                    if(CanEnterNode(currentNode, NeighbourNode) == false) continue;
 
                     // tentativeGCost == chi phí đi từ ô start -> currentNode + tới ô neighbourNode <==> startNode -> neighbourNode
                     int tentativeGCost = currentNode.gCost + calculateDistanceBtwTwoNode(currentNode, NeighbourNode);
@@ -302,14 +304,14 @@ public class PathFinding
         return SetRootLocation;
     }
 
-    private bool IsStandable(PathNode_S pathNode_S)
+    private bool IsStandable(PathNode_S pathNode_S) // Node này có phải là node đứng trên đó được ?
     {
         if(pathNode_S == null) return false;
         PathNode_S NodeBelow = grid.getNodeTypeByGridPosition(pathNode_S.i, pathNode_S.j-1);
         return NodeBelow != null && NodeBelow.getIsWalkable() == false;
     }
 
-    private bool TryGetGroundNodeBelow(int endI, int endJ, out PathNode_S groundNode)
+    private bool TryGetGroundNodeBelow(int endI, int endJ, out PathNode_S groundNode) // từ một node (có thể trên không) gióng xuống để tìm ra cái node có thể đứng trên đó được 
     {
         groundNode = null;
 
@@ -348,6 +350,23 @@ public class PathFinding
         return false;
 
     }
+
+    private bool CanEnterNode(PathNode_S from, PathNode_S to)
+{
+    if (to == null || !to.getIsWalkable())
+        return false;
+
+    // Nếu node có đất bên dưới → OK (đứng được)
+    PathNode_S below = grid.getNodeTypeByGridPosition(to.i, to.j - 1);
+    if (below != null && below.getIsWalkable() == false)
+        return true;
+
+    // Nếu đang đi xuống (rơi) → CHO PHÉP
+    if (to.j < from.j)
+        return true;
+
+    return false;
+}
 }
 
 // REFACTOR CODE
