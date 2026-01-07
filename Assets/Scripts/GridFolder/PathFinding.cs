@@ -351,22 +351,22 @@ public class PathFinding
 
     }
 
-    private bool CanEnterNode(PathNode_S from, PathNode_S to)
-{
-    if (to == null || !to.getIsWalkable())
+    private bool CanEnterNode(PathNode_S from, PathNode_S to) // HIỂU HÀM NÀY
+    {
+        if (to == null || !to.getIsWalkable()) // node to không hợp lệ hoặc bị blocked
+            return false;
+
+        // Nếu node có đất bên dưới → OK (đứng được)
+        PathNode_S below = grid.getNodeTypeByGridPosition(to.i, to.j - 1); // node dưới node to
+        if (below != null && below.getIsWalkable() == false) // nếu node below đó null hoặc là bị blocked (nghĩa là false) 
+            return true;
+
+        // Nếu đang đi xuống (rơi) → CHO PHÉP
+        if (to.j < from.j) // nếu node to đi xuống chứ không tính đi lên hoặc xang trái hoặc phải
+            return true;
+
         return false;
-
-    // Nếu node có đất bên dưới → OK (đứng được)
-    PathNode_S below = grid.getNodeTypeByGridPosition(to.i, to.j - 1);
-    if (below != null && below.getIsWalkable() == false)
-        return true;
-
-    // Nếu đang đi xuống (rơi) → CHO PHÉP
-    if (to.j < from.j)
-        return true;
-
-    return false;
-}
+    }
 }
 
 // REFACTOR CODE
