@@ -1,3 +1,4 @@
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 
 public class Chest : MonoBehaviour
@@ -11,11 +12,17 @@ public class Chest : MonoBehaviour
     } 
 
     [SerializeField] public ChestType chestType;
+    private ChestKey chestKey;
 
     private bool isPlayerNear; // cái này thì người chơi cứ đến gần là mở xa thì đóng // nhưng đồ chỉ spawn 1 lần
     private bool IsOpended;
     private bool isUsedToOpen; // cái này dùng để chỉ spawn đồ  1 lần
 
+    private void Awake()
+    {
+        chestKey = gameObject.GetComponent<ChestKey>();
+    }
+    
     private void Start()
     {
         isPlayerNear = false; isUsedToOpen = false;
@@ -27,26 +34,42 @@ public class Chest : MonoBehaviour
     }
 
     // ============= CHECK FUNCTION ==================
-    private void OnTriggerEnter2D(Collider2D collision)
+    // private void OnTriggerEnter2D(Collider2D collision)
+    // {
+    //     if(collision.CompareTag("Player") == true)
+    //     {
+    //         isPlayerNear = true;
+    //         // check nếu có key ở đây thì mới mở được (nhưng tạm thời test thì chỉ cần người chơi gần là mở rồi)
+    //         IsOpended = true;
+    //     }    
+    // }
+    // private void OnTriggerExit2D(Collider2D collision)
+    // {
+    //     if(collision.CompareTag("Player") == true)
+    //     {
+    //         isPlayerNear = false;
+    //         IsOpended = false;
+    //     } 
+    // }
+
+    public bool TryOpen(Key.KeyType keyType)
     {
-        if(collision.CompareTag("Player") == true)
+        Key.KeyType keyNeedToOpenThisChest = chestKey.GetKeyType();
+        if(keyType != keyNeedToOpenThisChest)
         {
-            isPlayerNear = true;
-            // check nếu có key ở đây thì mới mở được (nhưng tạm thời test thì chỉ cần người chơi gần là mở rồi)
-            IsOpended = true;
-        }    
+            return false;
+        }
+        Open();
+        return true;
     }
-    private void OnTriggerExit2D(Collider2D collision)
+
+    private void Open()
     {
-        if(collision.CompareTag("Player") == true)
-        {
-            isPlayerNear = false;
-            IsOpended = false;
-        } 
+        IsOpended = true;
+        isUsedToOpen = true;
     }
 
     // ============== SUPPORT FUNCTION ================
-
     public ChestType GetChestType()
     {
         return chestType;
@@ -66,4 +89,5 @@ public class Chest : MonoBehaviour
     {
         return IsOpended;
     }
+    // ==================================================
 }

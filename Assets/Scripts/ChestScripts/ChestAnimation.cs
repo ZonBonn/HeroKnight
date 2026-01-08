@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class ChestAnimation : MonoBehaviour
 {
@@ -28,6 +29,9 @@ public class ChestAnimation : MonoBehaviour
     private Chest chest;
 
     private SpriteRenderer spriteRenderer;
+
+    public Action<int, Sprite[]> OnTriggerEachChestFrame;
+    public Action OnTriggerAfterDoneLastFrameChest;
 
     private void Awake()
     {
@@ -68,6 +72,7 @@ public class ChestAnimation : MonoBehaviour
         TimerCoolDown -= Time.deltaTime;
         if(TimerCoolDown <= 0)
         {
+            OnTriggerEachChestFrame?.Invoke(idxChestFrame, currentChestSprites);
             spriteRenderer.sprite = currentChestSprites[idxChestFrame];
             ++idxChestFrame;
             if(idxChestFrame == currentChestSprites.Length)
@@ -80,7 +85,7 @@ public class ChestAnimation : MonoBehaviour
                 {
                     idxChestFrame--;
                 }
-                
+                OnTriggerAfterDoneLastFrameChest?.Invoke();
             }
             TimerCoolDown = TIME_EACH_FRAME_CHEST;
         }
@@ -140,7 +145,7 @@ public class ChestAnimation : MonoBehaviour
         ResetTimerCoolDown();
     }
 
-    private void caculateNewIdxChestFrame() // mặc định đóng và mở có 7 frames
+    private void caculateNewIdxChestFrame() // mặc định đóng và mở có CỐ ĐỊNH 7 frames
     {
         
         idxChestFrame = DEFAULT_CHEST_FRAMES - idxChestFrame - 1;
