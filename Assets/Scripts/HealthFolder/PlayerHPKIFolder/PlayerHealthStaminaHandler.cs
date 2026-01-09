@@ -80,5 +80,13 @@ public class PlayerHealthStaminaHandler : MonoBehaviour // class này quản lý
         return playerStaminaSystem;
     }
 
-    
+    public float GetCurrentPlayerHealth()
+    {
+        return playerHealthSystem.GetCurrentHealth();
+    }
+
+    public float GetMaxHealth()
+    {
+        return playerHealthSystem.GetMaxHealth();
+    }
 }

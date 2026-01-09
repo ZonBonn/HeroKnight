@@ -47,4 +47,9 @@ public class PlayerHealthSystem // class này lưu giữ HP thật
     {
         return currentHealth;
     }
+
+    public float GetMaxHealth()
+    {
+        return maxHealth;
+    }
 }
