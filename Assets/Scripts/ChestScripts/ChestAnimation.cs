@@ -53,13 +53,14 @@ public class ChestAnimation : MonoBehaviour
     {
         bool IsPlayerNearVar = chest.getIsPlayerNear();
         bool IsOpendedVar = chest.getIsOpended();
-        if(IsPlayerNearVar == true && IsOpendedVar == true) // người chơi gần
+        bool IsUsedToOpenVar = chest.getIsUsedToOpen();
+        if(IsPlayerNearVar == true && (IsOpendedVar == true || IsUsedToOpenVar == true)) // mở khi: người chơi gần VÀ được mở HOẶC đã từng được mở
         {
             ChangeCurrentChestSprites(currentChestOpenSprites);
             PlayChestAnimation();
         }
 
-        if(IsPlayerNearVar == false && IsOpendedVar == false) // người chơi không gần
+        if(IsPlayerNearVar == false && (IsOpendedVar == false || IsUsedToOpenVar == true)) // đóng khi: người chơi xa VÀ chưa từng được mở HOẶC từng mở rồi thì vẫn có thể đóng
         {
             ChangeCurrentChestSprites(currentChestCloseSprites);
             PlayChestAnimation();

@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 7017244622764219311}
   - component: {fileID: 3300090922091241008}
   - component: {fileID: 8266929943606970848}
-  - component: {fileID: 36533255618844723}
   - component: {fileID: 2145393335992931188}
+  - component: {fileID: 36533255618844723}
   m_Layer: 0
   m_Name: ChestWooden
   m_TagString: Untagged
@@ -183,6 +183,19 @@ MonoBehaviour:
   - {fileID: -2859092616773691244, guid: 19e07f9d107e445408633f50457d456e, type: 3}
   - {fileID: -8385124645873774784, guid: 19e07f9d107e445408633f50457d456e, type: 3}
   - {fileID: -6929924221510541977, guid: 19e07f9d107e445408633f50457d456e, type: 3}
+--- !u!114 &2145393335992931188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 750633089396465227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f03b49b2507e174084f349ddd8a9441, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChestKey
+  keyType: 0
 --- !u!61 &36533255618844723
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -229,16 +242,3 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 4, y: 2}
   m_EdgeRadius: 0
---- !u!114 &2145393335992931188
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 750633089396465227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f03b49b2507e174084f349ddd8a9441, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ChestKey
-  keyType: 0

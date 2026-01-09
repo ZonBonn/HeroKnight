@@ -34,23 +34,23 @@ public class Chest : MonoBehaviour
     }
 
     // ============= CHECK FUNCTION ==================
-    // private void OnTriggerEnter2D(Collider2D collision)
-    // {
-    //     if(collision.CompareTag("Player") == true)
-    //     {
-    //         isPlayerNear = true;
-    //         // check nếu có key ở đây thì mới mở được (nhưng tạm thời test thì chỉ cần người chơi gần là mở rồi)
-    //         IsOpended = true;
-    //     }    
-    // }
-    // private void OnTriggerExit2D(Collider2D collision)
-    // {
-    //     if(collision.CompareTag("Player") == true)
-    //     {
-    //         isPlayerNear = false;
-    //         IsOpended = false;
-    //     } 
-    // }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.CompareTag("Player") == true)
+        {
+            isPlayerNear = true;
+            // check nếu có key ở đây thì mới mở được (nhưng tạm thời test thì chỉ cần người chơi gần là mở rồi)
+            // IsOpended = true;
+        }    
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if(collision.CompareTag("Player") == true)
+        {
+            isPlayerNear = false;
+            // IsOpended = false;
+        } 
+    }
 
     public bool TryOpen(Key.KeyType keyType)
     {

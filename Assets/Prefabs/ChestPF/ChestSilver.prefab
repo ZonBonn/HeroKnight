@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 5371751819136859365}
   - component: {fileID: 5267228722076357515}
   - component: {fileID: 784355151317467575}
-  - component: {fileID: 3617576557420642224}
   - component: {fileID: 2185502933607939549}
+  - component: {fileID: 3617576557420642224}
   m_Layer: 0
   m_Name: ChestSilver
   m_TagString: Untagged
@@ -183,6 +183,19 @@ MonoBehaviour:
   - {fileID: -2859092616773691244, guid: 19e07f9d107e445408633f50457d456e, type: 3}
   - {fileID: -8385124645873774784, guid: 19e07f9d107e445408633f50457d456e, type: 3}
   - {fileID: -6929924221510541977, guid: 19e07f9d107e445408633f50457d456e, type: 3}
+--- !u!114 &2185502933607939549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7525293527372094641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f03b49b2507e174084f349ddd8a9441, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChestKey
+  keyType: 3
 --- !u!61 &3617576557420642224
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -229,16 +242,3 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 4, y: 2}
   m_EdgeRadius: 0
---- !u!114 &2185502933607939549
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7525293527372094641}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f03b49b2507e174084f349ddd8a9441, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ChestKey
-  keyType: 3

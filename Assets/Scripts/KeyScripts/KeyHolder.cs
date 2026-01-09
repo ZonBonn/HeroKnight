@@ -56,7 +56,10 @@ public class KeyHolder : MonoBehaviour
                 if(chest != null)
                 {
                     bool IsCanOpen = chest.TryOpen(IsPlayerHoldingThisKey);
-                    Debug.Log("IsCanOpen " + IsCanOpen);
+                    if(IsCanOpen == true)
+                    {
+                        RemoveKey(IsPlayerHoldingThisKey);
+                    }
                 }
             }
         }
