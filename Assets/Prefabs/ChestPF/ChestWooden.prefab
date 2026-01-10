@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 3300090922091241008}
   - component: {fileID: 8266929943606970848}
   - component: {fileID: 2145393335992931188}
+  - component: {fileID: 1594373360729264873}
+  - component: {fileID: 5918703435865387928}
   - component: {fileID: 36533255618844723}
   m_Layer: 0
   m_Name: ChestWooden
@@ -33,7 +35,8 @@ Transform:
   m_LocalPosition: {x: 0.55, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6841254155753774853}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7017244622764219311
@@ -196,6 +199,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChestKey
   keyType: 0
+--- !u!114 &1594373360729264873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 750633089396465227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2409f503398e5849b3ffb306a64517b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChestItemsHolder
+  itemsInChestIsSeted: []
+  itemsInChestIsRandom:
+  - {fileID: 8308712617738637068, guid: c952a85773d3c024fa68edb183939e91, type: 3}
+--- !u!114 &5918703435865387928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 750633089396465227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 994018b8230b0534ebfcbecec8bfa6c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChestData
+  minDropItems: 0
+  maxDropItems: 1
 --- !u!61 &36533255618844723
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -242,3 +274,34 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 4, y: 2}
   m_EdgeRadius: 0
+--- !u!1 &6086802707964059543
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6841254155753774853}
+  m_Layer: 0
+  m_Name: SpawnPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6841254155753774853
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6086802707964059543}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7255021706900814317}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

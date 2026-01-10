@@ -1,3 +1,4 @@
+using System;
 using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 
@@ -17,6 +18,8 @@ public class Chest : MonoBehaviour
     private bool isPlayerNear; // cái này thì người chơi cứ đến gần là mở xa thì đóng // nhưng đồ chỉ spawn 1 lần
     private bool IsOpended;
     private bool isUsedToOpen; // cái này dùng để chỉ spawn đồ  1 lần
+
+    public Action OnTriggerChestIsOpended;
 
     private void Awake()
     {
@@ -65,6 +68,7 @@ public class Chest : MonoBehaviour
 
     private void Open()
     {
+        OnTriggerChestIsOpended?.Invoke();
         IsOpended = true;
         isUsedToOpen = true;
     }
