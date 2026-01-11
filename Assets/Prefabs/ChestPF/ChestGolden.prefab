@@ -242,10 +242,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2409f503398e5849b3ffb306a64517b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChestItemsHolder
-  itemsInChestIsSeted:
+  itemsInSetedChest:
   - {fileID: 8308712617738637068, guid: c952a85773d3c024fa68edb183939e91, type: 3}
   - {fileID: 8308712617738637068, guid: c952a85773d3c024fa68edb183939e91, type: 3}
-  itemsInChestIsRandom:
+  itemsInRandomChest:
   - {fileID: 8308712617738637068, guid: c952a85773d3c024fa68edb183939e91, type: 3}
 --- !u!114 &9191708464930875564
 MonoBehaviour:
@@ -260,7 +260,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChestData
   minDropItems: 2
-  maxDropItems: 3
+  maxDropItems: 2
 --- !u!61 &3652356965922587851
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -707,10 +707,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ChestWooden
       objectReference: {fileID: 0}
-    - target: {fileID: 750633089396465227, guid: e6adb95d843d3784aa465bae977f9823, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7255021706900814317, guid: e6adb95d843d3784aa465bae977f9823, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.5
@@ -865,29 +861,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5481570085514943212, guid: ab99f911081ae064f99b47789afb82c8, type: 3}
-      propertyPath: itemsInRandomChest.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5481570085514943212, guid: ab99f911081ae064f99b47789afb82c8, type: 3}
-      propertyPath: 'itemsInRandomChest.Array.data[0]'
-      value: 
-      objectReference: {fileID: 8308712617738637068, guid: c952a85773d3c024fa68edb183939e91, type: 3}
     - target: {fileID: 7223303294700175538, guid: ab99f911081ae064f99b47789afb82c8, type: 3}
       propertyPath: m_Name
       value: ChestGolden
-      objectReference: {fileID: 0}
-    - target: {fileID: 7223303294700175538, guid: ab99f911081ae064f99b47789afb82c8, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9191708464930875564, guid: ab99f911081ae064f99b47789afb82c8, type: 3}
-      propertyPath: maxDropItems
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 9191708464930875564, guid: ab99f911081ae064f99b47789afb82c8, type: 3}
-      propertyPath: minDropItems
-      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -946,10 +922,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ChestIron
       objectReference: {fileID: 0}
-    - target: {fileID: 6216429930985266989, guid: c5e400d818fcfbf4c81433435dbbb431, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1006,10 +978,6 @@ PrefabInstance:
     - target: {fileID: 7525293527372094641, guid: 8dbff13ee9a83344b961a0ea0611fcd2, type: 3}
       propertyPath: m_Name
       value: ChestSilver
-      objectReference: {fileID: 0}
-    - target: {fileID: 7525293527372094641, guid: 8dbff13ee9a83344b961a0ea0611fcd2, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

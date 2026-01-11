@@ -211,8 +211,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2409f503398e5849b3ffb306a64517b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChestItemsHolder
-  itemsInChestIsSeted: []
-  itemsInChestIsRandom:
+  itemsInSetedChest: []
+  itemsInRandomChest:
   - {fileID: 8308712617738637068, guid: c952a85773d3c024fa68edb183939e91, type: 3}
 --- !u!114 &5918703435865387928
 MonoBehaviour:

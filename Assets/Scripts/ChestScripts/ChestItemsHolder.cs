@@ -10,12 +10,17 @@ public class ChestItemsHolder : MonoBehaviour
     private Chest chest;
     private ChestData chestData;
 
+    private const int MAX_AMOUNT_ITEMS_SPAWN_FOR_EACH = 4; // thực ra là = 3 vì trong random phần max nó lấy cận dưới   
+    private int totalItemsSpawnInRandomChest;
+    private int amountSpawnedItemsInRandomChest;
+    private int amountSpawnItemsThisTimeInRandomChest;
     
 
     private void Awake()
     {
         // itemsInChest = new List<GameObject>(); // bỏ vì mình tụ sắp xếp giữ dữ liệu trong hòm có gì mà nếu có dòng này thì mất hết dữ liệu
         transformSpawnPosition = gameObject.transform.Find("SpawnPosition");
+        if (transformSpawnPosition == null) Debug.LogError("SpawnPosition not found!"); // for safe
 
         chest = gameObject.GetComponent<Chest>();
         chestData = gameObject.GetComponent<ChestData>();
@@ -25,7 +30,9 @@ public class ChestItemsHolder : MonoBehaviour
     {
         chest.OnTriggerChestIsOpended += SpawnItems;
 
-        totalItemsSpawnItemInRandomChest = Random.Range(chestData.minDropItems, chestData.maxDropItems);
+        // init var
+        totalItemsSpawnInRandomChest = Random.Range(chestData.minDropItems, chestData.maxDropItems);
+        amountSpawnedItemsInRandomChest = 0;
     }
 
     private void SpawnItems()
@@ -60,34 +67,32 @@ public class ChestItemsHolder : MonoBehaviour
         //     }
         // }
 
-        // C2: spawn 2-3 món đồ theo nhiều lượt spawn
-        FunctionTimer.Create(SpawnItemsCroutineHandler, 0.25f, "SpawnRandomChestItems");
-        
+        // C2: spawn 1-3 món đồ theo nhiều lượt spawn
+        if (itemsInRandomChest.Count > 0) // nếu random chest không có item thì rất dễ Out of range hoặc bị treo bởi dòng code dưới này
+        {
+            FunctionTimer.Create(SpawnItemsCroutineHandler, 0.5f);
+        }
     }
 
-    private const int MAX_AMOUNT_ITEMS_SPAWN_FOR_EACH = 3;
-    private int totalItemsSpawnItemInRandomChest;
-    private int amountSpawnedItemsInRandomChest;
-    private int amountSpawnItemsThisTimeInRandomChest;
 
     private void SpawnItemsCroutineHandler()
     {
-        if(amountSpawnedItemsInRandomChest >= totalItemsSpawnItemInRandomChest) return;
+        if(amountSpawnedItemsInRandomChest >= totalItemsSpawnInRandomChest) return;
 
-        amountSpawnItemsThisTimeInRandomChest = UnityEngine.Random.Range(0, MAX_AMOUNT_ITEMS_SPAWN_FOR_EACH);
+        amountSpawnItemsThisTimeInRandomChest = UnityEngine.Random.Range(1, MAX_AMOUNT_ITEMS_SPAWN_FOR_EACH);
           
-        if(amountSpawnItemsThisTimeInRandomChest + amountSpawnedItemsInRandomChest > totalItemsSpawnItemInRandomChest)
+        if(amountSpawnItemsThisTimeInRandomChest + amountSpawnedItemsInRandomChest > totalItemsSpawnInRandomChest)
         {
-            amountSpawnItemsThisTimeInRandomChest = totalItemsSpawnItemInRandomChest - amountSpawnedItemsInRandomChest;
+            amountSpawnItemsThisTimeInRandomChest = totalItemsSpawnInRandomChest - amountSpawnedItemsInRandomChest;
         }
 
         SpawnItemsForEach(amountSpawnItemsThisTimeInRandomChest);
 
         // sau khi spawn xong thì tính lại số items đã được spawned
-        amountSpawnedItemsInRandomChest = calcuateAmountItemsSpawnedInRandomChest(amountSpawnItemsThisTimeInRandomChest, amountSpawnedItemsInRandomChest);
+        amountSpawnedItemsInRandomChest = calculateAmountItemsSpawnedInRandomChest(amountSpawnItemsThisTimeInRandomChest, amountSpawnedItemsInRandomChest);
 
-        // tự gọi lại
-        FunctionTimer.Create(SpawnItemsCroutineHandler, 0.25f, "SpawnRandomChestItems");
+        // tự gọi lại: KHÁ NGUY HIỂM NẾU KHÔNG KIÊM SOÁT CẨN THẬN CÓ NGUY CƠ ĐỨNG TREO GAME (đệ quy)
+        FunctionTimer.Create(SpawnItemsCroutineHandler, 0.5f);
     }
 
     private void SpawnItemsForEach(int amoutSpawnThisTime)
@@ -95,14 +100,14 @@ public class ChestItemsHolder : MonoBehaviour
         for(int i = 0 ; i < amoutSpawnThisTime ; i++)
         {
             // Chọn đồ ngẫu nhiên từ hòm để spawn ra
-            int idxItemRandomChest = UnityEngine.Random.Range(0, itemsInRandomChest.Count-1);
+            int idxItemRandomChest = UnityEngine.Random.Range(0, itemsInRandomChest.Count); // [min, max)
             GameObject itemSpawned = Instantiate(itemsInRandomChest[idxItemRandomChest], transformSpawnPosition.position, Quaternion.identity);
 
             EffectThrowOutItem(itemSpawned);
         }
     }
 
-    private int calcuateAmountItemsSpawnedInRandomChest(int amoutSpawnThisTime, int amountSpawned)
+    private int calculateAmountItemsSpawnedInRandomChest(int amoutSpawnThisTime, int amountSpawned)
     {
         int newAmountSpawned = amoutSpawnThisTime + amountSpawned;
         return newAmountSpawned;
