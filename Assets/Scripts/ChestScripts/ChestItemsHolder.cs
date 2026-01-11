@@ -61,10 +61,7 @@ public class ChestItemsHolder : MonoBehaviour
         // }
 
         // C2: spawn 2-3 món đồ theo nhiều lượt spawn
-        while(amountSpawnedItemsInRandomChest < totalItemsSpawnItemInRandomChest)
-        {
-            FunctionTimer.Create(SpawnItemsCroutineHandler, 0.25f, "SpawnRandomChestItems");
-        }
+        FunctionTimer.Create(SpawnItemsCroutineHandler, 0.25f, "SpawnRandomChestItems");
         
     }
 
@@ -74,7 +71,9 @@ public class ChestItemsHolder : MonoBehaviour
     private int amountSpawnItemsThisTimeInRandomChest;
 
     private void SpawnItemsCroutineHandler()
-    {        
+    {
+        if(amountSpawnedItemsInRandomChest >= totalItemsSpawnItemInRandomChest) return;
+
         amountSpawnItemsThisTimeInRandomChest = UnityEngine.Random.Range(0, MAX_AMOUNT_ITEMS_SPAWN_FOR_EACH);
           
         if(amountSpawnItemsThisTimeInRandomChest + amountSpawnedItemsInRandomChest > totalItemsSpawnItemInRandomChest)
@@ -86,6 +85,9 @@ public class ChestItemsHolder : MonoBehaviour
 
         // sau khi spawn xong thì tính lại số items đã được spawned
         amountSpawnedItemsInRandomChest = calcuateAmountItemsSpawnedInRandomChest(amountSpawnItemsThisTimeInRandomChest, amountSpawnedItemsInRandomChest);
+
+        // tự gọi lại
+        FunctionTimer.Create(SpawnItemsCroutineHandler, 0.25f, "SpawnRandomChestItems");
     }
 
     private void SpawnItemsForEach(int amoutSpawnThisTime)
