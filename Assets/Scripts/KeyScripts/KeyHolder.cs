@@ -1,11 +1,15 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using System;
 
 public class KeyHolder : MonoBehaviour
 {
     private List<Key.KeyType> keyList;
 
+    public Action OnTriggerPlayerOpenTheChest;
+    
+    
     private void Awake()
     {
         keyList = new List<Key.KeyType>();
@@ -58,6 +62,11 @@ public class KeyHolder : MonoBehaviour
                     bool IsCanOpen = chest.TryOpen(IsPlayerHoldingThisKey);
                     if(IsCanOpen == true)
                     {
+                        OnTriggerPlayerOpenTheChest?.Invoke();
+
+                        ChestAnimation chestAnimation = collider.GetComponent<ChestAnimation>();
+                        chestAnimation.SetCanKeepOpenForFirstTime(true);
+
                         RemoveKey(IsPlayerHoldingThisKey);
                     }
                 }

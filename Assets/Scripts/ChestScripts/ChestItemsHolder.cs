@@ -14,6 +14,8 @@ public class ChestItemsHolder : MonoBehaviour
     private int totalItemsSpawnInRandomChest;
     private int amountSpawnedItemsInRandomChest;
     private int amountSpawnItemsThisTimeInRandomChest;
+
+    private bool spawnedAllItems; // new @@@
     
 
     private void Awake()
@@ -33,6 +35,8 @@ public class ChestItemsHolder : MonoBehaviour
         // init var
         totalItemsSpawnInRandomChest = Random.Range(chestData.minDropItems, chestData.maxDropItems);
         amountSpawnedItemsInRandomChest = 0;
+
+        spawnedAllItems = false;
     }
 
     private void SpawnItems()
@@ -77,7 +81,12 @@ public class ChestItemsHolder : MonoBehaviour
 
     private void SpawnItemsCroutineHandler()
     {
-        if(amountSpawnedItemsInRandomChest >= totalItemsSpawnInRandomChest) return;
+        if(amountSpawnedItemsInRandomChest >= totalItemsSpawnInRandomChest)
+        {
+            // chả lẽ gọi thêm một cái FunctionTimer ở đây chờ 1s mới cho đóng cái hòm lần đầu :D
+            FunctionTimer.Create(setSpawnedAllItemsTrue, 0.5f);
+            return;
+        }
 
         amountSpawnItemsThisTimeInRandomChest = UnityEngine.Random.Range(1, MAX_AMOUNT_ITEMS_SPAWN_FOR_EACH);
           
@@ -122,5 +131,15 @@ public class ChestItemsHolder : MonoBehaviour
             float launchForceY = 5f;
             itemRB2D.linearVelocity = new Vector3(UnityEngine.Random.Range(-launchForceX, +launchForceX), launchForceY);
         }
+    }
+
+    private void setSpawnedAllItemsTrue()
+    {
+        spawnedAllItems = true;
+    }
+
+    public bool getSpawnedAllItems()
+    {
+        return spawnedAllItems;
     }
 }

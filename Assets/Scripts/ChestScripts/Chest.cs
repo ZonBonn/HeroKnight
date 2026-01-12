@@ -19,7 +19,11 @@ public class Chest : MonoBehaviour
     private bool IsOpended;
     private bool isUsedToOpen; // cái này dùng để chỉ spawn đồ  1 lần
 
+    private bool isFristTimeOpen;
+
     public Action OnTriggerChestIsOpended;
+
+    private ChestItemsHolder chestItemsHolder;
 
     private void Awake()
     {
@@ -28,7 +32,7 @@ public class Chest : MonoBehaviour
     
     private void Start()
     {
-        isPlayerNear = false; isUsedToOpen = false;
+        isPlayerNear = false; isUsedToOpen = false; isFristTimeOpen = false;
     }
 
     private void Update()
@@ -70,7 +74,7 @@ public class Chest : MonoBehaviour
     {
         OnTriggerChestIsOpended?.Invoke();
         IsOpended = true;
-        isUsedToOpen = true;
+        isUsedToOpen = true; // cái này sẽ được set true không phải ở đây mà là do Delegate của cái thằng ChestItemsHolder: OnTriggerSpawnedAllItems
     }
 
     // ============== SUPPORT FUNCTION ================
@@ -92,6 +96,21 @@ public class Chest : MonoBehaviour
     public bool getIsOpended()
     {
         return IsOpended;
+    }
+
+    public void setIsFristTimeOpen(bool canOpen)
+    {
+        isFristTimeOpen = canOpen;
+    }
+
+    public bool getIsFristTimeOpen()
+    {
+        return isFristTimeOpen;
+    }
+
+    public void setIsUsedToOpenTrue()
+    {
+        
     }
     // ==================================================
 }

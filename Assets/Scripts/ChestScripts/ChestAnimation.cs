@@ -27,16 +27,22 @@ public class ChestAnimation : MonoBehaviour
 
     private Chest.ChestType chestType;
     private Chest chest;
+    private ChestItemsHolder chestItemsHolder;
 
     private SpriteRenderer spriteRenderer;
 
     public Action<int, Sprite[]> OnTriggerEachChestFrame;
     public Action OnTriggerAfterDoneLastFrameChest;
 
+    private bool CanKeepOpenForFirstTime;
+
     private void Awake()
     {
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+
         chest = gameObject.GetComponent<Chest>();
+        chestItemsHolder = gameObject.GetComponent<ChestItemsHolder>();
+
         chestType = chest.GetChestType();
 
         WhichChestTypeForCurrentSprite(chestType);
@@ -47,6 +53,10 @@ public class ChestAnimation : MonoBehaviour
         idxChestFrame = 0;
 
         TimerCoolDown = TIME_EACH_FRAME_CHEST;
+
+        OnTriggerAfterDoneLastFrameChest += OnTriggerFirstTimeOpenChest;
+
+        CanKeepOpenForFirstTime = false;
     }
 
     private void Update()
@@ -54,16 +64,26 @@ public class ChestAnimation : MonoBehaviour
         bool IsPlayerNearVar = chest.getIsPlayerNear();
         bool IsOpendedVar = chest.getIsOpended();
         bool IsUsedToOpenVar = chest.getIsUsedToOpen();
-        if(IsPlayerNearVar == true && (IsOpendedVar == true || IsUsedToOpenVar == true)) // mở khi: người chơi gần VÀ được mở HOẶC đã từng được mở
+        bool IsFristTimeOpen = chest.getIsFristTimeOpen();
+        bool IsSpawnedAllItems = chestItemsHolder.getSpawnedAllItems();
+
+        // mở khi: người chơi gần VÀ được mở HOẶC đã từng được mở, nếu mở lần đầu thì nó sẽ không tự đóng lại nếu người chơi đi xa, còn từ lần 2 trở đi thì ok cứ đóng thoải mái
+        if((IsPlayerNearVar == true || CanKeepOpenForFirstTime == true) && (IsOpendedVar == true || IsUsedToOpenVar == true)) 
         {
+            Debug.Log("Open");
             ChangeCurrentChestSprites(currentChestOpenSprites);
             PlayChestAnimation();
         }
-
-        if(IsPlayerNearVar == false && (IsOpendedVar == false || IsUsedToOpenVar == true)) // đóng khi: người chơi xa VÀ chưa từng được mở HOẶC từng mở rồi thì vẫn có thể đóng
+        // đóng khi: người chơi xa VÀ chưa từng được mở HOẶC từng mở rồi thì vẫn có thể đóng, hoặc chỉ khi nào spawn xong đồ thì mới cho đóng
+        else if(IsPlayerNearVar == false && (IsOpendedVar == false || IsUsedToOpenVar == true) && CanKeepOpenForFirstTime == false && IsSpawnedAllItems == true/* && chest.getIsFristTimeOpen() == true*/) 
         {
-            ChangeCurrentChestSprites(currentChestCloseSprites);
-            PlayChestAnimation();
+            if(IsFristTimeOpen == true)
+            {
+                Debug.Log("Close");
+                ChangeCurrentChestSprites(currentChestCloseSprites);
+                PlayChestAnimation();
+            }
+            
         }
         
     }
@@ -76,6 +96,7 @@ public class ChestAnimation : MonoBehaviour
             OnTriggerEachChestFrame?.Invoke(idxChestFrame, currentChestSprites);
             spriteRenderer.sprite = currentChestSprites[idxChestFrame];
             ++idxChestFrame;
+            Debug.Log("Chest frame IDX: " + idxChestFrame);
             if(idxChestFrame == currentChestSprites.Length)
             {
                 if(isLoop == true)
@@ -86,6 +107,7 @@ public class ChestAnimation : MonoBehaviour
                 {
                     idxChestFrame--;
                 }
+                Debug.Log("frame cuối của chest");
                 OnTriggerAfterDoneLastFrameChest?.Invoke();
             }
             TimerCoolDown = TIME_EACH_FRAME_CHEST;
@@ -142,7 +164,11 @@ public class ChestAnimation : MonoBehaviour
     {
         if(newCurrentChestSprites == currentChestSprites) return;
         currentChestSprites = newCurrentChestSprites;
-        caculateNewIdxChestFrame();
+        if(chest.getIsFristTimeOpen() == true)
+        {
+            caculateNewIdxChestFrame();
+        }
+        
         ResetTimerCoolDown();
     }
 
@@ -182,4 +208,37 @@ public class ChestAnimation : MonoBehaviour
             currentChestCloseSprites = SilverChestCloseSprites;
         }
     }
+
+    // ================= FUNCTION FOR PUBLISHER SIGN =================
+    private void OnTriggerFirstTimeOpenChest()
+    {
+        if(chest.getIsFristTimeOpen() == false)
+        {
+            chest.setIsFristTimeOpen(true);
+            CanKeepOpenForFirstTime = false; // thằng này được thay đổi bởi Delegate của ChestItemsHolder
+            OnTriggerAfterDoneLastFrameChest -= OnTriggerFirstTimeOpenChest; // xong rồi thì hủy đăng ký thôi
+        }
+    }
+
+    // ===============================================================
+
+
+
+    // ==================== FUNCTION SUPPORTING ======================
+
+    public void SetCanKeepOpenForFirstTime(bool shouldKeepOpen)
+    {
+        CanKeepOpenForFirstTime = shouldKeepOpen;
+    }
+
+    public void SetCanKeepOpenForFirstTimeTrue()
+    {
+        CanKeepOpenForFirstTime = true;
+    }
+
+    public void SetCanKeepOpenForFirstTimeFalse()
+    {
+        CanKeepOpenForFirstTime = false;
+    }
+    // ===============================================================    
 }
