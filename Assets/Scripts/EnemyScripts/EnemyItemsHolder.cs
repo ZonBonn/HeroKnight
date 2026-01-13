@@ -8,7 +8,7 @@ public class EnemyItemsHolder : MonoBehaviour
     [SerializeField] private List<GameObject> fixedItems;
     [SerializeField] private List<GameObject> randomItems;
 
-    [SerializeField] SpawnLootTable spawnLootTableLevel1;
+    [SerializeField] SpawnLootTable spawnLootTableLevel;
     private HealthHandler healthHandler;
     private HealthSystem healthSystem;
 
@@ -33,32 +33,34 @@ public class EnemyItemsHolder : MonoBehaviour
 
     public void OnTriggerSpawnItems()
     {
+        // Spawn đồ trong người enemy của fixed Items
         for(int i = 0 ; i < fixedItems.Count ; i++)
         {
             Instantiate(fixedItems[i], gameObject.transform.position, Quaternion.identity);
             EffectDropItemsVertical(fixedItems[i]);
         }
 
-        for(int i = 0 ; i < spawnLootTableLevel1.enemyTables.Count ; i++)
+        // Spawn đồ trong người enemy của random Items
+        for(int i = 0 ; i < spawnLootTableLevel.enemyTables.Count ; i++)
         {
-            if(enemy.enemyType == spawnLootTableLevel1.enemyTables[i].enemyType)
+            if(enemy.enemyType == spawnLootTableLevel.enemyTables[i].enemyType)
             {
                 // random idx for iterator
-                List<int> randomListIdx = RandomIDX(spawnLootTableLevel1.enemyTables[i].listKeyRates.Count);
+                List<int> randomListIdx = RandomIDX(spawnLootTableLevel.enemyTables[i].listKeyRates.Count);
                 for(int j = 0 ; j < randomListIdx.Count ; j++)
                 {
                     Debug.Log("randomListIdx thứ " + j + " là:" + randomListIdx[j]);
-                    bool ShouldDropKeyVar = ShouldDropKey(spawnLootTableLevel1.enemyTables[i].listKeyRates[randomListIdx[j]].rate);
+                    bool ShouldDropKeyVar = ShouldDropKey(spawnLootTableLevel.enemyTables[i].listKeyRates[randomListIdx[j]].rate);
                     if(ShouldDropKeyVar == true)
                     {
-                        Debug.Log("Spawn: " + spawnLootTableLevel1.enemyTables[i].listKeyRates[randomListIdx[j]].keyGameObject);
-                        Instantiate(spawnLootTableLevel1.enemyTables[i].listKeyRates[randomListIdx[j]].keyGameObject, gameObject.transform.position, Quaternion.identity);
-                        EffectDropItemsVertical(spawnLootTableLevel1.enemyTables[i].listKeyRates[randomListIdx[j]].keyGameObject);
+                        Debug.Log("Spawn: " + spawnLootTableLevel.enemyTables[i].listKeyRates[randomListIdx[j]].keyGameObject);
+                        Instantiate(spawnLootTableLevel.enemyTables[i].listKeyRates[randomListIdx[j]].keyGameObject, gameObject.transform.position, Quaternion.identity);
+                        EffectDropItemsVertical(spawnLootTableLevel.enemyTables[i].listKeyRates[randomListIdx[j]].keyGameObject);
                         break;
                     }
                     else
                     {
-                        Debug.Log("Không spawn: " + spawnLootTableLevel1.enemyTables[i].listKeyRates[randomListIdx[j]].keyGameObject);
+                        Debug.Log("Không spawn: " + spawnLootTableLevel.enemyTables[i].listKeyRates[randomListIdx[j]].keyGameObject);
                     }
                 }
             }
@@ -113,5 +115,10 @@ public class EnemyItemsHolder : MonoBehaviour
         }
 
         return list;
+    }
+
+    private void TakeRate(EnemyType enemyType)
+    {
+        
     }
 }

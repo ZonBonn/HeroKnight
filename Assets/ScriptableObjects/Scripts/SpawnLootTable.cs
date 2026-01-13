@@ -20,5 +20,5 @@ public class SpawnLootTable : ScriptableObject
         public List<KeyRate> listKeyRates;
     }
 
-    [SerializeField] public List<ClassifyEnemyType> enemyTables;
+    [SerializeField] public List<ClassifyEnemyType> enemyTables; // tao một ds các list chứa dữ liệu trong này sau này thêm thì chỉ cần chỉnh đơn giản trong list này là xong
 }
