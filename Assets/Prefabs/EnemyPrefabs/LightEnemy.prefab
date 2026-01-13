@@ -51,13 +51,14 @@ GameObject:
   - component: {fileID: 8012076499453186650}
   - component: {fileID: 6718856934575185298}
   - component: {fileID: 2127240458153277581}
+  - component: {fileID: 2749049057170194447}
   m_Layer: 9
   m_Name: LightEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1084362260994163107
 Transform:
   m_ObjectHideFlags: 0
@@ -361,7 +362,7 @@ MonoBehaviour:
     m_Bits: 64
   wallLayerMask:
     serializedVersion: 2
-    m_Bits: 2176
+    m_Bits: 128
 --- !u!114 &2127240458153277581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -375,3 +376,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAttack
   playerHealthStaminaHandler: {fileID: 0}
+--- !u!114 &2749049057170194447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7628453824878567232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56f21e62098293d45a4b93bd6aed93f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyItemsHolder
+  fixedItems: []
+  randomItems: []
+  spawnLootTableLevel1: {fileID: 11400000, guid: b316df59779f5394ab1230a342aa3903, type: 2}

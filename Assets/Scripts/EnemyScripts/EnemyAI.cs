@@ -146,11 +146,11 @@ public class EnemyAI : MonoBehaviour
 
         // enemyAnimation.AnimationHandler(currentEnemyStateAction); // dòng này có cũng được không có cũng được vì case nào sẽ chạy animation đó rồi mà
 
-        if (lastCheckedCurrentEnemyStateAction != currentEnemyStateAction)
-        {
-            Debug.Log(currentEnemyStateAction);
-            lastCheckedCurrentEnemyStateAction = currentEnemyStateAction;
-        }
+        // if (lastCheckedCurrentEnemyStateAction != currentEnemyStateAction)
+        // {
+        //     Debug.Log(currentEnemyStateAction);
+        //     lastCheckedCurrentEnemyStateAction = currentEnemyStateAction;
+        // }
 
         // Debug.Log(currentEnemyStateAction);
     }
@@ -187,7 +187,7 @@ public class EnemyAI : MonoBehaviour
         {
             currentEnemyStateAction = EnemyStateAction.Idle;
             // m_IdleTimer = idleTimer;
-            Debug.Log("Đổi hướng");
+            // Debug.Log("Đổi hướng");
             // Debug.Log("Đổi thanh Idle");
             if (currentToward == leftPoint)
             {
@@ -209,7 +209,7 @@ public class EnemyAI : MonoBehaviour
         // Debug.Log("Is Hole:" + enemySensor.IsHole() + "  ;;;   IfCanJumpOverTheInFrontWall:" + enemySensor.IfCanJumpOverTheInFrontWall());
         if (enemySensor.IsHole() || /*Input.GetKeyDown(KeyCode.L) ||*/ enemySensor.IfCanJumpOverTheInFrontWall())
         {
-            Debug.Log("Is Hole:" + enemySensor.IsHole() + "  ;;;   IfCanJumpOverTheInFrontWall:" + enemySensor.IfCanJumpOverTheInFrontWall());
+            // Debug.Log("Is Hole:" + enemySensor.IsHole() + "  ;;;   IfCanJumpOverTheInFrontWall:" + enemySensor.IfCanJumpOverTheInFrontWall());
             currentToward = nullTransform;
             // isJumping = true;
             // enemyPathFindingMovement.hasLeaveGround = true;
@@ -277,7 +277,7 @@ public class EnemyAI : MonoBehaviour
         }
         if (enemySensor.IsHole() || /*Input.GetKeyDown(KeyCode.L) ||*/ enemySensor.IfCanJumpOverTheInFrontWall())
         {
-            Debug.Log("Is Hole:" + enemySensor.IsHole() + "  ;;;   IfCanJumpOverTheInFrontWall:" + enemySensor.IfCanJumpOverTheInFrontWall());
+            // Debug.Log("Is Hole:" + enemySensor.IsHole() + "  ;;;   IfCanJumpOverTheInFrontWall:" + enemySensor.IfCanJumpOverTheInFrontWall());
             // isJumping = true;
             // enemyPathFindingMovement.hasLeaveGround = true;
             currentEnemyStateAction = EnemyStateAction.Jump;

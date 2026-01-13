@@ -74,6 +74,7 @@ public class EnemySensor : MonoBehaviour
 
     public bool IfCanJumpOverTheInFrontWall()
     {
+        // Debug.Log("IsWallOrGroundInFront:" + IsWallOrGroundInFront() + "  IsWallOrGroundTooHigh:" + !IsWallOrGroundTooHigh());
         return IsWallOrGroundInFront() && !IsWallOrGroundTooHigh();
     }
 

@@ -22,7 +22,11 @@ public class ChestItemsHolder : MonoBehaviour
     {
         // itemsInChest = new List<GameObject>(); // bỏ vì mình tụ sắp xếp giữ dữ liệu trong hòm có gì mà nếu có dòng này thì mất hết dữ liệu
         transformSpawnPosition = gameObject.transform.Find("SpawnPosition");
-        if (transformSpawnPosition == null) Debug.LogError("SpawnPosition not found!"); // for safe
+        if (transformSpawnPosition == null)
+        {
+            Debug.LogError("SpawnPosition not found!"); // for safe
+
+        }
 
         chest = gameObject.GetComponent<Chest>();
         chestData = gameObject.GetComponent<ChestData>();

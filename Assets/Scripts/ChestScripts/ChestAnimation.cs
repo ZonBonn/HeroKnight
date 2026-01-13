@@ -70,7 +70,7 @@ public class ChestAnimation : MonoBehaviour
         // mở khi: người chơi gần VÀ được mở HOẶC đã từng được mở, nếu mở lần đầu thì nó sẽ không tự đóng lại nếu người chơi đi xa, còn từ lần 2 trở đi thì ok cứ đóng thoải mái
         if((IsPlayerNearVar == true || CanKeepOpenForFirstTime == true) && (IsOpendedVar == true || IsUsedToOpenVar == true)) 
         {
-            Debug.Log("Open");
+            // Debug.Log("Open");
             ChangeCurrentChestSprites(currentChestOpenSprites);
             PlayChestAnimation();
         }
@@ -79,7 +79,7 @@ public class ChestAnimation : MonoBehaviour
         {
             if(IsFristTimeOpen == true)
             {
-                Debug.Log("Close");
+                // Debug.Log("Close");
                 ChangeCurrentChestSprites(currentChestCloseSprites);
                 PlayChestAnimation();
             }
@@ -96,7 +96,7 @@ public class ChestAnimation : MonoBehaviour
             OnTriggerEachChestFrame?.Invoke(idxChestFrame, currentChestSprites);
             spriteRenderer.sprite = currentChestSprites[idxChestFrame];
             ++idxChestFrame;
-            Debug.Log("Chest frame IDX: " + idxChestFrame);
+            // Debug.Log("Chest frame IDX: " + idxChestFrame);
             if(idxChestFrame == currentChestSprites.Length)
             {
                 if(isLoop == true)
@@ -107,7 +107,7 @@ public class ChestAnimation : MonoBehaviour
                 {
                     idxChestFrame--;
                 }
-                Debug.Log("frame cuối của chest");
+                // Debug.Log("frame cuối của chest");
                 OnTriggerAfterDoneLastFrameChest?.Invoke();
             }
             TimerCoolDown = TIME_EACH_FRAME_CHEST;
@@ -181,7 +181,7 @@ public class ChestAnimation : MonoBehaviour
 
     private void ResetTimerCoolDown()
     {
-        Debug.Log("Reseted Timer");
+        // Debug.Log("Reseted Timer");
         TimerCoolDown = TIME_EACH_FRAME_CHEST;
     }
 

@@ -239,7 +239,7 @@ public class EnemyPathFindingMovement : MonoBehaviour
         if (PathOnVector == null || PathOnVector.Count == 0)
         {
             StopMovingPhysicalHandler();
-            Debug.Log("Không có đường");
+            // Debug.Log("Không có đường");
             return;
         }
 

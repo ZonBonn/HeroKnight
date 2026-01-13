@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11c9245f40c55b34cb51d5e14617c6d2, type: 3}
+  m_Name: SpawnLootTableLevel2
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnLootTable
+  level: 2
+  enemyTables:
+  - enemyType: 0
+    listKeyRates:
+    - keyType: 0
+      rate: 0.7
+      keyGameObject: {fileID: 5168160706105515101, guid: 4ed617e597af37344b61fdc92482dcc5, type: 3}
+    - keyType: 2
+      rate: 0.3
+      keyGameObject: {fileID: 2006724005993156952, guid: be748df08a90cd24e9004dc255d2ef4c, type: 3}
+    - keyType: 3
+      rate: 0
+      keyGameObject: {fileID: 6999688226718846985, guid: ece53fc1988a0254f9b6442fd1033e91, type: 3}
+    - keyType: 1
+      rate: 0
+      keyGameObject: {fileID: 7893689481003637446, guid: e7eaab954975f724680b2049e830741f, type: 3}
+  - enemyType: 1
+    listKeyRates:
+    - keyType: 0
+      rate: 0.1
+      keyGameObject: {fileID: 5168160706105515101, guid: 4ed617e597af37344b61fdc92482dcc5, type: 3}
+    - keyType: 2
+      rate: 0.2
+      keyGameObject: {fileID: 2006724005993156952, guid: be748df08a90cd24e9004dc255d2ef4c, type: 3}
+    - keyType: 3
+      rate: 0.7
+      keyGameObject: {fileID: 6999688226718846985, guid: ece53fc1988a0254f9b6442fd1033e91, type: 3}
+    - keyType: 1
+      rate: 0.2
+      keyGameObject: {fileID: 7893689481003637446, guid: e7eaab954975f724680b2049e830741f, type: 3}
