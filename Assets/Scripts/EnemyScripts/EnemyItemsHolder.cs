@@ -7,7 +7,7 @@ using System;
 public class EnemyItemsHolder : MonoBehaviour
 {
     [SerializeField] private List<GameObject> fixedItems;
-    [SerializeField] private List<GameObject> randomItems;
+    // [SerializeField] private List<GameObject> randomItems;
 
     [SerializeField] SpawnLootTable spawnLootTableLevel;
     private HealthHandler healthHandler;
@@ -15,7 +15,17 @@ public class EnemyItemsHolder : MonoBehaviour
 
     private Enemy enemy;
 
-    public static Action OnDropKey;// vì drop thì mọi enemy drop thì đều phải tăng số lượnng key đã sỉnh ra thì cái này nên thuộc về class
+    public static EventHandler<DropKeyEventArgs> OnTriggerDropKey;// vì drop thì mọi enemy drop thì đều phải tăng số lượnng key đã sỉnh ra thì cái này nên thuộc về class
+    public class DropKeyEventArgs : EventArgs
+    {
+        public DropKeyEventArgs(Key.KeyType keyType)
+        {
+            this.keyType = keyType;
+            
+        }
+
+        public Key.KeyType keyType;
+    }
 
     Dictionary<EnemyType, List<SpawnLootTable.KeyRate>> LootEnemyDict = new Dictionary<EnemyType, List<SpawnLootTable.KeyRate>>();
 
@@ -41,16 +51,22 @@ public class EnemyItemsHolder : MonoBehaviour
         // Spawn đồ trong người enemy của fixed Items
         for(int i = 0 ; i < fixedItems.Count ; i++)
         {
+            Key key = fixedItems[i].GetComponent<Key>();
+            Key.KeyType keyType = key.GetKeyType();
+
+            if(!KeyManager.IsCanSpawnKey(keyType)) continue; // không thể spawn key
+            
             GameObject item = Instantiate(fixedItems[i], gameObject.transform.position, Quaternion.identity);
             EffectDropItemsVertical(item); // dùng item chứ không phải là fixedItems[i] vì item là GameObject còn fixedItems[i] là PF
 
-            OnDropKey?.Invoke();
+            // lấy và truyền tham số cho EventArgs
+            OnTriggerDropKey?.Invoke(this, new DropKeyEventArgs(keyType));
 
             // chưa cho nhặt key vội hãy để tầm 1s sau mới cho nhặt
             SetDoNotAllowedPickKeyAfter1Seconds(item);
         }
 
-        // Spawn đồ trong người enemy của random Items
+        // Spawn đồ trong người enemy của random Items (lấy ở Spawn Loot Table)
         List<SpawnLootTable.KeyRate> listKeyRate = TakeRatebyEnemyType(enemy.enemyType);
         if(listKeyRate != null)
         {
@@ -58,25 +74,32 @@ public class EnemyItemsHolder : MonoBehaviour
             for(int j = 0 ; j < randomListIdx.Count ; j++)
             {
                 Debug.Log("randomListIdx thứ " + j + " là:" + randomListIdx[j]);
-
-                bool ShouldDropKeyVar = ShouldDropKey(listKeyRate[randomListIdx[j]].rate);
-                if(ShouldDropKeyVar == true)
+                
+                Key key = listKeyRate[randomListIdx[j]].keyGameObject.GetComponent<Key>();
+                Key.KeyType keyType = key.GetKeyType();
+                if(KeyManager.IsCanSpawnKey(keyType) == true)
                 {
-                    Debug.Log("Spawn: " + listKeyRate[randomListIdx[j]].keyGameObject);
+                    bool ShouldDropKeyVar = ShouldDropKey(listKeyRate[randomListIdx[j]].rate);
+                    if(ShouldDropKeyVar == true)
+                    {
+                        Debug.Log("Spawn: " + listKeyRate[randomListIdx[j]].keyGameObject);
 
-                    GameObject item = Instantiate(listKeyRate[randomListIdx[j]].keyGameObject, gameObject.transform.position, Quaternion.identity);
-                    EffectDropItemsVertical(item);
+                        GameObject item = Instantiate(listKeyRate[randomListIdx[j]].keyGameObject, gameObject.transform.position, Quaternion.identity);
+                        EffectDropItemsVertical(item);
 
-                    OnDropKey?.Invoke();
+                        // lấy và truyền tham số cho EventArgs
+                        // Key.KeyType keyType = item.GetComponent<Key.KeyType>(); 
+                        OnTriggerDropKey?.Invoke(this, new DropKeyEventArgs(keyType));
 
-                    // chưa cho nhặt key vội hãy để tầm 1s sau mới cho nhặt
-                    SetDoNotAllowedPickKeyAfter1Seconds(item);
+                        // chưa cho nhặt key vội hãy để tầm 1s sau mới cho nhặt
+                        SetDoNotAllowedPickKeyAfter1Seconds(item);
 
-                    break;
-                }
-                else
-                {
-                    Debug.Log("Không spawn: " + listKeyRate[randomListIdx[j]].keyGameObject);
+                        break;
+                    }
+                    else
+                    {
+                        Debug.Log("Không spawn: " + listKeyRate[randomListIdx[j]].keyGameObject);
+                    }
                 }
             }
         }
@@ -84,8 +107,6 @@ public class EnemyItemsHolder : MonoBehaviour
         {
             Debug.Log("listKeyRate is null");
         }
-        
-        
     }
 
     private void EffectDropItemsHorizontal(GameObject items)

@@ -17,5 +17,6 @@
 + giờ giớ hạn spawn key lại chỉ spawn theo đúng số rương cho theo từng level và tỉ lệ spawn tăng hoặc giảm tùy theo số lượng đã spawn hay chưa spawn (CONTINUE)
 + tối ưu phần spawn key của Enemy ở random Items: chỉ cần truyền tham số enemy vào là tự vứt ra list các rate (DONE)
 + cho đồ bao giờ tầm khoảng 1s - 3s sau thì player mới được nhặt (DONE)
++ mang key qua màn bên kia hoặc xóa nó đi khi sang màn mới
 
 + 1 kinh nghiệm: file chỉ xử lý đúng theo tên fle còn các cái tham chiếu thì nên làm trong file handler => ví dụ PlayerHealthBar xử lý hiển thị thanh máu theo currentHealth của file PlayerHealthSystem => phải tham chiếu tới currentHealth để hiển thị => không tham chiếu trong PlayerHealthBar mà tham chiếu trong PlayerHealthStaminaHandler.

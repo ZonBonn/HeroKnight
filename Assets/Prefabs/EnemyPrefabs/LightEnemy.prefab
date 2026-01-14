@@ -389,5 +389,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyItemsHolder
   fixedItems: []
-  randomItems: []
   spawnLootTableLevel: {fileID: 11400000, guid: b316df59779f5394ab1230a342aa3903, type: 2}
