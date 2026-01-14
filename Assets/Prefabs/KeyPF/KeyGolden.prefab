@@ -180,7 +180,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7582831488557644325}
   - component: {fileID: 8473817605711919067}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: KeyCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}

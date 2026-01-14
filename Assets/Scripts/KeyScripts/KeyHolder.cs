@@ -9,10 +9,13 @@ public class KeyHolder : MonoBehaviour
 
     public Action OnTriggerPlayerOpenTheChest;
     
+    private bool CanPickUpKey;
     
     private void Awake()
     {
         keyList = new List<Key.KeyType>();
+
+        CanPickUpKey = false;
     }
 
     private void Start()
@@ -42,14 +45,16 @@ public class KeyHolder : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
+        // Check va chạm với chìa khóa
         Key key = collider.gameObject.GetComponent<Key>();
-        if(key != null) // nếu cái va chạm chính là chìa khóa thì:
+        if(key != null && key.getCanPickUpKey() == true) // nếu cái va chạm chính là chìa khóa thì:
         {
             Debug.Log("Add key" + key.GetKeyType());
             AddKey(key.GetKeyType());
             Destroy(key.gameObject); // xóa Object chìa khóa đi vì player nhặt rồi
         }
 
+        // Check va chạm và có thể mở được rương hay không ?
         ChestKey chestKey = collider.GetComponent<ChestKey>();
         if(chestKey != null)
         {
@@ -72,5 +77,10 @@ public class KeyHolder : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void SetCanPickUpKeyTrue()
+    {
+        CanPickUpKey = true;
     }
 }

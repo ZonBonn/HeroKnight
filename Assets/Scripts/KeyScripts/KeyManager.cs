@@ -1,51 +1,53 @@
 using UnityEngine;
+using System;
+using System.Collections.Generic;
+using UnityEditor;
 
 public class KeyManager : MonoBehaviour
 {
     [SerializeField] private LevelConfig levelConfig;
-    private int currentSpawnedWoodenKey;
-    private int currentSpawnedIronKey;
-    private int currentSpawnedSilverKey;
-    private int currentSpawnedGoldenKey;
+
+    Dictionary<Key.KeyType, int> spawnedKey;
+    Dictionary<Key.KeyType, int> limitAmountKeyType;
 
     private void Awake()
     {
-        
+        spawnedKey = new Dictionary<Key.KeyType, int>();
+        limitAmountKeyType = new Dictionary<Key.KeyType, int>();
+
+        // set up limitAmountKeyType
+       for(int i = 0 ; i < levelConfig.limitAmountKeyType.Count ; i++)
+        {
+            limitAmountKeyType.Add(levelConfig.limitAmountKeyType[i].keyType, levelConfig.limitAmountKeyType[i].limitAmountKeyType);
+        }
     }
 
     private void Start()
     {
-        
+        // EnemyItemsHolder.OnDropKey += IncreaseAmountKey(); // gửi cả giá trị nữa ---> continue your work in here <---
     }
 
-    private int getAmountSpawnedKeyByKeyType(Key.KeyType keyType)
+    public int getAmountSpawnedKeyByKeyType(Key.KeyType keyType)
     {
-        if(keyType == Key.KeyType.Wooden)
+        if(spawnedKey.TryGetValue(keyType, out int amountSpawnedThisKeyType))
         {
-            return currentSpawnedWoodenKey;
+            return amountSpawnedThisKeyType;
         }
-        else if(keyType == Key.KeyType.Iron)
+        return 0;
+    }
+
+    public void IncreaseAmountKey(Key.KeyType keyType)
+    {
+        if (!spawnedKey.ContainsKey(keyType))
         {
-         return currentSpawnedIronKey;   
+            spawnedKey[keyType] = 0;
         }
-        else if(keyType == Key.KeyType.Silver)
-        {
-            return currentSpawnedSilverKey;
-        }
-        else if(keyType == Key.KeyType.Golden)
-        {
-           return currentSpawnedGoldenKey; 
-        }
-        else
-        {
-            Debug.Log("chưa có loại keyType này thêm else if nữa đi, return => 0");
-            return 0;
-        }
+        spawnedKey[keyType]++;
     }
 
     public bool IsCanSpawnKey(Key.KeyType keyType)
     {
-        // if(getAmountSpawnedKeyByKeyType(keyType) < levelConfig.)
-        return true;
+        int maxAmountOfThisKeyType = limitAmountKeyType[keyType];
+        return getAmountSpawnedKeyByKeyType(keyType) < maxAmountOfThisKeyType;
     }
 }

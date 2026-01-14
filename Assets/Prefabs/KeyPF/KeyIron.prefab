@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4939523587610341801}
   - component: {fileID: 674893479069166913}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: KeyCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -13,6 +13,15 @@ MonoBehaviour:
   m_Name: LevelConfigLevel1
   m_EditorClassIdentifier: Assembly-CSharp::LevelConfig
   level: 1
+  limitAmountKeyType:
+  - keyType: 0
+    limitAmountKeyType: 2
+  - keyType: 2
+    limitAmountKeyType: 1
+  - keyType: 3
+    limitAmountKeyType: 0
+  - keyType: 1
+    limitAmountKeyType: 0
   amountSpawnedWoodenChest: 1
   amountSpawnedIronChest: 2
   amountSpawnedSilverChest: 0
