@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4939523587610341801}
-  - component: {fileID: 674893479069166913}
+  - component: {fileID: 3176346818504139801}
   m_Layer: 13
   m_Name: KeyCollider
   m_TagString: Untagged
@@ -32,8 +32,8 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8875719558445936569}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &674893479069166913
-CircleCollider2D:
+--- !u!60 &3176346818504139801
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -66,8 +66,33 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.12469074, y: 0}
-  m_Radius: 1.8709272
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 1.8576316, y: 1.514344}
+      - {x: 1.14292, y: 2.1318235}
+      - {x: 0.009049296, y: 1.9306498}
+      - {x: -0.044150982, y: 0.54965967}
+      - {x: -0.89807105, y: -0.34441727}
+      - {x: -2.0359385, y: -1.4624527}
+      - {x: -1.5579492, y: -1.9039611}
+      - {x: -1.403793, y: -1.7254813}
+      - {x: -1.0598007, y: -2.1724236}
+      - {x: -0.40683872, y: -1.4897109}
+      - {x: -0.8419199, y: -1.1037899}
+      - {x: 0.4166634, y: 0.19754681}
+      - {x: 1.058951, y: -0.17775837}
+      - {x: 2.046002, y: 0.459131}
+  m_UseDelaunayMesh: 0
 --- !u!1 &2006724005993156952
 GameObject:
   m_ObjectHideFlags: 0

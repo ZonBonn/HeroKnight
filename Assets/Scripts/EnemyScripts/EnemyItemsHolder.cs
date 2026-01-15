@@ -28,6 +28,8 @@ public class EnemyItemsHolder : MonoBehaviour
     }
 
     Dictionary<EnemyType, List<SpawnLootTable.KeyRate>> LootEnemyDict = new Dictionary<EnemyType, List<SpawnLootTable.KeyRate>>();
+    Dictionary<Key.KeyType, float> dropRateForEachKey = new Dictionary<Key.KeyType, float>();
+    Dictionary<EnemyType, int> maximumEnemyInLevel = new Dictionary<EnemyType, int>();
 
     private void Awake()
     {
@@ -38,6 +40,17 @@ public class EnemyItemsHolder : MonoBehaviour
         for(int i = 0 ; i < spawnLootTableLevel.enemyTables.Count ; i++)
         {
             LootEnemyDict.Add(spawnLootTableLevel.enemyTables[i].enemyType, spawnLootTableLevel.enemyTables[i].listKeyRates);
+
+            for(int j = 0 ; j < spawnLootTableLevel.enemyTables[i].listKeyRates.Count ; j++)
+            {
+                dropRateForEachKey.Add(spawnLootTableLevel.enemyTables[i].listKeyRates[j].keyType, spawnLootTableLevel.enemyTables[i].listKeyRates[j].rate);
+            }
+        }
+        
+        List<EnemyManager.EnemyAmount> listEnemeyMaximumAmount = EnemyManager.Instance.getListEnemyMaximumAmount();
+        for(int i = 0 ; i < listEnemeyMaximumAmount.Count ; i++)
+        {
+            maximumEnemyInLevel[listEnemeyMaximumAmount[i].enemyType] = listEnemeyMaximumAmount[i].maxAmountEnemyType;
         }
     }
 
@@ -77,10 +90,10 @@ public class EnemyItemsHolder : MonoBehaviour
                 
                 Key key = listKeyRate[randomListIdx[j]].keyGameObject.GetComponent<Key>();
                 Key.KeyType keyType = key.GetKeyType();
-                if(KeyManager.IsCanSpawnKey(keyType) == true)
+                if(KeyManager.IsCanSpawnKey(keyType) == true) // nếu sl vẫn chưa vượt quá số lượng cho phép
                 {
-                    bool ShouldDropKeyVar = ShouldDropKey(listKeyRate[randomListIdx[j]].rate);
-                    if(ShouldDropKeyVar == true)
+                    bool ShouldDropKeyVar = ShouldDropKey(listKeyRate[randomListIdx[j]].rate, keyType);
+                    if(ShouldDropKeyVar == true) // và thêm cả tỉ lệ cũng ra thì cho phép
                     {
                         Debug.Log("Spawn: " + listKeyRate[randomListIdx[j]].keyGameObject);
 
@@ -98,6 +111,9 @@ public class EnemyItemsHolder : MonoBehaviour
                     }
                     else
                     {
+                        // cộng thêm số lượng rate for key vì enemy chết rồi mà không spawn key tại đây(lấy enemyType thông qua Enemy thôi)
+                        EnemyManager.Instance.IncreaseEnemyDiedWithoutSpawnKeyAmount(enemy.enemyType);
+                        
                         Debug.Log("Không spawn: " + listKeyRate[randomListIdx[j]].keyGameObject);
                     }
                 }
@@ -130,12 +146,16 @@ public class EnemyItemsHolder : MonoBehaviour
         }
     }
 
-    
-
-    public bool ShouldDropKey(float dropRate)
+    // CONTINUE YOUR WORK IN HERE (FIX NỐT HÀM DƯỚI ĐÂY ớ chat gpt đoạn chat đầu tiên tin nhắn đầu tiên)
+    public bool ShouldDropKey(float dropRate, Key.KeyType keyType) // hàm drop theo tỉ lệ
     {
         float randomRate = UnityEngine.Random.Range(0f, 1f);
-        if(randomRate < dropRate) // bé hơn cả tỉ lệ rơi
+        // ở đây sẽ cộng thêm tỉ lệ enemy đã chết mà không drop key thì sẽ tăng tỉ lệ 
+        float defaultValueKey = dropRateForEachKey[keyType];
+        float rateForEachEnemy = (1 - defaultValueKey) / maximumEnemyInLevel[enemy.enemyType];
+        float addlyRate = EnemyManager.Instance.GetEnemyDiedWithoutSpawnKeyAmount(enemy.enemyType) * rateForEachEnemy;
+
+        if(randomRate - addlyRate < dropRate) // bé hơn cả tỉ lệ rơi
         {
             return true;
         }

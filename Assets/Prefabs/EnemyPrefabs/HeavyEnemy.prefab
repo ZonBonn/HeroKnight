@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 2025722287520249120}
   - component: {fileID: 3319854795976866536}
   - component: {fileID: 7973952432617381879}
+  - component: {fileID: 7707523144904227639}
   m_Layer: 9
   m_Name: HeavyEnemy
   m_TagString: Untagged
@@ -344,6 +345,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAttack
   playerHealthStaminaHandler: {fileID: 0}
+--- !u!114 &7707523144904227639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1941584455295481914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56f21e62098293d45a4b93bd6aed93f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyItemsHolder
+  fixedItems: []
+  spawnLootTableLevel: {fileID: 0}
 --- !u!1 &8332651627739166550
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,7 +8,7 @@ public class KeyManager : MonoBehaviour
     static Dictionary<Key.KeyType, int> spawnedKey; // lưu trữ dữ liệu key đã và đang sẽ được spawn
     static Dictionary<Key.KeyType, int> limitAmountKeyType; // lưu trữ dữ liệu từ LevelConfig
 
-    public static bool IsCanSpawnKey(Key.KeyType keyType)
+    public static bool IsCanSpawnKey(Key.KeyType keyType) // hàm drop theo số lượng
     {
         if(!limitAmountKeyType.TryGetValue(keyType, out int maxAmountOfThisKeyType))
             return false;
