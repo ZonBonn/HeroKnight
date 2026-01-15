@@ -28,7 +28,7 @@ public class EnemyItemsHolder : MonoBehaviour
     }
 
     Dictionary<EnemyType, List<SpawnLootTable.KeyRate>> LootEnemyDict = new Dictionary<EnemyType, List<SpawnLootTable.KeyRate>>();
-    Dictionary<Key.KeyType, float> dropRateForEachKey = new Dictionary<Key.KeyType, float>();
+    // Dictionary<Key.KeyType, float> dropRateForEachKey = new Dictionary<Key.KeyType, float>();
     Dictionary<EnemyType, int> maximumEnemyInLevel = new Dictionary<EnemyType, int>();
 
     private void Awake()
@@ -41,10 +41,10 @@ public class EnemyItemsHolder : MonoBehaviour
         {
             LootEnemyDict.Add(spawnLootTableLevel.enemyTables[i].enemyType, spawnLootTableLevel.enemyTables[i].listKeyRates);
 
-            for(int j = 0 ; j < spawnLootTableLevel.enemyTables[i].listKeyRates.Count ; j++)
-            {
-                dropRateForEachKey.Add(spawnLootTableLevel.enemyTables[i].listKeyRates[j].keyType, spawnLootTableLevel.enemyTables[i].listKeyRates[j].rate);
-            }
+            // for(int j = 0 ; j < spawnLootTableLevel.enemyTables[i].listKeyRates.Count ; j++)
+            // {
+            //     dropRateForEachKey.Add(spawnLootTableLevel.enemyTables[i].listKeyRates[j].keyType, spawnLootTableLevel.enemyTables[i].listKeyRates[j].rate);
+            // }
         }
         
         List<EnemyManager.EnemyAmount> listEnemeyMaximumAmount = EnemyManager.Instance.getListEnemyMaximumAmount();
@@ -86,7 +86,7 @@ public class EnemyItemsHolder : MonoBehaviour
             List<int> randomListIdx = RandomIDX(listKeyRate.Count);
             for(int j = 0 ; j < randomListIdx.Count ; j++)
             {
-                Debug.Log("randomListIdx thứ " + j + " là:" + randomListIdx[j]);
+                // Debug.Log("randomListIdx thứ " + j + " là:" + randomListIdx[j]);
                 
                 Key key = listKeyRate[randomListIdx[j]].keyGameObject.GetComponent<Key>();
                 Key.KeyType keyType = key.GetKeyType();
@@ -112,10 +112,17 @@ public class EnemyItemsHolder : MonoBehaviour
                     else
                     {
                         // cộng thêm số lượng rate for key vì enemy chết rồi mà không spawn key tại đây(lấy enemyType thông qua Enemy thôi)
-                        EnemyManager.Instance.IncreaseEnemyDiedWithoutSpawnKeyAmount(enemy.enemyType);
+                        // tại sao cái này lại chạy đúng ? rất có thể nó sẽ rơi vòng 2 lần for và sẽ ++ lên 2 dù chỉ kill 1 enemy
+                        EnemyManager.Instance.IncreaseEnemyDiedWithoutSpawnKeyAmount(enemy.enemyType); 
                         
-                        Debug.Log("Không spawn: " + listKeyRate[randomListIdx[j]].keyGameObject);
+                        Debug.Log("Không spawn key được vì KHÔNG GACHA ra được: " + listKeyRate[randomListIdx[j]].keyGameObject);
+                        // Debug.Log("Không spawn key được vì không gacha ra được");
                     }
+                }
+                else
+                {
+                    // nếu vượt quá số lượng cho phép rồi thì tăng IncreaseEnemyDiedWithoutSpawnKeyAmount() làm gì nữa
+                    Debug.Log("Không spawn key được vì QUÁ SỐ LƯỢNG rồi" + listKeyRate[randomListIdx[j]].keyGameObject);
                 }
             }
         }
@@ -151,7 +158,7 @@ public class EnemyItemsHolder : MonoBehaviour
     {
         float randomRate = UnityEngine.Random.Range(0f, 1f);
         // ở đây sẽ cộng thêm tỉ lệ enemy đã chết mà không drop key thì sẽ tăng tỉ lệ 
-        float defaultValueKey = dropRateForEachKey[keyType];
+        float defaultValueKey = getKeyRateByEnemyTypeAndKeyType(enemy.enemyType, keyType);
         float rateForEachEnemy = (1 - defaultValueKey) / maximumEnemyInLevel[enemy.enemyType];
         float addlyRate = EnemyManager.Instance.GetEnemyDiedWithoutSpawnKeyAmount(enemy.enemyType) * rateForEachEnemy;
 
@@ -195,5 +202,18 @@ public class EnemyItemsHolder : MonoBehaviour
         {
             FunctionTimer.Create(key.SetCanPickUpTrue, 1f);
         }
+    }
+
+    public float getKeyRateByEnemyTypeAndKeyType(EnemyType enemyType, Key.KeyType keyType)
+    {
+        List<SpawnLootTable.KeyRate> listKeyRate =  LootEnemyDict[enemyType];
+        for(int j = 0 ; j < listKeyRate.Count ; j++)
+        {
+            if(keyType == listKeyRate[j].keyType)
+            {
+                return listKeyRate[j].rate;
+            }
+        }
+        return 0;
     }
 }

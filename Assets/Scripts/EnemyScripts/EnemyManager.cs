@@ -28,18 +28,25 @@ public class EnemyManager : MonoBehaviour
         DiedEnemyWithoutSpawnKeyAmountDic = new Dictionary<EnemyType, int>();
     }
 
-    public void Start()
+    private void Start()
     {
         
+    }
+
+    private void Update()
+    {
+        DebugEnemyDiedWithoutSpawnKeyAmountHook();
     }
 
     public void IncreaseEnemyDiedWithoutSpawnKeyAmount(EnemyType enemyType)
     {
         if (!DiedEnemyWithoutSpawnKeyAmountDic.ContainsKey(enemyType))
         {
-            DiedEnemyWithoutSpawnKeyAmountDic[enemyType] = 0;
+            Debug.Log("chưa có enemyType này khởi tạo đã = 1");
+            DiedEnemyWithoutSpawnKeyAmountDic[enemyType] = 1; // 1 vì khi enemy truyền vào không có lúc đấy đã chết rồi mà
             return;
         }
+        Debug.Log("Công thêm số lượng " + enemyType + "chết mà không rơi ra key");
         DiedEnemyWithoutSpawnKeyAmountDic[enemyType]++;
     }
 
@@ -52,8 +59,24 @@ public class EnemyManager : MonoBehaviour
         return DiedEnemyWithoutSpawnKeyAmountDic[enemyType];
     }
 
-    public void DebugEnemyDiedWithoutSpawnKeyAmount(EnemyType enemyType)
+    private void DebugEnemyDiedWithoutSpawnKeyAmountHook()
     {
+        if(Input.GetKey(KeyCode.C) && Input.GetKey(KeyCode.D)  && Input.GetKey(KeyCode.L))
+        {
+            DebugEnemyDiedWithoutSpawnKeyAmount(EnemyType.LightEnemy);
+        }
+        else if(Input.GetKey(KeyCode.C) && Input.GetKey(KeyCode.D)  && Input.GetKey(KeyCode.H))
+        {
+            DebugEnemyDiedWithoutSpawnKeyAmount(EnemyType.HeavyEnemy);
+        }
+    }
+    private void DebugEnemyDiedWithoutSpawnKeyAmount(EnemyType enemyType)
+    {
+        if (!DiedEnemyWithoutSpawnKeyAmountDic.ContainsKey(enemyType))
+        {
+            Debug.Log(enemyType + " Died:0");
+            return;
+        }
         Debug.Log(enemyType + " Died:" + DiedEnemyWithoutSpawnKeyAmountDic[enemyType]);
     }
 
