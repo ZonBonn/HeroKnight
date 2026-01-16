@@ -50,6 +50,9 @@ TagManager:
   - name: CharacterLayer
     uniqueID: 1112654569
     locked: 0
+  - name: KeyLayer
+    uniqueID: 1879589553
+    locked: 0
   - name: PlayerLayer
     uniqueID: 1682629171
     locked: 0

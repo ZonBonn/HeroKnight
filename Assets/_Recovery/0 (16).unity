@@ -10475,10 +10475,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: LightEnemy (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 7628453824878567232, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7703920037629606784, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
       propertyPath: leftPoint
       value: 
@@ -24880,7 +24876,7 @@ MonoBehaviour:
   listEnemyMaximumAmount:
   - enemyType: 0
     maxAmountEnemyType: 5
-  - enemyType: 1
+  - enemyType: 0
     maxAmountEnemyType: 0
 --- !u!1 &1638773951
 GameObject:

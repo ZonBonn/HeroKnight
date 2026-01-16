@@ -40,23 +40,40 @@ public class EnemyItemsHolder : MonoBehaviour
         for(int i = 0 ; i < spawnLootTableLevel.enemyTables.Count ; i++)
         {
             LootEnemyDict.Add(spawnLootTableLevel.enemyTables[i].enemyType, spawnLootTableLevel.enemyTables[i].listKeyRates);
-
+            // checkRateForEachEnemyTypeAndEachKeyType.Add(spawnLootTableLevel.enemyTables[i].enemyType, spawnLootTableLevel.enemyTables[i].listKeyRates);
             // for(int j = 0 ; j < spawnLootTableLevel.enemyTables[i].listKeyRates.Count ; j++)
             // {
             //     dropRateForEachKey.Add(spawnLootTableLevel.enemyTables[i].listKeyRates[j].keyType, spawnLootTableLevel.enemyTables[i].listKeyRates[j].rate);
             // }
         }
-        
+
+        // List<EnemyManager.EnemyAmount> listEnemeyMaximumAmount = EnemyManager.Instance.getListEnemyMaximumAmount();
+        // for(int i = 0 ; i < listEnemeyMaximumAmount.Count ; i++)
+        // {
+        //     maximumEnemyInLevel[listEnemeyMaximumAmount[i].enemyType] = listEnemeyMaximumAmount[i].maxAmountEnemyType;
+        // }
+    }
+
+    private void Start()
+    {
         List<EnemyManager.EnemyAmount> listEnemeyMaximumAmount = EnemyManager.Instance.getListEnemyMaximumAmount();
         for(int i = 0 ; i < listEnemeyMaximumAmount.Count ; i++)
         {
             maximumEnemyInLevel[listEnemeyMaximumAmount[i].enemyType] = listEnemeyMaximumAmount[i].maxAmountEnemyType;
         }
+
+        healthSystem.OnTriggerHealthBarAsZero += OnTriggerSpawnItems;
     }
 
-    private void Start()
+    private void Update()
     {
-        healthSystem.OnTriggerHealthBarAsZero += OnTriggerSpawnItems;
+        // Debug increase key drop rate
+        // if (Input.GetKey(KeyCode.C) &&
+        // Input.GetKey(KeyCode.N) &&
+        // Input.GetKey(KeyCode.R))
+        // {
+        //     DebugAllKeyRatesOfEnemy(enemy.enemyType);
+        // }
     }
 
     public void OnTriggerSpawnItems()
@@ -80,6 +97,7 @@ public class EnemyItemsHolder : MonoBehaviour
         }
 
         // Spawn đồ trong người enemy của random Items (lấy ở Spawn Loot Table)
+        bool shouldIncreaseEnemyDiedWithoutSpawnKeyAmount = false;
         List<SpawnLootTable.KeyRate> listKeyRate = TakeRatebyEnemyType(enemy.enemyType);
         if(listKeyRate != null)
         {
@@ -107,13 +125,15 @@ public class EnemyItemsHolder : MonoBehaviour
                         // chưa cho nhặt key vội hãy để tầm 1s sau mới cho nhặt
                         SetDoNotAllowedPickKeyAfter1Seconds(item);
 
+                        // vẫn phải thêm false, vì key đầu có thể không rơi => true key sau có rơi without dòng này thì vẫn là true => vẫn tăng dù rơi key
+                        shouldIncreaseEnemyDiedWithoutSpawnKeyAmount = false;
+
                         break;
                     }
                     else
                     {
-                        // cộng thêm số lượng rate for key vì enemy chết rồi mà không spawn key tại đây(lấy enemyType thông qua Enemy thôi)
-                        // tại sao cái này lại chạy đúng ? rất có thể nó sẽ rơi vòng 2 lần for và sẽ ++ lên 2 dù chỉ kill 1 enemy
-                        EnemyManager.Instance.IncreaseEnemyDiedWithoutSpawnKeyAmount(enemy.enemyType); 
+                        // đánh dấu kẻ địch chết mà có key không được spawn
+                        shouldIncreaseEnemyDiedWithoutSpawnKeyAmount = true;
                         
                         Debug.Log("Không spawn key được vì KHÔNG GACHA ra được: " + listKeyRate[randomListIdx[j]].keyGameObject);
                         // Debug.Log("Không spawn key được vì không gacha ra được");
@@ -124,6 +144,11 @@ public class EnemyItemsHolder : MonoBehaviour
                     // nếu vượt quá số lượng cho phép rồi thì tăng IncreaseEnemyDiedWithoutSpawnKeyAmount() làm gì nữa
                     Debug.Log("Không spawn key được vì QUÁ SỐ LƯỢNG rồi" + listKeyRate[randomListIdx[j]].keyGameObject);
                 }
+            }
+
+            if(shouldIncreaseEnemyDiedWithoutSpawnKeyAmount == true)
+            {
+                EnemyManager.Instance.IncreaseEnemyDiedWithoutSpawnKeyAmount(enemy.enemyType); 
             }
         }
         else
@@ -216,4 +241,50 @@ public class EnemyItemsHolder : MonoBehaviour
         }
         return 0;
     }
+
+    // public float CalculateFinalDropRate(EnemyType enemyType, Key.KeyType keyType)
+    // {
+    //     float baseRate = getKeyRateByEnemyTypeAndKeyType(enemyType, keyType);
+    //     float diedWithoutDrop = EnemyManager.Instance.GetEnemyDiedWithoutSpawnKeyAmount(enemyType);
+
+    //     if (!maximumEnemyInLevel.TryGetValue(enemyType, out int maxEnemy))
+    //         return baseRate;
+
+    //     float addRate = (1f - baseRate) / maxEnemy * diedWithoutDrop;
+    //     return Mathf.Clamp01(baseRate + addRate);
+    // }
+
+    // public void DebugAllKeyRatesOfEnemy(EnemyType enemyType)
+    // {
+    //     if (!LootEnemyDict.TryGetValue(enemyType, out var listKeyRate))
+    //     {
+    //         Debug.Log($"[RATE DEBUG] EnemyType {enemyType} has no loot table");
+    //         return;
+    //     }
+
+    //     int diedWithoutDrop =
+    //         EnemyManager.Instance.GetEnemyDiedWithoutSpawnKeyAmount(enemyType);
+
+    //     Debug.Log(
+    //         $"====== RATE DEBUG | Enemy: {enemyType} | DiedWithoutKey: {diedWithoutDrop} ======"
+    //     );
+
+    //     foreach (var keyRate in listKeyRate)
+    //     {
+    //         float finalRate = CalculateFinalDropRate(enemyType, keyRate.keyType);
+
+    //         Debug.Log(
+    //             $"Key: {keyRate.keyType} | " +
+    //             $"BaseRate: {keyRate.rate:F3} | " +
+    //             $"FinalRate: {finalRate:F3}"
+    //         );
+    //     }
+
+    //     Debug.Log("=========================================================");
+    // }
+
+    // void OnDisable()
+    // {
+    //     Debug.Log($"{name} - {GetType().Name} bị disable", this);
+    // }
 }

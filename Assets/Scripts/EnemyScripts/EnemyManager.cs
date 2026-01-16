@@ -46,7 +46,7 @@ public class EnemyManager : MonoBehaviour
             DiedEnemyWithoutSpawnKeyAmountDic[enemyType] = 1; // 1 vì khi enemy truyền vào không có lúc đấy đã chết rồi mà
             return;
         }
-        Debug.Log("Công thêm số lượng " + enemyType + "chết mà không rơi ra key");
+        Debug.Log("Công thêm số lượng " + enemyType + " chết mà không rơi ra key");
         DiedEnemyWithoutSpawnKeyAmountDic[enemyType]++;
     }
 
