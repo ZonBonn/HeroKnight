@@ -37,7 +37,7 @@ public class ChestItemsHolder : MonoBehaviour
         chest.OnTriggerChestIsOpended += SpawnItems;
 
         // init var
-        totalItemsSpawnInRandomChest = Random.Range(chestData.minDropItems, chestData.maxDropItems);
+        totalItemsSpawnInRandomChest = Random.Range(chestData.minDropItems, chestData.maxDropItems + 1);
         amountSpawnedItemsInRandomChest = 0;
 
         spawnedAllItems = false;

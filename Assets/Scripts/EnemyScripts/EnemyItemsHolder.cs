@@ -68,12 +68,12 @@ public class EnemyItemsHolder : MonoBehaviour
     private void Update()
     {
         // Debug increase key drop rate
-        // if (Input.GetKey(KeyCode.C) &&
-        // Input.GetKey(KeyCode.N) &&
-        // Input.GetKey(KeyCode.R))
-        // {
-        //     DebugAllKeyRatesOfEnemy(enemy.enemyType);
-        // }
+        if (Input.GetKey(KeyCode.C) &&
+        Input.GetKey(KeyCode.N) &&
+        Input.GetKey(KeyCode.R))
+        {
+            // DebugAllKeyRatesOfEnemy(enemy.enemyType);
+        }
     }
 
     public void OnTriggerSpawnItems()
@@ -265,8 +265,11 @@ public class EnemyItemsHolder : MonoBehaviour
     //     int diedWithoutDrop =
     //         EnemyManager.Instance.GetEnemyDiedWithoutSpawnKeyAmount(enemyType);
 
+    //     int identifyEnemyManagerLevel =
+    //         EnemyManager.Instance.identifyidentifyEnemeyManagerLevel;
+
     //     Debug.Log(
-    //         $"====== RATE DEBUG | Enemy: {enemyType} | DiedWithoutKey: {diedWithoutDrop} ======"
+    //         $"====== RATE DEBUG | Enemy: {enemyType} | DiedWithoutKey: {diedWithoutDrop} ======  | level: {identifyEnemyManagerLevel} ======"
     //     );
 
     //     foreach (var keyRate in listKeyRate)

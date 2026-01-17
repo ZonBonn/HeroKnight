@@ -6456,10 +6456,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: HeavyEnemy (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 1941584455295481914, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3303357594505969035, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
       propertyPath: gridMap
       value: 
       objectReference: {fileID: 1162341017}
+    - target: {fileID: 7707523144904227639, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
+      propertyPath: spawnLootTableLevel
+      value: 
+      objectReference: {fileID: 11400000, guid: 4e0911699da75e945aea55228cbe1091, type: 2}
     - target: {fileID: 8944218315491927769, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
       propertyPath: m_LocalPosition.x
       value: 48.921364
@@ -8428,10 +8436,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: HeavyEnemy (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 1941584455295481914, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3303357594505969035, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
       propertyPath: gridMap
       value: 
       objectReference: {fileID: 1162341017}
+    - target: {fileID: 7707523144904227639, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
+      propertyPath: spawnLootTableLevel
+      value: 
+      objectReference: {fileID: 11400000, guid: 4e0911699da75e945aea55228cbe1091, type: 2}
     - target: {fileID: 8944218315491927769, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
       propertyPath: m_LocalPosition.x
       value: 35.011387
@@ -32132,10 +32148,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2749049057170194447, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
-      propertyPath: spawnLootTableLevel
-      value: 
-      objectReference: {fileID: 11400000, guid: 4e0911699da75e945aea55228cbe1091, type: 2}
     - target: {fileID: 6844258306073565937, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
       propertyPath: gridMap
       value: 
@@ -32143,6 +32155,10 @@ PrefabInstance:
     - target: {fileID: 7628453824878567232, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
       propertyPath: m_Name
       value: LightEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 7628453824878567232, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7703920037629606784, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
       propertyPath: leftPoint
@@ -35972,7 +35988,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cc51e44a8dcc5044811de694e3f6fa6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyManager
-  identifyidentifyEnemeyManagerLevel: 2
   listEnemyMaximumAmount:
   - enemyType: 0
     maxAmountEnemyType: 1

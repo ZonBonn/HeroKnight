@@ -6,6 +6,7 @@ public class EnemyManager : MonoBehaviour
 {
     public static EnemyManager Instance; // có một EnemyManger thôi mà đúng không ? truy cập các function không static có thể qua đây
 
+    public int identifyidentifyEnemeyManagerLevel;
 
     [SerializeField] private List<EnemyAmount> listEnemyMaximumAmount;
 
