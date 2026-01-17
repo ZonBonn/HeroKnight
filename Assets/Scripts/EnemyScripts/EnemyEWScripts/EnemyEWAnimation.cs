@@ -1,6 +1,17 @@
 using UnityEngine;
 using System;
-public enum EnemyEWState{}
+public enum EnemyEWState{
+Idle, 
+Walk, 
+Run, 
+Jump, 
+Fall, 
+Attack, 
+Hurt, 
+Die, 
+Recovery
+}
+
 public class EnemyEWAnimation : MonoBehaviour
 {
     public Sprite[] IdleSprites;
@@ -83,7 +94,7 @@ public class EnemyEWAnimation : MonoBehaviour
     {
         if(sprites == IdleSprites)
         {
-            timerChangeIdxBodyFrames = 0.2f;
+            timerChangeIdxBodyFrames = 0.1f;
         }
         else if(sprites == WalkSprites)
         {
@@ -119,33 +130,42 @@ public class EnemyEWAnimation : MonoBehaviour
         }
     }
 
-    public void AnimationHandler(EnemyState state)
+    public void AnimationHandler(EnemyEWState state)
     {
-        if (state == EnemyState.Idle)
+        if (state == EnemyEWState.Idle)
         {
             ChangeAnimation(IdleSprites, true);
         }
-        else if (state == EnemyState.Run)
+        else if (state == EnemyEWState.Walk)
         {
             ChangeAnimation(RunSprites, true);
         }
-        else if (state == EnemyState.Jump)
+        else if (state == EnemyEWState.Run)
+        {
+            ChangeAnimation(RunSprites, true);
+        }
+        else if (state == EnemyEWState.Jump)
         {
             ChangeAnimation(JumpSprites, false);
         }
-        else if (state == EnemyState.Attack)
+        // Idle walk run jump fall attack hurt death
+        else if (state == EnemyEWState.Fall)
+        {
+            ChangeAnimation(FallSprites, false);
+        }
+        else if (state == EnemyEWState.Attack)
         {
             ChangeAnimation(AttackSprites, false);
         }
-        else if (state == EnemyState.Death)
-        {
-            ChangeAnimation(DeathSprites, false);
-        }
-        else if (state == EnemyState.Hurt)
+        else if (state == EnemyEWState.Hurt)
         {
             ChangeAnimation(HurtSprites, false);
         }
-        else if (state == EnemyState.Recovery)
+        else if (state == EnemyEWState.Die)
+        {
+            ChangeAnimation(DeathSprites, false);
+        }
+        else if (state == EnemyEWState.Recovery)
         {
             ChangeAnimation(RecoverSprites, false);
         }
