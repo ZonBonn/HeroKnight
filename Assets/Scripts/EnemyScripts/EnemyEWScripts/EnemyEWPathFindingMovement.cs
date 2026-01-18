@@ -140,7 +140,7 @@ public class EnemyEWPathFindingMovement : MonoBehaviour
                     tmpDirToTargetX = currentVisualDir; // default value if the amount too small
                 
                 int moveDirX = Math.Sign(tmpDirToTargetX);
-                currentVisualDir = LeftOrRightPlatformer(moveDirX) == true ? 1 : -1;
+                /*currentVisualDir = */LeftOrRightPlatformer(moveDirX);/* == true ? 1 : -1;*/
                 // Debug.Log("DirToTarget.x: " + DirToTarget.x);
                 // Debug.Log(moveDirX);
                 
@@ -367,13 +367,17 @@ public class EnemyEWPathFindingMovement : MonoBehaviour
     {
         if (moveDirection >= 0) // sang phải
         {
-            enemyEWAnimation.GetSpriteRenderer().flipX = true;
+            enemyEWAnimation.GetSpriteRenderer().flipX = false;
+            currentVisualDir = +1; // xử lý theo WE vì sprite thằng này nghiêng từ đầu qua bên phải còn sprit bandit nghiêng qua bên trái
+            return true;
         }
         else if (moveDirection < 0) // sang trái
         {
-            enemyEWAnimation.GetSpriteRenderer().flipX = false;
+            enemyEWAnimation.GetSpriteRenderer().flipX = true;
+            currentVisualDir = -1; // xử lý theo WE vì sprite thằng này nghiêng từ đầu qua bên phải còn sprit bandit nghiêng qua bên trái
+            return false;
         }
-        return enemyEWAnimation.GetSpriteRenderer().flipX;
+        return !enemyEWAnimation.GetSpriteRenderer().flipX; // do sprite ngược lên cũng phải return ngược
     }
     
     private void CurrentVisualDirectionHandler(float moveDirX)

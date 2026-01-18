@@ -46,6 +46,8 @@ public class EnemyEWAI : MonoBehaviour
     private const float ATTACK_DISTANCE = 1f; // ngưỡng mà enemy sẽ tấn công
     private const float  DISENGAGE_DISTANCE = 4f; // ngưỡng mà enemy quyết định còn đuổi hay không đuổi tiếp ??? nó như là MAX_CHASE vậy
     private const float CHASE_MIN_DISTANCE = 2f; // ngưỡng mà enemy quyết định còn đuổi hay không đuổi tiếp ??? nó như là MIN_CHASE vậy
+    private const float ATTACK_RANGE = 7f; // phạm vi còn có thể tấn công của EW
+
 
     
     private void Awake()
@@ -216,6 +218,13 @@ public class EnemyEWAI : MonoBehaviour
             return;
         }
         // ReadyToAttackImmediately();
+
+        // NEW FOR EW @@@
+        if(DistanceEnemyToPlayer <= ATTACK_RANGE)
+        {
+            currentEnemyStateAction = EnemyEWStateAction.Attack;
+            return;
+        }
     }
 
     private void IdleActionHandler()
@@ -246,6 +255,13 @@ public class EnemyEWAI : MonoBehaviour
             return;
         }
         // ReadyToAttackImmediately();
+
+        // NEW FOR EW @@@
+        if(DistanceEnemyToPlayer <= ATTACK_RANGE)
+        {
+            currentEnemyStateAction = EnemyEWStateAction.Attack;
+            return;
+        }
     }
 
     private void ChaseActionHandler()
@@ -288,6 +304,13 @@ public class EnemyEWAI : MonoBehaviour
             // enemyPathFindingMovement.hasLeaveGround = true;
             currentEnemyStateAction = EnemyEWStateAction.Jump;
             
+            return;
+        }
+        
+        // NEW FOR EW @@@
+        if(DistanceEnemyToPlayer <= ATTACK_RANGE)
+        {
+            currentEnemyStateAction = EnemyEWStateAction.Attack;
             return;
         }
     }
