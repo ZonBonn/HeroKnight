@@ -114,7 +114,7 @@ public class EnemyEWAnimation : MonoBehaviour
         }
         else if(sprites == AttackSprites)
         {
-            timerChangeIdxBodyFrames = 0.2f;
+            timerChangeIdxBodyFrames = 0.1f;
         }
         else if(sprites == HurtSprites)
         {
@@ -155,7 +155,7 @@ public class EnemyEWAnimation : MonoBehaviour
         }
         else if (state == EnemyEWState.Attack)
         {
-            ChangeAnimation(AttackSprites, false);
+            ChangeAnimation(AttackSprites, true);
         }
         else if (state == EnemyEWState.Hurt)
         {

@@ -31062,6 +31062,9 @@ MonoBehaviour:
   wallLayerMask:
     serializedVersion: 2
     m_Bits: 128
+  playerLayerMask:
+    serializedVersion: 2
+    m_Bits: 768
 --- !u!114 &2129896191
 MonoBehaviour:
   m_ObjectHideFlags: 0

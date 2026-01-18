@@ -48,6 +48,8 @@ public class EnemyEWAI : MonoBehaviour
     private const float CHASE_MIN_DISTANCE = 2f; // ngưỡng mà enemy quyết định còn đuổi hay không đuổi tiếp ??? nó như là MIN_CHASE vậy
     private const float ATTACK_RANGE = 7f; // phạm vi còn có thể tấn công của EW
 
+    private bool IsSeePlayer;
+
 
     
     private void Awake()
@@ -103,6 +105,7 @@ public class EnemyEWAI : MonoBehaviour
         PlayerPosition = Player.Instance.GetPlayerPosition();
         EnemyPosition = gameObject.transform.position;
         DistanceEnemyToPlayer = Vector3.Distance(PlayerPosition, EnemyPosition);
+        IsSeePlayer = enemyEWSensor.CanEWSeeThePlayer();
 
         switch (currentEnemyStateAction)
         {
@@ -146,11 +149,11 @@ public class EnemyEWAI : MonoBehaviour
 
         // enemyAnimation.AnimationHandler(currentEnemyStateAction); // dòng này có cũng được không có cũng được vì case nào sẽ chạy animation đó rồi mà
 
-        // if (lastCheckedCurrentEnemyStateAction != currentEnemyStateAction)
-        // {
-        //     Debug.Log(currentEnemyStateAction);
-        //     lastCheckedCurrentEnemyStateAction = currentEnemyStateAction;
-        // }
+        if (lastCheckedCurrentEnemyStateAction != currentEnemyStateAction)
+        {
+            Debug.Log(currentEnemyStateAction);
+            lastCheckedCurrentEnemyStateAction = currentEnemyStateAction;
+        }
 
         // Debug.Log(currentEnemyStateAction);
     }
@@ -222,6 +225,7 @@ public class EnemyEWAI : MonoBehaviour
         // NEW FOR EW @@@
         if(DistanceEnemyToPlayer <= ATTACK_RANGE)
         {
+            currentToward = nullTransform;
             currentEnemyStateAction = EnemyEWStateAction.Attack;
             return;
         }
@@ -248,7 +252,7 @@ public class EnemyEWAI : MonoBehaviour
             // Debug.Log("Đổi thanh Patrol");
             return;
         }
-        if(IsPlayerAround)// alway finds player in here <-- SearchingPlayerAround();
+        if(IsPlayerAround && IsSeePlayer == true)// alway finds player in here <-- SearchingPlayerAround();
         {
             m_IdleTimer = idleTimer;// reset lại biến thời gian đứng IDLE
             currentEnemyStateAction = EnemyEWStateAction.Chase;
@@ -257,7 +261,8 @@ public class EnemyEWAI : MonoBehaviour
         // ReadyToAttackImmediately();
 
         // NEW FOR EW @@@
-        if(DistanceEnemyToPlayer <= ATTACK_RANGE)
+        Debug.Log("DistanceEnemyToPlayer:" + DistanceEnemyToPlayer + " IsSeePlayer:" + IsSeePlayer);
+        if(DistanceEnemyToPlayer <= ATTACK_RANGE && IsSeePlayer == true)
         {
             currentEnemyStateAction = EnemyEWStateAction.Attack;
             return;
@@ -308,7 +313,7 @@ public class EnemyEWAI : MonoBehaviour
         }
         
         // NEW FOR EW @@@
-        if(DistanceEnemyToPlayer <= ATTACK_RANGE)
+        if(DistanceEnemyToPlayer <= ATTACK_RANGE && IsSeePlayer == true)
         {
             currentEnemyStateAction = EnemyEWStateAction.Attack;
             return;
@@ -317,6 +322,7 @@ public class EnemyEWAI : MonoBehaviour
 
     private void AttackActionHandler()
     {
+        enemyEWSensor.AlwayTowardToPlayer();
         enemyEWPathFindingMovement.StopMovingPhysicalHandler();
         // if (m_RTCTimer > 0) // đợi chờ chờ tới lượt đánh tiếp theo
         // {
@@ -327,6 +333,13 @@ public class EnemyEWAI : MonoBehaviour
         {
             // while attacking player and dont see the player
             enemyEWPathFindingMovement.MoveTo(PlayerPosition);
+        }
+
+        // NEW FOR EW @@@
+        if(DistanceEnemyToPlayer > ATTACK_RANGE) // quá tầm tấn công thì thôi bỏ về patrol
+        {
+            currentEnemyStateAction = EnemyEWStateAction.Patrol;
+            return;
         }
     }
 
