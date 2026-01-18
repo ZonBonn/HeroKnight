@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public enum MonsterType { Ground, Sky }
-public enum EnemyType { LightEnemy, HeavyEnemy }
+public enum EnemyType { LightEnemy, HeavyEnemy, EvilWizard }
 public class Enemy : MonoBehaviour
 {
     public MonsterType monsterType;
@@ -19,6 +19,10 @@ public class Enemy : MonoBehaviour
         else if(enemyType == EnemyType.HeavyEnemy)
         {
             enemyAttack.SetUp(40, 50);
+        }
+        else if(enemyType == EnemyType.EvilWizard)
+        {
+            
         }
     }
 
