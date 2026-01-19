@@ -23,7 +23,8 @@ public class ProjectileAnimation : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
 
-    public Action<Sprite[], int> OnTriggerEachFrame;
+    public Action<Sprite[], int> OnTriggerEachFrames;
+    public Action<Sprite[]> OnTriggerAfterLastFrame;
 
     private void Awake()
     {
@@ -35,7 +36,7 @@ public class ProjectileAnimation : MonoBehaviour
         m_timerChangeProjectileIdx = timerChangeProjectileIdx;
         ProjectileAnimationHandler(ProjectileState.Moving);
         
-        OnTriggerEachFrame += OnLastOfExpldeFrame;
+        OnTriggerAfterLastFrame += OnLastOfExpldeFrame;
     }
 
     private void Update()
@@ -56,7 +57,7 @@ public class ProjectileAnimation : MonoBehaviour
         m_timerChangeProjectileIdx -= Time.deltaTime;   
         if(m_timerChangeProjectileIdx <= 0)
         {
-            OnTriggerEachFrame?.Invoke(currentSprite, idxProjectileIdx); // ?? không return được frame cuói -> continue work in here <--
+            OnTriggerEachFrames?.Invoke(currentSprite, idxProjectileIdx);
 
             spriteRenderer.sprite = currentSprite[idxProjectileIdx];
             ++idxProjectileIdx;
@@ -71,6 +72,8 @@ public class ProjectileAnimation : MonoBehaviour
                 {
                     idxProjectileIdx = currentSprite.Length-1;
                 }
+
+                OnTriggerAfterLastFrame?.Invoke(currentSprite);
             }
             m_timerChangeProjectileIdx = timerChangeProjectileIdx;
         }
@@ -133,9 +136,9 @@ public class ProjectileAnimation : MonoBehaviour
     }
 
     // ================== TRIGGER FRAMES ==================
-    private void OnLastOfExpldeFrame(Sprite[] sprites, int idxFrame)
+    private void OnLastOfExpldeFrame(Sprite[] sprites)
     {
-        if(sprites == projectileExplodeSprites && idxFrame == sprites.Length)
+        if(sprites == projectileExplodeSprites)
         {
             Destroy(gameObject);
         }

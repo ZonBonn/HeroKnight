@@ -261,7 +261,7 @@ public class EnemyEWAI : MonoBehaviour
         // ReadyToAttackImmediately();
 
         // NEW FOR EW @@@
-        Debug.Log("DistanceEnemyToPlayer:" + DistanceEnemyToPlayer + " IsSeePlayer:" + IsSeePlayer);
+        // Debug.Log("DistanceEnemyToPlayer:" + DistanceEnemyToPlayer + " IsSeePlayer:" + IsSeePlayer);
         if(DistanceEnemyToPlayer <= ATTACK_RANGE && IsSeePlayer == true)
         {
             currentEnemyStateAction = EnemyEWStateAction.Attack;
