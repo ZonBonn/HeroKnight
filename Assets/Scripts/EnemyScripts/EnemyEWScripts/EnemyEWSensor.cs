@@ -8,7 +8,7 @@ public class EnemyEWSensor : MonoBehaviour
     private CapsuleCollider2D capsuleCollider2D;
     public LayerMask platFormLayerMask;
     public LayerMask wallLayerMask;
-    public LayerMask playerLayerMask;
+    public LayerMask visionLayerMask; // đây là những thứ EW sẽ check khi nhìn tới enemy
     private const float FORWARD_CHECK_EXTRA = 0.7f; // 0.7f;
 
     void Start()
@@ -191,12 +191,16 @@ public class EnemyEWSensor : MonoBehaviour
         Vector3 startPoint = new Vector3(capsuleCollider2D.bounds.center.x, capsuleCollider2D.bounds.max.y);
         Vector2 dir = (playerPosition - startPoint).normalized;
         float distance = Vector3.Distance(startPoint, playerPosition) + 0.5f;
-        RaycastHit2D raycastHit2D = Physics2D.Raycast(startPoint, dir, distance, playerLayerMask);
+        RaycastHit2D raycastHit2D = Physics2D.Raycast(startPoint, dir, distance, visionLayerMask);
         Debug.DrawLine(
             startPoint,
             startPoint + (Vector3)(dir * distance),
             Color.pink
         );
+        // if (raycastHit2D.collider != null)
+        // {
+        //     Debug.Log("First hit: " + raycastHit2D.collider.name);
+        // }
         if(raycastHit2D.collider != null && raycastHit2D.collider.gameObject.CompareTag("Player"))
         {
             return true;
