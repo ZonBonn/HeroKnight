@@ -116,9 +116,9 @@ public class BossPathFindingMovement : MonoBehaviour
         {
             UnityEngine.Vector3 targetPosition = PathOnVector[currentIdxPath];
             
-            if (UnityEngine.Vector3.Distance(gameObject.transform.position, targetPosition) <= 0.6f) // 0.6f == PATROL_REACHED_DISTANCE
+            if (UnityEngine.Vector3.Distance(BossPositionHolder.Instance.GetRealBossPosition(), targetPosition) <= 0.6f) // 0.6f == PATROL_REACHED_DISTANCE
             {
-                // Debug.Log(Vector3.Distance(gameObject.transform.position, targetPosition));
+                // Debug.Log(Vector3.Distance(realTransform.transform.position, targetPosition));
                 // Debug.Log("Đã tới ô thứ: " + currentIdxPath);
                 ++currentIdxPath;
                 if (currentIdxPath >= PathOnVector.Count)
@@ -129,9 +129,9 @@ public class BossPathFindingMovement : MonoBehaviour
             }
             else
             {
-                // Debug.Log(Vector3.Distance(gameObject.transform.position, targetPosition));
-                float distanceBefore = UnityEngine.Vector3.Distance(gameObject.transform.position, targetPosition); // for fixing bug
-                UnityEngine.Vector2 DirToTarget = targetPosition - gameObject.transform.position;
+                // Debug.Log(Vector3.Distance(realTransform.transform.position, targetPosition));
+                float distanceBefore = UnityEngine.Vector3.Distance(BossPositionHolder.Instance.GetRealBossPosition(), targetPosition); // for fixing bug
+                UnityEngine.Vector2 DirToTarget = targetPosition - BossPositionHolder.Instance.GetRealBossPosition();
                 
                 // VISUAL DIRECTION AND FLIP DIRECTION HANDLER:
                 float tmpDirToTargetX = DirToTarget.x;
@@ -144,7 +144,7 @@ public class BossPathFindingMovement : MonoBehaviour
                 // Debug.Log(moveDirX);
                 
                 // PHYSICAL MOVEMENT HANDLER:
-                // gameObject.transform.position = gameObject.transform.position + moveDirection * moveSpeed * Time.deltaTime; // C1: di chuyển bằng transform position
+                // realTransform.transform.position = realTransform.transform.position + moveDirection * moveSpeed * Time.deltaTime; // C1: di chuyển bằng transform position
                 rb2d.linearVelocity = new UnityEngine.Vector2(MOVE_SPEED * moveDirX, rb2d.linearVelocityY); // C2: di chuyển bằng rigidbody2D
                 
             }
@@ -257,7 +257,7 @@ public class BossPathFindingMovement : MonoBehaviour
     public void KnockBackPhysicalPlatformerHandler(int AttackerCurrentVisual)
     {
         UnityEngine.Vector3 playerPosition = Player.Instance.GetPlayerPosition();
-        UnityEngine.Vector3 dir = (gameObject.transform.position - playerPosition).normalized;
+        UnityEngine.Vector3 dir = (BossPositionHolder.Instance.GetRealBossPosition() - playerPosition).normalized;
         rb2d.linearVelocity = new UnityEngine.Vector3(KNOCK_BACK_HORIZONTAL_FORCE * AttackerCurrentVisual, KNOCK_BACK_VERTICAL_FORCE);
     }
     // ========================================================
@@ -319,7 +319,7 @@ public class BossPathFindingMovement : MonoBehaviour
 
     public UnityEngine.Vector3 getObjectPosition()
     {
-        return gameObject.transform.position;
+        return BossPositionHolder.Instance.GetRealBossPosition();
     }
 
     public List<UnityEngine.Vector3> getPathOnVector()

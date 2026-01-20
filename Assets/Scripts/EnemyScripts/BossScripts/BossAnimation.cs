@@ -32,7 +32,7 @@ public class BossAnimation : MonoBehaviour
     private Sprite[] CurrentSprites;
     private int idxBodyFrames;
     private float timerChangeIdxBodyFrames;
-    private float m_timerChangeIdxBodyFrameBodyFrame;
+    private float m_timerChangeIdxBodyFrame;
     private bool isLoop;
 
     private SpriteRenderer spriteRenderer;
@@ -53,15 +53,21 @@ public class BossAnimation : MonoBehaviour
     private void Update()
     {
         PlayAnimation();
+
+        // Test
+        // if (Input.GetKeyDown(KeyCode.G))
+        // {
+        //     AnimationHandler(BossState.PrepareSkill2);
+        // }
     }
 
     private void PlayAnimation()
     {
-        m_timerChangeIdxBodyFrameBodyFrame -= Time.deltaTime;
-        if(m_timerChangeIdxBodyFrameBodyFrame <= 0)
+        m_timerChangeIdxBodyFrame -= Time.deltaTime;
+        if(m_timerChangeIdxBodyFrame <= 0)
         {
             spriteRenderer.sprite = CurrentSprites[idxBodyFrames++];
-            m_timerChangeIdxBodyFrameBodyFrame = timerChangeIdxBodyFrames;
+            m_timerChangeIdxBodyFrame = timerChangeIdxBodyFrames;
 
             OnTriggerEachFrames?.Invoke(idxBodyFrames, CurrentSprites);
         }
@@ -88,7 +94,7 @@ public class BossAnimation : MonoBehaviour
         }
 
         idxBodyFrames = 0;
-        m_timerChangeIdxBodyFrameBodyFrame = 0;
+        m_timerChangeIdxBodyFrame = 0;
         CurrentSprites = sprites;
         this.isLoop = isLoop;
         ChangetimerChangeIdxBodyFrame(sprites);

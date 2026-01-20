@@ -37,7 +37,7 @@ public class BossAttack : MonoBehaviour
 
     private void TriggerCreateAttackPoint(int idxFrame, Sprite[] sprites)// hàm này được gọi ở fame thứ 4 (tính từ 0) của enemy
     {
-        Vector3 EnemyPosition = gameObject.transform.position;
+        Vector3 EnemyPosition = BossPositionHolder.Instance.GetRealBossPosition();
         if(sprites == bossAnimation.AttackSprites && idxFrame == 4)
         {
             const float attackDistance = 0.7f;
@@ -59,7 +59,7 @@ public class BossAttack : MonoBehaviour
     private bool IsPlayerInAttackPoint(Vector3 attackPosition)
     {
         Vector3 PlayerPosition = Player.Instance.GetPlayerPosition();
-        Vector3 EnemyPosition = gameObject.transform.position;
+        Vector3 EnemyPosition = BossPositionHolder.Instance.GetRealBossPosition();
 
         // distance handler
         float distanceBtwEnemyAndAttackPosition = Vector3.Distance(attackPosition, EnemyPosition);

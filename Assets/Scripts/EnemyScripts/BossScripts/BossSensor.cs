@@ -19,7 +19,7 @@ public class BossSensor : MonoBehaviour
 
     public void AlwayTowardToPlayer(){
         Vector3 PlayerPosition = Player.Instance.GetPlayerPosition();
-        Vector3 EnemyPosition = gameObject.transform.position;
+        Vector3 EnemyPosition = BossPositionHolder.Instance.GetRealBossPosition();
         Vector2 DirToTarget = PlayerPosition - EnemyPosition;
                 
         // handler Visual Direction and Flip Direction
@@ -36,7 +36,7 @@ public class BossSensor : MonoBehaviour
 
     public bool IsSearchedPlayerAround() 
     {
-        Vector3 EnemyPosition = gameObject.transform.position;
+        Vector3 EnemyPosition = BossPositionHolder.Instance.GetRealBossPosition();
         Vector2 VisualDir = bossPathFindingMovement.currentVisualDir == -1 ? Vector2.left : Vector2.right;
         Vector3 maxDistanceVisualPoint = VisualDir == Vector2.left ? bossAI.chaseLeftPoint.position : bossAI.chaseRightPoint.position;
         // đây sẽ là hai đểm ChaseWaypointA hoặc ChaseWaypointB
