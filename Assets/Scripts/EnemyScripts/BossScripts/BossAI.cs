@@ -11,7 +11,7 @@ public class BossAI : MonoBehaviour
         Death,
         Hurt,
 
-        InvisibleSkill1Sprites, // tàng hình
+        InvisibleSkill1Sprites, // tàng hình, <==> PrepareSkill1
         Visible, // quay trở lại bình thường 
 
         Skill2, // far attack distance
@@ -66,6 +66,7 @@ public class BossAI : MonoBehaviour
     private const float CHASE_MIN_DISTANCE = 2f; // ngưỡng mà enemy quyết định còn đuổi hay không đuổi tiếp ??? nó như là MIN_CHASE vậy
 
     private BossSkill1 bossSkill1;
+    private HealthHandler bossHealthHandler;
 
     private void Awake()
     {
@@ -77,6 +78,8 @@ public class BossAI : MonoBehaviour
         bossSensor = gameObject.GetComponent<BossSensor>();
 
         bossSkill1 = gameObject.GetComponent<BossSkill1>();
+
+        bossHealthHandler = gameObject.GetComponent<HealthHandler>();
     }
 
     private void Start()
@@ -166,9 +169,10 @@ public class BossAI : MonoBehaviour
                 break;
             case BossStateAction.KeeppInvisible:
                 bossAnimation.AnimationHandler(BossState.KeeppInvisible);
-                KeeppInVisibleHandler();
+                KeepInVisibleHandler();
                 break;
             case BossStateAction.Flee:
+                bossAnimation.AnimationHandler(BossState.KeeppInvisible);
                 FleeHandler();
                 break;
             
@@ -387,14 +391,45 @@ public class BossAI : MonoBehaviour
 
     }
     
-    private void KeeppInVisibleHandler()
+    private void KeepInVisibleHandler()
     {
-        
+        if(bossHealthHandler.GetHP() >= 30)
+        {
+            // attack, chase ???
+            if (DistanceEnemyToPlayer <= ATTACK_DISTANCE && IsPlayerAround == true && m_RTCTimer <= 0)
+            {
+                currentEnemyStateAction = BossStateAction.Attack;
+                return;
+            }
+            if(IsPlayerAround)// alway finds player in here <-- SearchingPlayerAround();
+            {
+                m_IdleTimer = idleTimer;// reset lại biến thời gian đứng IDLE
+                currentEnemyStateAction = BossStateAction.Chase;
+                return;
+            }
+            if (DistanceEnemyToPlayer < DISENGAGE_DISTANCE && 
+            IsPlayerAround == true && 
+            DistanceEnemyToPlayer >= CHASE_MIN_DISTANCE)
+            {
+                currentEnemyStateAction = BossStateAction.Chase;
+                return;
+            }
+        }
+        else if(bossHealthHandler.GetHP() < 30)
+        {
+            // flee
+            currentEnemyStateAction = BossStateAction.Flee;
+            return;
+        }
     }
     
     private void FleeHandler()
     {
         // continue your work in here --> IN HERE <--
+        Vector3 fleeDir = -(PlayerPosition - EnemyPosition).normalized;
+        float fleeDistance = 5f;
+        Vector3 fleeTarget = EnemyPosition + fleeDir * fleeDistance;
+        bossPathFindingMovement.MoveTo(fleeTarget);
     }
     // =============================================================
 

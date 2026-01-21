@@ -52,4 +52,9 @@ public class HealthHandler : MonoBehaviour // class thuộc về nhân vật s�
     {
         currentHealth = healthSystem.GetCurrentHealth();
     }
+
+    public float GetHP()
+    {
+        return healthSystem.GetCurrentHealth();
+    }
 }

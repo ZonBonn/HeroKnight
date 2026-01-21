@@ -95,7 +95,7 @@ public class BossPathFindingMovement : MonoBehaviour
         }
         else if(bossAI.currentEnemyStateAction == BossAI.BossStateAction.Flee)
         {
-            
+            FleeMovementPhysicHandler();
         }
     }
 
@@ -277,6 +277,54 @@ public class BossPathFindingMovement : MonoBehaviour
         UnityEngine.Vector3 playerPosition = Player.Instance.GetPlayerPosition();
         UnityEngine.Vector3 dir = (BossPositionHolder.Instance.GetRealBossPosition() - playerPosition).normalized;
         rb2d.linearVelocity = new UnityEngine.Vector3(KNOCK_BACK_HORIZONTAL_FORCE * AttackerCurrentVisual, KNOCK_BACK_VERTICAL_FORCE);
+    }
+    
+    public void FleeMovementPhysicHandler()
+    {
+        if (PathOnVector != null)
+        {
+            UnityEngine.Vector3 targetPosition = PathOnVector[currentIdxPath];
+            
+            if (UnityEngine.Vector3.Distance(BossPositionHolder.Instance.GetRealBossPosition(), targetPosition) <= 0.6f) // 0.6f == PATROL_REACHED_DISTANCE
+            {
+                // Debug.Log(Vector3.Distance(realTransform.transform.position, targetPosition));
+                // Debug.Log("Đã tới ô thứ: " + currentIdxPath);
+                ++currentIdxPath;
+                if (currentIdxPath >= PathOnVector.Count)
+                {
+                    // Debug.Log("Stop Moving");
+                    StopMovingPhysicalHandler();
+                }
+                // có nên check nếu có tường ở đây thì đổi hướng không nhỉ ????
+            }
+            else
+            {
+                // Debug.Log(Vector3.Distance(realTransform.transform.position, targetPosition));
+                float distanceBefore = UnityEngine.Vector3.Distance(BossPositionHolder.Instance.GetRealBossPosition(), targetPosition); // for fixing bug
+                UnityEngine.Vector2 DirToTarget = targetPosition - BossPositionHolder.Instance.GetRealBossPosition();
+                
+                // VISUAL DIRECTION AND FLIP DIRECTION HANDLER:
+                float tmpDirToTargetX = DirToTarget.x;
+                if (-0.55f <= tmpDirToTargetX && tmpDirToTargetX <= 0.55f)
+                    tmpDirToTargetX = currentVisualDir; // default value if the amount too small
+                
+                int moveDirX = Math.Sign(tmpDirToTargetX);
+                int fleeMoveDirX = -moveDirX;
+                currentVisualDir = LeftOrRightPlatformer(fleeMoveDirX) == true ? 1 : -1;
+                // Debug.Log("DirToTarget.x: " + DirToTarget.x);
+                // Debug.Log(moveDirX);
+                
+                // PHYSICAL MOVEMENT HANDLER:
+                // realTransform.transform.position = realTransform.transform.position + moveDirection * moveSpeed * Time.deltaTime; // C1: di chuyển bằng transform position
+                rb2d.linearVelocity = new UnityEngine.Vector2(MOVE_SPEED * fleeMoveDirX, rb2d.linearVelocityY); // C2: di chuyển bằng rigidbody2D
+                
+            }
+        }
+        else
+        {
+            // nếu không tìm được đường
+            // Debug.Log("Không có đường");
+        }
     }
     // ========================================================
 
