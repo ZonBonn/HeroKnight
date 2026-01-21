@@ -1861,6 +1861,8 @@ MonoBehaviour:
   - {fileID: 6824449332584486427, guid: 1914d95466e3d4341a618c35a56d5f82, type: 3}
   - {fileID: 8403998346646135688, guid: 1914d95466e3d4341a618c35a56d5f82, type: 3}
   - {fileID: 3879292089760221355, guid: 1914d95466e3d4341a618c35a56d5f82, type: 3}
+  KeepInvisible:
+  - {fileID: -2410919893335871942, guid: 87dea819afb90f44b962721ed117c412, type: 3}
 --- !u!50 &151132696
 Rigidbody2D:
   serializedVersion: 5

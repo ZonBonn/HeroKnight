@@ -89,6 +89,14 @@ public class BossPathFindingMovement : MonoBehaviour
             // cố gắng di chuyển ra xa người chơi và hồi lại máu, có thể đôi khi cũng có thể tấn công
             rb2d.linearVelocity = Vector2.zero;
         }
+        else if(bossAI.currentEnemyStateAction == BossAI.BossStateAction.KeeppInvisible)
+        {
+            
+        }
+        else if(bossAI.currentEnemyStateAction == BossAI.BossStateAction.Flee)
+        {
+            
+        }
     }
 
     

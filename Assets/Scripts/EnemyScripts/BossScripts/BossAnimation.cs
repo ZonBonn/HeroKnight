@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using UnityEngine.Rendering;
 
 public enum BossState
 {
@@ -14,6 +15,7 @@ public enum BossState
 
     Skill2, // far attack distance
     PrepareSkill2,
+    KeeppInvisible,
 }
 public class BossAnimation : MonoBehaviour
 {
@@ -28,6 +30,7 @@ public class BossAnimation : MonoBehaviour
 
     public Sprite[] Skill2Sprites; // 48 - 63 cái này sẽ dành cho skill riêng
     public Sprite[] PrepareSkill2Sprites; // 39 - 47
+    public Sprite[] KeepInvisibleSprites; // just 1 frame tàng hình
     
 
     private Sprite[] CurrentSprites;
@@ -136,6 +139,10 @@ public class BossAnimation : MonoBehaviour
         {
             timerChangeIdxBodyFrames = 0.1f;
         }
+        else if (sprites == KeepInvisibleSprites)
+        {
+            timerChangeIdxBodyFrames = float.MaxValue;
+        }
     }
 
     // Idle, Walk, Attack, Death, Hurt, Skill1, Visible, Skill2, PrepareSkill2
@@ -177,6 +184,10 @@ public class BossAnimation : MonoBehaviour
         else if (state == BossState.PrepareSkill2)
         {
             ChangeAnimation(PrepareSkill2Sprites, false);
+        }
+        else if (state == BossState.KeeppInvisible)
+        {
+            ChangeAnimation(KeepInvisibleSprites, true);
         }
     }
     

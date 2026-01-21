@@ -17,7 +17,8 @@ public class BossAI : MonoBehaviour
         Skill2, // far attack distance
         PrepareSkill2,
 
-        KeeppInVisible, // đây sẽ là trạng thái quay trờ lại tàng hình ngay khi boss đánh người chơi, còn InvisibleSkill1Sprites chỉ là bắt đầu tàng hình thôi 
+        KeeppInvisible, // đây sẽ là trạng thái quay trờ lại tàng hình ngay khi boss đánh người chơi, còn InvisibleSkill1Sprites chỉ là bắt đầu tàng hình thôi 
+        Flee
     }
 
     public BossStateAction currentEnemyStateAction;
@@ -162,6 +163,13 @@ public class BossAI : MonoBehaviour
             case BossStateAction.InvisibleSkill1Sprites:
                 bossAnimation.AnimationHandler(BossState.InvisibleSkill1Sprites);
                 InvisibleSkill1Handler();
+                break;
+            case BossStateAction.KeeppInvisible:
+                bossAnimation.AnimationHandler(BossState.KeeppInvisible);
+                KeeppInVisibleHandler();
+                break;
+            case BossStateAction.Flee:
+                FleeHandler();
                 break;
             
         }
@@ -375,8 +383,18 @@ public class BossAI : MonoBehaviour
     
     private void InvisibleSkill1Handler()
     {
-        Debug.Log("đang ở InvisibleSkill1Handler");
+        // Debug.Log("đang ở InvisibleSkill1Handler");
 
+    }
+    
+    private void KeeppInVisibleHandler()
+    {
+        
+    }
+    
+    private void FleeHandler()
+    {
+        // continue your work in here --> IN HERE <--
     }
     // =============================================================
 
@@ -456,7 +474,7 @@ public class BossAI : MonoBehaviour
         if(sprites == bossAnimation.InvisibleSkill1Sprites)
         {
             bossSkill1.SetDefaultValueForSkill1(); // bắt đầu tàng hình
-
+            currentEnemyStateAction = BossStateAction.KeeppInvisible;
 
         }
     }
