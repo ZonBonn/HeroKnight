@@ -11,11 +11,13 @@ public class BossAI : MonoBehaviour
         Death,
         Hurt,
 
-        InvisibleSkill1Sprites, // visible
-        Visible,
+        InvisibleSkill1Sprites, // tàng hình
+        Visible, // quay trở lại bình thường 
 
         Skill2, // far attack distance
         PrepareSkill2,
+
+        KeeppInVisible, // đây sẽ là trạng thái quay trờ lại tàng hình ngay khi boss đánh người chơi, còn InvisibleSkill1Sprites chỉ là bắt đầu tàng hình thôi 
     }
 
     public BossStateAction currentEnemyStateAction;
@@ -62,6 +64,8 @@ public class BossAI : MonoBehaviour
     private const float  DISENGAGE_DISTANCE = 4f; // ngưỡng mà enemy quyết định còn đuổi hay không đuổi tiếp ??? nó như là MAX_CHASE vậy
     private const float CHASE_MIN_DISTANCE = 2f; // ngưỡng mà enemy quyết định còn đuổi hay không đuổi tiếp ??? nó như là MIN_CHASE vậy
 
+    private BossSkill1 bossSkill1;
+
     private void Awake()
     {
         bossPathFindingMovement = gameObject.GetComponent<BossPathFindingMovement>();
@@ -70,6 +74,8 @@ public class BossAI : MonoBehaviour
         enemyHealthHandler = gameObject.GetComponent<HealthHandler>();
 
         bossSensor = gameObject.GetComponent<BossSensor>();
+
+        bossSkill1 = gameObject.GetComponent<BossSkill1>();
     }
 
     private void Start()
@@ -84,6 +90,8 @@ public class BossAI : MonoBehaviour
         bossAnimation.OnTriggerEachFrames += TriggerEnemyLastAttackFrameHandler;
         bossAnimation.OnTriggerLastFrames += TriggerEnemyLastHurtFrameHandler;
         bossAnimation.OnTriggerLastFrames += TriggerEnemyLastDieFrameHandler;
+        bossAnimation.OnTriggerLastFrames += TriggerBossLastPrepareSkill2FrameHandler;
+        bossAnimation.OnTriggerLastFrames += TriggerBossLastInvisibleSkill1FrameHandler;
 
         enemyHealthSystem.OnTriggerHealthBarChange += TriggerHurtWhenHealthChange;
         enemyHealthSystem.OnTriggerHealthBarAsZero += TriggerDieWhenHealthAsZero;
@@ -106,6 +114,12 @@ public class BossAI : MonoBehaviour
 
             return;
         }
+
+        // test
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            currentEnemyStateAction = BossStateAction.InvisibleSkill1Sprites;
+        }
         
 
         IsPlayerAround = bossSensor.IsSearchedPlayerAround();
@@ -113,19 +127,21 @@ public class BossAI : MonoBehaviour
         EnemyPosition = BossPositionHolder.Instance.GetRealBossPosition();
         DistanceEnemyToPlayer = Vector3.Distance(PlayerPosition, EnemyPosition);
 
+        // Patrol, Chase, Idle, Attack, Death, Hurt, InvisibleSkill1Sprites, Visible, Skill2, PrepareSkill2
+
         switch (currentEnemyStateAction)
         {
             case BossStateAction.Patrol:
                 bossAnimation.AnimationHandler(BossState.Walk);
                 PatrolActionHandler();
                 break;
-            case BossStateAction.Idle:
-                bossAnimation.AnimationHandler(BossState.Idle);
-                IdleActionHandler();
-                break;
             case BossStateAction.Chase:
                 bossAnimation.AnimationHandler(BossState.Walk);
                 ChaseActionHandler();
+                break;
+            case BossStateAction.Idle:
+                bossAnimation.AnimationHandler(BossState.Idle);
+                IdleActionHandler();
                 break;
             case BossStateAction.Attack:
                 bossAnimation.AnimationHandler(BossState.Attack);
@@ -139,6 +155,15 @@ public class BossAI : MonoBehaviour
                 bossAnimation.AnimationHandler(BossState.Death);
                 DeathActionHandler();
                 break;
+            case BossStateAction.PrepareSkill2: // cái này sẽ gọi skill 2
+                bossAnimation.AnimationHandler(BossState.PrepareSkill2);
+                PrepareSkill2ActionHandler();
+                break;
+            case BossStateAction.InvisibleSkill1Sprites:
+                bossAnimation.AnimationHandler(BossState.InvisibleSkill1Sprites);
+                InvisibleSkill1Handler();
+                break;
+            
         }
 
         if (lastCheckedCurrentEnemyStateAction != currentEnemyStateAction)
@@ -342,6 +367,17 @@ public class BossAI : MonoBehaviour
     {
         // do nothing or do not change the state during Recovering
     }
+    
+    private void PrepareSkill2ActionHandler()
+    {
+        // sẽ không làm gì khi đang thực hiện prepare skill 2, chỉ thực hiện ở frame cuối của nó
+    }
+    
+    private void InvisibleSkill1Handler()
+    {
+        Debug.Log("đang ở InvisibleSkill1Handler");
+
+    }
     // =============================================================
 
 
@@ -386,6 +422,42 @@ public class BossAI : MonoBehaviour
         if(sprites == bossAnimation.DeathSprites)
         {
             isDied = true;
+        }
+    }
+    
+    private void TriggerBossLastPrepareSkill2FrameHandler(Sprite[] sprites)
+    {
+        if(sprites == bossAnimation.PrepareSkill2Sprites)
+        {
+            // gọi skill 2 vã vào đầu thằng player: đã được gọi rồi bên BossCallerSkill2 nhưng chuyển trạng thái sáng trạng thái khác tại đây
+            bool IsPlayerAround = bossSensor.IsSearchedPlayerAround();
+            if (DistanceEnemyToPlayer <= READY_TO_ATTACK_DISTANCE && IsPlayerAround == true && m_RTCTimer <= 0)
+            {
+                currentEnemyStateAction = BossStateAction.Attack;
+                return;
+            }
+            if (DistanceEnemyToPlayer < DISENGAGE_DISTANCE && 
+            IsPlayerAround == true && 
+            DistanceEnemyToPlayer >= CHASE_MIN_DISTANCE)
+            {
+                currentEnemyStateAction = BossStateAction.Chase;
+                return;
+            }
+
+            // Debug.Log("K nhảy vào state nào cả thì nhảy vào patrol");
+            currentEnemyStateAction = BossStateAction.Patrol; // safe state
+            return;
+        }
+        
+    }
+    
+    private void TriggerBossLastInvisibleSkill1FrameHandler(Sprite[] sprites)
+    {
+        if(sprites == bossAnimation.InvisibleSkill1Sprites)
+        {
+            bossSkill1.SetDefaultValueForSkill1(); // bắt đầu tàng hình
+
+
         }
     }
     // ===========================================================

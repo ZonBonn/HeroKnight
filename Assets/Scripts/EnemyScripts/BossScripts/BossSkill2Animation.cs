@@ -20,8 +20,6 @@ public class BossSkill2Animation : MonoBehaviour
         idxSkillFrames = 0;
         timerChangeIdxSkillFrames = 0.1f;
         m_timerChangeIdxSkillFrame = timerChangeIdxSkillFrames;
-
-        OnTriggerLastFrames += DestroySelf;
     }
 
     private void InitStart()
@@ -67,11 +65,5 @@ public class BossSkill2Animation : MonoBehaviour
 
             OnTriggerLastFrames?.Invoke(Skill2Sprite);
         }
-    }
-
-    private void DestroySelf(Sprite[] sprites)
-    {
-        if(sprites == Skill2Sprite)
-            Destroy(gameObject);
     }
 }

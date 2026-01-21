@@ -22,13 +22,13 @@ public class BossCallerSkill2 : MonoBehaviour
         
     }
 
-    private void OnTriggerCallSkill2(Sprite[] sprites)
+    private void OnTriggerCallSkill2(Sprite[] sprites) // PrepareSkill2LastFrame Part1: xử lý gọi skill 2 ở đây, nhưng chuyển state sẽ ở bên AI dù cùng logic cuối frame prepareskill2
     {
         if(sprites == bossAnimation.PrepareSkill2Sprites)
         {
             Vector3 playerPosition = Player.Instance.GetPlayerPosition();
             playerPosition.y += 0.7f;
-            GameObject skill2 = Instantiate(Skill2PF, playerPosition, Quaternion.identity);
+            Instantiate(Skill2PF, playerPosition, Quaternion.identity);
 
         }
     }

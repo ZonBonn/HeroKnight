@@ -28,6 +28,7 @@ public class BossAnimation : MonoBehaviour
 
     public Sprite[] Skill2Sprites; // 48 - 63 cái này sẽ dành cho skill riêng
     public Sprite[] PrepareSkill2Sprites; // 39 - 47
+    
 
     private Sprite[] CurrentSprites;
     private int idxBodyFrames;
@@ -131,13 +132,9 @@ public class BossAnimation : MonoBehaviour
         {
             timerChangeIdxBodyFrames = 0.2f;
         }
-        else if(sprites == Skill2Sprites)
-        {
-            timerChangeIdxBodyFrames = 0.2f;
-        }
         else if(sprites == PrepareSkill2Sprites)
         {
-            timerChangeIdxBodyFrames = 0.2f;
+            timerChangeIdxBodyFrames = 0.1f;
         }
     }
 
@@ -167,7 +164,7 @@ public class BossAnimation : MonoBehaviour
         }
         else if (state == BossState.InvisibleSkill1Sprites)
         {
-            ChangeAnimation(InvisibleSkill1Sprites, true);
+            ChangeAnimation(InvisibleSkill1Sprites, false);
         }
         else if (state == BossState.Visible)
         {

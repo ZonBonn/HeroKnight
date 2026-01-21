@@ -81,7 +81,7 @@ SpriteRenderer:
   m_SortingLayerID: 1682629171
   m_SortingLayer: 5
   m_SortingOrder: 1
-  m_Sprite: {fileID: 8521500246072281666, guid: 1914d95466e3d4341a618c35a56d5f82, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -89,7 +89,7 @@ SpriteRenderer:
   m_Size: {x: 4.375, y: 2.90625}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &6442826333668000960
@@ -104,6 +104,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 557203d0632cb0f4293044a2d2be7f7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossSkill2
+  playerLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!114 &6921526318902225290
 MonoBehaviour:
   m_ObjectHideFlags: 0
