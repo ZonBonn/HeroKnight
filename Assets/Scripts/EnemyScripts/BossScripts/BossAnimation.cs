@@ -117,7 +117,7 @@ public class BossAnimation : MonoBehaviour
         }
         else if(sprites == AttackSprites)
         {
-            timerChangeIdxBodyFrames = 0.2f;
+            timerChangeIdxBodyFrames = 0.1f;
         }
         else if(sprites == DeathSprites)
         {
