@@ -1672,7 +1672,7 @@ GameObject:
   - component: {fileID: 151132707}
   - component: {fileID: 151132697}
   - component: {fileID: 151132696}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BossDeathBringer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1924,8 +1924,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.0074983835, y: 0.010140896}
-  m_Size: {x: 0.82235646, y: 1.5647514}
+  m_Offset: {x: 0.0074983835, y: 0.037222445}
+  m_Size: {x: 0.82235646, y: 1.5105883}
   m_Direction: 0
 --- !u!114 &151132699
 MonoBehaviour:

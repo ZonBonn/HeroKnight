@@ -9,6 +9,7 @@ public class BossPathFindingMovement : MonoBehaviour
     private const float PUSH_FORCE = 5.5f;
     private const float KNOCK_BACK_HORIZONTAL_FORCE = 3f;
     private const float KNOCK_BACK_VERTICAL_FORCE = 1.5f;
+    public const float FLEE_MOVE_SPEED = 4f;
     private int currentIdxPath;
     private List<UnityEngine.Vector3> PathOnVector;
     public GridMap gridMap;
@@ -310,13 +311,13 @@ public class BossPathFindingMovement : MonoBehaviour
                 
                 int moveDirX = Math.Sign(tmpDirToTargetX);
                 int fleeMoveDirX = -moveDirX;
-                currentVisualDir = LeftOrRightPlatformer(fleeMoveDirX) == true ? 1 : -1;
+                currentVisualDir = LeftOrRightPlatformer(moveDirX) == true ? 1 : -1;
                 // Debug.Log("DirToTarget.x: " + DirToTarget.x);
                 // Debug.Log(moveDirX);
                 
                 // PHYSICAL MOVEMENT HANDLER:
                 // realTransform.transform.position = realTransform.transform.position + moveDirection * moveSpeed * Time.deltaTime; // C1: di chuyển bằng transform position
-                rb2d.linearVelocity = new UnityEngine.Vector2(MOVE_SPEED * fleeMoveDirX, rb2d.linearVelocityY); // C2: di chuyển bằng rigidbody2D
+                rb2d.linearVelocity = new UnityEngine.Vector2(FLEE_MOVE_SPEED * moveDirX, rb2d.linearVelocityY); // C2: di chuyển bằng rigidbody2D
                 
             }
         }

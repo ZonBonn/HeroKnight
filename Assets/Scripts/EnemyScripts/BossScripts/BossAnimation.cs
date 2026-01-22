@@ -129,11 +129,11 @@ public class BossAnimation : MonoBehaviour
         }
         else if(sprites == InvisibleSkill1Sprites)
         {
-            timerChangeIdxBodyFrames = 0.1f;
+            timerChangeIdxBodyFrames = 0.09f;
         }
         else if(sprites == VisibleSprites)
         {
-            timerChangeIdxBodyFrames = 0.2f;
+            timerChangeIdxBodyFrames = 0.09f;
         }
         else if(sprites == PrepareSkill2Sprites)
         {

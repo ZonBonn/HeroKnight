@@ -28,6 +28,7 @@ public class BossSkill1 : MonoBehaviour
     public void SetDefaultValueForSkill1()
     {
         m_timeRemainSkill = timeRemainSkill;
+        CanKeepUseSkill1 = true;
     }
 
     public bool getCanKeepUseSkill1()
