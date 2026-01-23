@@ -47,7 +47,7 @@ public class BossCallerSkill2 : MonoBehaviour
         }
     }
 
-    public void SetDefaultCoolDown()
+    public void SetSkill2CoolDown()
     {
         timer = coolDownSkill2;
     }

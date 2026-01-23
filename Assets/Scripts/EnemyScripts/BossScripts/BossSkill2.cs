@@ -49,6 +49,10 @@ public class BossSkill2 : MonoBehaviour
 
     private void OnTriggerLastSkill2Frame(Sprite[] sprites)
     {
+        // về sau set cooldown skill2 tại đây 
+
+
+        
         if(sprites == bossSkill2Animation.Skill2Sprite)
             Destroy(gameObject);
     }

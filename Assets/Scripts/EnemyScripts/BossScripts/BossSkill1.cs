@@ -3,12 +3,21 @@ using System;
 
 public class BossSkill1 : MonoBehaviour
 {
-    private float timeRemainSkill = 10f;
-    private float m_timeRemainSkill;
+    private float timeRemainSkill = 10f; // thời gian duy trì skill
+    private float m_timeRemainSkill; // đếm ngược duy trì thời gian duy trì skill
 
-    private bool CanKeepUseSkill1;
+    private bool CanKeepUseSkill1; // liệu có thể tiếp tục tàng hình không 
 
     public Action OnTriggerEndOfVisible;
+
+    private bool CanUseSkill1; // liệu có thể dùng skill 1 không
+    private float timer; // thời gian để hồi skill 1
+    private float coolDownSkill1 = 15f; // đến ngược thời gian hồi skill 1
+
+    private void Start()
+    {
+        timer = coolDownSkill1;
+    }
 
     private void Update()
     {
@@ -23,6 +32,17 @@ public class BossSkill1 : MonoBehaviour
                 return;
             }
         }
+
+        if(timer > 0)
+        {
+            CanUseSkill1 = false;
+            timer -= Time.deltaTime;
+            if(timer <= 0)
+            {
+                CanUseSkill1 = true;
+            }
+            
+        }
     }
 
     public void SetDefaultValueForSkill1()
@@ -34,5 +54,22 @@ public class BossSkill1 : MonoBehaviour
     public bool getCanKeepUseSkill1()
     {
         return CanKeepUseSkill1;
+    }
+
+
+
+    public void SetSkill1CoolDown()
+    {
+        timer = coolDownSkill1;
+    }
+
+    public bool getCanUseSkill1()
+    {
+        return CanUseSkill1;
+    }
+
+    public void UseSkill1() // không giống như skill 2 là gọi cái thì bắt đầu đếm ngược luôn (thì cái UseSkill 2 đặt luôn là false), còn cái này thì phải hết tàng hình thì mới bắt đầu đếm ngược thì mới false được
+    {
+        CanUseSkill1 = false;
     }
 }

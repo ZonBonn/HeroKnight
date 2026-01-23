@@ -483,7 +483,7 @@ public class EnemyAI : MonoBehaviour
     // ===========================================================
 
     // ========= SUPPORTING FUNCTION ========
-    private void Immediately_m_RTCTimer()
+    private void Immediately_m_RTCTimer() // khi mà combo đánh xong chờ mà bị interupt (kiểu đi đánh xong nhưng mà nó chuyển thành Patrol hay Idle thì thôi reset cho phép đánh luôn không phải chờ hồi lượt đánh tiếp theo)
     {
         m_RTCTimer = 0;
     }
