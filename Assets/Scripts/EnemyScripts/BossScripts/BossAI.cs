@@ -19,7 +19,8 @@ public class BossAI : MonoBehaviour
         PrepareSkill2,
 
         KeeppInvisible, // đây sẽ là trạng thái quay trờ lại tàng hình ngay khi boss đánh người chơi, còn InvisibleSkill1Sprites chỉ là bắt đầu tàng hình thôi 
-        Flee
+        Flee,
+        Recover // đợi chờ sau mỗi lượt đánh đây cũng chính là RTC vì boss animation không có RTC => phải dùng tạm Idle
     }
 
     public BossStateAction currentEnemyStateAction;
@@ -37,7 +38,7 @@ public class BossAI : MonoBehaviour
     public LayerMask playerLayerMask;
     private float idleTimer;
     private float m_IdleTimer; // nếu biến này bị Hurt interupt mà không reset có bị sao không nhỉ ? (lười mò để check quá :D, check sau tại đây, nếu có lỗi liên quan tới Idle và RTC)
-    private float attackCoolDown = 0.5f; // thời gian chờ hồi lượt đánh tiếp theo
+    private float attackCoolDown = 0.2f; // thời gian chờ hồi lượt đánh tiếp theo
     private float timer_AttackCoolDown; // thời gian chờ idle để chuyển thành attack // nếu biến này bị Hurt interupt mà không reset có bị sao không nhỉ ?  (lười mò để check quá :D, check sau tại đây nếu có lỗi liên quan tới Idle và RTC)
 
     private bool IsPlayerAround;
@@ -191,6 +192,10 @@ public class BossAI : MonoBehaviour
                 bossAnimation.AnimationHandler(BossState.Visible);
                 VisibleHandler();
                 break;
+            case BossStateAction.Recover:
+                bossAnimation.AnimationHandler(BossState.Recover);
+                RecoverHandler();
+                break;
             
         }
 
@@ -206,9 +211,6 @@ public class BossAI : MonoBehaviour
     // ========== STATE ENEMY HANDLERS ==========
     private void PatrolActionHandler()
     {
-        // Immediately_m_RTCTimer();
-        Immediately_timer_AttackCoolDownAsZero();
-
         // C1: tối ưu path finding
         if (currentToward != lastCheckedCurrentToward) // dành cho từ trang thái Chase, Jump -> Patrol
         {
@@ -262,7 +264,6 @@ public class BossAI : MonoBehaviour
 
     private void IdleActionHandler()
     {
-        timer_AttackCoolDown -= Time.deltaTime;
         if (DistanceEnemyToPlayer <= ATTACK_DISTANCE && IsPlayerAround == true && timer_AttackCoolDown <= 0)
         {
             currentEnemyStateAction = BossStateAction.Attack;
@@ -301,7 +302,6 @@ public class BossAI : MonoBehaviour
     private void ChaseActionHandler()
     {
         bossSensor.AlwayTowardToPlayer();
-        Immediately_timer_AttackCoolDownAsZero();
 
         // NEW FOR BOSS @@@
         bossPathFindingMovement.MoveTo(PlayerPosition);
@@ -321,7 +321,7 @@ public class BossAI : MonoBehaviour
             return;
         }
 
-        if (DistanceEnemyToPlayer <= ATTACK_DISTANCE && IsPlayerAround == true/* && m_RTCTimer <= 0*/)
+        if (DistanceEnemyToPlayer <= ATTACK_DISTANCE && IsPlayerAround == true && timer_AttackCoolDown <= 0)
         {
             Debug.Log("Chase -> Attack");
             currentEnemyStateAction = BossStateAction.Attack;
@@ -331,7 +331,15 @@ public class BossAI : MonoBehaviour
 
     private void AttackActionHandler()
     {
-        bossPathFindingMovement.StopMovingPhysicalHandler();   
+        bossPathFindingMovement.StopMovingPhysicalHandler();
+
+        if (timer_AttackCoolDown > 0) // đợi chờ chờ tới lượt đánh tiếp theo
+        {
+            Debug.Log("Attack -> Recover");
+            currentEnemyStateAction = BossStateAction.Recover;
+            return;
+        }    
+
         if (IsPlayerAround == false && DistanceEnemyToPlayer <= DISENGAGE_DISTANCE)
         {
             // while attacking player and dont see the player
@@ -508,6 +516,43 @@ public class BossAI : MonoBehaviour
     {
         
     }
+    
+    private void RecoverHandler()
+    {
+        timer_AttackCoolDown -= Time.deltaTime;
+        // viết hàm luôn luôn nhìn về hướng player khi đang ở trạng thái readyTOAttack tại đây
+        bossSensor.AlwayTowardToPlayer();
+        bossPathFindingMovement.StopMovingPhysicalHandler();
+        if (DistanceEnemyToPlayer <= ATTACK_DISTANCE && IsPlayerAround == true && timer_AttackCoolDown <= 0)
+        {
+            Debug.Log("Recover -> Attack");
+            currentEnemyStateAction = BossStateAction.Attack;
+            return;
+        }
+        if (DistanceEnemyToPlayer >= DISENGAGE_DISTANCE && IsPlayerAround == false)
+        {
+            Debug.Log("Recover -> Patrol 1");
+            Immediately_timer_AttackCoolDownAsZero();
+            currentEnemyStateAction = BossStateAction.Patrol;
+            return;
+        }
+        if (DistanceEnemyToPlayer < DISENGAGE_DISTANCE && 
+        IsPlayerAround == true && 
+        DistanceEnemyToPlayer >= CHASE_MIN_DISTANCE)
+        {
+            Debug.Log("Recover -> Chase");
+            Immediately_timer_AttackCoolDownAsZero();
+            currentEnemyStateAction = BossStateAction.Chase;
+            return;
+        }
+        if(playerMovement.GetPlayerState() == State.Die) // --> error in here  <--
+        {
+            Debug.Log("Recover -> Patrol 2");
+            Immediately_timer_AttackCoolDownAsZero();
+            currentEnemyStateAction = BossStateAction.Patrol;
+            return;
+        }
+    }
     // =============================================================
 
 
@@ -519,34 +564,35 @@ public class BossAI : MonoBehaviour
         {
             timer_AttackCoolDown = attackCoolDown;
 
-            if (DistanceEnemyToPlayer <= ATTACK_DISTANCE && IsPlayerAround == true && timer_AttackCoolDown > 0) // đợi chờ chờ tới lượt đánh tiếp theo
-            {
-                currentEnemyStateAction = BossStateAction.Idle;
-                return;
-            } 
+            // if (DistanceEnemyToPlayer <= ATTACK_DISTANCE && IsPlayerAround == true && timer_AttackCoolDown > 0) // đợi chờ chờ tới lượt đánh tiếp theo
+            // {
+            //     Debug.Log("LastAttack -> Idle");
+            //     currentEnemyStateAction = BossStateAction.Idle;
+            //     return;
+            // } 
 
-            if(bossSkill1.getCanKeepUseSkill1() == true)
-            {
-                Debug.Log("LastAttack -> KeeppInvisible");
-                currentEnemyStateAction = BossStateAction.KeeppInvisible;
-                return;
-            }
-            if(IsPlayerAround || DistanceEnemyToPlayer < DISENGAGE_DISTANCE) // nếu player vẫn được nhìn thấy hoặc vẫn trong khoảng cách chưa từ bỏ
-            {
-                Debug.Log("LastAttack -> Chase");  
-                currentEnemyStateAction = BossStateAction.Chase;
-                return;
-            }
-            if (DistanceEnemyToPlayer >= DISENGAGE_DISTANCE && IsPlayerAround == false)
-            {
-                Debug.Log("LastAttack -> Patrol");
-                currentEnemyStateAction = BossStateAction.Patrol;
-                return;
-            }
-            Debug.Log("LastAttack -> Patrol");
-            // Debug.Log("K nhảy vào state nào cả thì nhảy vào patrol");
-            currentEnemyStateAction = BossStateAction.Patrol; // safe state
-            return;
+            // if(bossSkill1.getCanKeepUseSkill1() == true)
+            // {
+            //     Debug.Log("LastAttack -> KeeppInvisible");
+            //     currentEnemyStateAction = BossStateAction.KeeppInvisible;
+            //     return;
+            // }
+            // if(IsPlayerAround || DistanceEnemyToPlayer < DISENGAGE_DISTANCE) // nếu player vẫn được nhìn thấy hoặc vẫn trong khoảng cách chưa từ bỏ
+            // {
+            //     Debug.Log("LastAttack -> Chase");  
+            //     currentEnemyStateAction = BossStateAction.Chase;
+            //     return;
+            // }
+            // if (DistanceEnemyToPlayer >= DISENGAGE_DISTANCE && IsPlayerAround == false)
+            // {
+            //     Debug.Log("LastAttack -> Patrol");
+            //     currentEnemyStateAction = BossStateAction.Patrol;
+            //     return;
+            // }
+            // Debug.Log("LastAttack -> Patrol");
+            // // Debug.Log("K nhảy vào state nào cả thì nhảy vào patrol");
+            // currentEnemyStateAction = BossStateAction.Patrol; // safe state
+            // return;
         }
     }
     
@@ -736,6 +782,11 @@ public class BossAI : MonoBehaviour
     private void Immediately_timer_AttackCoolDownAsZero()
     {
         timer_AttackCoolDown = 0;
+    }
+    
+    private void DeclineTimerAttackCoolDown()
+    {
+        timer_AttackCoolDown -= Time.deltaTime;
     }
     // =============================================================
 }

@@ -16,6 +16,7 @@ public enum BossState
     Skill2, // far attack distance
     PrepareSkill2,
     KeeppInvisible,
+    Recover,
 }
 public class BossAnimation : MonoBehaviour
 {
@@ -31,6 +32,8 @@ public class BossAnimation : MonoBehaviour
     public Sprite[] Skill2Sprites; // 48 - 63 cái này sẽ dành cho skill riêng
     public Sprite[] PrepareSkill2Sprites; // 39 - 47
     public Sprite[] KeepInvisibleSprites; // just 1 frame tàng hình
+
+    public Sprite[] RecoverSprites;
     
 
     private Sprite[] CurrentSprites;
@@ -143,6 +146,10 @@ public class BossAnimation : MonoBehaviour
         {
             timerChangeIdxBodyFrames = float.MaxValue;
         }
+        else if (sprites == RecoverSprites)
+        {
+            timerChangeIdxBodyFrames = 0.12f;
+        }
     }
 
     // Idle, Walk, Attack, Death, Hurt, Skill1, Visible, Skill2, PrepareSkill2
@@ -188,6 +195,10 @@ public class BossAnimation : MonoBehaviour
         else if (state == BossState.KeeppInvisible)
         {
             ChangeAnimation(KeepInvisibleSprites, true);
+        }
+        else if (state == BossState.Recover)
+        {
+            ChangeAnimation(RecoverSprites, false);
         }
     }
     
