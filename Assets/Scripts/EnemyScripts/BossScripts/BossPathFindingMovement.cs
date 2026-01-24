@@ -327,6 +327,26 @@ public class BossPathFindingMovement : MonoBehaviour
             // Debug.Log("Không có đường");
         }
     }
+    
+    public void Teleport(Vector3 playerPosition, Vector3 enemyPosition, int playerDirVisual, float minDistBehindPlayer = 1f, float maxDistBehindPlayer = 3f, int maxTry = 8)
+    {
+        Vector3 telePosition = playerPosition;
+        telePosition.y = enemyPosition.y; // giữ lại vị trí y
+        for(int i = 0 ; i < maxTry ; i++)
+        {
+            telePosition.x = playerPosition.x + (UnityEngine.Random.Range(minDistBehindPlayer, maxDistBehindPlayer) * (-1*playerDirVisual));
+            // check hợp lệ
+            refRootGrid.worldPosToIJPos(telePosition, out int iPos, out int jPos);
+            if(refRootGrid.isInGrid(iPos, jPos) == false || 
+            gridMap.getIsWalkableByGridPosition(iPos, jPos) == false) continue;
+            if(bossSensor.IsBlocked(telePosition)) continue;
+            // if (Vector3.Distance(telePosition, playerPosition) < 1f) continue; // không cho nhảy sát người chơi
+            gameObject.transform.position = telePosition;
+            return;
+        }
+        gameObject.transform.position = enemyPosition;
+        return;
+    }
     // ========================================================
 
     
@@ -402,8 +422,8 @@ public class BossPathFindingMovement : MonoBehaviour
     
     public Vector3 FindValidFleeTarget(Vector3 enemyPosition, 
     Vector3 playerPosition, 
-    int MAX_DISTANCE = 7, 
-    int MIN_DISTANCE = 4, 
+    int MAX_DISTANCE = 4, 
+    int MIN_DISTANCE = 3, 
     int maxTry = 8)
     {
         Vector3 dirFlee = -(playerPosition - enemyPosition).normalized;
@@ -413,8 +433,8 @@ public class BossPathFindingMovement : MonoBehaviour
             Vector3 candicatePosition = enemyPosition + dirFlee * randomFleeDistance; 
             // lấy ra vị trí i,j trên grid map
             refRootGrid.worldPosToIJPos(candicatePosition, out int iPos, out int jPos);
-            if(gridMap.getIsWalkableByGridPosition(iPos, jPos) == false ||
-            refRootGrid.isInGrid(iPos, jPos) == false) continue;
+            if(refRootGrid.isInGrid(iPos, jPos) == false || 
+            gridMap.getIsWalkableByGridPosition(iPos, jPos) == false) continue;
 
             // check có xa player hơn không
             float currentDistance = Vector3.Distance(enemyPosition, playerPosition);

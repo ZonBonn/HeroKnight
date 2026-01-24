@@ -80,7 +80,7 @@ public class BossSensor : MonoBehaviour
         return IsWallOrGroundInFront() && !IsWallOrGroundTooHigh();
     }
 
-    private bool IsWallOrGroundInFront()
+    public bool IsWallOrGroundInFront()
     {
         UnityEngine.Vector3 dir;
         dir = bossPathFindingMovement.currentVisualDir == -1 ? UnityEngine.Vector3.left : UnityEngine.Vector3.right;
@@ -193,5 +193,11 @@ public class BossSensor : MonoBehaviour
         Debug.DrawLine(from, to, Color.brown);
         if(raycastHit2D.collider != null) return true;
         return false;
+    }
+
+    public bool IsBlocked(UnityEngine.Vector3 position)
+    {
+        float radius = 0.5f; // kích thước kiểm tra
+        return Physics.OverlapSphere(position, radius, obstacleLayerMask).Length > 0; // liệu với kích thước radius thì có bị collider nào chiếm ở vị trí position không
     }
 }
