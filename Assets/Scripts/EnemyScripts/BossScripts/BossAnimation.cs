@@ -10,7 +10,7 @@ public enum BossState
     Death,
     Hurt,
 
-    InvisibleSkill1Sprites, // visible
+    InvisibleSkill1, // visible
     Visible,
 
     Skill2, // far attack distance
@@ -176,7 +176,7 @@ public class BossAnimation : MonoBehaviour
         {
             ChangeAnimation(HurtSprites, false);
         }
-        else if (state == BossState.InvisibleSkill1Sprites)
+        else if (state == BossState.InvisibleSkill1)
         {
             ChangeAnimation(InvisibleSkill1Sprites, false);
         }

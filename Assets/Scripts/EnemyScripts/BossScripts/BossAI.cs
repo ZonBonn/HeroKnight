@@ -12,7 +12,7 @@ public class BossAI : MonoBehaviour
         Death,
         Hurt,
 
-        InvisibleSkill1Sprites, // tàng hình, <==> PrepareSkill1
+        InvisibleSkill1, // tàng hình, <==> PrepareSkill1
         Visible, // quay trở lại bình thường 
 
         Skill2, // far attack distance
@@ -71,6 +71,8 @@ public class BossAI : MonoBehaviour
     private HealthHandler bossHealthHandler;
     private BossCallerSkill2 bossCallerSkill2;
 
+    private bool IsHavePath;
+
     private void Awake()
     {
         bossPathFindingMovement = gameObject.GetComponent<BossPathFindingMovement>();
@@ -126,9 +128,9 @@ public class BossAI : MonoBehaviour
         }
 
         // test
-        if (Input.GetKeyDown(KeyCode.G) && bossSkill1.getCanUseSkill1() == true)
+        if (Input.GetKeyDown(KeyCode.G)/* && bossSkill1.getCanUseSkill1() == true*/)
         {
-            currentEnemyStateAction = BossStateAction.InvisibleSkill1Sprites;
+            currentEnemyStateAction = BossStateAction.InvisibleSkill1;
             bossSkill1.UseSkill1();
             // bossSkill1.SetSkill1CoolDown(); // cái này sẽ đặt lại khi mà hết tàng hình
         }
@@ -137,12 +139,21 @@ public class BossAI : MonoBehaviour
             currentEnemyStateAction = BossStateAction.PrepareSkill2;
             bossCallerSkill2.SetSkill2CoolDown(); // cái này sẽ đặt lại khi mà skill 2 được hoàn tất triển khai
         }
+        else if (Input.GetKeyDown(KeyCode.F))
+        {
+            bossHealthHandler.Heal(100);
+        }
+        else if (Input.GetKeyDown(KeyCode.J))
+        {
+            bossHealthHandler.Damage(80);
+        }
         
 
         IsPlayerAround = bossSensor.IsSearchedPlayerAround();
         PlayerPosition = Player.Instance.GetPlayerPosition();
         EnemyPosition = BossPositionHolder.Instance.GetRealBossPosition();
         DistanceEnemyToPlayer = Vector3.Distance(PlayerPosition, EnemyPosition);
+        IsHavePath = bossPathFindingMovement.IsHavePath();
 
         // Patrol, Chase, Idle, Attack, Death, Hurt, InvisibleSkill1Sprites, Visible, Skill2, PrepareSkill2
 
@@ -176,8 +187,8 @@ public class BossAI : MonoBehaviour
                 bossAnimation.AnimationHandler(BossState.PrepareSkill2);
                 PrepareSkill2ActionHandler();
                 break;
-            case BossStateAction.InvisibleSkill1Sprites:
-                bossAnimation.AnimationHandler(BossState.InvisibleSkill1Sprites);
+            case BossStateAction.InvisibleSkill1:
+                bossAnimation.AnimationHandler(BossState.InvisibleSkill1);
                 InvisibleSkill1Handler();
                 break;
             case BossStateAction.KeeppInvisible:
@@ -481,18 +492,28 @@ public class BossAI : MonoBehaviour
     
     private void FleeHandler()
     {
-        if(IsPlayerAround == false || DistanceEnemyToPlayer >= DISENGAGE_DISTANCE)
+        Debug.Log("DistanceEnemyToPlayer:" + DistanceEnemyToPlayer);
+        if(/*IsPlayerAround == false ||*/ DistanceEnemyToPlayer >= DISENGAGE_DISTANCE)
         {
+            Debug.Log("Flee Attack");
             // đứng yên hồi máu thôi khi nào đầy rồi thì tấn công
+            bossPathFindingMovement.StopMovingPhysicalHandler();
         }
-        else if(IsPlayerAround == true || DistanceEnemyToPlayer < DISENGAGE_DISTANCE) // nếu player gần
+        else if(/*IsPlayerAround == true || */DistanceEnemyToPlayer < DISENGAGE_DISTANCE) // nếu player gần
         {
-            // continue your work in here --> IN HERE <--
-            Vector3 fleeDir = -(PlayerPosition - EnemyPosition).normalized;
-            float fleeDistance = 1f;
-            Vector3 fleeTarget = EnemyPosition + fleeDir * fleeDistance;
-            // nếu fleeTarget mà ngoài thì đổi hướng
-            bossPathFindingMovement.MoveTo(fleeTarget);
+            Debug.Log("Flee Defense");
+            if (!bossPathFindingMovement.IsHavePath()) // phải chạy tới fleeTarget xong rồi mới gọi tiếp cái tiếp theo
+            {
+                // continue your work in here --> IN HERE <--
+                // Vector3 fleeDir = -(PlayerPosition - EnemyPosition).normalized;
+                // float fleeDistance = 2f;
+                // Vector3 fleeTarget = EnemyPosition + fleeDir * fleeDistance;
+                // check flee Target 
+                // if()
+                // nếu fleeTarget mà ngoài thì đổi hướng
+                bossPathFindingMovement.MoveTo(bossPathFindingMovement.FindValidFleeTarget(EnemyPosition, PlayerPosition));
+            }
+            
         }
         
 
@@ -602,6 +623,13 @@ public class BossAI : MonoBehaviour
         if(sprites == bossAnimation.HurtSprites)
         {
             bool IsPlayerAround = bossSensor.IsSearchedPlayerAround();
+
+            if(bossSkill1.getCanKeepUseSkill1() == true)
+            {
+                Debug.Log("LastHurt -> KeeppInvisible");
+                currentEnemyStateAction = BossStateAction.KeeppInvisible;
+                return;
+            }
             if (DistanceEnemyToPlayer <= READY_TO_ATTACK_DISTANCE && IsPlayerAround == true && timer_AttackCoolDown <= 0)
             {
                 Debug.Log("LastHurt -> Attack");

@@ -1,13 +1,15 @@
 using UnityEngine;
 using System;
+using System.Numerics;
 
 public class BossSensor : MonoBehaviour
 {
     private BossPathFindingMovement bossPathFindingMovement;
-    private BossAI bossAI;
+    private BossAI bossAI; 
     private CapsuleCollider2D capsuleCollider2D;
     public LayerMask platFormLayerMask;
     public LayerMask wallLayerMask;
+    public LayerMask obstacleLayerMask;
     private const float FORWARD_CHECK_EXTRA = 0.7f; // 0.7f;
 
     void Start()
@@ -18,9 +20,9 @@ public class BossSensor : MonoBehaviour
     }
 
     public void AlwayTowardToPlayer(){
-        Vector3 PlayerPosition = Player.Instance.GetPlayerPosition();
-        Vector3 EnemyPosition = BossPositionHolder.Instance.GetRealBossPosition();
-        Vector2 DirToTarget = PlayerPosition - EnemyPosition;
+        UnityEngine.Vector3 PlayerPosition = Player.Instance.GetPlayerPosition();
+        UnityEngine.Vector3 EnemyPosition = BossPositionHolder.Instance.GetRealBossPosition();
+        UnityEngine.Vector2 DirToTarget = PlayerPosition - EnemyPosition;
                 
         // handler Visual Direction and Flip Direction
         float tmpDirToTargetX = DirToTarget.x;
@@ -36,11 +38,11 @@ public class BossSensor : MonoBehaviour
 
     public bool IsSearchedPlayerAround() 
     {
-        Vector3 EnemyPosition = BossPositionHolder.Instance.GetRealBossPosition();
-        Vector2 VisualDir = bossPathFindingMovement.currentVisualDir == -1 ? Vector2.left : Vector2.right;
-        Vector3 maxDistanceVisualPoint = VisualDir == Vector2.left ? bossAI.chaseLeftPoint.position : bossAI.chaseRightPoint.position;
+        UnityEngine.Vector3 EnemyPosition = BossPositionHolder.Instance.GetRealBossPosition();
+        UnityEngine.Vector2 VisualDir = bossPathFindingMovement.currentVisualDir == -1 ? UnityEngine.Vector2.left : UnityEngine.Vector2.right;
+        UnityEngine.Vector3 maxDistanceVisualPoint = VisualDir == UnityEngine.Vector2.left ? bossAI.chaseLeftPoint.position : bossAI.chaseRightPoint.position;
         // đây sẽ là hai đểm ChaseWaypointA hoặc ChaseWaypointB
-        float DistanceVisual = Vector3.Distance(EnemyPosition, maxDistanceVisualPoint);
+        float DistanceVisual = UnityEngine.Vector3.Distance(EnemyPosition, maxDistanceVisualPoint);
         RaycastHit2D raycastHit2D = Physics2D.Raycast(EnemyPosition, VisualDir, DistanceVisual, bossAI.playerLayerMask);
         Debug.DrawLine(EnemyPosition, maxDistanceVisualPoint, Color.darkBlue, 0.1f);
         if (raycastHit2D.collider != null)
@@ -52,13 +54,13 @@ public class BossSensor : MonoBehaviour
 
     public float GetObstacleHeight() // viết lại cái hàm này 
     {
-        Vector3 dir = bossPathFindingMovement.currentVisualDir == -1 ? Vector3.left : Vector3.right;
+        UnityEngine.Vector3 dir = bossPathFindingMovement.currentVisualDir == -1 ? UnityEngine.Vector3.left : UnityEngine.Vector3.right;
         Bounds b = capsuleCollider2D.bounds;
-        Vector3 basePos = new Vector3(b.center.x, b.min.y, 0f);
+        UnityEngine.Vector3 basePos = new UnityEngine.Vector3(b.center.x, b.min.y, 0f);
         float[] heights = {0.1f, 0.5f, 1.0f, 1.5f, 2f, 2.5f};
         for(int idx = heights.Length-2 ; idx >= 0; idx--)
         {
-            Vector3 origin = basePos + Vector3.up * heights[idx];
+            UnityEngine.Vector3 origin = basePos + UnityEngine.Vector3.up * heights[idx];
             float RayLenght = (capsuleCollider2D.size.x * .5f) + FORWARD_CHECK_EXTRA;
             RaycastHit2D hitplatFormLayerMask = Physics2D.Raycast(origin, dir, RayLenght, platFormLayerMask);
             RaycastHit2D hitWallLayerMask = Physics2D.Raycast(origin, dir, RayLenght, wallLayerMask);
@@ -181,5 +183,15 @@ public class BossSensor : MonoBehaviour
             return false; 
         }
         return true; // lẽ ra chỗ này return true nhưng mà có vẻ cơ chế nhảy không cần thiết lắm
+    }
+
+    public bool IsWallBetween(UnityEngine.Vector3 from, UnityEngine.Vector3 to)
+    {
+        UnityEngine.Vector3 dir = to-from.normalized;
+        float distance = UnityEngine.Vector3.Distance(from, to);
+        RaycastHit2D raycastHit2D = Physics2D.Raycast(from, dir, distance, obstacleLayerMask);
+        Debug.DrawLine(from, to, Color.brown);
+        if(raycastHit2D.collider != null) return true;
+        return false;
     }
 }

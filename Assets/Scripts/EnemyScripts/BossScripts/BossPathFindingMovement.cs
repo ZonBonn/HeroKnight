@@ -9,7 +9,7 @@ public class BossPathFindingMovement : MonoBehaviour
     private const float PUSH_FORCE = 5.5f;
     private const float KNOCK_BACK_HORIZONTAL_FORCE = 3f;
     private const float KNOCK_BACK_VERTICAL_FORCE = 1.5f;
-    public const float FLEE_MOVE_SPEED = 4f;
+    public const float FLEE_MOVE_SPEED = 3f;
     private int currentIdxPath;
     private List<UnityEngine.Vector3> PathOnVector;
     public GridMap gridMap;
@@ -34,7 +34,7 @@ public class BossPathFindingMovement : MonoBehaviour
     public LayerMask platFormLayerMask;
     public LayerMask wallLayerMask;
 
-    private EnemySensor enemySensor;
+    private BossSensor bossSensor;
 
     private bool IsGroundedVar;
 
@@ -52,7 +52,7 @@ public class BossPathFindingMovement : MonoBehaviour
         
         rb2d = gameObject.GetComponent<Rigidbody2D>();
         capsuleCollider2D = gameObject.GetComponent<CapsuleCollider2D>();
-        enemySensor = gameObject.GetComponent<EnemySensor>();
+        bossSensor = gameObject.GetComponent<BossSensor>();
 
         // tham chiếu cho level 2
         if(playerMovement == null)
@@ -85,7 +85,7 @@ public class BossPathFindingMovement : MonoBehaviour
         {
             rb2d.linearVelocity = Vector2.zero;
         }
-        else if(bossAI.currentEnemyStateAction == BossAI.BossStateAction.InvisibleSkill1Sprites)
+        else if(bossAI.currentEnemyStateAction == BossAI.BossStateAction.InvisibleSkill1)
         {
             // cố gắng di chuyển ra xa người chơi và hồi lại máu, có thể đôi khi cũng có thể tấn công
             rb2d.linearVelocity = Vector2.zero;
@@ -185,7 +185,7 @@ public class BossPathFindingMovement : MonoBehaviour
         {
             const float maxJumpHeight = 3f; // chiều cao tối đa mà Enemy có thể nhảy được
             // Debug.Log(rb2d.linearVelocity.x * PUSH_FORCE + " " +  JUMP_FORCE);
-            float obstacleHeight = enemySensor.GetObstacleHeight(); // kiểm tra chiều cao của chướng ngại vật trước khi quyết định lực nhảy 
+            float obstacleHeight = bossSensor.GetObstacleHeight(); // kiểm tra chiều cao của chướng ngại vật trước khi quyết định lực nhảy 
             // Debug.Log("obstacleHeight:" + obstacleHeight);
             if(obstacleHeight == 0f) return;
 
@@ -310,7 +310,7 @@ public class BossPathFindingMovement : MonoBehaviour
                     tmpDirToTargetX = currentVisualDir; // default value if the amount too small
                 
                 int moveDirX = Math.Sign(tmpDirToTargetX);
-                int fleeMoveDirX = -moveDirX;
+                // int fleeMoveDirX = -moveDirX;
                 currentVisualDir = LeftOrRightPlatformer(moveDirX) == true ? 1 : -1;
                 // Debug.Log("DirToTarget.x: " + DirToTarget.x);
                 // Debug.Log(moveDirX);
@@ -398,6 +398,35 @@ public class BossPathFindingMovement : MonoBehaviour
     {
         if(PathOnVector == null) return false;
         return true;
+    }
+    
+    public Vector3 FindValidFleeTarget(Vector3 enemyPosition, 
+    Vector3 playerPosition, 
+    int MAX_DISTANCE = 7, 
+    int MIN_DISTANCE = 4, 
+    int maxTry = 8)
+    {
+        Vector3 dirFlee = -(playerPosition - enemyPosition).normalized;
+        for(int i = 0 ; i < maxTry ; i++)
+        {
+            int randomFleeDistance = UnityEngine.Random.Range(MIN_DISTANCE, MAX_DISTANCE + 1);
+            Vector3 candicatePosition = enemyPosition + dirFlee * randomFleeDistance; 
+            // lấy ra vị trí i,j trên grid map
+            refRootGrid.worldPosToIJPos(candicatePosition, out int iPos, out int jPos);
+            if(gridMap.getIsWalkableByGridPosition(iPos, jPos) == false ||
+            refRootGrid.isInGrid(iPos, jPos) == false) continue;
+
+            // check có xa player hơn không
+            float currentDistance = Vector3.Distance(enemyPosition, playerPosition);
+            float newDistance = Vector3.Distance(candicatePosition, playerPosition);
+            if(newDistance < currentDistance) continue;
+            if(bossSensor.IsWallBetween(enemyPosition, candicatePosition) == true) continue;
+
+            // return value  
+            return candicatePosition;
+
+        }
+        return enemyPosition;
     }
     // ==========================================================
 
