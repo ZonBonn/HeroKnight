@@ -511,15 +511,27 @@ public class BossAI : MonoBehaviour
                 // check flee Target 
                 // if()
                 // nếu đang chạy mà gặp tường thì đổi hướng ? vì mfn của boss chỉ thiết kế trên mặt phẳng 
+                // if(bossSensor.IsWallOrGroundInFront() == true)
+                // {
+                //     // viết một hàm dịch chuyển sau người chơi và chọn vị trí hợp lệ
+                //     bossPathFindingMovement.Teleport(PlayerPosition, EnemyPosition, playerMovement.GetPlayerVisualDirection());
+                //     // bossPathFindingMovement.MoveTo(bossPathFindingMovement.FindValidFleeTarget(EnemyPosition, PlayerPosition));
+                //     bossPathFindingMovement.StopMovingPhysicalHandler();
+                // }
+
+                // nếu fleeTarget mà ngoài thì đổi hướng
+                bossPathFindingMovement.MoveTo(bossPathFindingMovement.FindValidFleeTarget(EnemyPosition, PlayerPosition));
+            }
+            else // bossPathFindingMovement.IsHavePath() == true
+            {
+                // nếu đang chạy mà gặp tường thì đổi hướng ? vì mfn của boss chỉ thiết kế trên mặt phẳng 
                 if(bossSensor.IsWallOrGroundInFront() == true)
                 {
                     // viết một hàm dịch chuyển sau người chơi và chọn vị trí hợp lệ
                     bossPathFindingMovement.Teleport(PlayerPosition, EnemyPosition, playerMovement.GetPlayerVisualDirection());
-                    bossPathFindingMovement.MoveTo(bossPathFindingMovement.FindValidFleeTarget(EnemyPosition, PlayerPosition));
+                    // bossPathFindingMovement.MoveTo(bossPathFindingMovement.FindValidFleeTarget(EnemyPosition, PlayerPosition));
+                    bossPathFindingMovement.StopMovingPhysicalHandler();
                 }
-
-                // nếu fleeTarget mà ngoài thì đổi hướng
-                bossPathFindingMovement.MoveTo(bossPathFindingMovement.FindValidFleeTarget(EnemyPosition, PlayerPosition));
             }
             
         }

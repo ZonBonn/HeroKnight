@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Numerics;
+using UnityEngine.UIElements;
 
 public class BossSensor : MonoBehaviour
 {
@@ -199,5 +200,12 @@ public class BossSensor : MonoBehaviour
     {
         float radius = 0.5f; // kích thước kiểm tra
         return Physics.OverlapSphere(position, radius, obstacleLayerMask).Length > 0; // liệu với kích thước radius thì có bị collider nào chiếm ở vị trí position không
+    }
+
+    public bool IsNullAtPosition(UnityEngine.Vector3 positionCheck)
+    {
+        bossPathFindingMovement.getRefRootGrid().worldPosToIJPos(positionCheck, out int i, out int j);
+
+        return bossPathFindingMovement.getRefRootGrid().isInGrid(i, j);;
     }
 }

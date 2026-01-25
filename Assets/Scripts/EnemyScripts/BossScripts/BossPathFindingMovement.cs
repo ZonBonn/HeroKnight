@@ -427,14 +427,20 @@ public class BossPathFindingMovement : MonoBehaviour
     int maxTry = 8)
     {
         Vector3 dirFlee = -(playerPosition - enemyPosition).normalized;
+        Debug.Log("dirFlee:" + dirFlee);
         for(int i = 0 ; i < maxTry ; i++)
         {
             int randomFleeDistance = UnityEngine.Random.Range(MIN_DISTANCE, MAX_DISTANCE + 1);
             Vector3 candicatePosition = enemyPosition + dirFlee * randomFleeDistance; 
             // lấy ra vị trí i,j trên grid map
             refRootGrid.worldPosToIJPos(candicatePosition, out int iPos, out int jPos);
-            if(refRootGrid.isInGrid(iPos, jPos) == false || 
-            gridMap.getIsWalkableByGridPosition(iPos, jPos) == false) continue;
+            if(refRootGrid.isInGrid(iPos, jPos) == false)
+            {
+                // StopMovingPhysicalHandler(); // dừng để PathOnVector == null => tìm điểm FleePosition mới
+                // Teleport(playerPosition, enemyPosition, playerMovement.GetPlayerVisualDirection());
+                continue;
+            }
+            if(gridMap.getIsWalkableByGridPosition(iPos, jPos) == false) continue;
 
             // check có xa player hơn không
             float currentDistance = Vector3.Distance(enemyPosition, playerPosition);
@@ -497,4 +503,9 @@ public class BossPathFindingMovement : MonoBehaviour
         else currentVisualDir = +1;
     }
     // ===========================================================
+
+    public Grid_S<PathNode_S> getRefRootGrid()
+    {
+        return refRootGrid;
+    }
 }
