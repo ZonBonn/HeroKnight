@@ -188,7 +188,7 @@ public class BossSensor : MonoBehaviour
 
     public bool IsWallBetween(UnityEngine.Vector3 from, UnityEngine.Vector3 to)
     {
-        UnityEngine.Vector3 dir = to-from.normalized;
+        UnityEngine.Vector3 dir = (to-from).normalized;
         float distance = UnityEngine.Vector3.Distance(from, to);
         RaycastHit2D raycastHit2D = Physics2D.Raycast(from, dir, distance, obstacleLayerMask);
         Debug.DrawLine(from, to, Color.brown);
@@ -200,12 +200,5 @@ public class BossSensor : MonoBehaviour
     {
         float radius = 0.5f; // kích thước kiểm tra
         return Physics.OverlapSphere(position, radius, obstacleLayerMask).Length > 0; // liệu với kích thước radius thì có bị collider nào chiếm ở vị trí position không
-    }
-
-    public bool IsNullAtPosition(UnityEngine.Vector3 positionCheck)
-    {
-        bossPathFindingMovement.getRefRootGrid().worldPosToIJPos(positionCheck, out int i, out int j);
-
-        return bossPathFindingMovement.getRefRootGrid().isInGrid(i, j);;
     }
 }

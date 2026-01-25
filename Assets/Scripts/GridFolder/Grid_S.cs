@@ -193,4 +193,10 @@ public class Grid_S<NodeType>
             return gridArr[i, j];
         return default(NodeType);
     }
+
+    public bool IsInsideGridByWorldPosition(Vector3 position)
+    {
+        worldPosToIJPos(position, out int i, out int j);
+        return isInGrid(i, j); // true == có trong grid, false thì là không trong grid
+    }
 }
