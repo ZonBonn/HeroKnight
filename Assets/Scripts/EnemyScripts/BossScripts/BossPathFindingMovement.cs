@@ -92,7 +92,7 @@ public class BossPathFindingMovement : MonoBehaviour
         }
         else if(bossAI.currentEnemyStateAction == BossAI.BossStateAction.KeeppInvisible)
         {
-            
+            MovementPhysicTopDownHandler();
         }
         else if(bossAI.currentEnemyStateAction == BossAI.BossStateAction.Flee)
         {

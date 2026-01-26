@@ -139,7 +139,7 @@ public class BossAI : MonoBehaviour
             currentEnemyStateAction = BossStateAction.PrepareSkill2;
             bossCallerSkill2.SetSkill2CoolDown(); // cái này sẽ đặt lại khi mà skill 2 được hoàn tất triển khai
         }
-        else if (Input.GetKeyDown(KeyCode.F))
+        else if (Input.GetKeyDown(KeyCode.H))
         {
             bossHealthHandler.Heal(100);
         }
@@ -451,8 +451,13 @@ public class BossAI : MonoBehaviour
     
     private void KeepInVisibleHandler()
     {
+        timer_AttackCoolDown -= Time.deltaTime;
         if(bossHealthHandler.GetHP() >= 30)
         {
+            if (DistanceEnemyToPlayer <= DISENGAGE_DISTANCE)
+            {
+                bossSensor.AlwayTowardToPlayer();
+            }
             // attack, chase ???
             if (DistanceEnemyToPlayer <= ATTACK_DISTANCE && IsPlayerAround == true && timer_AttackCoolDown <= 0)
             {
@@ -462,6 +467,7 @@ public class BossAI : MonoBehaviour
             }
             if(IsPlayerAround)// alway finds player in here <-- SearchingPlayerAround();
             {
+                Debug.Log("KeepInvisible -> MoveTo Player");
                 bossPathFindingMovement.MoveTo(PlayerPosition); // di chuyển tới người chơi trong trạng thái tàng hình
                 return;
             }
@@ -473,7 +479,7 @@ public class BossAI : MonoBehaviour
                 currentEnemyStateAction = BossStateAction.Chase;
                 return;
             }
-            
+            Debug.Log("KeepInVisible -> null");
         }
         else if(bossHealthHandler.GetHP() < 30)
         {
@@ -498,7 +504,15 @@ public class BossAI : MonoBehaviour
         {
             Debug.Log("Flee Attack");
             // đứng yên hồi máu thôi khi nào đầy rồi thì tấn công
-            bossPathFindingMovement.StopMovingPhysicalHandler();
+            // bossPathFindingMovement.StopMovingPhysicalHandler();
+
+            bossPathFindingMovement.MoveTo(PlayerPosition);
+            if (DistanceEnemyToPlayer <= ATTACK_DISTANCE && IsPlayerAround == true && timer_AttackCoolDown <= 0)
+            {
+                Debug.Log("Flee -> Attack");
+                currentEnemyStateAction = BossStateAction.Attack;
+                return;
+            }
         }
         else if(/*IsPlayerAround == true || */DistanceEnemyToPlayer < DISENGAGE_DISTANCE) // nếu player gần
         {
@@ -521,12 +535,19 @@ public class BossAI : MonoBehaviour
                 // }
 
                 // nếu fleeTarget mà ngoài thì đổi hướng
-                bossPathFindingMovement.MoveTo(bossPathFindingMovement.FindValidFleeTarget(EnemyPosition, PlayerPosition));
+                if(DistanceEnemyToPlayer <= READY_TO_ATTACK_DISTANCE) // nếu người chơi đến gần rồi thì mới bỏ chạy
+                {
+                    bossPathFindingMovement.MoveTo(bossPathFindingMovement.FindValidFleeTarget(EnemyPosition, PlayerPosition));
+                }
+                else
+                {
+                    bossPathFindingMovement.StopMovingPhysicalHandler(); // còn không thì đứng yên
+                }
             }
             else // bossPathFindingMovement.IsHavePath() == true
             {
                 // nếu đang chạy mà gặp tường thì đổi hướng ? vì mfn của boss chỉ thiết kế trên mặt phẳng 
-                if(bossSensor.IsWallOrGroundInFront() == true) // có đường Flee nhưng gặp tường => tele và chuyển hướng bằng cách tính một Flee khác
+                if(bossSensor.IsWallOrGroundInFrontForBossCheck() == true) // có đường Flee nhưng gặp tường => tele và chuyển hướng bằng cách tính một Flee khác
                 {
                     // viết một hàm dịch chuyển sau người chơi và chọn vị trí hợp lệ
                     bossPathFindingMovement.Teleport(PlayerPosition, EnemyPosition, playerMovement.GetPlayerVisualDirection());
@@ -605,6 +626,12 @@ public class BossAI : MonoBehaviour
         if (sprites == bossAnimation.AttackSprites && idxFrame == bossAnimation.AttackSprites.Length - 1)
         {
             timer_AttackCoolDown = attackCoolDown;
+            if(bossSkill1.getCanKeepUseSkill1() == true)
+            {
+                Debug.Log("LastAttack -> KeeppInvisible");
+                currentEnemyStateAction = BossStateAction.KeeppInvisible;
+                return;
+            }
 
             // if (DistanceEnemyToPlayer <= ATTACK_DISTANCE && IsPlayerAround == true && timer_AttackCoolDown > 0) // đợi chờ chờ tới lượt đánh tiếp theo
             // {
