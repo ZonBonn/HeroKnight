@@ -104,6 +104,7 @@ public class BossAI : MonoBehaviour
         bossAnimation.OnTriggerLastFrames += TriggerBossLastPrepareSkill2FrameHandler;
         bossAnimation.OnTriggerLastFrames += TriggerBossLastInvisibleSkill1FrameHandler;
         bossAnimation.OnTriggerLastFrames += TriggerBossLastVisibleFrameHandler;
+        //  bossAnimation.OnTriggerEachFrames += TriggerBossFirstInvisibleSkill1FrameHandler;
 
         enemyHealthSystem.OnTriggerHealthBarChange += TriggerHurtWhenHealthChange;
         enemyHealthSystem.OnTriggerHealthBarAsZero += TriggerDieWhenHealthAsZero;
@@ -461,8 +462,8 @@ public class BossAI : MonoBehaviour
     
     private void InvisibleSkill1Handler()
     {
-        // Debug.Log("đang ở InvisibleSkill1Handler");
-
+        Debug.Log("đang ở InvisibleSkill1Handler");
+        bossSkill1.SetDefaultValueForSkill1(); // cho đầu frame ??? Invisible ??
     }
     
     private void KeepInVisibleHandler()
@@ -751,11 +752,19 @@ public class BossAI : MonoBehaviour
         
     }
     
+    // private void TriggerBossFirstInvisibleSkill1FrameHandler(int idxFrame, Sprite[] sprites)
+    // {
+    //     if(idxFrame == 0 && sprites == bossAnimation.InvisibleSkill1Sprites)
+    //     {
+    //         bossSkill1.SetDefaultValueForSkill1();
+    //     }
+    // }
+    
     private void TriggerBossLastInvisibleSkill1FrameHandler(Sprite[] sprites)
     {
         if(sprites == bossAnimation.InvisibleSkill1Sprites)
         {
-            bossSkill1.SetDefaultValueForSkill1(); // bắt đầu tàng hình
+            // bossSkill1.SetDefaultValueForSkill1(); // bắt đầu tàng hình
             Debug.Log("LastInvisibleSkill1 -> KeeppInvisible");
             currentEnemyStateAction = BossStateAction.KeeppInvisible;
 
