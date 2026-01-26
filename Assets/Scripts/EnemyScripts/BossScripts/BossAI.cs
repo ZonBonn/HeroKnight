@@ -479,7 +479,7 @@ public class BossAI : MonoBehaviour
                 currentEnemyStateAction = BossStateAction.Chase;
                 return;
             }
-            Debug.Log("KeepInVisible -> null");
+            Debug.Log("KeepInVisible -> null"); bossPathFindingMovement.StopMovingPhysicalHandler();
         }
         else if(bossHealthHandler.GetHP() < 30)
         {
@@ -513,49 +513,39 @@ public class BossAI : MonoBehaviour
                 currentEnemyStateAction = BossStateAction.Attack;
                 return;
             }
+            Debug.Log("Flee -> Flee Attack -> Null"); bossPathFindingMovement.StopMovingPhysicalHandler();
         }
         else if(/*IsPlayerAround == true || */DistanceEnemyToPlayer < DISENGAGE_DISTANCE) // nếu player gần
         {
             Debug.Log("Flee Defense");
             if (!bossPathFindingMovement.IsHavePath()) // phải chạy tới fleeTarget xong rồi mới gọi tiếp cái tiếp theo
             {
-                // continue your work in here --> IN HERE <--
-                // Vector3 fleeDir = -(PlayerPosition - EnemyPosition).normalized;
-                // float fleeDistance = 2f;
-                // Vector3 fleeTarget = EnemyPosition + fleeDir * fleeDistance;
-                // check flee Target 
-                // if()
-                // nếu đang chạy mà gặp tường thì đổi hướng ? vì mfn của boss chỉ thiết kế trên mặt phẳng 
-                // if(bossSensor.IsWallOrGroundInFront() == true)
-                // {
-                //     // viết một hàm dịch chuyển sau người chơi và chọn vị trí hợp lệ
-                //     bossPathFindingMovement.Teleport(PlayerPosition, EnemyPosition, playerMovement.GetPlayerVisualDirection());
-                //     // bossPathFindingMovement.MoveTo(bossPathFindingMovement.FindValidFleeTarget(EnemyPosition, PlayerPosition));
-                //     bossPathFindingMovement.StopMovingPhysicalHandler();
-                // }
-
                 // nếu fleeTarget mà ngoài thì đổi hướng
                 if(DistanceEnemyToPlayer <= READY_TO_ATTACK_DISTANCE) // nếu người chơi đến gần rồi thì mới bỏ chạy
                 {
+                    Debug.Log("Flee -> Flee Defense -> Null Path -> Move To Player");
                     bossPathFindingMovement.MoveTo(bossPathFindingMovement.FindValidFleeTarget(EnemyPosition, PlayerPosition));
                 }
                 else
                 {
+                    Debug.Log("Flee -> Flee Defense ->  Null Path -> Stop");
                     bossPathFindingMovement.StopMovingPhysicalHandler(); // còn không thì đứng yên
                 }
             }
             else // bossPathFindingMovement.IsHavePath() == true
             {
                 // nếu đang chạy mà gặp tường thì đổi hướng ? vì mfn của boss chỉ thiết kế trên mặt phẳng 
-                if(bossSensor.IsWallOrGroundInFrontForBossCheck() == true) // có đường Flee nhưng gặp tường => tele và chuyển hướng bằng cách tính một Flee khác
+                if(bossSensor.IsWallOrGroundInFront() == true) // có đường Flee nhưng gặp tường => tele và chuyển hướng bằng cách tính một Flee khác
                 {
+                    Debug.Log("Flee -> Flee Defense ->  Have Path -> Stop");
                     // viết một hàm dịch chuyển sau người chơi và chọn vị trí hợp lệ
                     bossPathFindingMovement.Teleport(PlayerPosition, EnemyPosition, playerMovement.GetPlayerVisualDirection());
                     bossPathFindingMovement.MoveTo(bossPathFindingMovement.FindValidFleeTarget(EnemyPosition, PlayerPosition));
                     bossPathFindingMovement.StopMovingPhysicalHandler();
                 }
+                Debug.Log("Flee -> Flee Defense ->  Have Path -> Null");
             }
-            
+            Debug.Log("Flee -> Flee Defense -> Null");
         }
         
 
