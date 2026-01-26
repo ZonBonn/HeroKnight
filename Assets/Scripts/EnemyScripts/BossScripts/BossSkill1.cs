@@ -21,7 +21,7 @@ public class BossSkill1 : MonoBehaviour
 
     private void Update()
     {
-        if(m_timeRemainSkill > 0)
+        if(m_timeRemainSkill > 0) // thời gian duy trì tàng hình
         {
             CanKeepUseSkill1 = true;
             m_timeRemainSkill -= Time.deltaTime;
@@ -29,11 +29,12 @@ public class BossSkill1 : MonoBehaviour
             {
                 OnTriggerEndOfVisible?.Invoke(); // hết tàng hình
                 CanKeepUseSkill1 = false;
+                timer = coolDownSkill1; // khi thời gian duy trì skill không còn nữa => hết skill bắt đầu đếm ngược thời gian hồi skill 1
                 return;
             }
         }
 
-        if(timer > 0)
+        if(timer > 0) // thời gian đếm ngược hồi skill tàng hình
         {
             CanUseSkill1 = false;
             timer -= Time.deltaTime;

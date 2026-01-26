@@ -12,7 +12,7 @@ public class BossSensor : MonoBehaviour
     public LayerMask wallLayerMask;
     public LayerMask obstacleLayerMask;
     private const float FORWARD_CHECK_EXTRA = 0.7f; // 0.7f;
-    private const float FORWARD_CHECK_EXTRA_FOR_BOSS = 0.2f; // 0.7f;
+    private const float FORWARD_CHECK_EXTRA_FOR_BOSS = 0.4f; // 0.7f;
 
 
     void Start()
@@ -90,10 +90,10 @@ public class BossSensor : MonoBehaviour
         UnityEngine.Vector3 origin = capsuleCollider2D.bounds.center;
         float RayLenght = (capsuleCollider2D.size.x * .5f) + FORWARD_CHECK_EXTRA;
 
-        RaycastHit2D rayCastHit2DWallLayerMask = Physics2D.Raycast(origin, dir, RayLenght, wallLayerMask);
-        RaycastHit2D rayCastHit2DPlatformLayerMask = Physics2D.Raycast(origin, dir, RayLenght, platFormLayerMask);
+        // RaycastHit2D rayCastHit2DWallLayerMask = Physics2D.Raycast(origin, dir, RayLenght, wallLayerMask);
+        RaycastHit2D rayCastHit2DPlatformLayerMask = Physics2D.Raycast(origin, dir, RayLenght, obstacleLayerMask);
         Debug.DrawRay(origin, dir * RayLenght, Color.blueViolet);
-        if(rayCastHit2DWallLayerMask.collider != null || rayCastHit2DPlatformLayerMask.collider != null) // có va chạm với wallLayerMask -> có tường -> true
+        if(/*rayCastHit2DWallLayerMask.collider != null || */rayCastHit2DPlatformLayerMask.collider != null) // có va chạm với wallLayerMask -> có tường -> true
         {
             return true; // lẽ ra chỗ này return true nhưng mà có vẻ cơ chế nhảy không cần thiết lắm
         }
@@ -211,10 +211,10 @@ public class BossSensor : MonoBehaviour
         UnityEngine.Vector3 origin = capsuleCollider2D.bounds.center;
         float RayLenght = (capsuleCollider2D.size.x * .5f) + FORWARD_CHECK_EXTRA_FOR_BOSS;
 
-        RaycastHit2D rayCastHit2DWallLayerMask = Physics2D.Raycast(origin, dir, RayLenght, wallLayerMask);
-        RaycastHit2D rayCastHit2DPlatformLayerMask = Physics2D.Raycast(origin, dir, RayLenght, platFormLayerMask);
+        // RaycastHit2D rayCastHit2DWallLayerMask = Physics2D.Raycast(origin, dir, RayLenght, wallLayerMask);
+        RaycastHit2D rayCastHit2DPlatformLayerMask = Physics2D.Raycast(origin, dir, RayLenght, obstacleLayerMask);
         Debug.DrawRay(origin, dir * RayLenght, Color.darkGreen);
-        if(rayCastHit2DWallLayerMask.collider != null || rayCastHit2DPlatformLayerMask.collider != null) // có va chạm với wallLayerMask -> có tường -> true
+        if(/*rayCastHit2DWallLayerMask.collider != null ||*/ rayCastHit2DPlatformLayerMask.collider != null) // có va chạm với wallLayerMask -> có tường -> true
         {
             return true; // lẽ ra chỗ này return true nhưng mà có vẻ cơ chế nhảy không cần thiết lắm
         }

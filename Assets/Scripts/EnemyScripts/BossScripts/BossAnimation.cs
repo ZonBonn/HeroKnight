@@ -116,7 +116,7 @@ public class BossAnimation : MonoBehaviour
         }
         else if(sprites == WalkSprites)
         {
-            timerChangeIdxBodyFrames = 0.2f;
+            timerChangeIdxBodyFrames = 0.1f;
         }
         else if(sprites == AttackSprites)
         {
@@ -124,11 +124,11 @@ public class BossAnimation : MonoBehaviour
         }
         else if(sprites == DeathSprites)
         {
-            timerChangeIdxBodyFrames = 0.2f;
+            timerChangeIdxBodyFrames = 0.1f;
         }
         else if(sprites == HurtSprites)
         {
-            timerChangeIdxBodyFrames = 0.2f;
+            timerChangeIdxBodyFrames = 0.1f;
         }
         else if(sprites == InvisibleSkill1Sprites)
         {

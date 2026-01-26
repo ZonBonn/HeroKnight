@@ -128,17 +128,17 @@ public class BossAI : MonoBehaviour
         }
 
         // test
-        if (Input.GetKeyDown(KeyCode.G)/* && bossSkill1.getCanUseSkill1() == true*/)
-        {
-            currentEnemyStateAction = BossStateAction.InvisibleSkill1;
-            bossSkill1.UseSkill1();
-            // bossSkill1.SetSkill1CoolDown(); // cái này sẽ đặt lại khi mà hết tàng hình
-        }
-        else if(Input.GetKeyDown(KeyCode.F) && bossCallerSkill2.getCanUseSkill2() == true)
-        {
-            currentEnemyStateAction = BossStateAction.PrepareSkill2;
-            bossCallerSkill2.SetSkill2CoolDown(); // cái này sẽ đặt lại khi mà skill 2 được hoàn tất triển khai
-        }
+        // if (Input.GetKeyDown(KeyCode.G)/* && bossSkill1.getCanUseSkill1() == true*/)
+        // {
+        //     currentEnemyStateAction = BossStateAction.InvisibleSkill1;
+        //     bossSkill1.UseSkill1();
+        //     // bossSkill1.SetSkill1CoolDown(); // cái này sẽ đặt lại khi mà hết tàng hình
+        // }
+        // else if(Input.GetKeyDown(KeyCode.F) && bossCallerSkill2.getCanUseSkill2() == true)
+        // {
+        //     currentEnemyStateAction = BossStateAction.PrepareSkill2;
+        //     bossCallerSkill2.SetSkill2CoolDown(); // cái này sẽ đặt lại khi mà skill 2 được hoàn tất triển khai
+        // }
         else if (Input.GetKeyDown(KeyCode.H))
         {
             bossHealthHandler.Heal(100);
@@ -247,7 +247,7 @@ public class BossAI : MonoBehaviour
         // Debug.Log(Vector3.Distance(EnemyPosition, currentToward.position));
         if (Vector3.Distance(EnemyPosition, currentToward.position) <= PATROL_REACHED_DISTANCE)
         {
-            Debug.Log("Patrol -> Idle");
+            // Debug.Log("Patrol -> Idle");
             currentEnemyStateAction = BossStateAction.Idle;
             // m_IdleTimer = idleTimer;
             // Debug.Log("Đổi hướng");
@@ -266,7 +266,7 @@ public class BossAI : MonoBehaviour
         if(IsPlayerAround || DistanceEnemyToPlayer <= READY_TO_ATTACK_DISTANCE) // alway finds player in here <-- SearchingPlayerAround();
         {
             bossSensor.AlwayTowardToPlayer();
-            Debug.Log("Patrol -> Chase");
+            // Debug.Log("Patrol -> Chase");
             currentToward = nullTransform; // đổi hướng khi chuyển trạng thái cho đỡ phải tốn chi phí, lại còn tạo ra random hướng của mỗi enemy
             currentEnemyStateAction = BossStateAction.Chase;
             return;
@@ -289,7 +289,7 @@ public class BossAI : MonoBehaviour
         }
         else
         {
-            Debug.Log("Idle -> Patrol");
+            // Debug.Log("Idle -> Patrol");
             m_IdleTimer = idleTimer; // reset lại biến thời gian đứng IDLE
             currentEnemyStateAction = BossStateAction.Patrol;
             // Debug.Log("Đổi thanh Patrol");
@@ -297,7 +297,7 @@ public class BossAI : MonoBehaviour
         }
         if(IsPlayerAround)// alway finds player in here <-- SearchingPlayerAround();
         {
-            Debug.Log("Idle -> Chase");
+            // Debug.Log("Idle -> Chase");
             m_IdleTimer = idleTimer;// reset lại biến thời gian đứng IDLE
             currentEnemyStateAction = BossStateAction.Chase;
             return;
@@ -319,7 +319,7 @@ public class BossAI : MonoBehaviour
         // trong lúc đang đuổi theo nên check hố chướng ngại vật các thứ v.v tại đây --> IN HERE <-- tại đây
         if(bossPathFindingMovement.IsHavePath() == false) // nếu đang đuổi theo mà không thấy player thì thôi quay về patrol
         {
-            Debug.Log("Chase -> Patrol 1");
+            // Debug.Log("Chase -> Patrol 1");
             currentEnemyStateAction = BossStateAction.Patrol;
             return;
         }
@@ -327,14 +327,30 @@ public class BossAI : MonoBehaviour
 
         if (DistanceEnemyToPlayer >= DISENGAGE_DISTANCE && IsPlayerAround == false)
         {
-            Debug.Log("Chase -> Patrol 2");
+            // Debug.Log("Chase -> Patrol 2");
             currentEnemyStateAction = BossStateAction.Patrol;
+            return;
+        }
+        
+        // use skill
+        if(bossCallerSkill2.getCanUseSkill2() == true && DistanceEnemyToPlayer >= READY_TO_ATTACK_DISTANCE)
+        {
+            // Debug.Log("Chase -> PrepareSkill2");
+            currentEnemyStateAction = BossStateAction.PrepareSkill2;
+            bossCallerSkill2.SetSkill2CoolDown(); // cái này sẽ đặt lại khi mà skill 2 được hoàn tất triển khai
+            return;
+        }
+        if(bossSkill1.getCanUseSkill1() == true && DistanceEnemyToPlayer >= READY_TO_ATTACK_DISTANCE)
+        {
+            // Debug.Log("Chase -> InvisibleSkill1");
+            currentEnemyStateAction = BossStateAction.InvisibleSkill1;
+            bossSkill1.UseSkill1();
             return;
         }
 
         if (DistanceEnemyToPlayer <= ATTACK_DISTANCE && IsPlayerAround == true && timer_AttackCoolDown <= 0)
         {
-            Debug.Log("Chase -> Attack");
+            // Debug.Log("Chase -> Attack");
             currentEnemyStateAction = BossStateAction.Attack;
             return;
         }
@@ -535,7 +551,7 @@ public class BossAI : MonoBehaviour
             else // bossPathFindingMovement.IsHavePath() == true
             {
                 // nếu đang chạy mà gặp tường thì đổi hướng ? vì mfn của boss chỉ thiết kế trên mặt phẳng 
-                if(bossSensor.IsWallOrGroundInFront() == true) // có đường Flee nhưng gặp tường => tele và chuyển hướng bằng cách tính một Flee khác
+                if(bossSensor.IsWallOrGroundInFrontForBossCheck() == true) // có đường Flee nhưng gặp tường => tele và chuyển hướng bằng cách tính một Flee khác
                 {
                     Debug.Log("Flee -> Flee Defense ->  Have Path -> Stop");
                     // viết một hàm dịch chuyển sau người chơi và chọn vị trí hợp lệ
@@ -605,6 +621,14 @@ public class BossAI : MonoBehaviour
             currentEnemyStateAction = BossStateAction.Patrol;
             return;
         }
+        
+        
+        Debug.Log("Recover -> Null -> Patrol");
+        // safe state
+        Immediately_timer_AttackCoolDownAsZero();
+        currentEnemyStateAction = BossStateAction.Patrol;
+        return;
+
     }
     // =============================================================
 
@@ -795,7 +819,7 @@ public class BossAI : MonoBehaviour
         {
             return;
         }
-        Debug.Log("? -> Death");
+        // Debug.Log("? -> Death");
         currentEnemyStateAction = BossStateAction.Death;
 
         // set something when enemy is died
