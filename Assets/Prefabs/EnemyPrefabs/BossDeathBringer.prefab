@@ -51,6 +51,7 @@ GameObject:
   - component: {fileID: 8502813240185407891}
   - component: {fileID: 6358217843161117296}
   - component: {fileID: 2063180884805076931}
+  - component: {fileID: 6439121132639244973}
   - component: {fileID: 6721325145917354225}
   - component: {fileID: 9070003779454890182}
   m_Layer: 9
@@ -123,7 +124,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1112654569
   m_SortingLayer: 3
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: -750047184722822154, guid: 1914d95466e3d4341a618c35a56d5f82, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -395,6 +396,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32675c871ce7a854d86b61de07af49b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossPositionHolder
+--- !u!114 &6439121132639244973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4366999354659894197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56f21e62098293d45a4b93bd6aed93f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyItemsHolder
+  fixedItems:
+  - {fileID: 7893689481003637446, guid: e7eaab954975f724680b2049e830741f, type: 3}
+  spawnLootTableLevel: {fileID: 11400000, guid: 7bd5b1b82edb9c844a823766583472f3, type: 2}
 --- !u!70 &6721325145917354225
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

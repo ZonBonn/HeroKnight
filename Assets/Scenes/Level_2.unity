@@ -15251,8 +15251,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f67d7e0ccbe54c48b65a855918bbd8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelBoundary
-  ClampXLeft: -30.5
-  ClampXRight: 53.5
+  ClampXLeft: -29.5
+  ClampXRight: 52.5
   ClampYUp: 19
   ClampYDown: -8.5
 --- !u!4 &1178712486
