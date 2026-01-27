@@ -24,8 +24,8 @@ public class BackGroundMove : MonoBehaviour
 
     void LateUpdate()
     {
-        Vector3 delta = cameraTransform.position - lastCamPos;
-        transform.position += new Vector3(delta.x * parallaxFactor, delta.y * parallaxFactor, 0);
+        Vector3 delta = cameraTransform.position - lastCamPos; // cam đã di chuyển được bao nhiêu so với frame trước đó
+        transform.position += new Vector3(delta.x * parallaxFactor, delta.y * parallaxFactor, 0); // rồi dùng số đó nhân cho số lượng đường di chuyển của BG
         lastCamPos = cameraTransform.position;
     }
 }
