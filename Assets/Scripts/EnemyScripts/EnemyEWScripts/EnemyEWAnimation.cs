@@ -122,11 +122,11 @@ public class EnemyEWAnimation : MonoBehaviour
         }
         else if(sprites == DeathSprites)
         {
-            timerChangeIdxBodyFrames = 0.2f;
+            timerChangeIdxBodyFrames = 0.1f;
         }
         else if(sprites == RecoverSprites)
         {
-            timerChangeIdxBodyFrames = 0.2f;
+            timerChangeIdxBodyFrames = 0.1f;
         }
     }
 

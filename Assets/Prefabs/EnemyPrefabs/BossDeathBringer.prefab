@@ -52,6 +52,7 @@ GameObject:
   - component: {fileID: 6358217843161117296}
   - component: {fileID: 2063180884805076931}
   - component: {fileID: 6439121132639244973}
+  - component: {fileID: 149954543451297591}
   - component: {fileID: 6721325145917354225}
   - component: {fileID: 9070003779454890182}
   m_Layer: 9
@@ -411,6 +412,20 @@ MonoBehaviour:
   fixedItems:
   - {fileID: 7893689481003637446, guid: e7eaab954975f724680b2049e830741f, type: 3}
   spawnLootTableLevel: {fileID: 11400000, guid: 7bd5b1b82edb9c844a823766583472f3, type: 2}
+--- !u!114 &149954543451297591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4366999354659894197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a88a4dee27406f4d8652d87963d1faf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossLevelCombatManager
+  supporterDieStateManager1: {fileID: 0}
+  supporterDieStateManager2: {fileID: 0}
 --- !u!70 &6721325145917354225
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

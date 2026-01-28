@@ -81,6 +81,10 @@ public class BossPathFindingMovement : MonoBehaviour
             KnockBackPhysicalPlatformerHandler(currentVisualDir * -1);
         }
         // NEW FOR BOSS @@@
+        else if(bossAI.currentEnemyStateAction == BossAI.BossStateAction.Death)
+        {
+            rb2d.linearVelocity = Vector2.zero;
+        }
         else if(bossAI.currentEnemyStateAction == BossAI.BossStateAction.PrepareSkill2)
         {
             rb2d.linearVelocity = Vector2.zero;

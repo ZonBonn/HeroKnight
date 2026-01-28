@@ -25,4 +25,6 @@
 
 + 1 kinh nghiệm: nên viết một hàm InitStart: và InitAwake: cho sau có khởi tạo cái gì thì cũng chỉ viết vào đó cho nó gọn rồi ném vào Start hay Awake tùy tên hàm
 
-+ BUG: lỗi khi đang chuẩn bị tàng hình mà bị hurt thì mất luôn không thể sử dụng được skil 1 nữa
++ 1 kinh nghiệm: khi viết một dòng mã thì nên tự hỏi đặt dòng này ở đâu có tối ưu dễ bảo trì không ?
+
++ BUG: lỗi khi đang chuẩn bị tàng hình mà bị hurt thì mất luôn không thể sử dụng được skil 1 nữa (DONE)

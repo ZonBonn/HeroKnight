@@ -50,7 +50,7 @@ public class EnemyEWAI : MonoBehaviour
 
     private bool IsSeePlayer;
 
-
+    private SupportorLevelCombatManager supportorLevelCombatManager;
     
     private void Awake()
     {
@@ -60,6 +60,9 @@ public class EnemyEWAI : MonoBehaviour
         enemyHealthHandler = gameObject.GetComponent<HealthHandler>();
 
         enemyEWSensor = gameObject.GetComponent<EnemyEWSensor>();
+
+        supportorLevelCombatManager = gameObject.GetComponent<SupportorLevelCombatManager>();
+        
     }
 
     private void Start()
@@ -80,6 +83,8 @@ public class EnemyEWAI : MonoBehaviour
 
         enemyHealthSystem.OnTriggerHealthBarChange += TriggerHurtWhenHealthChange;
         enemyHealthSystem.OnTriggerHealthBarAsZero += TriggerDieWhenHealthAsZero;
+
+        supportorLevelCombatManager.OnTriggerReciveSupportor += OnTriggerRecovery;
 
         idleTimer = UnityEngine.Random.Range(2.5f, 3f);
         m_IdleTimer = idleTimer;
@@ -488,6 +493,7 @@ public class EnemyEWAI : MonoBehaviour
     {
         if(sprites == enemyEWAnimation.RecoverSprites)
         {
+            enemyHealthHandler.Heal(100);
             currentEnemyStateAction = EnemyEWStateAction.Idle;
         }
     }
@@ -518,11 +524,25 @@ public class EnemyEWAI : MonoBehaviour
         currentEnemyStateAction = EnemyEWStateAction.Die;
 
         // set something when enemy is died
-        enemyEWPathFindingMovement.StopMovingPhysicalHandler();
+        // enemyEWPathFindingMovement.StopMovingPhysicalHandler(); // cái này xử lý bên physic
         gameObject.layer = LayerMask.NameToLayer("DeadEnemy");
         enemyHealthBar.gameObject.SetActive(false);
     }
     // ===========================================================
+
+
+    // =============== TRIGGER LEVEL COMBAT SYSTEM ===============
+    private void OnTriggerRecovery()
+    {
+        Debug.Log("Boss is Died ?:" + supportorLevelCombatManager.bossGameObject.GetComponent<BossLevelCombatManager>().getIsBossDead());
+        // chỉ hồi sinh khi boss còn sống
+        if (supportorLevelCombatManager.bossGameObject.GetComponent<BossLevelCombatManager>().getIsBossDead() == false)
+        {
+            currentEnemyStateAction = EnemyEWStateAction.Recovery;
+        }
+    }
+    // ===========================================================
+
 
     // ========= SUPPORTING FUNCTION ========
     private void Immediately_m_RTCTimer()
@@ -655,6 +675,7 @@ public class EnemyEWAI : MonoBehaviour
     }
     // =============================================================
     
+
     private void ReadyToCombatInterrupt(float interruptsTimer)
     {
         if (interruptsTimer > 0)
