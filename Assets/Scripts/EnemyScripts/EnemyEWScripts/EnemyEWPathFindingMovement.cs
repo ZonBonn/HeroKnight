@@ -80,7 +80,8 @@ public class EnemyEWPathFindingMovement : MonoBehaviour
         {
             KnockBackPhysicalPlatformerHandler(currentVisualDir * -1);
         }
-        else if(enemyEWAI.currentEnemyStateAction == EnemyEWAI.EnemyEWStateAction.Die)
+        else if(enemyEWAI.currentEnemyStateAction == EnemyEWAI.EnemyEWStateAction.Die || 
+        enemyEWAI.currentEnemyStateAction == EnemyEWAI.EnemyEWStateAction.Recovery)
         {
             StopMovingPhysicalHandler();
         }

@@ -9,8 +9,8 @@ public class BossLevelCombatManager : MonoBehaviour
     private HealthHandler bossHealthHandler;
     private HealthSystem bossHealthSystem;
 
-    public SupportorLevelCombatManager supporterDieStateManager1;
-    public SupportorLevelCombatManager supporterDieStateManager2;
+    public SupportorLevelCombatManager supportorDieStateManager1;
+    public SupportorLevelCombatManager supportorDieStateManager2;
 
     public Action OnTriggerBossDie;
 
@@ -46,6 +46,6 @@ public class BossLevelCombatManager : MonoBehaviour
 
     private bool checkCanMakeDamage()
     {
-        return supporterDieStateManager1.getIsSupporterDie() && supporterDieStateManager2.getIsSupporterDie();
+        return supportorDieStateManager1.getIsSupportorDie() && supportorDieStateManager2.getIsSupportorDie();
     }
 }

@@ -11555,7 +11555,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3067322110126562727, guid: ccca1ee1b22df41499bd860e23c3ec3a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5917890074991209829, guid: ccca1ee1b22df41499bd860e23c3ec3a, type: 3}
       propertyPath: gridMap

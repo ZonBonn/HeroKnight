@@ -842,9 +842,8 @@ public class BossAI : MonoBehaviour
         currentEnemyStateAction = BossStateAction.Death;
 
         // set something when enemy is died
-        bossPathFindingMovement.StopMovingPhysicalHandler();
-        gameObject.layer = LayerMask.NameToLayer("DeadEnemy");
-        enemyHealthBar.gameObject.SetActive(false);
+        // bossPathFindingMovement.StopMovingPhysicalHandler();
+        SetUpWhenBossDie();
     }
     
     public void SetIsDied(bool isDied) // hàm này chỉ được tham chiếu bởi EnemySupportTestTool không được tham chiếu hàm này tới bất kì class nào khác
@@ -896,6 +895,12 @@ public class BossAI : MonoBehaviour
     private void DeclineTimerAttackCoolDown()
     {
         timer_AttackCoolDown -= Time.deltaTime;
+    }
+    
+    private void SetUpWhenBossDie()
+    {
+        gameObject.layer = LayerMask.NameToLayer("DeadEnemy");
+        enemyHealthBar.gameObject.SetActive(false);
     }
     // =============================================================
 }

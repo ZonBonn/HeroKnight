@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class EnemyEWAI : MonoBehaviour
 {
@@ -51,6 +52,8 @@ public class EnemyEWAI : MonoBehaviour
     private bool IsSeePlayer;
 
     private SupportorLevelCombatManager supportorLevelCombatManager;
+
+    public Action OnTriggerWhenBossDie;
     
     private void Awake()
     {
@@ -62,6 +65,8 @@ public class EnemyEWAI : MonoBehaviour
         enemyEWSensor = gameObject.GetComponent<EnemyEWSensor>();
 
         supportorLevelCombatManager = gameObject.GetComponent<SupportorLevelCombatManager>();
+
+        OnTriggerWhenBossDie += TriggerDieWhenBossDie;
         
     }
 
@@ -84,7 +89,8 @@ public class EnemyEWAI : MonoBehaviour
         enemyHealthSystem.OnTriggerHealthBarChange += TriggerHurtWhenHealthChange;
         enemyHealthSystem.OnTriggerHealthBarAsZero += TriggerDieWhenHealthAsZero;
 
-        supportorLevelCombatManager.OnTriggerReciveSupportor += OnTriggerRecovery;
+        supportorLevelCombatManager.OnTriggerReviveSupportor += OnTriggerRecovery;
+        
 
         idleTimer = UnityEngine.Random.Range(2.5f, 3f);
         m_IdleTimer = idleTimer;
@@ -515,7 +521,7 @@ public class EnemyEWAI : MonoBehaviour
         currentEnemyStateAction = EnemyEWStateAction.Hurt;
     }
     
-    private void TriggerDieWhenHealthAsZero()
+    private void TriggerDieWhenHealthAsZero() // cáu này dùng chung với hàm bên dưới cũng được nhưng ghi tên ra cho rõ ràng
     {
         if(currentEnemyStateAction == EnemyEWStateAction.Die)
         {
@@ -525,8 +531,17 @@ public class EnemyEWAI : MonoBehaviour
 
         // set something when enemy is died
         // enemyEWPathFindingMovement.StopMovingPhysicalHandler(); // cái này xử lý bên physic
-        gameObject.layer = LayerMask.NameToLayer("DeadEnemy");
-        enemyHealthBar.gameObject.SetActive(false);
+        SetUpWhenEnemyDied();
+    }
+    
+    private void TriggerDieWhenBossDie()
+    {
+        if(currentEnemyStateAction == EnemyEWStateAction.Die)
+        {
+            return;
+        }
+        currentEnemyStateAction = EnemyEWStateAction.Die;
+        SetUpWhenEnemyDied();
     }
     // ===========================================================
 
@@ -534,10 +549,12 @@ public class EnemyEWAI : MonoBehaviour
     // =============== TRIGGER LEVEL COMBAT SYSTEM ===============
     private void OnTriggerRecovery()
     {
-        Debug.Log("Boss is Died ?:" + supportorLevelCombatManager.bossGameObject.GetComponent<BossLevelCombatManager>().getIsBossDead());
+        // Debug.Log("Boss is Died ?:" + supportorLevelCombatManager.bossGameObject.GetComponent<BossLevelCombatManager>().getIsBossDead());
         // chỉ hồi sinh khi boss còn sống
+        if(supportorLevelCombatManager.bossGameObject == null) return;
         if (supportorLevelCombatManager.bossGameObject.GetComponent<BossLevelCombatManager>().getIsBossDead() == false)
         {
+            SetUpWhenEnemyRevive();
             currentEnemyStateAction = EnemyEWStateAction.Recovery;
         }
     }
@@ -549,105 +566,6 @@ public class EnemyEWAI : MonoBehaviour
     {
         m_RTCTimer = 0;
     }
-
-    // private void AlwayTowardToPlayer(){
-    //     Vector3 PlayerPosition = Player.Instance.GetPlayerPosition();
-    //     Vector3 EnemyPosition = gameObject.transform.position;
-    //     Vector2 DirToTarget = PlayerPosition - EnemyPosition;
-                
-    //     // handler Visual Direction and Flip Direction
-    //     float tmpDirToTargetX = DirToTarget.x;
-    //     if (-0.55f <= tmpDirToTargetX && tmpDirToTargetX <= 0.55f)
-    //     {
-    //         tmpDirToTargetX = enemyPathFindingMovement.currentVisualDir; // default value if the amount too small
-    //     }
-        
-    //     int moveDirX = Math.Sign(tmpDirToTargetX);
-        
-    //     enemyPathFindingMovement.currentVisualDir = enemyPathFindingMovement.LeftOrRightPlatformer(moveDirX) == true ? 1 : -1;
-    // }
-
-    // private bool IsSearchedPlayerAround() 
-    // {
-    //     Vector3 EnemyPosition = gameObject.transform.position;
-    //     Vector2 VisualDir = enemyPathFindingMovement.currentVisualDir == -1 ? Vector2.left : Vector2.right;
-    //     Vector3 maxDistanceVisualPoint = VisualDir == Vector2.left ? chaseLeftPoint.position : chaseRightPoint.position;
-    //     // đây sẽ là hai đểm ChaseWaypointA hoặc ChaseWaypointB
-    //     float DistanceVisual = Vector3.Distance(EnemyPosition, maxDistanceVisualPoint);
-    //     RaycastHit2D raycastHit2D = Physics2D.Raycast(EnemyPosition, VisualDir, DistanceVisual, playerLayerMask);
-    //     Debug.DrawLine(EnemyPosition, maxDistanceVisualPoint, Color.darkBlue, 0.1f);
-    //     if (raycastHit2D.collider != null)
-    //     {
-    //         return true;
-    //     }
-    //     return false;
-    // }
-    
-    // private void TriggerCreateAttackPoint(int idxFrame, Sprite[] sprites)// hàm này được gọi ở fame thứ 4 (tính từ 0) của enemy
-    // {
-    //     Vector3 EnemyPosition = gameObject.transform.position;
-    //     if(sprites == enemyAnimation.AttackSprites && idxFrame == 4)
-    //     {
-    //         const float attackDistance = 0.7f;
-    //         int dirVisual = enemyPathFindingMovement.currentVisualDir;
-    //         Vector3 attackPosition = new Vector3(EnemyPosition.x + dirVisual * attackDistance, EnemyPosition.y, EnemyPosition.z);
-    //         // Debug.Log(attackPosition);
-    //         bool IsHitedPlayer = IsPlayerInAttackPoint(attackPosition);
-    //         if(IsHitedPlayer == true)
-    //         {
-    //             // Debug.Log("Damage Player: " + UnityEngine.Random.Range(45, 50));
-    //             // damage player in here
-    //             // playerHealthHandler.Damage(UnityEngine.Random.Range(45, 50));
-    //             playerHealthStaminaHandler.DamageHealth(UnityEngine.Random.Range(45, 50));
-    //         }
-    //     }
-        
-    // }
-
-    // private bool IsPlayerInAttackPoint(Vector3 attackPosition)
-    // {
-    //     Vector3 PlayerPosition = Player.Instance.GetPlayerPosition();
-    //     Vector3 EnemyPosition = gameObject.transform.position;
-
-    //     // distance handler
-    //     float distanceBtwEnemyAndAttackPosition = Vector3.Distance(attackPosition, EnemyPosition);
-    //     float distanceBtwPlayerAndEnemy = Vector3.Distance(PlayerPosition, EnemyPosition);
-    //     // nếu khoảng cách người chơi tới enemy mà <= khoảng cách từ enemy tới attack position => có nghĩa là đang trong phạm vi nhận sát thương
-    //     bool IsInRangeAttack = distanceBtwPlayerAndEnemy <= distanceBtwEnemyAndAttackPosition;
-
-        
-    //     //visual handler
-    //     bool IsInVision;
-    //     Vector3 EnemyDirectToPlayer = PlayerPosition-EnemyPosition;
-    //     float EnemyAngleVisualDirectToPlayer = Mathf.Atan2(EnemyDirectToPlayer.y, EnemyDirectToPlayer.x) * Mathf.Rad2Deg; // góc được tạo bởi trục Ox và Vector hướng từ góc nhìn enemy tới player
-    //     int currentEnemyVisual = enemyPathFindingMovement.currentVisualDir;
-    //     // đem so nó liệu có đang thuộc vào góc nhìn của enemy không ?
-    //     if(currentEnemyVisual == +1)
-    //     {
-    //         IsInVision = -70 <= EnemyAngleVisualDirectToPlayer &&  EnemyAngleVisualDirectToPlayer <= 70;
-    //     }
-    //     else // currentEnemyVisual == -1 or currentEnemyVisual == 0
-    //     {
-    //         IsInVision = -110 >= EnemyAngleVisualDirectToPlayer || EnemyAngleVisualDirectToPlayer >= 110;
-    //     }
-    //     // Debug.Log("EnemyAngleVisualDirectToPlayer:"+EnemyAngleVisualDirectToPlayer);
-    //     // Debug.Log("IsInRangeAttack: " + IsInRangeAttack + "        IsInVision: " + IsInVision);
-    //     return IsInRangeAttack && IsInVision;
-    // }
-    
-    // private void ReadyToAttackImmediately()
-    // {
-    //     if(Vector3.Distance(gameObject.transform.position, Player.Instance.GetPlayerPosition()) <= READY_TO_ATTACK_DISTANCE && playerMovement.GetPlayerState() != State.Die)
-    //     {
-    //         if(currentEnemyStateAction == EnemyEWStateAction.Patrol)
-    //         {
-    //             currentToward = nullTransform;
-    //         }
-    //         enemyEWSensor.AlwayTowardToPlayer();
-    //         currentEnemyStateAction = EnemyEWStateAction.ReadyToAttack;
-    //         return;
-    //     }
-    // }
     
     public void SetIsDied(bool isDied) // hàm này chỉ được tham chiếu bởi EnemySupportTestTool không được tham chiếu hàm này tới bất kì class nào khác
     {
@@ -672,6 +590,19 @@ public class EnemyEWAI : MonoBehaviour
     public void SetIsJumpingFalseOutside()
     {
         isJumping = false;
+    }
+    
+    private void SetUpWhenEnemyDied()
+    {
+        gameObject.layer = LayerMask.NameToLayer("DeadEnemy");
+        enemyHealthBar.gameObject.SetActive(false);
+    }
+    
+    private void SetUpWhenEnemyRevive()
+    {
+        isDied = false;
+        gameObject.layer = LayerMask.NameToLayer("Enemy");
+        enemyHealthBar.gameObject.SetActive(true);
     }
     // =============================================================
     
