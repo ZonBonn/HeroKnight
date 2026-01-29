@@ -38,7 +38,7 @@ public class ProjectileCollision : MonoBehaviour
 
             if(playerHealthStaminaHandler != null)
             {
-                playerHealthStaminaHandler.DamageHealth(UnityEngine.Random.Range(minDamageAttack, maxDamageAttack));
+                // playerHealthStaminaHandler.DamageHealth(UnityEngine.Random.Range(minDamageAttack, maxDamageAttack));
             }
         }
     }

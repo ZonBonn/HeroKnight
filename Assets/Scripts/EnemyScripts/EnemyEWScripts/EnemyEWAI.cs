@@ -110,6 +110,12 @@ public class EnemyEWAI : MonoBehaviour
 
             return;
         }
+        // người chơi chết rồi thì chỉ cần chặn state ở đây => 100% là patrol và chặn bên trong patrol ngăn không chuyển state nữa là 100% người chơi chết thì enemy sẽ chỉ patrol thôi
+        if(playerMovement.GetPlayerState() == State.Die) 
+        {
+            currentEnemyStateAction = EnemyEWStateAction.Patrol;
+            return;
+        }
         
 
         IsPlayerAround = enemyEWSensor.IsSearchedPlayerAround();
@@ -214,7 +220,7 @@ public class EnemyEWAI : MonoBehaviour
             enemyEWPathFindingMovement.StopMovingPhysicalHandler();
         }
         
-        if(IsPlayerAround) // alway finds player in here <-- SearchingPlayerAround();
+        if(IsPlayerAround && playerMovement.GetPlayerState() != State.Die) // alway finds player in here <-- SearchingPlayerAround();
         {
             currentToward = nullTransform; // đổi hướng khi chuyển trạng thái cho đỡ phải tốn chi phí, lại còn tạo ra random hướng của mỗi enemy
             currentEnemyStateAction = EnemyEWStateAction.Chase;
@@ -234,7 +240,7 @@ public class EnemyEWAI : MonoBehaviour
         // ReadyToAttackImmediately();
 
         // NEW FOR EW @@@
-        if(DistanceEnemyToPlayer <= ATTACK_RANGE)
+        if(DistanceEnemyToPlayer <= ATTACK_RANGE && playerMovement.GetPlayerState() != State.Die)
         {
             currentToward = nullTransform;
             currentEnemyStateAction = EnemyEWStateAction.Attack;

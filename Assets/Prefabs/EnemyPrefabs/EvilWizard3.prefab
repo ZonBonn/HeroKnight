@@ -317,8 +317,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyEWShooting
   bullet: {fileID: 2266729595889304128, guid: d8025f78c6e673348a50d04e2d5e6710, type: 3}
-  firePositionLeft: {fileID: 0}
-  firePositionRight: {fileID: 0}
 --- !u!114 &2832467865815294
 MonoBehaviour:
   m_ObjectHideFlags: 0

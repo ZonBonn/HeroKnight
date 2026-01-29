@@ -40,7 +40,7 @@ public class BossSkill2 : MonoBehaviour
                     PlayerHealthStaminaHandler playerHealthStaminaHandler = playerGameObject.GetComponent<PlayerHealthStaminaHandler>();
                     if(playerHealthStaminaHandler != null)
                     {
-                        playerHealthStaminaHandler.DamageHealth(UnityEngine.Random.Range(MIN_DAMAGE, MAX_DAMAGE));
+                        // playerHealthStaminaHandler.DamageHealth(UnityEngine.Random.Range(MIN_DAMAGE, MAX_DAMAGE));
                     }
                 }
             }

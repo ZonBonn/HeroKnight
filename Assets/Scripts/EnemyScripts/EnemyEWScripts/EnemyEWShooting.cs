@@ -7,8 +7,8 @@ public class EnemyEWShooting : MonoBehaviour
 
     public GameObject bullet;
 
-    public Transform firePositionLeft;
-    public Transform firePositionRight;
+    private Transform firePositionLeft;
+    private Transform firePositionRight;
 
     private void Awake()
     {

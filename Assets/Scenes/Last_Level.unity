@@ -408,6 +408,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EvilWizard3
       objectReference: {fileID: 0}
+    - target: {fileID: 3067322110126562727, guid: ccca1ee1b22df41499bd860e23c3ec3a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5917890074991209829, guid: ccca1ee1b22df41499bd860e23c3ec3a, type: 3}
       propertyPath: gridMap
       value: 
@@ -1916,11 +1920,11 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 149954543451297591, guid: 5f240bda1e31b314598e16c2588ca957, type: 3}
-      propertyPath: supporterDieStateManager1
+      propertyPath: supportorDieStateManager1
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1876914233}
     - target: {fileID: 149954543451297591, guid: 5f240bda1e31b314598e16c2588ca957, type: 3}
-      propertyPath: supporterDieStateManager2
+      propertyPath: supportorDieStateManager2
       value: 
       objectReference: {fileID: 375445123}
     - target: {fileID: 3923733939696831211, guid: 5f240bda1e31b314598e16c2588ca957, type: 3}
@@ -11555,7 +11559,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3067322110126562727, guid: ccca1ee1b22df41499bd860e23c3ec3a, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5917890074991209829, guid: ccca1ee1b22df41499bd860e23c3ec3a, type: 3}
       propertyPath: gridMap
@@ -21117,6 +21121,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1876914233 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2832467865815294, guid: ccca1ee1b22df41499bd860e23c3ec3a, type: 3}
+  m_PrefabInstance: {fileID: 61048858}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4337b227240b4b846afb8ca4aa5e63f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SupportorLevelCombatManager
 --- !u!1 &1927182791
 GameObject:
   m_ObjectHideFlags: 0

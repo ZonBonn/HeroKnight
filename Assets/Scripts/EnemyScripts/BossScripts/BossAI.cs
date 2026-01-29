@@ -128,27 +128,32 @@ public class BossAI : MonoBehaviour
 
             return;
         }
+        if(playerMovement.GetPlayerState() == State.Die) // --> error in here  <--
+        {
+            currentEnemyStateAction = BossStateAction.Patrol;
+            return;
+        }
 
         // test
-        // if (Input.GetKeyDown(KeyCode.G)/* && bossSkill1.getCanUseSkill1() == true*/)
-        // {
-        //     currentEnemyStateAction = BossStateAction.InvisibleSkill1;
-        //     bossSkill1.UseSkill1();
-        //     // bossSkill1.SetSkill1CoolDown(); // cái này sẽ đặt lại khi mà hết tàng hình
-        // }
-        // else if(Input.GetKeyDown(KeyCode.F) && bossCallerSkill2.getCanUseSkill2() == true)
-        // {
-        //     currentEnemyStateAction = BossStateAction.PrepareSkill2;
-        //     bossCallerSkill2.SetSkill2CoolDown(); // cái này sẽ đặt lại khi mà skill 2 được hoàn tất triển khai
-        // }
-        // else if (Input.GetKeyDown(KeyCode.H))
-        // {
-        //     bossHealthHandler.Heal(100);
-        // }
-        // else if (Input.GetKeyDown(KeyCode.J))
-        // {
-        //     bossHealthHandler.Damage(80);
-        // }
+        if (Input.GetKeyDown(KeyCode.G)/* && bossSkill1.getCanUseSkill1() == true*/)
+        {
+            // currentEnemyStateAction = BossStateAction.InvisibleSkill1;
+            // bossSkill1.UseSkill1();
+            // bossSkill1.SetSkill1CoolDown(); // cái này sẽ đặt lại khi mà hết tàng hình
+        }
+        else if(Input.GetKeyDown(KeyCode.F) && bossCallerSkill2.getCanUseSkill2() == true)
+        {
+            // currentEnemyStateAction = BossStateAction.PrepareSkill2;
+            // bossCallerSkill2.SetSkill2CoolDown(); // cái này sẽ đặt lại khi mà skill 2 được hoàn tất triển khai
+        }
+        else if (Input.GetKeyDown(KeyCode.H))
+        {
+            bossHealthHandler.Heal(100);
+        }
+        else if (Input.GetKeyDown(KeyCode.J))
+        {
+            bossHealthHandler.Damage(80);
+        }
         
 
         IsPlayerAround = bossSensor.IsSearchedPlayerAround();
@@ -265,7 +270,7 @@ public class BossAI : MonoBehaviour
             bossPathFindingMovement.StopMovingPhysicalHandler();
         }
         
-        if(IsPlayerAround || DistanceEnemyToPlayer <= READY_TO_ATTACK_DISTANCE) // alway finds player in here <-- SearchingPlayerAround();
+        if(IsPlayerAround || DistanceEnemyToPlayer <= READY_TO_ATTACK_DISTANCE && playerMovement.GetPlayerState() != State.Die) // alway finds player in here <-- SearchingPlayerAround();
         {
             bossSensor.AlwayTowardToPlayer();
             // Debug.Log("Patrol -> Chase");

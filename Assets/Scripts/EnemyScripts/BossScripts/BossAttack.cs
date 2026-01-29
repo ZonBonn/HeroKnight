@@ -40,13 +40,15 @@ public class BossAttack : MonoBehaviour
         Vector3 EnemyPosition = BossPositionHolder.Instance.GetRealBossPosition();
         if(sprites == bossAnimation.AttackSprites && idxFrame == 4)
         {
-            const float attackDistance = 0.7f;
+            const float attackDistance = 2.5f;
             int dirVisual = bossPathFindingMovement.currentVisualDir;
             Vector3 attackPosition = new Vector3(EnemyPosition.x + dirVisual * attackDistance, EnemyPosition.y, EnemyPosition.z);
-            // Debug.Log(attackPosition);
+            Debug.Log("Real Enemy Position Center: " + EnemyPosition);
+            Debug.Log("attackPosition: " + attackPosition);
             bool IsHitedPlayer = IsPlayerInAttackPoint(attackPosition);
             if(IsHitedPlayer == true)
             {
+                Debug.Log("Hited Player");
                 // Debug.Log("Damage Player: " + UnityEngine.Random.Range(45, 50));
                 // damage player in here
                 // playerHealthHandler.Damage(UnityEngine.Random.Range(45, 50));
@@ -83,7 +85,7 @@ public class BossAttack : MonoBehaviour
             IsInVision = -110 >= EnemyAngleVisualDirectToPlayer || EnemyAngleVisualDirectToPlayer >= 110;
         }
         // Debug.Log("EnemyAngleVisualDirectToPlayer:"+EnemyAngleVisualDirectToPlayer);
-        // Debug.Log("IsInRangeAttack: " + IsInRangeAttack + "        IsInVision: " + IsInVision);
+        Debug.Log("IsInRangeAttack: " + IsInRangeAttack + "        IsInVision: " + IsInVision);
         return IsInRangeAttack && IsInVision;
     }
 }

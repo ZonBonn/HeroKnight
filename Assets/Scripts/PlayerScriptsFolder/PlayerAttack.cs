@@ -40,18 +40,20 @@ public class PlayerAttack : MonoBehaviour
             RaycastHit2D rayCastHit2D = IsHitedEnemy(currentSprite, attackDistance);
             if (rayCastHit2D.collider != null)
             {
-                if(rayCastHit2D.collider.gameObject.CompareTag("BossDeathBringer") == true)
-                {
-                    BossLevelCombatManager bossLevelCombatManager = rayCastHit2D.collider.gameObject.GetComponent<BossLevelCombatManager>();
-                    if(bossLevelCombatManager.getCanMakeDamage() == true)
-                    {
-                        DamageEnemy(rayCastHit2D, currentSprite);
-                    }
-                }
-                else
-                {
-                    DamageEnemy(rayCastHit2D, currentSprite);
-                }
+                // if(rayCastHit2D.collider.gameObject.CompareTag("BossDeathBringer") == true)
+                // {
+                //     BossLevelCombatManager bossLevelCombatManager = rayCastHit2D.collider.gameObject.GetComponent<BossLevelCombatManager>();
+                //     if(bossLevelCombatManager == null) Debug.Log("bossLevelCombatManager == null");
+                //     if(bossLevelCombatManager.getCanMakeDamage() == true)
+                //     {
+                //         DamageEnemy(rayCastHit2D, currentSprite);
+                //     }
+                // }
+                // else
+                // {
+                //     DamageEnemy(rayCastHit2D, currentSprite);
+                // }
+                DamageEnemy(rayCastHit2D, currentSprite);
             }
         }
         
@@ -71,17 +73,59 @@ public class PlayerAttack : MonoBehaviour
         HealthHandler enemyHealthHandler = enemyGameObject.GetComponent<HealthHandler>();
         Enemy enemy = enemyGameObject.GetComponent<Enemy>();
         enemy.getFeature(out float minDamageReceived, out float maxDamageReceived, out float minDamageAttack, out float maxDamageAttack);
+
+        // xứ lý riêng boss => sẽ không clean nhưng thôi tạm thời thế đã
+        bool isBossDeathBringer = enemyGameObject.CompareTag("BossDeathBringer");
+        BossLevelCombatManager bossLevelCombatManager  = enemyGameObject.GetComponent<BossLevelCombatManager>();
+        if(bossLevelCombatManager == null) Debug.Log("bossLevelCombatManager == null");
+
         if(currentSprite == playerAnimation.Attack1Sprites)
         {
-            enemyHealthHandler.Damage(minDamageReceived);
+            if(isBossDeathBringer == true && bossLevelCombatManager != null)
+            {
+                if(bossLevelCombatManager.getCanMakeDamage() == true)
+                {
+                    enemyHealthHandler.Damage(minDamageReceived);
+                }
+                else
+                {
+                    enemyHealthHandler.Damage(0);
+                }
+            }
+            else
+                enemyHealthHandler.Damage(minDamageReceived);
         }
         else if (currentSprite == playerAnimation.Attack2Sprites)
         {
-            enemyHealthHandler.Damage(maxDamageReceived);
+            if(isBossDeathBringer == true && bossLevelCombatManager != null)
+            {
+                if(bossLevelCombatManager.getCanMakeDamage() == true)
+                {
+                    enemyHealthHandler.Damage(maxDamageReceived);
+                }
+                else
+                {
+                    enemyHealthHandler.Damage(0);
+                }
+            }
+            else
+                enemyHealthHandler.Damage(maxDamageReceived);
         }
         else // currentSprite == playerAnimation.Attack3Sprites
         {
-            enemyHealthHandler.Damage(maxDamageReceived + 20);
+            if(isBossDeathBringer == true && bossLevelCombatManager != null)
+            {
+                if(bossLevelCombatManager.getCanMakeDamage() == true)
+                    {
+                        enemyHealthHandler.Damage(maxDamageReceived + 20);
+                    }
+                    else
+                    {
+                        enemyHealthHandler.Damage(0);
+                    }
+            }
+            else
+                enemyHealthHandler.Damage(maxDamageReceived + 20);
         }
     }
 
