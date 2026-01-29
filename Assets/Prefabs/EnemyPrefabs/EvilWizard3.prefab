@@ -117,6 +117,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   monsterType: 0
   enemyType: 2
+  minDamageReceived: 30
+  maxDamageReceived: 40
+  minDamageAttack: 15
+  maxDamageAttack: 20
 --- !u!114 &5222832893550427058
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -40,7 +40,18 @@ public class PlayerAttack : MonoBehaviour
             RaycastHit2D rayCastHit2D = IsHitedEnemy(currentSprite, attackDistance);
             if (rayCastHit2D.collider != null)
             {
-                DamageEnemy(rayCastHit2D, currentSprite);
+                if(rayCastHit2D.collider.gameObject.CompareTag("BossDeathBringer") == true)
+                {
+                    BossLevelCombatManager bossLevelCombatManager = rayCastHit2D.collider.gameObject.GetComponent<BossLevelCombatManager>();
+                    if(bossLevelCombatManager.getCanMakeDamage() == true)
+                    {
+                        DamageEnemy(rayCastHit2D, currentSprite);
+                    }
+                }
+                else
+                {
+                    DamageEnemy(rayCastHit2D, currentSprite);
+                }
             }
         }
         
@@ -58,13 +69,19 @@ public class PlayerAttack : MonoBehaviour
         // damage enemy handler
         GameObject enemyGameObject = raycastHit2D.collider.gameObject;
         HealthHandler enemyHealthHandler = enemyGameObject.GetComponent<HealthHandler>();
-        if(currentSprite == playerAnimation.Attack1Sprites || currentSprite == playerAnimation.Attack2Sprites)
+        Enemy enemy = enemyGameObject.GetComponent<Enemy>();
+        enemy.getFeature(out float minDamageReceived, out float maxDamageReceived, out float minDamageAttack, out float maxDamageAttack);
+        if(currentSprite == playerAnimation.Attack1Sprites)
         {
-            enemyHealthHandler.Damage(UnityEngine.Random.Range(20, 25));
+            enemyHealthHandler.Damage(minDamageReceived);
+        }
+        else if (currentSprite == playerAnimation.Attack2Sprites)
+        {
+            enemyHealthHandler.Damage(maxDamageReceived);
         }
         else // currentSprite == playerAnimation.Attack3Sprites
         {
-            enemyHealthHandler.Damage(UnityEngine.Random.Range(30, 35));
+            enemyHealthHandler.Damage(maxDamageReceived + 20);
         }
     }
 

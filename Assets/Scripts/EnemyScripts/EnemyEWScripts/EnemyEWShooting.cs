@@ -41,9 +41,9 @@ public class EnemyEWShooting : MonoBehaviour
 
             GameObject bulletObject = Instantiate(bullet, firePos, Quaternion.Euler(0f, 0f, angle));
             ProjectileMoving projectileMoving = bulletObject.GetComponent<ProjectileMoving>();
-
+            ProjectileCollision projectileCollision = bulletObject.GetComponent<ProjectileCollision>();
+            projectileCollision.SetShooter(this.gameObject);
             
-
             projectileMoving.Fire(dir);
         }
     }

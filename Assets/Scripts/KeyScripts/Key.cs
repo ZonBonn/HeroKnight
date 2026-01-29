@@ -17,6 +17,8 @@ public class Key : MonoBehaviour
     private void Awake()
     {
         CanPickUpKey = false;
+
+        FunctionTimer.Create(SetCanPickUpTrue, 1f);
     }
 
     public KeyType GetKeyType()
@@ -33,7 +35,8 @@ public class Key : MonoBehaviour
     //     }
     // }
 
-    public void SetCanPickUpTrue()
+    // +1 kinh nghiệm: wtf ??? code kém ?? chỉ cần set khi nó được sinh ra thì hàm Awake{} sẽ chạy timer đếm ngược có thể pick ngay trong chính Key cần gì phải tham chiếu kiểu sang tận các file khác lằng nhàng như này ?????
+    private void SetCanPickUpTrue() 
     {
         CanPickUpKey = true;
     }

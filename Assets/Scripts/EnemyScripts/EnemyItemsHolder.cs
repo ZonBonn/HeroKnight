@@ -92,8 +92,8 @@ public class EnemyItemsHolder : MonoBehaviour
             // lấy và truyền tham số cho EventArgs
             OnTriggerDropKey?.Invoke(this, new DropKeyEventArgs(keyType));
 
-            // chưa cho nhặt key vội hãy để tầm 1s sau mới cho nhặt
-            SetDoNotAllowedPickKeyAfter1Seconds(item);
+            // chưa cho nhặt key vội hãy để tầm 1s sau mới cho nhặt: => TimerCreate ở chính nó
+            // SetDoNotAllowedPickKeyAfter1Seconds(item);
         }
 
         // Spawn đồ trong người enemy của random Items (lấy ở Spawn Loot Table)
@@ -123,7 +123,7 @@ public class EnemyItemsHolder : MonoBehaviour
                         OnTriggerDropKey?.Invoke(this, new DropKeyEventArgs(keyType));
 
                         // chưa cho nhặt key vội hãy để tầm 1s sau mới cho nhặt
-                        SetDoNotAllowedPickKeyAfter1Seconds(item);
+                        // SetDoNotAllowedPickKeyAfter1Seconds(item);
 
                         // vẫn phải thêm false, vì key đầu có thể không rơi => true key sau có rơi without dòng này thì vẫn là true => vẫn tăng dù rơi key
                         shouldIncreaseEnemyDiedWithoutSpawnKeyAmount = false;
@@ -220,14 +220,14 @@ public class EnemyItemsHolder : MonoBehaviour
         return null;
     }
 
-    private void SetDoNotAllowedPickKeyAfter1Seconds(GameObject item)
-    {
-        Key key = item.GetComponent<Key>();
-        if(key != null)
-        {
-            FunctionTimer.Create(key.SetCanPickUpTrue, 1f);
-        }
-    }
+    // private void SetDoNotAllowedPickKeyAfter1Seconds(GameObject item)
+    // {
+    //     Key key = item.GetComponent<Key>();
+    //     if(key != null)
+    //     {
+    //         FunctionTimer.Create(key.SetCanPickUpTrue, 1f);
+    //     }
+    // }
 
     public float getKeyRateByEnemyTypeAndKeyType(EnemyType enemyType, Key.KeyType keyType)
     {

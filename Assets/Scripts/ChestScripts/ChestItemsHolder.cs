@@ -85,6 +85,7 @@ public class ChestItemsHolder : MonoBehaviour
 
     private void SpawnItemsCroutineHandler()
     {
+        // bài toán con nhỏ nhất (Điều kiện dừng đệ quy <=> số lượng đồ đã spawn bằng tổng số lượng đồ cần spawn)
         if(amountSpawnedItemsInRandomChest >= totalItemsSpawnInRandomChest)
         {
             // chả lẽ gọi thêm một cái FunctionTimer ở đây chờ 1s mới cho đóng cái hòm lần đầu :D

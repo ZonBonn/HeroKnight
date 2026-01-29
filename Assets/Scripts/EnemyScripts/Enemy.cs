@@ -8,35 +8,45 @@ public class Enemy : MonoBehaviour
     public EnemyType enemyType;
 
     private EnemyAttack enemyAttack;
+    private EnemyEWShooting enemyEWShooting;
+    private BossAttack bossAttack;
+
+    [SerializeField] private float minDamageReceived;
+    [SerializeField] private float maxDamageReceived;
+
+    [SerializeField] private float minDamageAttack;
+    [SerializeField] private float maxDamageAttack;
+
 
     private void Awake()
     {
         enemyAttack = gameObject.GetComponent<EnemyAttack>();
-        if(enemyType == EnemyType.LightEnemy)
+        enemyEWShooting = gameObject.GetComponent<EnemyEWShooting>();
+        bossAttack = gameObject.GetComponent<BossAttack>();
+        
+        if(enemyType == EnemyType.LightEnemy && enemyAttack != null)
         {
-            enemyAttack.SetUp(30, 40);
+            enemyAttack.SetUp(minDamageAttack, maxDamageAttack);
         }
-        else if(enemyType == EnemyType.HeavyEnemy)
+        else if(enemyType == EnemyType.HeavyEnemy && enemyAttack != null)
         {
-            enemyAttack.SetUp(40, 50);
+            enemyAttack.SetUp(minDamageAttack, maxDamageAttack);
         }
-        else if(enemyType == EnemyType.EvilWizard)
+        else if(enemyType == EnemyType.EvilWizard && enemyEWShooting != null)
         {
             
         }
-        else if(enemyType == EnemyType.Boss)
+        else if(enemyType == EnemyType.Boss && bossAttack != null)
         {
-            
+            bossAttack.SetUp(minDamageAttack, maxDamageAttack);
         }
     }
 
-    private void Start()
+    public void getFeature(out float minDamageReceived, out float maxDamageReceived, out float minDamageAttack, out float maxDamageAttack)
     {
-        
-    }
-
-    private void Update()
-    {
-        
+        minDamageReceived = this.minDamageReceived;
+        maxDamageReceived = this.maxDamageReceived;
+        minDamageAttack = this.minDamageAttack;
+        maxDamageAttack = this.maxDamageAttack;
     }
 }

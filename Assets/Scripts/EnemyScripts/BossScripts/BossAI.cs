@@ -141,14 +141,14 @@ public class BossAI : MonoBehaviour
         //     currentEnemyStateAction = BossStateAction.PrepareSkill2;
         //     bossCallerSkill2.SetSkill2CoolDown(); // cái này sẽ đặt lại khi mà skill 2 được hoàn tất triển khai
         // }
-        else if (Input.GetKeyDown(KeyCode.H))
-        {
-            bossHealthHandler.Heal(100);
-        }
-        else if (Input.GetKeyDown(KeyCode.J))
-        {
-            bossHealthHandler.Damage(80);
-        }
+        // else if (Input.GetKeyDown(KeyCode.H))
+        // {
+        //     bossHealthHandler.Heal(100);
+        // }
+        // else if (Input.GetKeyDown(KeyCode.J))
+        // {
+        //     bossHealthHandler.Damage(80);
+        // }
         
 
         IsPlayerAround = bossSensor.IsSearchedPlayerAround();
