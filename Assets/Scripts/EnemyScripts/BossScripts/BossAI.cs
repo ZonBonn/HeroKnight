@@ -128,11 +128,6 @@ public class BossAI : MonoBehaviour
 
             return;
         }
-        if(playerMovement.GetPlayerState() == State.Die) // --> error in here  <--
-        {
-            currentEnemyStateAction = BossStateAction.Patrol;
-            return;
-        }
 
         // test
         if (Input.GetKeyDown(KeyCode.G)/* && bossSkill1.getCanUseSkill1() == true*/)
@@ -321,6 +316,8 @@ public class BossAI : MonoBehaviour
     {
         bossSensor.AlwayTowardToPlayer();
 
+        SetUpBossWhenPlayerDied();
+
         // NEW FOR BOSS @@@
         bossPathFindingMovement.MoveTo(PlayerPosition);
         // trong lúc đang đuổi theo nên check hố chướng ngại vật các thứ v.v tại đây --> IN HERE <-- tại đây
@@ -366,7 +363,7 @@ public class BossAI : MonoBehaviour
     private void AttackActionHandler()
     {
         bossPathFindingMovement.StopMovingPhysicalHandler();
-
+        // SetUpBossWhenPlayerDied();
         if (timer_AttackCoolDown > 0) // đợi chờ chờ tới lượt đánh tiếp theo
         {
             // Debug.Log("Attack -> Recover");
@@ -512,7 +509,7 @@ public class BossAI : MonoBehaviour
             currentEnemyStateAction = BossStateAction.Flee;
             return;
         }
-        if(bossSkill1.getCanKeepUseSkill1() == false)
+        if(bossSkill1.getCanKeepUseSkill1() == false || playerMovement.GetPlayerState() == State.Die) // không thể sử dụng skill 1 hoặc player chết thì hủy tàng hình
         {
             // Debug.Log("KeepInvisible -> Visible");
             currentEnemyStateAction = BossStateAction.Visible;
@@ -647,6 +644,7 @@ public class BossAI : MonoBehaviour
         if (sprites == bossAnimation.AttackSprites && idxFrame == bossAnimation.AttackSprites.Length - 1)
         {
             timer_AttackCoolDown = attackCoolDown;
+            SetUpBossWhenPlayerDied();
             if(bossSkill1.getCanKeepUseSkill1() == true)
             {
                 // Debug.Log("LastAttack -> KeeppInvisible");
@@ -691,6 +689,7 @@ public class BossAI : MonoBehaviour
         
         if(sprites == bossAnimation.HurtSprites)
         {
+            // SetUpBossWhenPlayerDied();
             bool IsPlayerAround = bossSensor.IsSearchedPlayerAround();
 
             if(bossSkill1.getCanKeepUseSkill1() == true)
@@ -733,6 +732,7 @@ public class BossAI : MonoBehaviour
     {
         if(sprites == bossAnimation.PrepareSkill2Sprites)
         {
+            // SetUpBossWhenPlayerDied();
             // gọi skill 2 vã vào đầu thằng player: đã được gọi rồi bên BossCallerSkill2 nhưng chuyển trạng thái sáng trạng thái khác tại đây
             bool IsPlayerAround = bossSensor.IsSearchedPlayerAround();
             if (DistanceEnemyToPlayer <= READY_TO_ATTACK_DISTANCE && IsPlayerAround == true && timer_AttackCoolDown <= 0)
@@ -781,6 +781,7 @@ public class BossAI : MonoBehaviour
     {
         if(sprites == bossAnimation.VisibleSprites)
         {
+            // SetUpBossWhenPlayerDied();
             // reset timer cooldown skill1
             // Debug.Log("Reset coolDown Skill 1");
             bossSkill1.SetSkill1CoolDown(); // cái này sẽ đặt lại khi mà skill 2 được hoàn tất triển khai
@@ -908,4 +909,13 @@ public class BossAI : MonoBehaviour
         enemyHealthBar.gameObject.SetActive(false);
     }
     // =============================================================
+
+    private void SetUpBossWhenPlayerDied()
+    {
+        if(playerMovement.GetPlayerState() == State.Die) // --> error in here  <--
+        {
+            currentEnemyStateAction = BossStateAction.Patrol;
+            return;
+        }
+    }
 }

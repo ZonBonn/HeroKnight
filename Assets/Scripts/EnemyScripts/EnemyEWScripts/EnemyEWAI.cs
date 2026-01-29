@@ -110,13 +110,6 @@ public class EnemyEWAI : MonoBehaviour
 
             return;
         }
-        // người chơi chết rồi thì chỉ cần chặn state ở đây => 100% là patrol và chặn bên trong patrol ngăn không chuyển state nữa là 100% người chơi chết thì enemy sẽ chỉ patrol thôi
-        if(playerMovement.GetPlayerState() == State.Die) 
-        {
-            currentEnemyStateAction = EnemyEWStateAction.Patrol;
-            return;
-        }
-        
 
         IsPlayerAround = enemyEWSensor.IsSearchedPlayerAround();
         PlayerPosition = Player.Instance.GetPlayerPosition();
@@ -271,6 +264,7 @@ public class EnemyEWAI : MonoBehaviour
         }
         if(IsPlayerAround && IsSeePlayer == true)// alway finds player in here <-- SearchingPlayerAround();
         {
+            Debug.Log("Idle -> Patrol");
             m_IdleTimer = idleTimer;// reset lại biến thời gian đứng IDLE
             currentEnemyStateAction = EnemyEWStateAction.Chase;
             return;
@@ -290,6 +284,7 @@ public class EnemyEWAI : MonoBehaviour
     {
         enemyEWSensor.AlwayTowardToPlayer();
         Immediately_m_RTCTimer();
+        SetUpEWWhenPlayerDie();
         // if (DistanceEnemyToPlayer <= READY_TO_ATTACK_DISTANCE && IsPlayerAround == true)
         // {
         //     currentEnemyStateAction = EnemyEWStateAction.ReadyToAttack;
@@ -341,6 +336,7 @@ public class EnemyEWAI : MonoBehaviour
     {
         enemyEWSensor.AlwayTowardToPlayer();
         enemyEWPathFindingMovement.StopMovingPhysicalHandler();
+        SetUpEWWhenPlayerDie();
         // if (m_RTCTimer > 0) // đợi chờ chờ tới lượt đánh tiếp theo
         // {
         //     currentEnemyStateAction = EnemyEWStateAction.ReadyToAttack;
@@ -447,6 +443,7 @@ public class EnemyEWAI : MonoBehaviour
     {
         if (sprites == enemyEWAnimation.AttackSprites && idxFrame == enemyEWAnimation.AttackSprites.Length - 1)
         {
+            SetUpEWWhenPlayerDie();
             m_RTCTimer = rTCTimer;
         }
     }
@@ -472,6 +469,7 @@ public class EnemyEWAI : MonoBehaviour
         
         if(sprites == enemyEWAnimation.HurtSprites)
         {
+            // SetUpEWWhenPlayerDie();
             bool IsPlayerAround = enemyEWSensor.IsSearchedPlayerAround();
             if (DistanceEnemyToPlayer <= READY_TO_ATTACK_DISTANCE && IsPlayerAround == true && m_RTCTimer <= 0)
             {
@@ -507,6 +505,7 @@ public class EnemyEWAI : MonoBehaviour
         {
             enemyHealthHandler.Heal(100);
             currentEnemyStateAction = EnemyEWStateAction.Idle;
+            return;
         }
     }
     // ===========================================================
@@ -609,6 +608,15 @@ public class EnemyEWAI : MonoBehaviour
         isDied = false;
         gameObject.layer = LayerMask.NameToLayer("Enemy");
         enemyHealthBar.gameObject.SetActive(true);
+    }
+    
+    private void SetUpEWWhenPlayerDie()
+    {
+        if(playerMovement.GetPlayerState() == State.Die) // --> error in here  <--
+        {
+            currentEnemyStateAction = EnemyEWStateAction.Patrol;
+            return;
+        }
     }
     // =============================================================
     

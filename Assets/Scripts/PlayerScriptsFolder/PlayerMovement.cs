@@ -593,11 +593,11 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (playerState == State.BlockIdle)
         {
-            rb2D.linearVelocity = new Vector2(0, 0);
+            rb2D.linearVelocity = new Vector2(0, rb2D.linearVelocity.y);
         }
         else if(playerState == State.Hit)
         {
-            rb2D.linearVelocity = new Vector2(0, 0);
+            rb2D.linearVelocity = new Vector2(0, rb2D.linearVelocity.y);
         }
         else if(playerState == State.BlockHit)
         {
@@ -605,7 +605,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if(playerState == State.Die)
         {
-            
+            rb2D.linearVelocity = new Vector2(0, rb2D.linearVelocity.y);
         }
         LateFixedClampPosition();
     }
