@@ -9,7 +9,7 @@ public class BossPathFindingMovement : MonoBehaviour
     private const float PUSH_FORCE = 5.5f;
     private const float KNOCK_BACK_HORIZONTAL_FORCE = 2f;
     private const float KNOCK_BACK_VERTICAL_FORCE = 1f;
-    public const float FLEE_MOVE_SPEED = 4f;
+    public const float FLEE_MOVE_SPEED = 5f;
     private int currentIdxPath;
     private List<UnityEngine.Vector3> PathOnVector;
     public GridMap gridMap;

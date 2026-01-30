@@ -129,12 +129,12 @@ public class BossAI : MonoBehaviour
             return;
         }
 
-        // test
+        // testetn
         if (Input.GetKeyDown(KeyCode.G)/* && bossSkill1.getCanUseSkill1() == true*/)
         {
-            // currentEnemyStateAction = BossStateAction.InvisibleSkill1;
-            // bossSkill1.UseSkill1();
-            // bossSkill1.SetSkill1CoolDown(); // cái này sẽ đặt lại khi mà hết tàng hình
+            currentEnemyStateAction = BossStateAction.InvisibleSkill1;
+            bossSkill1.UseSkill1();
+            bossSkill1.SetSkill1CoolDown(); // cái này sẽ đặt lại khi mà hết tàng hình
         }
         else if(Input.GetKeyDown(KeyCode.F) && bossCallerSkill2.getCanUseSkill2() == true)
         {
@@ -485,7 +485,7 @@ public class BossAI : MonoBehaviour
                 currentEnemyStateAction = BossStateAction.Attack;
                 return;
             }
-            if(IsPlayerAround)// alway finds player in here <-- SearchingPlayerAround();
+            if(IsPlayerAround/* && DistanceEnemyToPlayer <= CHASE_MIN_DISTANCE*/)// alway finds player in here <-- SearchingPlayerAround();
             {
                 // Debug.Log("KeepInvisible -> MoveTo Player");
                 bossPathFindingMovement.MoveTo(PlayerPosition); // di chuyển tới người chơi trong trạng thái tàng hình
@@ -520,37 +520,40 @@ public class BossAI : MonoBehaviour
     private void FleeHandler()
     {
         // Debug.Log("DistanceEnemyToPlayer:" + DistanceEnemyToPlayer);
-        if(/*IsPlayerAround == false ||*/ DistanceEnemyToPlayer >= DISENGAGE_DISTANCE)
+        if(/*IsPlayerAround == false ||*/ DistanceEnemyToPlayer >= DISENGAGE_DISTANCE) // nếu người ở xa lúc đang flee
         {
             // Debug.Log("Flee Attack");
             // đứng yên hồi máu thôi khi nào đầy rồi thì tấn công
             // bossPathFindingMovement.StopMovingPhysicalHandler();
 
-            bossPathFindingMovement.MoveTo(PlayerPosition);
-            if (DistanceEnemyToPlayer <= ATTACK_DISTANCE && IsPlayerAround == true && timer_AttackCoolDown <= 0)
-            {
-                // Debug.Log("Flee -> Attack");
-                currentEnemyStateAction = BossStateAction.Attack;
-                return;
-            }
+            // bossPathFindingMovement.MoveTo(PlayerPosition);
+            bossPathFindingMovement.StopMovingPhysicalHandler();
+
+            // if (DistanceEnemyToPlayer <= ATTACK_DISTANCE && IsPlayerAround == true && timer_AttackCoolDown <= 0)
+            // {
+            //     // Debug.Log("Flee -> Attack");
+            //     currentEnemyStateAction = BossStateAction.Attack;
+            //     return;
+            // }
             // Debug.Log("Flee -> Flee Attack -> Null"); bossPathFindingMovement.StopMovingPhysicalHandler();
         }
-        else if(/*IsPlayerAround == true || */DistanceEnemyToPlayer < DISENGAGE_DISTANCE) // nếu player gần
+        else if(/*IsPlayerAround == true || */DistanceEnemyToPlayer < DISENGAGE_DISTANCE) // nếu player gần lúc đang flee
         {
             // Debug.Log("Flee Defense");
             if (!bossPathFindingMovement.IsHavePath()) // phải chạy tới fleeTarget xong rồi mới gọi tiếp cái tiếp theo
             {
                 // nếu fleeTarget mà ngoài thì đổi hướng
-                if(DistanceEnemyToPlayer <= READY_TO_ATTACK_DISTANCE) // nếu người chơi đến gần rồi thì mới bỏ chạy
-                {
-                    // Debug.Log("Flee -> Flee Defense -> Null Path -> Move To Player");
-                    bossPathFindingMovement.MoveTo(bossPathFindingMovement.FindValidFleeTarget(EnemyPosition, PlayerPosition));
-                }
-                else
-                {
-                    // Debug.Log("Flee -> Flee Defense ->  Null Path -> Stop");
-                    bossPathFindingMovement.StopMovingPhysicalHandler(); // còn không thì đứng yên
-                }
+                // if(DistanceEnemyToPlayer <= READY_TO_ATTACK_DISTANCE) // nếu người chơi đến gần rồi thì mới bỏ chạy
+                // {
+                //     // Debug.Log("Flee -> Flee Defense -> Null Path -> Move To Player");
+                //     bossPathFindingMovement.MoveTo(bossPathFindingMovement.FindValidFleeTarget(EnemyPosition, PlayerPosition));
+                // }
+                // else
+                // {
+                //     // Debug.Log("Flee -> Flee Defense ->  Null Path -> Stop");
+                //     bossPathFindingMovement.StopMovingPhysicalHandler(); // còn không thì đứng yên
+                // }
+                bossPathFindingMovement.MoveTo(bossPathFindingMovement.FindValidFleeTarget(EnemyPosition, PlayerPosition)); // nếu người chơi ở gần và chưa có đường thì tìm đường flee
             }
             else // bossPathFindingMovement.IsHavePath() == true
             {

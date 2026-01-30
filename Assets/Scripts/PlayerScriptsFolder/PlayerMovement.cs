@@ -554,11 +554,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (playerState == State.Die)
-        {
-            rb2D.linearVelocity = new Vector2(0, 0);
-            return;
-        }
+        // if (playerState == State.Die)
+        // {
+        //     rb2D.linearVelocity = new Vector2(0, 0);
+        //     return;
+        // }
 
         IsOnGroundedVarFixedUpdate = IsGrounded();
         IsTouchedWallVarFixedUpdate = IsTouchedWall();
