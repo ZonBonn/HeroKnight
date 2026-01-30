@@ -45,7 +45,7 @@ public class EnemyAI : MonoBehaviour
     private const float READY_TO_COMBAT_COOLDOWN = 0.5f;
     private const float PATROL_REACHED_DISTANCE = 0.8f; // ngưỡng xác nhận đã tới vị trí tuần tra
     private const float READY_TO_ATTACK_DISTANCE = 1.5f; // ngưỡng enemy sẽ vào trạng thái chuẩn bị tấn công
-    private const float ATTACK_DISTANCE = 1f; // ngưỡng mà enemy sẽ tấn công
+    private const float ATTACK_DISTANCE = 0.8f; // ngưỡng mà enemy sẽ tấn công // old: 1f
     private const float  DISENGAGE_DISTANCE = 4f; // ngưỡng mà enemy quyết định còn đuổi hay không đuổi tiếp ??? nó như là MAX_CHASE vậy
     private const float CHASE_MIN_DISTANCE = 2f; // ngưỡng mà enemy quyết định còn đuổi hay không đuổi tiếp ??? nó như là MIN_CHASE vậy
 

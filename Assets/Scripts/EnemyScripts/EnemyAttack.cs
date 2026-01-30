@@ -40,12 +40,14 @@ public class EnemyAttack : MonoBehaviour
         Vector3 EnemyPosition = gameObject.transform.position;
         if(sprites == enemyAnimation.AttackSprites && idxFrame == 4)
         {
-            const float attackDistance = 0.7f;
+            const float attackDistance = 0.8f;
             int dirVisual = enemyPathFindingMovement.currentVisualDir;
             Vector3 attackPosition = new Vector3(EnemyPosition.x + dirVisual * attackDistance, EnemyPosition.y, EnemyPosition.z);
-            // Debug.Log(attackPosition);
+            Debug.Log(attackPosition);
             bool IsHitedPlayer = IsPlayerInAttackPoint(attackPosition);
-            if(IsHitedPlayer == true)
+            bool IsPlayerSameDirVar = IsPlayerSameDir(); // nếu cùng hướng thì đánh được
+            Debug.Log("IsHitedPlayer" + IsHitedPlayer + " IsPlayerSameDirVar" + IsPlayerSameDirVar);    
+            if(IsHitedPlayer == true && IsPlayerSameDirVar == true)
             {
                 // Debug.Log("Damage Player: " + UnityEngine.Random.Range(45, 50));
                 // damage player in here
@@ -86,4 +88,17 @@ public class EnemyAttack : MonoBehaviour
         // Debug.Log("IsInRangeAttack: " + IsInRangeAttack + "        IsInVision: " + IsInVision);
         return IsInRangeAttack && IsInVision;
     }
+
+    private bool IsPlayerSameDir() // --> continue your work in here <--
+    {
+        var PlayerGameObject = playerHealthStaminaHandler.gameObject;
+        PlayerDefense playerDefense = PlayerGameObject.GetComponent<PlayerDefense>(); // =))) truy cập ngược tới gameObject = playerHealth =))) (không nên lạm dụng nếu không muốn các scripts phụ thuộc nhau sai 1 thì đi 1 dàn đều sai nếu sau này sửa)
+        int enemyDir = enemyPathFindingMovement.currentVisualDir;
+        if (playerDefense.CanBlock(enemyDir) == false) // cùng hướng
+        {
+            return true;
+        }
+        return false; // ngược hướng
+    }
+
 }

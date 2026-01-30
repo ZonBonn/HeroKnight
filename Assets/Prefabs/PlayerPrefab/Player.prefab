@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 4064694191550319382}
   - component: {fileID: 122083418533012144}
   - component: {fileID: 1710180528958052923}
+  - component: {fileID: 6190933684748580979}
   - component: {fileID: 6789609867929163494}
   - component: {fileID: 8996812740129023966}
   - component: {fileID: 2422343655918818136}
@@ -341,6 +342,18 @@ MonoBehaviour:
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 512
+--- !u!114 &6190933684748580979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1347577054998926607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2e5c89ee4104f043866fffc756ee7ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerDefense
 --- !u!114 &6789609867929163494
 MonoBehaviour:
   m_ObjectHideFlags: 0

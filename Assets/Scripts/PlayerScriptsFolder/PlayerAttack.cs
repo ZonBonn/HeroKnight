@@ -33,7 +33,7 @@ public class PlayerAttack : MonoBehaviour
             Vector3 playerPosition = Player.Instance.GetPlayerPosition();
             // int visualDir = playerMovement.FlipDir();
             int visualDir = playerMovement.GetPlayerVisualDirection();
-            const float attackDistance = 0.7f;
+            const float attackDistance = 0.85f;
             // Debug.Log("playerPosition.x:" + playerPosition.x + " visualDir:" + visualDir + " attackDistance:" + attackDistance);
             Vector3 attackPoint = new Vector3(playerPosition.x + (visualDir * attackDistance), playerPosition.y);
             // Debug.Log(attackPoint);
