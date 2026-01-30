@@ -12,7 +12,7 @@ public class Portal : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.N) && Input.GetKeyDown(KeyCode.E) && Input.GetKeyDown(KeyCode.T))
+        if(Input.GetKey(KeyCode.N) && Input.GetKey(KeyCode.E) && Input.GetKeyDown(KeyCode.T))
         {
             SenceController.instance.NextLevel();
         }

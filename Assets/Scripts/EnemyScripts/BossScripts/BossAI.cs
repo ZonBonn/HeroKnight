@@ -553,6 +553,7 @@ public class BossAI : MonoBehaviour
                 //     // Debug.Log("Flee -> Flee Defense ->  Null Path -> Stop");
                 //     bossPathFindingMovement.StopMovingPhysicalHandler(); // còn không thì đứng yên
                 // }
+                // KHI FLEE THÌ CHỈ KHI NÀO ĐỨNG IM THÌ MỚI HỒI ĐƯỢC HP CÒN DÙ ĐANG FLEE NHƯNG KHÔNG ĐỨNG IM THÌ KHÔNG HỒI ĐƯỢC HP
                 bossPathFindingMovement.MoveTo(bossPathFindingMovement.FindValidFleeTarget(EnemyPosition, PlayerPosition)); // nếu người chơi ở gần và chưa có đường thì tìm đường flee
             }
             else // bossPathFindingMovement.IsHavePath() == true

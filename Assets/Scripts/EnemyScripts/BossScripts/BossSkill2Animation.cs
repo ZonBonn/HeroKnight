@@ -18,7 +18,7 @@ public class BossSkill2Animation : MonoBehaviour
     {
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         idxSkillFrames = 0;
-        timerChangeIdxSkillFrames = 0.1f;
+        timerChangeIdxSkillFrames = 0.08f;
         m_timerChangeIdxSkillFrame = timerChangeIdxSkillFrames;
     }
 
