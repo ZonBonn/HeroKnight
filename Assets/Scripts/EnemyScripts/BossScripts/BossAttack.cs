@@ -8,6 +8,7 @@ public class BossAttack : MonoBehaviour
     private BossPathFindingMovement bossPathFindingMovement;
     private BossAnimation bossAnimation;
     public PlayerHealthStaminaHandler playerHealthStaminaHandler;
+    private PlayerDefense playerDefense;
     
     void Start()
     {
@@ -20,6 +21,7 @@ public class BossAttack : MonoBehaviour
         if(playerHealthStaminaHandler == null)
         {
             playerHealthStaminaHandler = PlayerManager.Instance.GetPlayerGameObject().GetComponent<PlayerHealthStaminaHandler>();
+            playerDefense = playerHealthStaminaHandler.gameObject.GetComponent<PlayerDefense>();
         }
     }
 
@@ -48,11 +50,12 @@ public class BossAttack : MonoBehaviour
             bool IsHitedPlayer = IsPlayerInAttackPoint(attackPosition);
             if(IsHitedPlayer == true)
             {
-                Debug.Log("Hited Player");
+                // Debug.Log("Hited Player");
                 // Debug.Log("Damage Player: " + UnityEngine.Random.Range(45, 50));
                 // damage player in here
                 // playerHealthHandler.Damage(UnityEngine.Random.Range(45, 50));
-                playerHealthStaminaHandler.DamageHealth(UnityEngine.Random.Range(minDamageAttack, maxDamageAttack));
+                // playerHealthStaminaHandler.DamageHealth(UnityEngine.Random.Range(minDamageAttack, maxDamageAttack));
+                // playerDefense.ReceiveDamage(minDamageAttack, maxDamageAttack, bossPathFindingMovement.currentVisualDir);
             }
         }
         

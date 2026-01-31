@@ -16,13 +16,14 @@ public class PlayerDefense : MonoBehaviour
 
     public bool CanBlockByDir(int enemyVisualDir)
     {
-        Debug.Log("playerVisual: " + playerMovement.GetPlayerVisualDirection() + " enemyVisualDir: " + enemyVisualDir);
+        // Debug.Log("playerVisual: " + playerMovement.GetPlayerVisualDirection() + " enemyVisualDir: " + enemyVisualDir);
         if(playerMovement.GetPlayerVisualDirection() == enemyVisualDir)
         {
             return false; // cùng hướng không đỡ được
         }
             
         return true; // không cùng hướng đỡ được
+        // nếu là 0: viên đạn thì không thể đỡ :)
     }
 
     private bool isBlockingShield()
@@ -30,7 +31,7 @@ public class PlayerDefense : MonoBehaviour
         return playerMovement.GetPlayerState() == State.BlockIdle;
     }
 
-    public void ReceiveDamage(float minDamageAttack, float maxDamageAttack, int enemyDir)
+    public void ReceiveDamage(float minDamageAttack, float maxDamageAttack, int enemyDir) // xử lý nhận damage player
     {
         bool isBlockingShieldVar = isBlockingShield();
         if(isBlockingShieldVar == true && CanBlockByDir(enemyDir) == false)

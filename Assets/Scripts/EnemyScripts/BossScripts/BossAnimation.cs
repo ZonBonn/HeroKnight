@@ -198,7 +198,7 @@ public class BossAnimation : MonoBehaviour
         }
         else if (state == BossState.Recover)
         {
-            ChangeAnimation(RecoverSprites, false);
+            ChangeAnimation(RecoverSprites, true);
         }
     }
     

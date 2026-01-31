@@ -45,6 +45,7 @@ public class EnemyEWShooting : MonoBehaviour
             projectileCollision.SetShooter(this.gameObject);
             
             projectileMoving.Fire(dir);
+            // Debug.Log("Dir Bullet:" + dir);
         }
     }
 }

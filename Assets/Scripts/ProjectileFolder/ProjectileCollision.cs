@@ -1,21 +1,27 @@
 using UnityEngine;
+using System;
+using Unity.Collections;
 
 public class ProjectileCollision : MonoBehaviour
 {
     private Rigidbody2D rb2d;
 
     private ProjectileAnimation projectileAnimation;
+    private ProjectileMoving projectileMoving;
     private GameObject shooterGameObject;
     private Enemy enemy;
 
     private float minDamageAttack;
     private float maxDamageAttack;
 
+    private int dirBulletLeftOrRight;
+
 
     private void Awake()
     {
         rb2d = gameObject.GetComponent<Rigidbody2D>();
         projectileAnimation = gameObject.GetComponentInParent<ProjectileAnimation>();
+        projectileMoving = gameObject.GetComponent<ProjectileMoving>();
     }
 
     private void Start()
@@ -33,12 +39,15 @@ public class ProjectileCollision : MonoBehaviour
 
         if (collider2D.CompareTag("Player"))
         {
+            // Debug.Log("tốc độ x của viên Đạn của EW:" + rb2d.linearVelocityX
             // giảm HP người chơi ở đây
             PlayerHealthStaminaHandler playerHealthStaminaHandler = collider2D.gameObject.GetComponent<PlayerHealthStaminaHandler>();
+            PlayerDefense playerDefense = collider2D.gameObject.GetComponent<PlayerDefense>();
 
             if(playerHealthStaminaHandler != null)
             {
                 // playerHealthStaminaHandler.DamageHealth(UnityEngine.Random.Range(minDamageAttack, maxDamageAttack));
+                playerDefense.ReceiveDamage(minDamageAttack, maxDamageAttack, dirBulletLeftOrRight);
             }
         }
     }
@@ -46,5 +55,26 @@ public class ProjectileCollision : MonoBehaviour
     public void SetShooter(GameObject shooterGameObject)
     {
         this.shooterGameObject = shooterGameObject;
+    }
+
+    public void setDirBulletLeftOrRight(float dirBullet)
+    {
+        if(dirBullet < 0)
+        {
+            dirBulletLeftOrRight = -1;
+        }
+        else if(dirBullet > 0)
+        {
+            dirBulletLeftOrRight = +1;
+        }
+        else
+        {
+            dirBulletLeftOrRight = 0;
+        }
+    }
+
+    public int getDirBulletLeftOrRight()
+    {
+        return dirBulletLeftOrRight;
     }
 }
