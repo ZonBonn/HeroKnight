@@ -8,12 +8,17 @@ public class EnemyAttack : MonoBehaviour
     private EnemyPathFindingMovement enemyPathFindingMovement;
     private EnemyAnimation enemyAnimation;
     public PlayerHealthStaminaHandler playerHealthStaminaHandler;
-    
-    void Start()
+    private PlayerDefense playerDefense; // =))) truy cập ngược tới gameObject = playerHealth =))) (không nên lạm dụng nếu không muốn các scripts phụ thuộc nhau sai 1 thì đi 1 dàn đều sai nếu sau này sửa)
+
+
+    private void Awake()
     {
         enemyPathFindingMovement = gameObject.GetComponent<EnemyPathFindingMovement>();
         enemyAnimation = gameObject.GetComponent<EnemyAnimation>();
-        
+    }
+    
+    void Start()
+    {
         enemyAnimation.OnTriggerEachFrames += TriggerCreateAttackPoint;
 
         // tham chiếu cho level 2
@@ -21,6 +26,8 @@ public class EnemyAttack : MonoBehaviour
         {
             playerHealthStaminaHandler = PlayerManager.Instance.GetPlayerGameObject().GetComponent<PlayerHealthStaminaHandler>();
         }
+
+        playerDefense = playerHealthStaminaHandler.gameObject.GetComponent<PlayerDefense>(); // cái này phải sau playerHealthStaminaHandler vì cái này phụ thuộc playerHealthStaminaHandler mà cái playerHealthStaminaHandler khởi tạo khi level được reload thì mởi khởi tạo được PlayerDefense
     }
 
     
@@ -45,14 +52,11 @@ public class EnemyAttack : MonoBehaviour
             Vector3 attackPosition = new Vector3(EnemyPosition.x + dirVisual * attackDistance, EnemyPosition.y, EnemyPosition.z);
             Debug.Log(attackPosition);
             bool IsHitedPlayer = IsPlayerInAttackPoint(attackPosition);
-            bool IsPlayerSameDirVar = IsPlayerSameDir(); // nếu cùng hướng thì đánh được
-            Debug.Log("IsHitedPlayer" + IsHitedPlayer + " IsPlayerSameDirVar" + IsPlayerSameDirVar);    
-            if(IsHitedPlayer == true && IsPlayerSameDirVar == true)
+            // Debug.Log("IsHitedPlayer" + IsHitedPlayer + " IsPlayerSameDirVar" + IsPlayerSameDirVar);    
+            if(IsHitedPlayer == true)
             {
-                // Debug.Log("Damage Player: " + UnityEngine.Random.Range(45, 50));
-                // damage player in here
-                // playerHealthHandler.Damage(UnityEngine.Random.Range(45, 50));
-                playerHealthStaminaHandler.DamageHealth(UnityEngine.Random.Range(minDamageAttack, maxDamageAttack));
+                // playerHealthStaminaHandler.DamageHealth(UnityEngine.Random.Range(minDamageAttack, maxDamageAttack));
+                playerDefense.ReceiveDamage(minDamageAttack, maxDamageAttack, enemyPathFindingMovement.currentVisualDir);
             }
         }
         
@@ -88,17 +92,4 @@ public class EnemyAttack : MonoBehaviour
         // Debug.Log("IsInRangeAttack: " + IsInRangeAttack + "        IsInVision: " + IsInVision);
         return IsInRangeAttack && IsInVision;
     }
-
-    private bool IsPlayerSameDir() // --> continue your work in here <--
-    {
-        var PlayerGameObject = playerHealthStaminaHandler.gameObject;
-        PlayerDefense playerDefense = PlayerGameObject.GetComponent<PlayerDefense>(); // =))) truy cập ngược tới gameObject = playerHealth =))) (không nên lạm dụng nếu không muốn các scripts phụ thuộc nhau sai 1 thì đi 1 dàn đều sai nếu sau này sửa)
-        int enemyDir = enemyPathFindingMovement.currentVisualDir;
-        if (playerDefense.CanBlock(enemyDir) == false) // cùng hướng
-        {
-            return true;
-        }
-        return false; // ngược hướng
-    }
-
 }

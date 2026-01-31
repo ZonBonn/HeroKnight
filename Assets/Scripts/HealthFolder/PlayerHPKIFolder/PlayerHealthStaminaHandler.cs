@@ -11,7 +11,7 @@ public class PlayerHealthStaminaHandler : MonoBehaviour // class này quản lý
 
     public PlayerMovement playerMovement;
 
-    public Action OnBlockIdleIsHited;
+    // public Action OnBlockIdleIsHited;
 
     private void Awake()
     {
@@ -33,14 +33,16 @@ public class PlayerHealthStaminaHandler : MonoBehaviour // class này quản lý
     {
         
 
-        if(playerMovement.GetPlayerState() == State.BlockIdle) // đỡ được thì sao ?
-        {
-            OnBlockIdleIsHited?.Invoke();
-        }
-        else
-        {
-            playerHealthSystem.Damage(damageAmount);
-        }
+        // if(playerMovement.GetPlayerState() == State.BlockIdle) // đỡ được thì sao ?
+        // {
+        //     // OnBlockIdleIsHited?.Invoke();
+        // }
+        // else
+        // {
+        //     playerHealthSystem.Damage(damageAmount);
+        // }
+
+        playerHealthSystem.Damage(damageAmount);
     }
 
     public void HealHealth(float healAmount)

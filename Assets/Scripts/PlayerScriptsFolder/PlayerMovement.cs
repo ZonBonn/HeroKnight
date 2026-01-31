@@ -56,6 +56,8 @@ public class PlayerMovement : MonoBehaviour
     private bool IsOnGroundedVarFixedUpdate;
     private bool IsTouchedWallVarFixedUpdate;
 
+    private PlayerDefense playerDefense;
+
     // // giới hạn tọa độ thế giới level 1
     // private const float ClampXLeft = -16.45f;
     // private const float ClampXRight = 60f;
@@ -70,14 +72,16 @@ public class PlayerMovement : MonoBehaviour
     {
         rb2D = gameObject.GetComponent<Rigidbody2D>();
         capsuleCollider2D = gameObject.GetComponent<CapsuleCollider2D>();
-    }
-
-    private void Start()
-    {
         playerAttack = gameObject.GetComponent<PlayerAttack>();
         playerHealthStaminaHandler = gameObject.GetComponent<PlayerHealthStaminaHandler>();
         playerHealthSystem = playerHealthStaminaHandler.GetPlayerHealthSystem();
         playerAnimation = gameObject.GetComponent<PlayerAnimation>();
+        playerDefense = gameObject.GetComponent<PlayerDefense>();
+    }
+
+    private void Start()
+    {
+        
         playerState = State.Idle;
         spriteRenderer = playerAnimation.GetSpriteRenderer();
         // animation trigger
@@ -93,7 +97,8 @@ public class PlayerMovement : MonoBehaviour
         playerHealthSystem.OnTriggerPlayerHealthChange += TriggerHurtPlayerWhenHealthChange;
         playerHealthSystem.OnTriggerPlayerHealthChange += TriggerDieWhenPlayerHealthAsZero;
         // block idle trigger
-        playerHealthStaminaHandler.OnBlockIdleIsHited += TriggerWhenBlockIdleHited;
+        // playerHealthStaminaHandler.OnBlockIdleIsHited += TriggerWhenBlockIdleHited;
+        playerDefense.OnBlockIdleIsHited += TriggerWhenBlockIdleHited;
 
         
     }
