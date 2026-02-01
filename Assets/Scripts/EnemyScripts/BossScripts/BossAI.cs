@@ -159,10 +159,10 @@ public class BossAI : MonoBehaviour
         IsHavePath = bossPathFindingMovement.IsHavePath();
 
         // test var
-        if(Input.GetKey(KeyCode.C) && Input.GetKeyDown(KeyCode.P))
-        {
-            Debug.Log("DistanceEnemyToPlayer: " + DistanceEnemyToPlayer);
-        }
+        // if(Input.GetKey(KeyCode.C) && Input.GetKeyDown(KeyCode.P))
+        // {
+        //     Debug.Log("DistanceEnemyToPlayer: " + DistanceEnemyToPlayer);
+        // }
 
         // Patrol, Chase, Idle, Attack, Death, Hurt, InvisibleSkill1Sprites, Visible, Skill2, PrepareSkill2
 

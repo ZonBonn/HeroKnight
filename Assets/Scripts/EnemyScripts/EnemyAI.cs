@@ -228,7 +228,7 @@ public class EnemyAI : MonoBehaviour
         //     isJumping = true;
         //     return;
         // }
-        enemyPathFindingMovement.StopMovingPhysicalHandler();
+        // enemyPathFindingMovement.StopMovingPhysicalHandler();
         Immediately_m_RTCTimer();
         if (m_IdleTimer > 0)
         {
@@ -288,7 +288,7 @@ public class EnemyAI : MonoBehaviour
 
     private void AttackActionHandler()
     {
-        enemyPathFindingMovement.StopMovingPhysicalHandler();
+        // enemyPathFindingMovement.StopMovingPhysicalHandler();
         if (m_RTCTimer > 0) // đợi chờ chờ tới lượt đánh tiếp theo
         {
             currentEnemyStateAction = EnemyStateAction.ReadyToAttack;
@@ -306,7 +306,7 @@ public class EnemyAI : MonoBehaviour
         m_RTCTimer -= Time.deltaTime;
         // viết hàm luôn luôn nhìn về hướng player khi đang ở trạng thái readyTOAttack tại đây
         enemySensor.AlwayTowardToPlayer();
-        enemyPathFindingMovement.StopMovingPhysicalHandler();
+        // enemyPathFindingMovement.StopMovingPhysicalHandler();
         if (DistanceEnemyToPlayer <= ATTACK_DISTANCE && IsPlayerAround == true && m_RTCTimer <= 0)
         {
             currentEnemyStateAction = EnemyStateAction.Attack;
@@ -476,7 +476,7 @@ public class EnemyAI : MonoBehaviour
         currentEnemyStateAction = EnemyStateAction.Die;
 
         // set something when enemy is died
-        enemyPathFindingMovement.StopMovingPhysicalHandler();
+        // enemyPathFindingMovement.StopMovingPhysicalHandler();
         gameObject.layer = LayerMask.NameToLayer("DeadEnemy");
         enemyHealthBar.gameObject.SetActive(false);
     }

@@ -10,6 +10,7 @@ public class ProjectileCollision : MonoBehaviour
     private ProjectileMoving projectileMoving;
     private GameObject shooterGameObject;
     private Enemy enemy;
+    private bool isHitedPlayer;
 
     private float minDamageAttack;
     private float maxDamageAttack;
@@ -22,6 +23,8 @@ public class ProjectileCollision : MonoBehaviour
         rb2d = gameObject.GetComponent<Rigidbody2D>();
         projectileAnimation = gameObject.GetComponentInParent<ProjectileAnimation>();
         projectileMoving = gameObject.GetComponent<ProjectileMoving>();
+
+        isHitedPlayer = false;
     }
 
     private void Start()
@@ -44,10 +47,11 @@ public class ProjectileCollision : MonoBehaviour
             PlayerHealthStaminaHandler playerHealthStaminaHandler = collider2D.gameObject.GetComponent<PlayerHealthStaminaHandler>();
             PlayerDefense playerDefense = collider2D.gameObject.GetComponent<PlayerDefense>();
 
-            if(playerHealthStaminaHandler != null)
+            if(playerHealthStaminaHandler != null && isHitedPlayer == false)
             {
                 // playerHealthStaminaHandler.DamageHealth(UnityEngine.Random.Range(minDamageAttack, maxDamageAttack));
-                playerDefense.ReceiveDamage(minDamageAttack, maxDamageAttack, dirBulletLeftOrRight);
+                // playerDefense.ReceiveDamage(minDamageAttack, maxDamageAttack, dirBulletLeftOrRight);
+                isHitedPlayer = true;
             }
         }
     }

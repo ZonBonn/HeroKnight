@@ -9,7 +9,8 @@ Fall,
 Attack, 
 Hurt, 
 Die, 
-Recovery
+Recovery,
+WaitAttack
 }
 
 public class EnemyEWAnimation : MonoBehaviour
@@ -23,6 +24,7 @@ public class EnemyEWAnimation : MonoBehaviour
     public Sprite[] HurtSprites;
     public Sprite[] DeathSprites;
     public Sprite[] RecoverSprites;
+    public Sprite[] WaitAttackSprites;
 
     private Sprite[] CurrentSprites;
     private int idxBodyFrames;
@@ -128,6 +130,10 @@ public class EnemyEWAnimation : MonoBehaviour
         {
             timerChangeIdxBodyFrames = 0.1f;
         }
+        else if(sprites == WaitAttackSprites)
+        {
+            timerChangeIdxBodyFrames = 0.1f;
+        }
     }
 
     public void AnimationHandler(EnemyEWState state)
@@ -168,6 +174,10 @@ public class EnemyEWAnimation : MonoBehaviour
         else if (state == EnemyEWState.Recovery)
         {
             ChangeAnimation(RecoverSprites, false);
+        }
+        else if (state == EnemyEWState.WaitAttack)
+        {
+            ChangeAnimation(WaitAttackSprites, true);
         }
     }
     
