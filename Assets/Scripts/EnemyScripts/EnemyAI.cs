@@ -183,7 +183,7 @@ public class EnemyAI : MonoBehaviour
         // enemyPathFindingMovement.MoveTo(currentToward.position); 
 
         // Debug.Log(Vector3.Distance(EnemyPosition, currentToward.position));
-        if (Vector3.Distance(EnemyPosition, currentToward.position) <= PATROL_REACHED_DISTANCE)
+        if (Vector2.Distance(EnemyPosition, currentToward.position) <= PATROL_REACHED_DISTANCE)
         {
             currentEnemyStateAction = EnemyStateAction.Idle;
             // m_IdleTimer = idleTimer;

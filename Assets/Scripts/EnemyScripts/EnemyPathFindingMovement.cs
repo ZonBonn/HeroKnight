@@ -40,6 +40,14 @@ public class EnemyPathFindingMovement : MonoBehaviour
 
     private const float AIR_MIN_X_VELOCITY = 2.5f;
 
+    private Transform pathFindingCenter;
+
+
+    private void Awake()
+    {
+        pathFindingCenter = gameObject.transform.Find("PathFindingCenter");
+    }
+
     private void Start()
     {
         enemyAnimation = gameObject.GetComponent<EnemyAnimation>();
@@ -116,8 +124,9 @@ public class EnemyPathFindingMovement : MonoBehaviour
         if (PathOnVector != null)
         {
             UnityEngine.Vector3 targetPosition = PathOnVector[currentIdxPath];
-            
-            if (UnityEngine.Vector3.Distance(gameObject.transform.position, targetPosition) <= 0.6f) // 0.6f == PATROL_REACHED_DISTANCE
+            // +1 kinh nghiệm: cái này không thể chỉnh thành 0.1f chính xác được, vì tâm của enemy nó cao hơn ô, và cái targer thường thì nó nằm ở tâm giữa ô grid, và tất nhiên sẽ không thể đến được vì do rigidbody sẽ không cho cái tâm ở giữa nó lùi xuống được mà => giải pháp tạo một tâm mới ?? let's test
+            Debug.Log("pathFindingCenter Position:" + pathFindingCenter.transform.position + " targetPosition:" + targetPosition);
+            if (UnityEngine.Vector2.Distance(pathFindingCenter.transform.position, targetPosition) <= 0.1f) // 0.6f == PATROL_REACHED_DISTANCE
             {
                 // Debug.Log(Vector3.Distance(gameObject.transform.position, targetPosition));
                 // Debug.Log("Đã tới ô thứ: " + currentIdxPath);
@@ -130,9 +139,9 @@ public class EnemyPathFindingMovement : MonoBehaviour
             }
             else
             {
-                // Debug.Log(Vector3.Distance(gameObject.transform.position, targetPosition));
-                float distanceBefore = UnityEngine.Vector3.Distance(gameObject.transform.position, targetPosition); // for fixing bug
-                UnityEngine.Vector2 DirToTarget = targetPosition - gameObject.transform.position;
+                Debug.Log(UnityEngine.Vector3.Distance(pathFindingCenter.transform.position, targetPosition));
+                float distanceBefore = UnityEngine.Vector3.Distance(pathFindingCenter.transform.position, targetPosition); // for fixing bug
+                UnityEngine.Vector2 DirToTarget = targetPosition - pathFindingCenter.transform.position;
                 
                 // VISUAL DIRECTION AND FLIP DIRECTION HANDLER:
                 float tmpDirToTargetX = DirToTarget.x;

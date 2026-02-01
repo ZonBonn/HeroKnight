@@ -102,6 +102,17 @@ public class BossPathFindingMovement : MonoBehaviour
         {
             FleeMovementPhysicHandler();
         }
+        else if(bossAI.currentEnemyStateAction == BossAI.BossStateAction.Recover)
+        {
+            if (PathOnVector != null) // di chuyển nó có điều kiện cho phép
+            {
+                MovementPhysicPlatformerHandler();
+            }
+            else 
+            {
+                rb2d.linearVelocity = Vector2.zero;
+            }
+        }
     }
 
     

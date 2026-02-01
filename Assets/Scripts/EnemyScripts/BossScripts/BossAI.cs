@@ -63,7 +63,7 @@ public class BossAI : MonoBehaviour
     private const float READY_TO_COMBAT_COOLDOWN = 0.5f;
     private const float PATROL_REACHED_DISTANCE = 0.8f; // ngưỡng xác nhận đã tới vị trí tuần tra
     private const float READY_TO_ATTACK_DISTANCE = 1.5f; // ngưỡng enemy sẽ vào trạng thái chuẩn bị tấn công
-    private const float ATTACK_DISTANCE = 1f; // ngưỡng mà enemy sẽ tấn công
+    private const float ATTACK_DISTANCE = 1f; // ngưỡng mà enemy sẽ tấn công: old = 1f
     private const float  DISENGAGE_DISTANCE = 4f; // ngưỡng mà enemy quyết định còn đuổi hay không đuổi tiếp ??? nó như là MAX_CHASE vậy
     private const float CHASE_MIN_DISTANCE = 2f; // ngưỡng mà enemy quyết định còn đuổi hay không đuổi tiếp ??? nó như là MIN_CHASE vậy
     private const float MIN_DISTANCE_TO_PLAYER = 0.8f;
@@ -155,7 +155,7 @@ public class BossAI : MonoBehaviour
         IsPlayerAround = bossSensor.IsSearchedPlayerAround();
         PlayerPosition = Player.Instance.GetPlayerPosition();
         EnemyPosition = BossPositionHolder.Instance.GetRealBossPosition();
-        DistanceEnemyToPlayer = Vector3.Distance(PlayerPosition, EnemyPosition);
+        DistanceEnemyToPlayer = Vector2.Distance(PlayerPosition, EnemyPosition);
         IsHavePath = bossPathFindingMovement.IsHavePath();
 
         // test var
@@ -254,7 +254,7 @@ public class BossAI : MonoBehaviour
         // enemyPathFindingMovement.MoveTo(currentToward.position); 
 
         // Debug.Log(Vector3.Distance(EnemyPosition, currentToward.position));
-        if (Vector3.Distance(EnemyPosition, currentToward.position) <= PATROL_REACHED_DISTANCE)
+        if (Vector2.Distance(EnemyPosition, currentToward.position) <= PATROL_REACHED_DISTANCE)
         {
             // Debug.Log("Patrol -> Idle");
             currentEnemyStateAction = BossStateAction.Idle;
@@ -322,7 +322,7 @@ public class BossAI : MonoBehaviour
     private void ChaseActionHandler()
     {
         bossSensor.AlwayTowardToPlayer();
-
+        DeclineTimerAttackCoolDown();
         SetUpBossWhenPlayerDied();
 
         // NEW FOR BOSS @@@
@@ -365,6 +365,10 @@ public class BossAI : MonoBehaviour
             currentEnemyStateAction = BossStateAction.Recover;
             return;
         }
+        if(DistanceEnemyToPlayer <= ATTACK_DISTANCE && IsPlayerAround == true/* && timer_AttackCoolDown > 0*/)// timer_AttackCoolDown > 0 ???
+        {
+            bossPathFindingMovement.StopMovingPhysicalHandler(); 
+        }
         Debug.Log("Chase -> Null");
     }
 
@@ -388,7 +392,7 @@ public class BossAI : MonoBehaviour
 
     private void ReadyToAttackActionHandler()
     {
-        timer_AttackCoolDown -= Time.deltaTime;
+        DeclineTimerAttackCoolDown();
         // viết hàm luôn luôn nhìn về hướng player khi đang ở trạng thái readyTOAttack tại đây
         bossSensor.AlwayTowardToPlayer();
         bossPathFindingMovement.StopMovingPhysicalHandler();
@@ -479,7 +483,7 @@ public class BossAI : MonoBehaviour
     
     private void KeepInVisibleHandler()
     {
-        timer_AttackCoolDown -= Time.deltaTime;
+        DeclineTimerAttackCoolDown();
         if(bossHealthHandler.GetHP() >= 30)
         {
             if (DistanceEnemyToPlayer <= DISENGAGE_DISTANCE)
@@ -496,6 +500,11 @@ public class BossAI : MonoBehaviour
             if(IsPlayerAround/* && DistanceEnemyToPlayer <= CHASE_MIN_DISTANCE*/)// alway finds player in here <-- SearchingPlayerAround();
             {
                 // Debug.Log("KeepInvisible -> MoveTo Player");
+                if(DistanceEnemyToPlayer <= 1f) // nếu nhìn thấy người chơi mà gần quá thì thôi dừng không lại đẩy người chơi
+                {
+                    bossPathFindingMovement.StopMovingPhysicalHandler();
+                    return;
+                }
                 bossPathFindingMovement.MoveTo(PlayerPosition); // di chuyển tới người chơi trong trạng thái tàng hình
                 return;
             }
@@ -604,7 +613,7 @@ public class BossAI : MonoBehaviour
     
     private void RecoverHandler()
     {
-        timer_AttackCoolDown -= Time.deltaTime;
+        DeclineTimerAttackCoolDown();
         // viết hàm luôn luôn nhìn về hướng player khi đang ở trạng thái readyTOAttack tại đây
         bossSensor.AlwayTowardToPlayer();
         bossPathFindingMovement.StopMovingPhysicalHandler();
@@ -635,6 +644,20 @@ public class BossAI : MonoBehaviour
             Debug.Log("Recover -> Patrol 2");
             Immediately_timer_AttackCoolDownAsZero();
             currentEnemyStateAction = BossStateAction.Patrol;
+            return;
+        }
+
+        if(DistanceEnemyToPlayer > ATTACK_DISTANCE && IsPlayerAround == true) // nếu xa thì đi lại gần để không bị đứng im khi tấn công, nhưng phải nhìn thấy người chơi
+        {
+            Debug.Log("Recover -> Chase");
+            // bossPathFindingMovement.MoveTo(PlayerPosition);
+            currentEnemyStateAction = BossStateAction.Chase;
+            return;
+        }
+        else if(DistanceEnemyToPlayer <= ATTACK_DISTANCE) // nếu gần rồi thì dừng không lại đẩy người chơi
+        {
+            Debug.Log("Recover -> Stop");
+            bossPathFindingMovement.StopMovingPhysicalHandler();
             return;
         }
         
@@ -916,7 +939,8 @@ public class BossAI : MonoBehaviour
     
     private void DeclineTimerAttackCoolDown()
     {
-        timer_AttackCoolDown -= Time.deltaTime;
+        if(timer_AttackCoolDown > 0)
+            timer_AttackCoolDown -= Time.deltaTime;
     }
     
     private void SetUpWhenBossDie()

@@ -7848,6 +7848,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 484928470}
     - target: {fileID: 7703920037629606784, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7703920037629606784, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
       propertyPath: rightPoint
       value: 
       objectReference: {fileID: 316041097}
@@ -20438,42 +20442,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2832467865815294, guid: ccca1ee1b22df41499bd860e23c3ec3a, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3067322110126562727, guid: ccca1ee1b22df41499bd860e23c3ec3a, type: 3}
       propertyPath: m_Name
       value: EvilWizard3
       objectReference: {fileID: 0}
     - target: {fileID: 3067322110126562727, guid: ccca1ee1b22df41499bd860e23c3ec3a, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5917890074991209829, guid: ccca1ee1b22df41499bd860e23c3ec3a, type: 3}
-      propertyPath: gridMap
-      value: 
-      objectReference: {fileID: 1795464261}
-    - target: {fileID: 5917890074991209829, guid: ccca1ee1b22df41499bd860e23c3ec3a, type: 3}
-      propertyPath: playerMovement
-      value: 
-      objectReference: {fileID: 319703034}
-    - target: {fileID: 5931635288444087284, guid: ccca1ee1b22df41499bd860e23c3ec3a, type: 3}
-      propertyPath: leftPoint
-      value: 
-      objectReference: {fileID: 1527287569}
-    - target: {fileID: 5931635288444087284, guid: ccca1ee1b22df41499bd860e23c3ec3a, type: 3}
-      propertyPath: rightPoint
-      value: 
-      objectReference: {fileID: 1771665725}
-    - target: {fileID: 5931635288444087284, guid: ccca1ee1b22df41499bd860e23c3ec3a, type: 3}
-      propertyPath: chaseLeftPoint
-      value: 
-      objectReference: {fileID: 1666530838}
-    - target: {fileID: 5931635288444087284, guid: ccca1ee1b22df41499bd860e23c3ec3a, type: 3}
-      propertyPath: chaseRightPoint
-      value: 
-      objectReference: {fileID: 193812470}
     - target: {fileID: 8212861897617306822, guid: ccca1ee1b22df41499bd860e23c3ec3a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.66338

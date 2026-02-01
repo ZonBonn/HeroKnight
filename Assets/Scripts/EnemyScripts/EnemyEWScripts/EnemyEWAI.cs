@@ -19,8 +19,8 @@ public class EnemyEWAI : MonoBehaviour
     public LayerMask playerLayerMask;
     private float idleTimer;
     private float m_IdleTimer; // nếu biến này bị Hurt interupt mà không reset có bị sao không nhỉ ? (lười mò để check quá :D, check sau tại đây, nếu có lỗi liên quan tới Idle và RTC)
-    private float rTCTimer = 0.5f;
-    private float m_RTCTimer; // thời gian chờ ready to combat để chuyển thành attack // nếu biến này bị Hurt interupt mà không reset có bị sao không nhỉ ?  (lười mò để check quá :D, check sau tại đây nếu có lỗi liên quan tới Idle và RTC)
+    private float attackCoolDownTime = 0.3f;
+    private float timer_AttackCoolDown; // thời gian chờ ready to combat để chuyển thành attack // nếu biến này bị Hurt interupt mà không reset có bị sao không nhỉ ?  (lười mò để check quá :D, check sau tại đây nếu có lỗi liên quan tới Idle và RTC)
 
     private bool IsPlayerAround;
     private Vector3 PlayerPosition;
@@ -358,11 +358,11 @@ public class EnemyEWAI : MonoBehaviour
 
     private void ReadyToAttackActionHandler()
     {
-        m_RTCTimer -= Time.deltaTime;
+        timer_AttackCoolDown -= Time.deltaTime;
         // viết hàm luôn luôn nhìn về hướng player khi đang ở trạng thái readyTOAttack tại đây
         enemyEWSensor.AlwayTowardToPlayer();
         enemyEWPathFindingMovement.StopMovingPhysicalHandler();
-        if (DistanceEnemyToPlayer <= ATTACK_DISTANCE && IsPlayerAround == true && m_RTCTimer <= 0)
+        if (DistanceEnemyToPlayer <= ATTACK_DISTANCE && IsPlayerAround == true && timer_AttackCoolDown <= 0)
         {
             currentEnemyStateAction = EnemyEWStateAction.Attack;
             return;
@@ -444,7 +444,7 @@ public class EnemyEWAI : MonoBehaviour
         if (sprites == enemyEWAnimation.AttackSprites && idxFrame == enemyEWAnimation.AttackSprites.Length - 1)
         {
             SetUpEWWhenPlayerDie();
-            m_RTCTimer = rTCTimer;
+            timer_AttackCoolDown = attackCoolDownTime;
         }
     }
     
@@ -471,7 +471,7 @@ public class EnemyEWAI : MonoBehaviour
         {
             // SetUpEWWhenPlayerDie();
             bool IsPlayerAround = enemyEWSensor.IsSearchedPlayerAround();
-            if (DistanceEnemyToPlayer <= READY_TO_ATTACK_DISTANCE && IsPlayerAround == true && m_RTCTimer <= 0)
+            if (DistanceEnemyToPlayer <= READY_TO_ATTACK_DISTANCE && IsPlayerAround == true && timer_AttackCoolDown <= 0)
             {
                 currentEnemyStateAction = EnemyEWStateAction.Attack;
                 return;
@@ -569,7 +569,7 @@ public class EnemyEWAI : MonoBehaviour
     // ========= SUPPORTING FUNCTION ========
     private void Immediately_m_RTCTimer()
     {
-        m_RTCTimer = 0;
+        timer_AttackCoolDown = 0;
     }
     
     public void SetIsDied(bool isDied) // hàm này chỉ được tham chiếu bởi EnemySupportTestTool không được tham chiếu hàm này tới bất kì class nào khác
@@ -617,6 +617,17 @@ public class EnemyEWAI : MonoBehaviour
             currentEnemyStateAction = EnemyEWStateAction.Patrol;
             return;
         }
+    }
+    
+    public void resetCoolDownTimeAttack()
+    {
+        timer_AttackCoolDown = attackCoolDownTime;
+    }
+    
+    private void DeclineTimerAttackCoolDown()
+    {
+        if(timer_AttackCoolDown > 0)
+            timer_AttackCoolDown -= Time.deltaTime;
     }
     // =============================================================
     

@@ -29,4 +29,6 @@
 
 + 1 kinh nghiệm: cách các file tương tác với nhau: 1. tham chiếu biến trực tiếp VD: PlayerMovement playerMovement; (hay dùng khi file cùng chung một Object) 2. Interface; (dùng khi khác Object nhưng có "quan hệ" cần tương tác VD EnemyAttack cần giảm PlayerHealth) 3. Event, Delegate, Trigger
 
++ 1 kinh nghiệm: game 2D thì hạn chế dùng Vector3
+
 + BUG: lỗi khi đang chuẩn bị tàng hình mà bị hurt thì mất luôn không thể sử dụng được skil 1 nữa (DONE)
