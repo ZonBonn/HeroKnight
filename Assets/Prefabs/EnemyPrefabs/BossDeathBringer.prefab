@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 3951344336962577033}
   - component: {fileID: 8079794026034091091}
   - component: {fileID: 3867738284690352364}
+  - component: {fileID: 8049660328784562960}
   - component: {fileID: 3923733939696831211}
   - component: {fileID: 7386796392121080538}
   - component: {fileID: 3305914011508613442}
@@ -151,8 +152,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   monsterType: 0
   enemyType: 3
-  minDamageReceived: 30
-  maxDamageReceived: 30
+  minDamageReceived: 1
+  maxDamageReceived: 3
   minDamageAttack: 30
   maxDamageAttack: 30
 --- !u!114 &3867738284690352364
@@ -168,6 +169,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthHandler
   pfHealthBar: {fileID: 7559258641376403093, guid: 1126c761ca92197448cb0d5875ae649e, type: 3}
+--- !u!114 &8049660328784562960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4366999354659894197}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d961dedabfa68804b8a1cc0540ea29f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossHealthHandler
 --- !u!114 &3923733939696831211
 MonoBehaviour:
   m_ObjectHideFlags: 0

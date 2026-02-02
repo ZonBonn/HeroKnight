@@ -78,6 +78,11 @@ public class PlayerAttack : MonoBehaviour
         bool isBossDeathBringer = enemyGameObject.CompareTag("BossDeathBringer");
         BossLevelCombatManager bossLevelCombatManager  = enemyGameObject.GetComponent<BossLevelCombatManager>();
         if(bossLevelCombatManager == null) Debug.Log("bossLevelCombatManager == null");
+        BossHealthHandler bossHealthHandler = null;
+        if(isBossDeathBringer == true)
+        {
+            bossHealthHandler = enemyGameObject.GetComponent<BossHealthHandler>();
+        }
 
         if(currentSprite == playerAnimation.Attack1Sprites)
         {
@@ -85,11 +90,11 @@ public class PlayerAttack : MonoBehaviour
             {
                 if(bossLevelCombatManager.getCanMakeDamage() == true)
                 {
-                    enemyHealthHandler.Damage(minDamageReceived);
+                    bossHealthHandler.DamageBoss(minDamageReceived);
                 }
                 else
                 {
-                    enemyHealthHandler.Damage(0);
+                    bossHealthHandler.DamageBoss(0);
                 }
             }
             else
@@ -101,11 +106,11 @@ public class PlayerAttack : MonoBehaviour
             {
                 if(bossLevelCombatManager.getCanMakeDamage() == true)
                 {
-                    enemyHealthHandler.Damage(maxDamageReceived);
+                    bossHealthHandler.DamageBoss(maxDamageReceived);
                 }
                 else
                 {
-                    enemyHealthHandler.Damage(0);
+                    bossHealthHandler.DamageBoss(0);
                 }
             }
             else
@@ -117,15 +122,15 @@ public class PlayerAttack : MonoBehaviour
             {
                 if(bossLevelCombatManager.getCanMakeDamage() == true)
                     {
-                        enemyHealthHandler.Damage(maxDamageReceived + 20);
+                        bossHealthHandler.DamageBoss(maxDamageReceived + 5);
                     }
                     else
                     {
-                        enemyHealthHandler.Damage(0);
+                        bossHealthHandler.DamageBoss(0);
                     }
             }
             else
-                enemyHealthHandler.Damage(maxDamageReceived + 20);
+                enemyHealthHandler.Damage(maxDamageReceived + 15);
         }
     }
 

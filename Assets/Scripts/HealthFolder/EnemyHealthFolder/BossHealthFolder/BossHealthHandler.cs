@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class BossHealthHandler : MonoBehaviour
 {
@@ -8,6 +9,15 @@ public class BossHealthHandler : MonoBehaviour
     private void Awake()
     {
         healthSystem = new HealthSystem(100f);
+
+        // shoud in awake() ???
+        bossHealthBar = UICanvasManager.Instance.getBossHealthBar(); // không cùng scene thì phải chịu cách này thôi
+        bossHealthBar.SetUp(healthSystem);
+    }
+
+    private void Start()
+    {
+        
     }
 
     public void DamageBoss(float damageAmount)

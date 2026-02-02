@@ -14,13 +14,23 @@ public class BossHealthBar : MonoBehaviour
         healthImage = healthBar.GetComponent<Image>();
     }
 
-    private void SetUp(HealthSystem healthSystem)
+    private void Start()
+    {
+        // healthSystem.OnTriggerHealthBarChange += TriggerChangeHealthBarUI; // sai vì cái này thuộc về khi SetActive qua màn last level=> OnEnable chứ không phải Start
+    }
+
+    private void OnEnable()
+    {
+        healthSystem.OnTriggerHealthBarChange += TriggerChangeHealthBarUI;
+    }
+
+    public void SetUp(HealthSystem healthSystem)
     {
         this.healthSystem = healthSystem;
     }
 
     public void TriggerChangeHealthBarUI()
     {
-        // healthImage.fillAmount = 
+        healthImage.fillAmount = healthSystem.GetHealthNormalized();
     }
 }

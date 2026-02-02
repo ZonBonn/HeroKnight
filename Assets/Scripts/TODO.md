@@ -31,4 +31,10 @@
 
 + 1 kinh nghiệm: game 2D thì hạn chế dùng Vector3
 
++ 1 kinh nghiệm: lý do hạn chế tham chiếu linh tinh ? sửa một file mà file này bị tham chiếu bởi nhiều file khác thì các file khác rất dễ hỏng
+
++ 1 kinh nghiệm: khi chạy Start thì tất cả các component đã "sống"
+
++ 1 kinh nghiệm: cho Action static để có thể đăng ký hàm bên ngoài không phải tham chiếu rối nữa
+
 + BUG: lỗi khi đang chuẩn bị tàng hình mà bị hurt thì mất luôn không thể sử dụng được skil 1 nữa (DONE)
