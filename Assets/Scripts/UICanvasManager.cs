@@ -31,23 +31,8 @@ public class UICanvasManager : MonoBehaviour
     private void InitStart()
     {
         // bossHealthBarIntro.OnTriggerFullOfHealthBarIntro += OnFullOfHealthBarIntro; // nếu đăng ký kiểu này thì không được do Object con sẽ được khởi tạo sau mà Obj cha khởi tạo trước nên NRE => giải pháp: tạo một hàm đăng ký cho chính thằng con gọi
-        BossTrigger.OnTriggerBossStartFighting += OnBossStartFighting;
-    }
-    
-    void Update()
-    {
-        
-    }
-    
-    public PlayerHealthBar getPlayerHealthBar(){ return playerHealthBar; }
-    public PlayerStaminaBar getPlayerStaminaBar() { return playerStaminaBar; }
-    public BossHealthBar getBossHealthBar(){ return bossHealthBar; }
-
-    public void OnFullOfHealthBarIntro()
-    {
-        bossHPPannelIntro.SetActive(false);
-        bossHPPannel.SetActive(true);
-    }
+        // BossTrigger.OnTriggerBossStartFighting += OnBossStartFighting;
+    }   
 
     // cách đăng ký hay khi không biết được thứ tự sinh ra: + 1 kinh nghiệm
     // B1: gọi hàm từ chỗ "lẽ ra cần đăng ký tại đó
@@ -58,10 +43,26 @@ public class UICanvasManager : MonoBehaviour
         bossHealthBarIntro = intro;
         bossHealthBarIntro.OnTriggerFullOfHealthBarIntro += OnFullOfHealthBarIntro;
     }
+    public void RegisterBossStartFighting()
+    {
+        BossTrigger.OnTriggerBossStartFighting += OnBossStartFighting;
+    }
 
+    // ======================== SUBCRIBERS ========================
     public void OnBossStartFighting()
     {
         bossHPPannelIntro.SetActive(true);
+        // bossHPPannel.SetActive(true);
+    }
+
+    public void OnFullOfHealthBarIntro()
+    {
+        bossHPPannelIntro.SetActive(false);
         bossHPPannel.SetActive(true);
     }
+    // ============================================================
+     
+    public PlayerHealthBar getPlayerHealthBar(){ return playerHealthBar; }
+    public PlayerStaminaBar getPlayerStaminaBar() { return playerStaminaBar; }
+    public BossHealthBar getBossHealthBar(){ return bossHealthBar; }
 }
