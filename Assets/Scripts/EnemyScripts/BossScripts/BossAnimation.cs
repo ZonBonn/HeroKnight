@@ -17,6 +17,8 @@ public enum BossState
     PrepareSkill2,
     KeeppInvisible,
     Recover,
+    Null,
+    WaitToFight
 }
 public class BossAnimation : MonoBehaviour
 {
@@ -32,6 +34,8 @@ public class BossAnimation : MonoBehaviour
     public Sprite[] Skill2Sprites; // 48 - 63 cái này sẽ dành cho skill riêng
     public Sprite[] PrepareSkill2Sprites; // 39 - 47
     public Sprite[] KeepInvisibleSprites; // just 1 frame tàng hình
+    public Sprite[] NullSprites;
+    public Sprite[] WaitToFightSprites;
 
     public Sprite[] RecoverSprites;
     
@@ -150,6 +154,14 @@ public class BossAnimation : MonoBehaviour
         {
             timerChangeIdxBodyFrames = 0.12f;
         }
+        else if (sprites == NullSprites)
+        {
+            timerChangeIdxBodyFrames = float.MaxValue;
+        }
+        else if (sprites == WaitToFightSprites)
+        {
+            timerChangeIdxBodyFrames = 0.09f;
+        }
     }
 
     // Idle, Walk, Attack, Death, Hurt, Skill1, Visible, Skill2, PrepareSkill2
@@ -199,6 +211,14 @@ public class BossAnimation : MonoBehaviour
         else if (state == BossState.Recover)
         {
             ChangeAnimation(RecoverSprites, true);
+        }
+        else if (state == BossState.Null)
+        {
+            ChangeAnimation(NullSprites, true);
+        }
+        else if (state == BossState.WaitToFight)
+        {
+            ChangeAnimation(WaitToFightSprites, true);
         }
     }
     

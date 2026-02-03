@@ -20,7 +20,9 @@ public class BossAI : MonoBehaviour
 
         KeeppInvisible, // đây sẽ là trạng thái quay trờ lại tàng hình ngay khi boss đánh người chơi, còn InvisibleSkill1Sprites chỉ là bắt đầu tàng hình thôi 
         Flee,
-        Recover // đợi chờ sau mỗi lượt đánh đây cũng chính là RTC vì boss animation không có RTC => phải dùng tạm Idle
+        Recover, // đợi chờ sau mỗi lượt đánh đây cũng chính là RTC vì boss animation không có RTC => phải dùng tạm Idle
+        Null,
+        WaitToFight
     }
 
     public BossStateAction currentEnemyStateAction;
@@ -92,7 +94,7 @@ public class BossAI : MonoBehaviour
 
     private void Start()
     {
-        currentEnemyStateAction = BossStateAction.Patrol;
+        currentEnemyStateAction = BossStateAction.Null;
         currentToward = UnityEngine.Random.Range(-1, 1) > 0 ? rightPoint : leftPoint;
         lastCheckedCurrentToward = currentToward == rightPoint ? leftPoint : rightPoint;
 
@@ -105,7 +107,9 @@ public class BossAI : MonoBehaviour
         bossAnimation.OnTriggerLastFrames += TriggerBossLastPrepareSkill2FrameHandler;
         bossAnimation.OnTriggerLastFrames += TriggerBossLastInvisibleSkill1FrameHandler;
         bossAnimation.OnTriggerLastFrames += TriggerBossLastVisibleFrameHandler;
-        bossAnimation.OnTriggerLastFrames += TriggerBossLastDieFrameHandle;
+        bossAnimation.OnTriggerLastFrames += TriggerBossLastDieFrameHandler;
+        bossAnimation.OnTriggerLastFrames += TriggerBossLastWaitToFightFrameHandler;
+        Stone.OnTriggerStoneSysbolActive += TriggerBossStartFight;
         //  bossAnimation.OnTriggerEachFrames += TriggerBossFirstInvisibleSkill1FrameHandler;
 
         enemyHealthSystem.OnTriggerHealthBarChange += TriggerHurtWhenHealthChange;
@@ -215,6 +219,14 @@ public class BossAI : MonoBehaviour
             case BossStateAction.Recover:
                 bossAnimation.AnimationHandler(BossState.Recover);
                 RecoverHandler();
+                break;
+            case BossStateAction.Null:
+                bossAnimation.AnimationHandler(BossState.Null);
+                NullHandler();
+                break;
+            case BossStateAction.WaitToFight:
+                bossAnimation.AnimationHandler(BossState.WaitToFight);
+                WaitToFightHandler();
                 break;
             
         }
@@ -673,6 +685,16 @@ public class BossAI : MonoBehaviour
         // return;
 
     }
+    
+    private void WaitToFightHandler()
+    {
+        // do nothing when in this state
+    }
+
+    private void NullHandler()
+    {
+        // do nothing when in this state
+    }
     // =============================================================
 
 
@@ -849,12 +871,31 @@ public class BossAI : MonoBehaviour
         }
     }
     
-    private void TriggerBossLastDieFrameHandle(Sprite[] sprites)
+    private void TriggerBossLastDieFrameHandler(Sprite[] sprites)
     {
         if(sprites == bossAnimation.DeathSprites)
         {
             isDied = true;
             Destroy(gameObject);
+        }
+    }
+    
+    private void TriggerBossLastWaitToFightFrameHandler(Sprite[] sprites)
+    {
+        if(sprites == bossAnimation.WaitToFightSprites)
+        {
+            currentEnemyStateAction = BossStateAction.Patrol;
+            return;
+        }
+        
+    }
+    
+    private void TriggerBossStartFight()
+    {
+        if(currentEnemyStateAction == BossStateAction.Null)
+        {
+            currentEnemyStateAction = BossStateAction.WaitToFight;
+            return;
         }
     }
     // ===========================================================

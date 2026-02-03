@@ -81,13 +81,10 @@ public class BossPathFindingMovement : MonoBehaviour
             KnockBackPhysicalPlatformerHandler(currentVisualDir * -1);
         }
         // NEW FOR BOSS @@@
-        else if(bossAI.currentEnemyStateAction == BossAI.BossStateAction.Death)
+        else if(bossAI.currentEnemyStateAction == BossAI.BossStateAction.Death || 
+                bossAI.currentEnemyStateAction == BossAI.BossStateAction.PrepareSkill2)
         {
-            rb2d.linearVelocity = Vector2.zero;
-        }
-        else if(bossAI.currentEnemyStateAction == BossAI.BossStateAction.PrepareSkill2)
-        {
-            rb2d.linearVelocity = Vector2.zero;
+            StopMovingPhysicalHandler();
         }
         else if(bossAI.currentEnemyStateAction == BossAI.BossStateAction.InvisibleSkill1)
         {
@@ -112,6 +109,11 @@ public class BossPathFindingMovement : MonoBehaviour
             {
                 rb2d.linearVelocity = Vector2.zero;
             }
+        }
+        else if(bossAI.currentEnemyStateAction == BossAI.BossStateAction.Null || 
+                bossAI.currentEnemyStateAction == BossAI.BossStateAction.WaitToFight)
+        {
+            rb2d.linearVelocity = Vector2.zero;
         }
     }
 

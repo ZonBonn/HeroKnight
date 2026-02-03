@@ -72,19 +72,16 @@ public class UICanvasManager : MonoBehaviour
     }
 
     // ======================== SUBCRIBERS ========================
-    public void OnBossStartFighting()
+    public void OnBossStartFighting() // cái cách đăng ký này áp dụng cho obj con của canvas vì nó bị khởi tạo sau, nên sẽ đăng ký sau khi nó được khởi tạo
     {
-        // bossHPPannelIntro.SetActive(true); 
-        // bossHPPannel.SetActive(true);
-        // ShowBossIntro();
-        /*ShowBossHPIntroChildrenPannel();*/ shoudShowBossHPIntroPannel(true);
+        shoudShowBossHPIntroPannel(true);
         BossTrigger.OnTriggerBossStartFighting -= OnBossStartFighting;
     }
 
     public void OnFullOfHealthBarIntro()
     {
-        /* bossHPPannelIntro.SetActive(false);*/ /*HideBossIntro_ShowMain();*/ /*HideBossHPIntroChildrenPannel();*/ shoudShowBossHPIntroPannel(false);
-        /* bossHPPannel.SetActive(true);*/ /*ShowBossHPChildrenPannel();*/ shoudShowBossHPPannel(true);
+        shoudShowBossHPIntroPannel(false);
+        shoudShowBossHPPannel(true);
         bossHealthBarIntro.OnTriggerFullOfHealthBarIntro -= OnFullOfHealthBarIntro; // chạy xong thì hủy đăng ký
     }
     // ============================================================
@@ -127,6 +124,10 @@ public class UICanvasManager : MonoBehaviour
     public PlayerHealthBar getPlayerHealthBar(){ return playerHealthBar; }
     public PlayerStaminaBar getPlayerStaminaBar() { return playerStaminaBar; }
     public BossHealthBar getBossHealthBar(){ return bossHealthBar; }
+    public BossHealthBarIntro getBossHealthBarIntro()
+    {
+        return bossHealthBarIntroChildern.GetComponent<BossHealthBarIntro>();
+    }
 }
 
 // removed
