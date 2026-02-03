@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 
 public class EnemyEWAI : MonoBehaviour
 {
-    public enum EnemyEWStateAction { Patrol, Chase, Attack, Idle, Die, Jump, Hurt, Recovery, WaitAttack};
+    public enum EnemyEWStateAction { Patrol, Chase, Attack, Idle, Die, Jump, Hurt, Recovery, WaitAttack, Null, WaitToFight};
     public EnemyEWStateAction currentEnemyStateAction;
     private EnemyEWStateAction lastCheckedCurrentEnemyStateAction;
     private EnemyEWPathFindingMovement enemyEWPathFindingMovement = null;
@@ -74,7 +74,7 @@ public class EnemyEWAI : MonoBehaviour
 
     private void Start()
     {
-        currentEnemyStateAction = EnemyEWStateAction.Patrol;
+        currentEnemyStateAction = EnemyEWStateAction.Null;
         currentToward = UnityEngine.Random.Range(-1, 1) > 0 ? rightPoint : leftPoint;
         lastCheckedCurrentToward = currentToward == rightPoint ? leftPoint : rightPoint;
 
@@ -87,6 +87,8 @@ public class EnemyEWAI : MonoBehaviour
         enemyEWAnimation.OnTriggerLastFrames += TriggerEnemyLastHurtFrameHandler;
         enemyEWAnimation.OnTriggerLastFrames += TriggerEnemyLastDieFrameHandler;
         enemyEWAnimation.OnTriggerLastFrames += TriggerEnemyLastRecoveryFrame;
+        enemyEWAnimation.OnTriggerLastFrames += TriggerEWLastWaitToFightFrame;
+        Stone.OnTriggerStoneSysbolActive += TriggerEWStartFight;
 
         enemyHealthSystem.OnTriggerHealthBarChange += TriggerHurtWhenHealthChange;
         enemyHealthSystem.OnTriggerHealthBarAsZero += TriggerDieWhenHealthAsZero;
@@ -166,6 +168,14 @@ public class EnemyEWAI : MonoBehaviour
             case EnemyEWStateAction.WaitAttack:
                 enemyEWAnimation.AnimationHandler(EnemyEWState.WaitAttack);
                 WaitAttackActionHandler();
+                break;
+            case EnemyEWStateAction.Null:
+                enemyEWAnimation.AnimationHandler(EnemyEWState.Null);
+                NullActionHandler();
+                break;
+            case EnemyEWStateAction.WaitToFight:
+                enemyEWAnimation.AnimationHandler(EnemyEWState.WaitToFight);
+                WaitToFightActionHandler();
                 break;
         }
 
@@ -499,6 +509,16 @@ public class EnemyEWAI : MonoBehaviour
             return;
         }
     }
+    
+    private void NullActionHandler()
+    {
+        
+    }
+
+    private void WaitToFightActionHandler()
+    {
+        
+    }
     // =============================================================
 
 
@@ -573,6 +593,24 @@ public class EnemyEWAI : MonoBehaviour
         {
             enemyHealthHandler.Heal(100);
             currentEnemyStateAction = EnemyEWStateAction.Idle;
+            return;
+        }
+    }
+    
+    private void TriggerEWLastWaitToFightFrame(Sprite[] sprites)
+    {
+        if(sprites == enemyEWAnimation.WaitToFightSprites)
+        {
+            currentEnemyStateAction = EnemyEWStateAction.Patrol;
+            return;
+        }
+    }
+
+    private void TriggerEWStartFight()
+    {
+        if(currentEnemyStateAction == EnemyEWStateAction.Null)
+        {
+            currentEnemyStateAction = EnemyEWStateAction.WaitToFight;
             return;
         }
     }

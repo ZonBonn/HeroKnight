@@ -26,7 +26,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8212861897617306822
 Transform:
   m_ObjectHideFlags: 0
@@ -92,7 +92,7 @@ SpriteRenderer:
   m_SortingLayerID: 1112654569
   m_SortingLayer: 3
   m_SortingOrder: 1
-  m_Sprite: {fileID: 462434960, guid: 90c7332c857b6b043bad30766e14a946, type: 3}
+  m_Sprite: {fileID: 127021789, guid: e1b788b69a612a34ab2b3f7302e36fec, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -237,6 +237,27 @@ MonoBehaviour:
   - {fileID: 1997893319, guid: 90c7332c857b6b043bad30766e14a946, type: 3}
   - {fileID: -146675162, guid: 90c7332c857b6b043bad30766e14a946, type: 3}
   - {fileID: 2104043760, guid: 90c7332c857b6b043bad30766e14a946, type: 3}
+  NullSprites:
+  - {fileID: 127021789, guid: e1b788b69a612a34ab2b3f7302e36fec, type: 3}
+  WaitToFightSprites:
+  - {fileID: 127021789, guid: e1b788b69a612a34ab2b3f7302e36fec, type: 3}
+  - {fileID: 754896255, guid: e1b788b69a612a34ab2b3f7302e36fec, type: 3}
+  - {fileID: 2056589613, guid: e1b788b69a612a34ab2b3f7302e36fec, type: 3}
+  - {fileID: -1071130579, guid: e1b788b69a612a34ab2b3f7302e36fec, type: 3}
+  - {fileID: -1035059670, guid: e1b788b69a612a34ab2b3f7302e36fec, type: 3}
+  - {fileID: 271136307, guid: e1b788b69a612a34ab2b3f7302e36fec, type: 3}
+  - {fileID: 903283384, guid: e1b788b69a612a34ab2b3f7302e36fec, type: 3}
+  - {fileID: -1560062746, guid: e1b788b69a612a34ab2b3f7302e36fec, type: 3}
+  - {fileID: 1542764970, guid: e1b788b69a612a34ab2b3f7302e36fec, type: 3}
+  - {fileID: 829170358, guid: e1b788b69a612a34ab2b3f7302e36fec, type: 3}
+  - {fileID: 1825551499, guid: e1b788b69a612a34ab2b3f7302e36fec, type: 3}
+  - {fileID: 417277227, guid: e1b788b69a612a34ab2b3f7302e36fec, type: 3}
+  - {fileID: 377344572, guid: e1b788b69a612a34ab2b3f7302e36fec, type: 3}
+  - {fileID: -1382775219, guid: e1b788b69a612a34ab2b3f7302e36fec, type: 3}
+  - {fileID: -1679117468, guid: e1b788b69a612a34ab2b3f7302e36fec, type: 3}
+  - {fileID: 1378299051, guid: e1b788b69a612a34ab2b3f7302e36fec, type: 3}
+  - {fileID: 509398095, guid: e1b788b69a612a34ab2b3f7302e36fec, type: 3}
+  - {fileID: 741965810, guid: e1b788b69a612a34ab2b3f7302e36fec, type: 3}
 --- !u!114 &5917890074991209829
 MonoBehaviour:
   m_ObjectHideFlags: 0

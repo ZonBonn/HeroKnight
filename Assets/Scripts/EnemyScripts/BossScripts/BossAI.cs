@@ -53,6 +53,7 @@ public class BossAI : MonoBehaviour
     public bool IsHurting; // ????
 
     private HealthHandler enemyHealthHandler;
+    private BossHealthHandler bossHealthHandlerReal;
     private HealthSystem enemyHealthSystem;
     private HealthBar enemyHealthBar;
 

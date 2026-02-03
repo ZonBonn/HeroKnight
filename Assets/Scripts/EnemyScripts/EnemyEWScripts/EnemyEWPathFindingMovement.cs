@@ -82,7 +82,9 @@ public class EnemyEWPathFindingMovement : MonoBehaviour
         }
         else if(enemyEWAI.currentEnemyStateAction == EnemyEWAI.EnemyEWStateAction.Die || 
         enemyEWAI.currentEnemyStateAction == EnemyEWAI.EnemyEWStateAction.Recovery ||
-        enemyEWAI.currentEnemyStateAction == EnemyEWAI.EnemyEWStateAction.Attack
+        enemyEWAI.currentEnemyStateAction == EnemyEWAI.EnemyEWStateAction.Attack || 
+        enemyEWAI.currentEnemyStateAction == EnemyEWAI.EnemyEWStateAction.Null || 
+        enemyEWAI.currentEnemyStateAction == EnemyEWAI.EnemyEWStateAction.WaitToFight
         )
         {
             StopMovingPhysicalHandler();
