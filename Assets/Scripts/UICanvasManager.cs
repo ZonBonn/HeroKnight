@@ -12,6 +12,29 @@ public class UICanvasManager : MonoBehaviour
     [SerializeField] GameObject bossHPPannelIntro;
     [SerializeField] BossHealthBarIntro bossHealthBarIntro;
 
+    [SerializeField] CanvasGroup bossHPPannelGroup;
+    [SerializeField] CanvasGroup bossHPPannelIntroGroup;
+
+    [SerializeField] GameObject bossHealthBarChild;
+    [SerializeField] GameObject bossHealthBarName;
+    [SerializeField] GameObject bossHealthBarFrame;
+
+    [SerializeField] GameObject bossHealthBarIntroChild;
+    [SerializeField] GameObject bossHealthBarNameIntro;
+    [SerializeField] GameObject bossHealthBarFrameIntro;
+
+    // on / off = group
+    [SerializeField] CanvasGroup bossFrameGroup;
+    [SerializeField] CanvasGroup bossNameGroup;
+    [SerializeField] CanvasGroup bossFrameIntroGroup;
+    [SerializeField] CanvasGroup bossNameIntroGroup;
+    [SerializeField] CanvasGroup bossHealthBGIntroGroup;
+    // SetActive
+    [SerializeField] GameObject bossHealthBarChildern;
+    [SerializeField] GameObject bossHealthBarIntroChildern;
+
+    
+
     private void Awake()
     {
         if(Instance == null)
@@ -43,7 +66,7 @@ public class UICanvasManager : MonoBehaviour
         bossHealthBarIntro = intro;
         bossHealthBarIntro.OnTriggerFullOfHealthBarIntro += OnFullOfHealthBarIntro;
     }
-    public void RegisterBossStartFighting()
+    public void RegisterBossStartFighting() // được đăng ký khi cái hàm nào đó được khởi tạo và gọi hàm này thì sẽ tự đăng ký
     {
         BossTrigger.OnTriggerBossStartFighting += OnBossStartFighting;
     }
@@ -51,18 +74,94 @@ public class UICanvasManager : MonoBehaviour
     // ======================== SUBCRIBERS ========================
     public void OnBossStartFighting()
     {
-        bossHPPannelIntro.SetActive(true);
+        // bossHPPannelIntro.SetActive(true); 
         // bossHPPannel.SetActive(true);
+        // ShowBossIntro();
+        /*ShowBossHPIntroChildrenPannel();*/ shoudShowBossHPIntroPannel(true);
+        BossTrigger.OnTriggerBossStartFighting -= OnBossStartFighting;
     }
 
     public void OnFullOfHealthBarIntro()
     {
-        bossHPPannelIntro.SetActive(false);
-        bossHPPannel.SetActive(true);
+        /* bossHPPannelIntro.SetActive(false);*/ /*HideBossIntro_ShowMain();*/ /*HideBossHPIntroChildrenPannel();*/ shoudShowBossHPIntroPannel(false);
+        /* bossHPPannel.SetActive(true);*/ /*ShowBossHPChildrenPannel();*/ shoudShowBossHPPannel(true);
+        bossHealthBarIntro.OnTriggerFullOfHealthBarIntro -= OnFullOfHealthBarIntro; // chạy xong thì hủy đăng ký
     }
     // ============================================================
+
+    // làm thế này rebuild cho nó không bị giựt lag
+    private void shoudShowBossHPPannel(bool shouldShow)
+    {
+        if(shouldShow == true)
+        {
+            bossFrameGroup.alpha = 1; bossFrameGroup.interactable = true; bossFrameGroup.blocksRaycasts = true;
+            bossNameGroup.alpha = 1; bossNameGroup.interactable = true; bossNameGroup.blocksRaycasts = true;
+            bossHealthBarChildern.SetActive(true);
+        }
+        else
+        {
+            bossFrameGroup.alpha = 0; bossFrameGroup.interactable = false; bossFrameGroup.blocksRaycasts = false;
+            bossNameGroup.alpha = 0; bossNameGroup.interactable = false; bossNameGroup.blocksRaycasts = false;
+            bossHealthBarChildern.SetActive(false);
+        }
+    }
+
+    private void shoudShowBossHPIntroPannel(bool shouldShow)
+    {
+        if(shouldShow == true)
+        {
+            bossFrameIntroGroup.alpha = 1; bossFrameIntroGroup.interactable = true; bossFrameIntroGroup.blocksRaycasts = true;
+            bossNameIntroGroup.alpha = 1; bossNameIntroGroup.interactable = true; bossNameIntroGroup.blocksRaycasts = true;
+            bossHealthBGIntroGroup.alpha = 1; bossHealthBGIntroGroup.interactable = true; bossHealthBGIntroGroup.blocksRaycasts = true;
+            bossHealthBarIntroChildern.SetActive(true);
+        }
+        else
+        {
+            bossFrameIntroGroup.alpha = 0; bossFrameIntroGroup.interactable = false; bossFrameIntroGroup.blocksRaycasts = false;
+            bossNameIntroGroup.alpha = 0; bossNameIntroGroup.interactable = false; bossNameIntroGroup.blocksRaycasts = false;
+            bossHealthBGIntroGroup.alpha = 0; bossHealthBGIntroGroup.interactable = false; bossHealthBGIntroGroup.blocksRaycasts = false;
+            bossHealthBarIntroChildern.SetActive(false);
+        }
+    }
      
     public PlayerHealthBar getPlayerHealthBar(){ return playerHealthBar; }
     public PlayerStaminaBar getPlayerStaminaBar() { return playerStaminaBar; }
     public BossHealthBar getBossHealthBar(){ return bossHealthBar; }
 }
+
+// removed
+// void ShowBossIntro()
+//     {
+//         bossHPPannelIntroGroup.alpha = 1;
+//         bossHPPannelIntroGroup.interactable = true;
+//         bossHPPannelIntroGroup.blocksRaycasts = true;
+//     }
+
+//     void HideBossIntro_ShowMain()
+//     {
+//         bossHPPannelIntroGroup.alpha = 0;
+//         bossHPPannelIntroGroup.interactable = false;
+//         bossHPPannelIntroGroup.blocksRaycasts = false;
+
+//         bossHPPannelGroup.alpha = 1;
+//         bossHPPannelGroup.interactable = true;
+//         bossHPPannelGroup.blocksRaycasts = true;
+//     }
+
+//     private void ShowBossHPChildrenPannel()
+//     {
+//         bossHealthBarChild.SetActive(true); bossHealthBarName.SetActive(true); bossHealthBarFrame.SetActive(true);
+//     }
+//     private void HideBossHPChildrenPannel()
+//     {
+//         bossHealthBarChild.SetActive(false); bossHealthBarName.SetActive(false); bossHealthBarFrame.SetActive(false);
+//     }
+
+//     private void ShowBossHPIntroChildrenPannel()
+//     {
+//         bossHealthBarIntroChild.SetActive(true); bossHealthBarNameIntro.SetActive(true); bossHealthBarFrameIntro.SetActive(true); 
+//     }
+//     private void HideBossHPIntroChildrenPannel()
+//     {
+//         bossHealthBarIntroChild.SetActive(false); bossHealthBarNameIntro.SetActive(false); bossHealthBarFrameIntro.SetActive(false);
+//     }

@@ -9,6 +9,7 @@ public class BossHealthBarIntro : MonoBehaviour
 
 
     private Image HealthBarIntro;
+    private bool isDone = false;
 
     private void Awake()
     {
@@ -27,10 +28,12 @@ public class BossHealthBarIntro : MonoBehaviour
     
     private void RegenHP()
     {
+        if(isDone) return;
         if(HealthBarIntro.fillAmount >= 1)
         {
             HealthBarIntro.fillAmount = 1f;
             OnTriggerFullOfHealthBarIntro?.Invoke();
+            isDone = true;
             return;
         }
         HealthBarIntro.fillAmount += fillSpeed * Time.deltaTime;

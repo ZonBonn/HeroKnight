@@ -7,6 +7,8 @@ public class FPS : MonoBehaviour
     private void Start()
     {
         timer = 0f;
+
+        DontDestroyOnLoad(gameObject);
     }
     private void Update()
     {

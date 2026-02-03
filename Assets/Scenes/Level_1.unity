@@ -5327,6 +5327,21 @@ MonoBehaviour:
   bossHPPannel: {fileID: 835561323}
   bossHPPannelIntro: {fileID: 1395260160}
   bossHealthBarIntro: {fileID: 1307860276}
+  bossHPPannelGroup: {fileID: 835561325}
+  bossHPPannelIntroGroup: {fileID: 1395260162}
+  bossHealthBarChild: {fileID: 1609917132}
+  bossHealthBarName: {fileID: 1670361041}
+  bossHealthBarFrame: {fileID: 1174936903}
+  bossHealthBarIntroChild: {fileID: 710136206}
+  bossHealthBarNameIntro: {fileID: 1525377109}
+  bossHealthBarFrameIntro: {fileID: 1411929796}
+  bossFrameGroup: {fileID: 1174936907}
+  bossNameGroup: {fileID: 1670361045}
+  bossFrameIntroGroup: {fileID: 1411929800}
+  bossNameIntroGroup: {fileID: 1525377113}
+  bossHealthBGIntroGroup: {fileID: 729525624}
+  bossHealthBarChildern: {fileID: 1609917132}
+  bossHealthBarIntroChildern: {fileID: 1307860272}
 --- !u!1 &713391641
 GameObject:
   m_ObjectHideFlags: 0
@@ -5490,6 +5505,7 @@ GameObject:
   - component: {fileID: 729525621}
   - component: {fileID: 729525623}
   - component: {fileID: 729525622}
+  - component: {fileID: 729525624}
   m_Layer: 5
   m_Name: BossHealthBGIntro
   m_TagString: Untagged
@@ -5554,6 +5570,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 729525620}
   m_CullTransparentMesh: 1
+--- !u!225 &729525624
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 729525620}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &741176146
 GameObject:
   m_ObjectHideFlags: 0
@@ -7215,13 +7243,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 835561324}
+  - component: {fileID: 835561325}
   m_Layer: 5
   m_Name: BossHPPannel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &835561324
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7242,6 +7271,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &835561325
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 835561323}
+  m_Enabled: 0
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &849321919
 GameObject:
   m_ObjectHideFlags: 0
@@ -19438,6 +19479,7 @@ GameObject:
   - component: {fileID: 1174936904}
   - component: {fileID: 1174936906}
   - component: {fileID: 1174936905}
+  - component: {fileID: 1174936907}
   m_Layer: 5
   m_Name: BossFrame
   m_TagString: Untagged
@@ -19502,6 +19544,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1174936903}
   m_CullTransparentMesh: 1
+--- !u!225 &1174936907
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1174936903}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &1178135022
 GameObject:
   m_ObjectHideFlags: 0
@@ -20620,7 +20674,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1307860273
 RectTransform:
   m_ObjectHideFlags: 0
@@ -21603,13 +21657,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1395260161}
+  - component: {fileID: 1395260162}
   m_Layer: 5
   m_Name: BossHPPannelIntro
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1395260161
 RectTransform:
   m_ObjectHideFlags: 0
@@ -21630,6 +21685,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &1395260162
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1395260160}
+  m_Enabled: 0
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &1398550907
 GameObject:
   m_ObjectHideFlags: 0
@@ -21731,6 +21798,7 @@ GameObject:
   - component: {fileID: 1411929797}
   - component: {fileID: 1411929799}
   - component: {fileID: 1411929798}
+  - component: {fileID: 1411929800}
   m_Layer: 5
   m_Name: BossFrameIntro
   m_TagString: Untagged
@@ -21795,6 +21863,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1411929796}
   m_CullTransparentMesh: 1
+--- !u!225 &1411929800
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1411929796}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &1413009577
 GameObject:
   m_ObjectHideFlags: 0
@@ -22591,6 +22671,7 @@ GameObject:
   - component: {fileID: 1525377110}
   - component: {fileID: 1525377112}
   - component: {fileID: 1525377111}
+  - component: {fileID: 1525377113}
   m_Layer: 5
   m_Name: BossNameIntro
   m_TagString: Untagged
@@ -22716,6 +22797,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1525377109}
   m_CullTransparentMesh: 1
+--- !u!225 &1525377113
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1525377109}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &1527287568
 GameObject:
   m_ObjectHideFlags: 0
@@ -23033,7 +23126,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1609917133
 RectTransform:
   m_ObjectHideFlags: 0
@@ -23519,6 +23612,7 @@ GameObject:
   - component: {fileID: 1670361042}
   - component: {fileID: 1670361044}
   - component: {fileID: 1670361043}
+  - component: {fileID: 1670361045}
   m_Layer: 5
   m_Name: BossName
   m_TagString: Untagged
@@ -23644,6 +23738,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1670361041}
   m_CullTransparentMesh: 1
+--- !u!225 &1670361045
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1670361041}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &1677204819
 GameObject:
   m_ObjectHideFlags: 0
@@ -26125,6 +26231,21 @@ MonoBehaviour:
   bossHPPannel: {fileID: 0}
   bossHPPannelIntro: {fileID: 0}
   bossHealthBarIntro: {fileID: 0}
+  bossHPPannelGroup: {fileID: 0}
+  bossHPPannelIntroGroup: {fileID: 0}
+  bossHealthBarChild: {fileID: 0}
+  bossHealthBarName: {fileID: 0}
+  bossHealthBarFrame: {fileID: 0}
+  bossHealthBarIntroChild: {fileID: 0}
+  bossHealthBarNameIntro: {fileID: 0}
+  bossHealthBarFrameIntro: {fileID: 0}
+  bossFrameGroup: {fileID: 0}
+  bossNameGroup: {fileID: 0}
+  bossFrameIntroGroup: {fileID: 0}
+  bossNameIntroGroup: {fileID: 0}
+  bossHealthBGIntroGroup: {fileID: 0}
+  bossHealthBarChildern: {fileID: 0}
+  bossHealthBarIntroChildern: {fileID: 0}
 --- !u!1 &1891899654
 GameObject:
   m_ObjectHideFlags: 0

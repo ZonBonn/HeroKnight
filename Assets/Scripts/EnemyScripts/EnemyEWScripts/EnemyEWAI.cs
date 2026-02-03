@@ -173,7 +173,7 @@ public class EnemyEWAI : MonoBehaviour
 
         if (lastCheckedCurrentEnemyStateAction != currentEnemyStateAction)
         {
-            Debug.Log(currentEnemyStateAction);
+            // Debug.Log(currentEnemyStateAction);
             lastCheckedCurrentEnemyStateAction = currentEnemyStateAction;
         }
 

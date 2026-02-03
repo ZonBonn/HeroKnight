@@ -19,6 +19,8 @@ public class HealthHandler : MonoBehaviour // class thuộc về nhân vật s�
 
     private void Awake()
     {
+        if (!enabled) return;
+
         healthBarPositionTransform = gameObject.transform.Find("HealthBarPosition").transform;
 
         healthBarTransform = Instantiate(pfHealthBar, healthBarPositionTransform.position, Quaternion.identity, healthBarPositionTransform);
