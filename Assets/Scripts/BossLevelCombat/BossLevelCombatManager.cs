@@ -6,7 +6,7 @@ public class BossLevelCombatManager : MonoBehaviour
     private bool isBossDie;
     private bool canMakeDamage;
 
-    private HealthHandler bossHealthHandler;
+    private BossHealthHandler bossHealthHandler;
     private HealthSystem bossHealthSystem;
 
     public SupportorLevelCombatManager supportorDieStateManager1;
@@ -16,12 +16,12 @@ public class BossLevelCombatManager : MonoBehaviour
 
     private void Awake()
     {
-        bossHealthHandler = gameObject.GetComponent<HealthHandler>();
-        bossHealthSystem = bossHealthHandler.GetHealthSystem();
+        bossHealthHandler = gameObject.GetComponent<BossHealthHandler>();
     }
 
     private void Start()
     {
+        bossHealthSystem = bossHealthHandler.getBossHealthSystem();
         bossHealthSystem.OnTriggerHealthBarAsZero += OnBossDie;
     }
 

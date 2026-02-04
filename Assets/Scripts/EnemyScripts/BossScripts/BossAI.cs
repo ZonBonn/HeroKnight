@@ -1,4 +1,4 @@
-using Unity.VisualScripting;
+using System;
 using UnityEngine;
 
 public class BossAI : MonoBehaviour
@@ -52,10 +52,11 @@ public class BossAI : MonoBehaviour
 
     public bool IsHurting; // ????
 
-    private HealthHandler enemyHealthHandler;
+    // private HealthHandler enemyHealthHandler;
     private BossHealthHandler bossHealthHandlerReal;
+    private BossHealthBar bossHealthBar;
     private HealthSystem enemyHealthSystem;
-    private HealthBar enemyHealthBar;
+    // private HealthBar enemyHealthBar;
 
     private bool isJumping;
     private bool isDied = false;
@@ -72,25 +73,30 @@ public class BossAI : MonoBehaviour
     private const float MIN_DISTANCE_TO_PLAYER = 0.8f;
 
     private BossSkill1 bossSkill1;
-    private HealthHandler bossHealthHandler;
+    // private HealthHandler bossHealthHandler;
     private BossCallerSkill2 bossCallerSkill2;
 
     private bool IsHavePath;
+
+    public static Action OnTriggerBossDeath;
 
     private void Awake()
     {
         bossPathFindingMovement = gameObject.GetComponent<BossPathFindingMovement>();
         enemy = gameObject.GetComponent<Enemy>();
         bossAnimation = gameObject.GetComponent<BossAnimation>();
-        enemyHealthHandler = gameObject.GetComponent<HealthHandler>();
+        // enemyHealthHandler = gameObject.GetComponent<HealthHandler>();        
 
         bossSensor = gameObject.GetComponent<BossSensor>();
 
         bossSkill1 = gameObject.GetComponent<BossSkill1>();
 
-        bossHealthHandler = gameObject.GetComponent<HealthHandler>();
+        // bossHealthHandler = gameObject.GetComponent<HealthHandler>();
 
         bossCallerSkill2 = gameObject.GetComponent<BossCallerSkill2>();
+
+        bossHealthHandlerReal = gameObject.GetComponent<BossHealthHandler>();
+        bossHealthBar = bossHealthHandlerReal.getBossHealthBar();
     }
 
     private void Start()
@@ -99,8 +105,8 @@ public class BossAI : MonoBehaviour
         currentToward = UnityEngine.Random.Range(-1, 1) > 0 ? rightPoint : leftPoint;
         lastCheckedCurrentToward = currentToward == rightPoint ? leftPoint : rightPoint;
 
-        enemyHealthSystem = enemyHealthHandler.GetHealthSystem();
-        enemyHealthBar = enemyHealthHandler.GetHealthBar();
+        enemyHealthSystem = bossHealthHandlerReal.getBossHealthSystem();
+        // enemyHealthBar = enemyHealthHandler.GetHealthBar();
 
         bossAnimation.OnTriggerEachFrames += TriggerEnemyLastAttackFrameHandler;
         bossAnimation.OnTriggerLastFrames += TriggerEnemyLastHurtFrameHandler;
@@ -110,7 +116,7 @@ public class BossAI : MonoBehaviour
         bossAnimation.OnTriggerLastFrames += TriggerBossLastVisibleFrameHandler;
         bossAnimation.OnTriggerLastFrames += TriggerBossLastDieFrameHandler;
         bossAnimation.OnTriggerLastFrames += TriggerBossLastWaitToFightFrameHandler;
-        Stone.OnTriggerStoneSysbolActive += TriggerBossStartFight;
+        Stone.OnTriggerStoneSymbolActive += TriggerBossStartFight;
         //  bossAnimation.OnTriggerEachFrames += TriggerBossFirstInvisibleSkill1FrameHandler;
 
         enemyHealthSystem.OnTriggerHealthBarChange += TriggerHurtWhenHealthChange;
@@ -149,11 +155,11 @@ public class BossAI : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.H))
         {
-            bossHealthHandler.Heal(100);
+            bossHealthHandlerReal.HealBoss(100);
         }
         else if (Input.GetKeyDown(KeyCode.J))
         {
-            bossHealthHandler.Damage(80);
+            bossHealthHandlerReal.DamageBoss(80);
         }
         
 
@@ -497,7 +503,7 @@ public class BossAI : MonoBehaviour
     private void KeepInVisibleHandler()
     {
         DeclineTimerAttackCoolDown();
-        if(bossHealthHandler.GetHP() >= 30)
+        if(bossHealthHandlerReal.GetHP() >= 30)
         {
             if (DistanceEnemyToPlayer <= DISENGAGE_DISTANCE)
             {
@@ -531,7 +537,7 @@ public class BossAI : MonoBehaviour
             }
             // Debug.Log("KeepInVisible -> null"); bossPathFindingMovement.StopMovingPhysicalHandler();
         }
-        else if(bossHealthHandler.GetHP() < 30)
+        else if(bossHealthHandlerReal.GetHP() < 30)
         {
             bossPathFindingMovement.StopMovingPhysicalHandler(); // dừng lại luôn không là nó chạy tới một đoạn tới người chơi rồi mới flee đi hướng khác
             // flee
@@ -605,7 +611,7 @@ public class BossAI : MonoBehaviour
 
         // nếu hp cực thấp thì được quyển teleport
 
-        if(bossHealthHandler.GetHP() >= 30) // quay trở lại state
+        if(bossHealthHandlerReal.GetHP() >= 30) // quay trở lại state
         {
             // Debug.Log("Flee -> KeeppInvisible");
             currentEnemyStateAction = BossStateAction.KeeppInvisible;
@@ -930,7 +936,8 @@ public class BossAI : MonoBehaviour
 
         // set something when enemy is died
         // bossPathFindingMovement.StopMovingPhysicalHandler();
-        SetUpWhenBossDie();
+        SetUpWhenBossDie1(); // implement imemdiately
+        FunctionTimer.Create(SetUpWhenBossDie2, 0.5f); // implement after amount of time
     }
     
     public void SetIsDied(bool isDied) // hàm này chỉ được tham chiếu bởi EnemySupportTestTool không được tham chiếu hàm này tới bất kì class nào khác
@@ -985,10 +992,17 @@ public class BossAI : MonoBehaviour
             timer_AttackCoolDown -= Time.deltaTime;
     }
     
-    private void SetUpWhenBossDie()
+    private void SetUpWhenBossDie1()
     {
         gameObject.layer = LayerMask.NameToLayer("DeadEnemy");
-        enemyHealthBar.gameObject.SetActive(false);
+        // enemyHealthBar.gameObject.SetActive(false);
+        OnTriggerBossDeath?.Invoke();
+    }
+    
+    private void SetUpWhenBossDie2()
+    {
+        // bossHealthBar.gameObject.SetActive(false);
+        UICanvasManager.Instance.shoudShowBossHPPannel(false);
     }
     // =============================================================
 

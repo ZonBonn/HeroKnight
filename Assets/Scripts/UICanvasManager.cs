@@ -87,7 +87,7 @@ public class UICanvasManager : MonoBehaviour
     // ============================================================
 
     // làm thế này rebuild cho nó không bị giựt lag
-    private void shoudShowBossHPPannel(bool shouldShow)
+    public void shoudShowBossHPPannel(bool shouldShow)
     {
         if(shouldShow == true)
         {

@@ -22,6 +22,8 @@ public class Chest : MonoBehaviour
     private bool isFristTimeOpen;
 
     public Action OnTriggerChestIsOpended;
+    public Action OnTriggerPlayerNearChest;
+    public Action OnTriggerPlayerFarChest;
 
     private ChestItemsHolder chestItemsHolder;
 
@@ -37,7 +39,15 @@ public class Chest : MonoBehaviour
 
     private void Update()
     {
-        
+        // test
+        // if(Input.GetKeyDown(KeyCode.C) && Input.GetKey(KeyCode.V))
+        // {
+        //     Debug.Log("Số lượng hàm đã đăng ký ở OnTriggerPlayerNearChest" + OnTriggerPlayerNearChest?.GetInvocationList().Length);   
+        // }
+        // if(Input.GetKeyDown(KeyCode.C) && Input.GetKey(KeyCode.B))
+        // {
+        //     Debug.Log("Số lượng hàm đã đăng ký ở OnTriggerPlayerFarChest" + OnTriggerPlayerFarChest?.GetInvocationList().Length);   
+        // }
     }
 
     // ============= CHECK FUNCTION ==================
@@ -46,6 +56,7 @@ public class Chest : MonoBehaviour
         if(collision.CompareTag("Player") == true)
         {
             isPlayerNear = true;
+            OnTriggerPlayerNearChest?.Invoke();
             // check nếu có key ở đây thì mới mở được (nhưng tạm thời test thì chỉ cần người chơi gần là mở rồi)
             // IsOpended = true;
         }    
@@ -55,6 +66,7 @@ public class Chest : MonoBehaviour
         if(collision.CompareTag("Player") == true)
         {
             isPlayerNear = false;
+            OnTriggerPlayerFarChest?.Invoke();
             // IsOpended = false;
         } 
     }

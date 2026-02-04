@@ -30,8 +30,9 @@ public class BossHealthHandler : MonoBehaviour
         healthSystem.Heal(healAmount);
     }
 
-    public HealthSystem getBossHealthSystem()
-    {
-        return healthSystem;
-    }
+    public HealthSystem getBossHealthSystem(){ return healthSystem; }
+    
+    public BossHealthBar getBossHealthBar(){ return bossHealthBar; }
+
+    public float GetHP(){ return healthSystem.GetCurrentHealth(); }
 }
