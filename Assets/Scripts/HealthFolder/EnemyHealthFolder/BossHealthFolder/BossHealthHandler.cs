@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-public class BossHealthHandler : MonoBehaviour
+public class BossHealthHandler : MonoBehaviour, IHealthSystemProvider
 {
     private HealthSystem healthSystem;
     private BossHealthBar bossHealthBar;
@@ -17,7 +17,7 @@ public class BossHealthHandler : MonoBehaviour
 
     private void Start()
     {
-        
+        Debug.Log("Boss HealthSystem instance: " + healthSystem.GetHashCode());
     }
 
     public void DamageBoss(float damageAmount)
@@ -35,4 +35,9 @@ public class BossHealthHandler : MonoBehaviour
     public BossHealthBar getBossHealthBar(){ return bossHealthBar; }
 
     public float GetHP(){ return healthSystem.GetCurrentHealth(); }
+
+    public HealthSystem GetHealthSystem()
+    {
+        return healthSystem;
+    }
 }

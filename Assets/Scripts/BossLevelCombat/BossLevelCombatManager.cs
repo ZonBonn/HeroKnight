@@ -21,7 +21,7 @@ public class BossLevelCombatManager : MonoBehaviour
 
     private void Start()
     {
-        bossHealthSystem = bossHealthHandler.getBossHealthSystem();
+        bossHealthSystem = bossHealthHandler.GetHealthSystem();
         bossHealthSystem.OnTriggerHealthBarAsZero += OnBossDie;
     }
 

@@ -329,7 +329,7 @@ public class EnemyAI : MonoBehaviour
             currentEnemyStateAction = EnemyStateAction.Patrol;
             return;
         }
-        Debug.Log("rơi vào nhánh này khi không rơi vào bất kì nhánh nào của RTA");
+        // Debug.Log("rơi vào nhánh này khi không rơi vào bất kì nhánh nào của RTA");
     }
 
     private void JumpActionHandler() // xử lý trạng thái STATE khi đang trong state == State.Jump

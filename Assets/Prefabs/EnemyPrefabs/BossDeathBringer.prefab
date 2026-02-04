@@ -42,7 +42,6 @@ GameObject:
   - component: {fileID: 4157271361199303455}
   - component: {fileID: 3951344336962577033}
   - component: {fileID: 8079794026034091091}
-  - component: {fileID: 3867738284690352364}
   - component: {fileID: 8049660328784562960}
   - component: {fileID: 3923733939696831211}
   - component: {fileID: 7386796392121080538}
@@ -54,6 +53,7 @@ GameObject:
   - component: {fileID: 2063180884805076931}
   - component: {fileID: 6439121132639244973}
   - component: {fileID: 149954543451297591}
+  - component: {fileID: 3867738284690352364}
   - component: {fileID: 6721325145917354225}
   - component: {fileID: 9070003779454890182}
   m_Layer: 9
@@ -157,19 +157,6 @@ MonoBehaviour:
   maxDamageReceived: 3
   minDamageAttack: 30
   maxDamageAttack: 30
---- !u!114 &3867738284690352364
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4366999354659894197}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0ece92312aebec479c5db901bcb9f45, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HealthHandler
-  pfHealthBar: {fileID: 7559258641376403093, guid: 1126c761ca92197448cb0d5875ae649e, type: 3}
 --- !u!114 &8049660328784562960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,6 +322,8 @@ MonoBehaviour:
   - {fileID: 3879292089760221355, guid: 1914d95466e3d4341a618c35a56d5f82, type: 3}
   KeepInvisibleSprites:
   - {fileID: -2410919893335871942, guid: 87dea819afb90f44b962721ed117c412, type: 3}
+  NullSprites: []
+  WaitToFightSprites: []
   RecoverSprites:
   - {fileID: -750047184722822154, guid: 1914d95466e3d4341a618c35a56d5f82, type: 3}
   - {fileID: 8445469178646879675, guid: 1914d95466e3d4341a618c35a56d5f82, type: 3}
@@ -444,6 +433,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BossLevelCombatManager
   supportorDieStateManager1: {fileID: 0}
   supportorDieStateManager2: {fileID: 0}
+--- !u!114 &3867738284690352364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4366999354659894197}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0ece92312aebec479c5db901bcb9f45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthHandler
+  pfHealthBar: {fileID: 7559258641376403093, guid: 1126c761ca92197448cb0d5875ae649e, type: 3}
 --- !u!70 &6721325145917354225
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

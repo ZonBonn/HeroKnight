@@ -50,7 +50,7 @@ public class EnemyAttack : MonoBehaviour
             const float attackDistance = 0.8f;
             int dirVisual = enemyPathFindingMovement.currentVisualDir;
             Vector3 attackPosition = new Vector3(EnemyPosition.x + dirVisual * attackDistance, EnemyPosition.y, EnemyPosition.z);
-            Debug.Log(attackPosition);
+            // Debug.Log(attackPosition);
             bool IsHitedPlayer = IsPlayerInAttackPoint(attackPosition);
             // Debug.Log("IsHitedPlayer" + IsHitedPlayer + " IsPlayerSameDirVar" + IsPlayerSameDirVar);    
             if(IsHitedPlayer == true)

@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 public class HealthSystem // đây là nơi thực sự chứa hp
 {
@@ -20,7 +21,7 @@ public class HealthSystem // đây là nơi thực sự chứa hp
         if(currentHealth <= 0)
         {
             currentHealth = 0;
-
+            Debug.Log("OnTriggerHealthBarAsZero Invoked");
             OnTriggerHealthBarAsZero?.Invoke();
         }
         OnTriggerHealthBarChange?.Invoke();

@@ -77,7 +77,7 @@ public class PlayerAttack : MonoBehaviour
         // xứ lý riêng boss => sẽ không clean nhưng thôi tạm thời thế đã
         bool isBossDeathBringer = enemyGameObject.CompareTag("BossDeathBringer");
         BossLevelCombatManager bossLevelCombatManager  = enemyGameObject.GetComponent<BossLevelCombatManager>();
-        if(bossLevelCombatManager == null) Debug.Log("bossLevelCombatManager == null");
+        // if(bossLevelCombatManager == null) Debug.Log("bossLevelCombatManager == null");
         BossHealthHandler bossHealthHandler = null;
         if(isBossDeathBringer == true)
         {

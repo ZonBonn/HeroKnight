@@ -10,8 +10,11 @@ public class EnemyItemsHolder : MonoBehaviour
     // [SerializeField] private List<GameObject> randomItems;
 
     [SerializeField] SpawnLootTable spawnLootTableLevel;
-    private HealthHandler healthHandler;
+    // cái thằng "HealthHandler" liên kết cứng với HealthHandler nếu EnemyItemsHolder muốn lấy HealthSystem để biết khi nào Obj chết thì phải thông qua thằng này => bất tiện
+    // vì cái file script này dùng cho cả Object Boss và Enemy (light, heavy) thế nên đôi khi không biết HealthHandler của thằng nào nếu HealthHandler => BossHealthHandler 
+    // private HealthHandler healthHandler; 
     private HealthSystem healthSystem;
+    private IHealthSystemProvider healthSystemProvider;
 
     private Enemy enemy;
 
@@ -34,8 +37,11 @@ public class EnemyItemsHolder : MonoBehaviour
     private void Awake()
     {
         enemy = gameObject.GetComponent<Enemy>();
-        healthHandler = gameObject.GetComponent<HealthHandler>();
-        healthSystem = healthHandler.GetHealthSystem();
+        // healthHandler = gameObject.GetComponent<HealthHandler>();
+        // healthSystem = healthHandler.GetHealthSystem();
+        
+
+        
 
         for(int i = 0 ; i < spawnLootTableLevel.enemyTables.Count ; i++)
         {
@@ -61,8 +67,14 @@ public class EnemyItemsHolder : MonoBehaviour
         {
             maximumEnemyInLevel[listEnemeyMaximumAmount[i].enemyType] = listEnemeyMaximumAmount[i].maxAmountEnemyType;
         }
-
+        healthSystemProvider = gameObject.GetComponent<IHealthSystemProvider>();
+        healthSystem = healthSystemProvider.GetHealthSystem();
         healthSystem.OnTriggerHealthBarAsZero += OnTriggerSpawnItems;
+        if(healthSystem == null)
+        {
+            Debug.Log("healthSystem == null");
+        }
+        Debug.Log("EnemyItemsHolder HealthSystem instance: " + healthSystem.GetHashCode());
     }
 
     private void Update()
@@ -72,19 +84,25 @@ public class EnemyItemsHolder : MonoBehaviour
         Input.GetKey(KeyCode.N) &&
         Input.GetKey(KeyCode.R))
         {
-            // DebugAllKeyRatesOfEnemy(enemy.enemyType);
+            DebugAllKeyRatesOfEnemy(enemy.enemyType);
         }
     }
 
     public void OnTriggerSpawnItems()
     {
+        Debug.Log("Spawn Item");
         // Spawn đồ trong người enemy của fixed Items
         for(int i = 0 ; i < fixedItems.Count ; i++)
         {
+            Debug.Log("Spawn Fixed Item");
             Key key = fixedItems[i].GetComponent<Key>();
             Key.KeyType keyType = key.GetKeyType();
 
-            if(!KeyManager.IsCanSpawnKey(keyType)) continue; // không thể spawn key
+            if (!KeyManager.IsCanSpawnKey(keyType))
+            {
+                Debug.Log("khong the spawn key nay " + keyType);
+                continue; // không thể spawn key
+            }
             
             GameObject item = Instantiate(fixedItems[i], gameObject.transform.position, Quaternion.identity);
             EffectDropItemsVertical(item); // dùng item chứ không phải là fixedItems[i] vì item là GameObject còn fixedItems[i] là PF
@@ -242,52 +260,52 @@ public class EnemyItemsHolder : MonoBehaviour
         return 0;
     }
 
-    // public float CalculateFinalDropRate(EnemyType enemyType, Key.KeyType keyType)
-    // {
-    //     float baseRate = getKeyRateByEnemyTypeAndKeyType(enemyType, keyType);
-    //     float diedWithoutDrop = EnemyManager.Instance.GetEnemyDiedWithoutSpawnKeyAmount(enemyType);
+    public float CalculateFinalDropRate(EnemyType enemyType, Key.KeyType keyType)
+    {
+        float baseRate = getKeyRateByEnemyTypeAndKeyType(enemyType, keyType);
+        float diedWithoutDrop = EnemyManager.Instance.GetEnemyDiedWithoutSpawnKeyAmount(enemyType);
 
-    //     if (!maximumEnemyInLevel.TryGetValue(enemyType, out int maxEnemy))
-    //         return baseRate;
+        if (!maximumEnemyInLevel.TryGetValue(enemyType, out int maxEnemy))
+            return baseRate;
 
-    //     float addRate = (1f - baseRate) / maxEnemy * diedWithoutDrop;
-    //     return Mathf.Clamp01(baseRate + addRate);
-    // }
+        float addRate = (1f - baseRate) / maxEnemy * diedWithoutDrop;
+        return Mathf.Clamp01(baseRate + addRate);
+    }
 
-    // public void DebugAllKeyRatesOfEnemy(EnemyType enemyType)
-    // {
-    //     if (!LootEnemyDict.TryGetValue(enemyType, out var listKeyRate))
-    //     {
-    //         Debug.Log($"[RATE DEBUG] EnemyType {enemyType} has no loot table");
-    //         return;
-    //     }
+    public void DebugAllKeyRatesOfEnemy(EnemyType enemyType)
+    {
+        if (!LootEnemyDict.TryGetValue(enemyType, out var listKeyRate))
+        {
+            Debug.Log($"[RATE DEBUG] EnemyType {enemyType} has no loot table");
+            return;
+        }
 
-    //     int diedWithoutDrop =
-    //         EnemyManager.Instance.GetEnemyDiedWithoutSpawnKeyAmount(enemyType);
+        int diedWithoutDrop =
+            EnemyManager.Instance.GetEnemyDiedWithoutSpawnKeyAmount(enemyType);
 
-    //     int identifyEnemyManagerLevel =
-    //         EnemyManager.Instance.identifyidentifyEnemeyManagerLevel;
+        int identifyEnemyManagerLevel =
+            EnemyManager.Instance.identifyidentifyEnemeyManagerLevel;
 
-    //     Debug.Log(
-    //         $"====== RATE DEBUG | Enemy: {enemyType} | DiedWithoutKey: {diedWithoutDrop} ======  | level: {identifyEnemyManagerLevel} ======"
-    //     );
+        Debug.Log(
+            $"====== RATE DEBUG | Enemy: {enemyType} | DiedWithoutKey: {diedWithoutDrop} ======  | level: {identifyEnemyManagerLevel} ======"
+        );
 
-    //     foreach (var keyRate in listKeyRate)
-    //     {
-    //         float finalRate = CalculateFinalDropRate(enemyType, keyRate.keyType);
+        foreach (var keyRate in listKeyRate)
+        {
+            float finalRate = CalculateFinalDropRate(enemyType, keyRate.keyType);
 
-    //         Debug.Log(
-    //             $"Key: {keyRate.keyType} | " +
-    //             $"BaseRate: {keyRate.rate:F3} | " +
-    //             $"FinalRate: {finalRate:F3}"
-    //         );
-    //     }
+            Debug.Log(
+                $"Key: {keyRate.keyType} | " +
+                $"BaseRate: {keyRate.rate:F3} | " +
+                $"FinalRate: {finalRate:F3}"
+            );
+        }
 
-    //     Debug.Log("=========================================================");
-    // }
+        Debug.Log("=========================================================");
+    }
 
-    // void OnDisable()
-    // {
-    //     Debug.Log($"{name} - {GetType().Name} bị disable", this);
-    // }
+    void OnDisable()
+    {
+        Debug.Log($"{name} - {GetType().Name} bị disable", this);
+    }
 }

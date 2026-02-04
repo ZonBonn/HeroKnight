@@ -105,7 +105,7 @@ public class BossAI : MonoBehaviour
         currentToward = UnityEngine.Random.Range(-1, 1) > 0 ? rightPoint : leftPoint;
         lastCheckedCurrentToward = currentToward == rightPoint ? leftPoint : rightPoint;
 
-        enemyHealthSystem = bossHealthHandlerReal.getBossHealthSystem();
+        enemyHealthSystem = bossHealthHandlerReal.GetHealthSystem();
         // enemyHealthBar = enemyHealthHandler.GetHealthBar();
 
         bossAnimation.OnTriggerEachFrames += TriggerEnemyLastAttackFrameHandler;
@@ -240,7 +240,7 @@ public class BossAI : MonoBehaviour
 
         if (lastCheckedCurrentEnemyStateAction != currentEnemyStateAction)
         {
-            Debug.Log(currentEnemyStateAction);
+            // Debug.Log(currentEnemyStateAction);
             lastCheckedCurrentEnemyStateAction = currentEnemyStateAction;
         }
 

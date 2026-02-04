@@ -11,8 +11,12 @@ public class KeyManager : MonoBehaviour
     public static bool IsCanSpawnKey(Key.KeyType keyType) // hàm drop theo số lượng
     {
         if(!limitAmountKeyType.TryGetValue(keyType, out int maxAmountOfThisKeyType))
+        {
+            Debug.Log("chua co loai key nay " + keyType + " khong spawn");
             return false;
-
+        }
+            
+        Debug.Log("so luong key " + keyType + " da spawn:" + getAmountSpawnedKeyByKeyType(keyType) + " so luong toi da co the spawn:" + maxAmountOfThisKeyType);
         return getAmountSpawnedKeyByKeyType(keyType) < maxAmountOfThisKeyType;
     }
 
