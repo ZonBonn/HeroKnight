@@ -27,7 +27,7 @@ public class ChestFireWorksController : MonoBehaviour
     
     public void SetFireWorksOn() // bật pháo hoa <=> người chơi gần và đã từng hoặc đang được mở (khởi chạy khi mở rương && mở rương lần đầu)
     { 
-        if(fireWorks.gameObject.activeInHierarchy == false && chest.getIsPlayerNear() == true) fireWorks.gameObject.SetActive(true); 
+        if(fireWorks.gameObject.activeInHierarchy == false && chest.getIsOpended() == true) fireWorks.gameObject.SetActive(true); 
     }
 
     public void SetFireWorksOff() // tắt pháo hoa <=> (khởi chạy 1 lần khi người chơi out khỏi collider check isPlayerNear)

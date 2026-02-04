@@ -84,8 +84,8 @@ public class Chest : MonoBehaviour
 
     private void Open()
     {
-        OnTriggerChestIsOpended?.Invoke();
         IsOpended = true;
+        OnTriggerChestIsOpended?.Invoke();
         isUsedToOpen = true; // cái này sẽ được set true không phải ở đây mà là do Delegate của cái thằng ChestItemsHolder: OnTriggerSpawnedAllItems
     }
 
