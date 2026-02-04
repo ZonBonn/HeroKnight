@@ -7,11 +7,11 @@ public class LevelConfig : ScriptableObject
 {
     public int level;
 
-    [SerializeField] public List<KeyLimit> limitAmountKeyType;
+    [SerializeField] public List<KeyLimit> limitAmountKeyType; // giới hạn số lượng key mỗi màn
 
     [System.Serializable] public struct KeyLimit
     {
-        public Key.KeyType keyType; 
-        public int limitAmountKeyType;
+        public Key.KeyType keyType; // loại key
+        public int limitAmountKeyType; // số lượng giới hạn của key đó
     }
 }

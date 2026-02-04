@@ -82,7 +82,7 @@ public class EnemyItemsHolder : MonoBehaviour
         // Debug increase key drop rate
         if (Input.GetKey(KeyCode.C) &&
         Input.GetKey(KeyCode.N) &&
-        Input.GetKey(KeyCode.R))
+        Input.GetKeyDown(KeyCode.R))
         {
             DebugAllKeyRatesOfEnemy(enemy.enemyType);
         }
@@ -90,17 +90,17 @@ public class EnemyItemsHolder : MonoBehaviour
 
     public void OnTriggerSpawnItems()
     {
-        Debug.Log("Spawn Item");
+        // Debug.Log("Spawn Item");
         // Spawn đồ trong người enemy của fixed Items
         for(int i = 0 ; i < fixedItems.Count ; i++)
         {
-            Debug.Log("Spawn Fixed Item");
+            // Debug.Log("Spawn Fixed Item");
             Key key = fixedItems[i].GetComponent<Key>();
             Key.KeyType keyType = key.GetKeyType();
 
             if (!KeyManager.IsCanSpawnKey(keyType))
             {
-                Debug.Log("khong the spawn key nay " + keyType);
+                // Debug.Log("khong the spawn key nay " + keyType);
                 continue; // không thể spawn key
             }
             
