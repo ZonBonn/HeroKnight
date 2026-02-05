@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
@@ -42,6 +43,18 @@ public class CameraFollow : MonoBehaviour
                 clampedY = yUpClamp;
             }
         }
-        gameObject.transform.position = new Vector3(clampedX, clampedY, -10f);
+        if(!(Input.GetKey(KeyCode.V) && Input.GetMouseButton(1)))
+        {
+            gameObject.transform.position = new Vector3(clampedX, clampedY, -10f);
+        }
+        
+    }
+
+    public void GetCameraClamp(out float xLeft, out float xRight, out float yUp, out float yDown)
+    {
+        xLeft = xLeftClamp;
+        xRight = xRightClamp;
+        yUp = yUpClamp;
+        yDown = yDownClamp;
     }
 }

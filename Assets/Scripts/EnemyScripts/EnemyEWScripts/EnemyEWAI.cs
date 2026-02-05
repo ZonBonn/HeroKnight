@@ -592,6 +592,7 @@ public class EnemyEWAI : MonoBehaviour
         if(sprites == enemyEWAnimation.RecoverSprites)
         {
             enemyHealthHandler.Heal(100);
+            gameObject.layer = LayerMask.NameToLayer("Enemy");
             currentEnemyStateAction = EnemyEWStateAction.Idle;
             return;
         }
@@ -712,7 +713,7 @@ public class EnemyEWAI : MonoBehaviour
     private void SetUpWhenEnemyRevive()
     {
         isDied = false;
-        gameObject.layer = LayerMask.NameToLayer("Enemy");
+        // gameObject.layer = LayerMask.NameToLayer("Enemy");
         enemyHealthBar.gameObject.SetActive(true);
     }
     

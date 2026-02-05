@@ -17,7 +17,7 @@ public class BossHealthHandler : MonoBehaviour, IHealthSystemProvider
 
     private void Start()
     {
-        Debug.Log("Boss HealthSystem instance: " + healthSystem.GetHashCode());
+        // Debug.Log("Boss HealthSystem instance: " + healthSystem.GetHashCode());
     }
 
     public void DamageBoss(float damageAmount)

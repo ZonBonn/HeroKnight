@@ -74,19 +74,19 @@ public class EnemyItemsHolder : MonoBehaviour
         {
             Debug.Log("healthSystem == null");
         }
-        Debug.Log("EnemyItemsHolder HealthSystem instance: " + healthSystem.GetHashCode());
+        // Debug.Log("EnemyItemsHolder HealthSystem instance: " + healthSystem.GetHashCode());
     }
 
-    private void Update()
-    {
+    // private void Update()
+    // {
         // Debug increase key drop rate
-        if (Input.GetKey(KeyCode.C) &&
-        Input.GetKey(KeyCode.N) &&
-        Input.GetKeyDown(KeyCode.R))
-        {
-            DebugAllKeyRatesOfEnemy(enemy.enemyType);
-        }
-    }
+        // if (Input.GetKey(KeyCode.C) &&
+        // Input.GetKey(KeyCode.N) &&
+        // Input.GetKeyDown(KeyCode.R))
+        // {
+        //     DebugAllKeyRatesOfEnemy(enemy.enemyType);
+        // }
+    // }
 
     public void OnTriggerSpawnItems()
     {
@@ -260,52 +260,52 @@ public class EnemyItemsHolder : MonoBehaviour
         return 0;
     }
 
-    public float CalculateFinalDropRate(EnemyType enemyType, Key.KeyType keyType)
-    {
-        float baseRate = getKeyRateByEnemyTypeAndKeyType(enemyType, keyType);
-        float diedWithoutDrop = EnemyManager.Instance.GetEnemyDiedWithoutSpawnKeyAmount(enemyType);
+    // public float CalculateFinalDropRate(EnemyType enemyType, Key.KeyType keyType)
+    // {
+    //     float baseRate = getKeyRateByEnemyTypeAndKeyType(enemyType, keyType);
+    //     float diedWithoutDrop = EnemyManager.Instance.GetEnemyDiedWithoutSpawnKeyAmount(enemyType);
 
-        if (!maximumEnemyInLevel.TryGetValue(enemyType, out int maxEnemy))
-            return baseRate;
+    //     if (!maximumEnemyInLevel.TryGetValue(enemyType, out int maxEnemy))
+    //         return baseRate;
 
-        float addRate = (1f - baseRate) / maxEnemy * diedWithoutDrop;
-        return Mathf.Clamp01(baseRate + addRate);
-    }
+    //     float addRate = (1f - baseRate) / maxEnemy * diedWithoutDrop;
+    //     return Mathf.Clamp01(baseRate + addRate);
+    // }
 
-    public void DebugAllKeyRatesOfEnemy(EnemyType enemyType)
-    {
-        if (!LootEnemyDict.TryGetValue(enemyType, out var listKeyRate))
-        {
-            Debug.Log($"[RATE DEBUG] EnemyType {enemyType} has no loot table");
-            return;
-        }
+    // public void DebugAllKeyRatesOfEnemy(EnemyType enemyType)
+    // {
+    //     if (!LootEnemyDict.TryGetValue(enemyType, out var listKeyRate))
+    //     {
+    //         Debug.Log($"[RATE DEBUG] EnemyType {enemyType} has no loot table");
+    //         return;
+    //     }
 
-        int diedWithoutDrop =
-            EnemyManager.Instance.GetEnemyDiedWithoutSpawnKeyAmount(enemyType);
+    //     int diedWithoutDrop =
+    //         EnemyManager.Instance.GetEnemyDiedWithoutSpawnKeyAmount(enemyType);
 
-        int identifyEnemyManagerLevel =
-            EnemyManager.Instance.identifyidentifyEnemeyManagerLevel;
+    //     int identifyEnemyManagerLevel =
+    //         EnemyManager.Instance.identifyidentifyEnemeyManagerLevel;
 
-        Debug.Log(
-            $"====== RATE DEBUG | Enemy: {enemyType} | DiedWithoutKey: {diedWithoutDrop} ======  | level: {identifyEnemyManagerLevel} ======"
-        );
+    //     Debug.Log(
+    //         $"====== RATE DEBUG | Enemy: {enemyType} | DiedWithoutKey: {diedWithoutDrop} ======  | level: {identifyEnemyManagerLevel} ======"
+    //     );
 
-        foreach (var keyRate in listKeyRate)
-        {
-            float finalRate = CalculateFinalDropRate(enemyType, keyRate.keyType);
+    //     foreach (var keyRate in listKeyRate)
+    //     {
+    //         float finalRate = CalculateFinalDropRate(enemyType, keyRate.keyType);
 
-            Debug.Log(
-                $"Key: {keyRate.keyType} | " +
-                $"BaseRate: {keyRate.rate:F3} | " +
-                $"FinalRate: {finalRate:F3}"
-            );
-        }
+    //         Debug.Log(
+    //             $"Key: {keyRate.keyType} | " +
+    //             $"BaseRate: {keyRate.rate:F3} | " +
+    //             $"FinalRate: {finalRate:F3}"
+    //         );
+    //     }
 
-        Debug.Log("=========================================================");
-    }
+    //     Debug.Log("=========================================================");
+    // }
 
-    void OnDisable()
-    {
-        Debug.Log($"{name} - {GetType().Name} bị disable", this);
-    }
+    // void OnDisable()
+    // {
+    //     Debug.Log($"{name} - {GetType().Name} bị disable", this);
+    // }
 }
