@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 using Unity.VisualScripting;
 
-public class EnemyEWAI : MonoBehaviour
+public class EnemyEWAI : MonoBehaviour, IEnemyAI
 {
     public enum EnemyEWStateAction { Patrol, Chase, Attack, Idle, Die, Jump, Hurt, Recovery, WaitAttack, Null, WaitToFight};
     public EnemyEWStateAction currentEnemyStateAction;
@@ -484,22 +484,22 @@ public class EnemyEWAI : MonoBehaviour
             currentEnemyStateAction = EnemyEWStateAction.Attack;
             return;
         }
-        if(DistanceEnemyToPlayer <= MIN_DISTANCE_TO_PLAYER)
-        {
-            enemyEWPathFindingMovement.StopMovingPhysicalHandler();
-        }
-        if(DistanceEnemyToPlayer <= ATTACK_RANGE && DistanceEnemyToPlayer > MIN_DISTANCE_TO_PLAYER && IsSeePlayer == true)
-        {
-            enemyEWPathFindingMovement.StopMovingPhysicalHandler();
-        }
+        // if(DistanceEnemyToPlayer <= MIN_DISTANCE_TO_PLAYER)
+        // {
+        //     enemyEWPathFindingMovement.StopMovingPhysicalHandler();
+        // }
+        // if(DistanceEnemyToPlayer <= ATTACK_RANGE && DistanceEnemyToPlayer > MIN_DISTANCE_TO_PLAYER && IsSeePlayer == true)
+        // {
+        //     enemyEWPathFindingMovement.StopMovingPhysicalHandler();
+        // }
 
-        if(DistanceEnemyToPlayer <= DISENGAGE_DISTANCE  && IsSeePlayer == true && DistanceEnemyToPlayer > MIN_DISTANCE_TO_PLAYER)
-        {
-            // chase
-            // Immediately_timer_AttackCoolDown();
-            currentEnemyStateAction = EnemyEWStateAction.Chase;
-            return;
-        }
+        // if(DistanceEnemyToPlayer <= DISENGAGE_DISTANCE  && IsSeePlayer == true && DistanceEnemyToPlayer > MIN_DISTANCE_TO_PLAYER)
+        // {
+        //     // chase
+        //     // Immediately_timer_AttackCoolDown();
+        //     currentEnemyStateAction = EnemyEWStateAction.Chase;
+        //     return;
+        // }
 
         if(DistanceEnemyToPlayer > ATTACK_RANGE)
         {
@@ -569,6 +569,12 @@ public class EnemyEWAI : MonoBehaviour
             DistanceEnemyToPlayer >= CHASE_MIN_DISTANCE)
             {
                 currentEnemyStateAction = EnemyEWStateAction.Chase;
+                return;
+            }
+
+            if(DistanceEnemyToPlayer <= ATTACK_DISTANCE && IsSeePlayer == true && IsPlayerAround == true)
+            {
+                currentEnemyStateAction = EnemyEWStateAction.WaitAttack;
                 return;
             }
 
@@ -735,6 +741,14 @@ public class EnemyEWAI : MonoBehaviour
     {
         if(timer_AttackCoolDown > 0)
             timer_AttackCoolDown -= Time.deltaTime;
+    }
+    
+    public void Revive()
+    {
+        currentEnemyStateAction = EnemyEWAI.EnemyEWStateAction.Recovery;
+        gameObject.layer = LayerMask.NameToLayer("Enemy");
+        enemyHealthBar.gameObject.SetActive(true);
+        SetIsDied(false);
     }
     // =============================================================
     

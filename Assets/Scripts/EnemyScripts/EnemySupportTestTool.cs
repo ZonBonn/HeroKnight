@@ -2,35 +2,24 @@ using UnityEngine;
 
 public class EnemySupportTestTool : MonoBehaviour
 {
-    private HealthHandler enemyHealthHandler;
-    private EnemyAI enemyAI;
-    private HealthBar enemyHealthBar;
-
-
+    private IEnemyAI enemyAI;
 
     void Start()
     {
-        enemyHealthHandler = gameObject.GetComponent<HealthHandler>();
-        enemyAI = gameObject.GetComponent<EnemyAI>();
-        enemyHealthBar = enemyHealthHandler.GetHealthBar();
+        enemyAI = gameObject.GetComponent<IEnemyAI>();
     }
 
     
     void Update()
     {
         #if UNITY_EDITOR
-            if (Input.GetKeyDown(KeyCode.L))
-        {
-            if(enemyAI.GetIsDied() == true)
+            if (Input.GetKeyDown(KeyCode.L) && enemyAI != null)
             {
-                enemyHealthHandler.Heal(100);
-                //  enemyPathFindingMovement.StopMovingPhysicalHandler();
-                enemyAI.currentEnemyStateAction = EnemyAI.EnemyStateAction.Recovery;
-                gameObject.layer = LayerMask.NameToLayer("Enemy");
-                enemyHealthBar.gameObject.SetActive(true);
-                enemyAI.SetIsDied(false); // danger thay đổi biến như này thì nguy hiểm nhưng trong test tool thì vẫn được chấp nhận
+                if(enemyAI.GetIsDied() == true)
+                {
+                    enemyAI.Revive(); // tự gọi cho nó tự thực hiện Revive() của từng đối tượng (Decoupling thấp)
+                }
             }
-        }
         #endif
     }
 

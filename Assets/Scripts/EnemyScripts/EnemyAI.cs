@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 using System.Security.Cryptography;
 
-public class EnemyAI : MonoBehaviour
+public class EnemyAI : MonoBehaviour, IEnemyAI
 {
     public enum EnemyStateAction { Patrol, Chase, Attack, ReadyToAttack, Idle, Die, Jump, Hurt, Recovery };
     public EnemyStateAction currentEnemyStateAction;
@@ -488,6 +488,13 @@ public class EnemyAI : MonoBehaviour
         m_RTCTimer = 0;
     }
 
+    public void Revive()
+    {
+        currentEnemyStateAction = EnemyAI.EnemyStateAction.Recovery;
+        gameObject.layer = LayerMask.NameToLayer("Enemy");
+        enemyHealthBar.gameObject.SetActive(true);
+        SetIsDied(false);
+    }
     // private void AlwayTowardToPlayer(){
     //     Vector3 PlayerPosition = Player.Instance.GetPlayerPosition();
     //     Vector3 EnemyPosition = gameObject.transform.position;

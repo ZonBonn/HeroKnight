@@ -84,7 +84,8 @@ public class EnemyEWPathFindingMovement : MonoBehaviour
         enemyEWAI.currentEnemyStateAction == EnemyEWAI.EnemyEWStateAction.Recovery ||
         enemyEWAI.currentEnemyStateAction == EnemyEWAI.EnemyEWStateAction.Attack || 
         enemyEWAI.currentEnemyStateAction == EnemyEWAI.EnemyEWStateAction.Null || 
-        enemyEWAI.currentEnemyStateAction == EnemyEWAI.EnemyEWStateAction.WaitToFight
+        enemyEWAI.currentEnemyStateAction == EnemyEWAI.EnemyEWStateAction.WaitToFight ||
+        enemyEWAI.currentEnemyStateAction == EnemyEWAI.EnemyEWStateAction.WaitAttack
         )
         {
             StopMovingPhysicalHandler();
