@@ -498,6 +498,7 @@ public class BossAI : MonoBehaviour
     {
         // Debug.Log("đang ở InvisibleSkill1Handler");
         bossSkill1.SetDefaultValueForSkill1(); // cho đầu frame ??? Invisible ??
+        // bossSensor.AlwayTowardToPlayer();
     }
     
     private void KeepInVisibleHandler()

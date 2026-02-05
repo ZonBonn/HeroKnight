@@ -8659,23 +8659,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 749090366}
   m_CullTransparentMesh: 1
---- !u!1 &749682258 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3067322110126562727, guid: ccca1ee1b22df41499bd860e23c3ec3a, type: 3}
-  m_PrefabInstance: {fileID: 1351775033}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &749682271
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 749682258}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86b488b3e5d1b8c42b01e087ae2df3e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemySupportTestTool
 --- !u!1 &751450770
 GameObject:
   m_ObjectHideFlags: 0
@@ -26525,10 +26508,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3067322110126562727, guid: ccca1ee1b22df41499bd860e23c3ec3a, type: 3}
-      insertIndex: 9
-      addedObject: {fileID: 749682271}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ccca1ee1b22df41499bd860e23c3ec3a, type: 3}
 --- !u!1 &1354205928
 GameObject:

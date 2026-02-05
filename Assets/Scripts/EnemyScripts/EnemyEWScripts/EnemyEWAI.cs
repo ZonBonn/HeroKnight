@@ -235,9 +235,19 @@ public class EnemyEWAI : MonoBehaviour, IEnemyAI
             }
             enemyEWPathFindingMovement.StopMovingPhysicalHandler();
         }
-        
+
+        // NEW FOR EW @@@
+        if(DistanceEnemyToPlayer <= ATTACK_RANGE && playerMovement.GetPlayerState() != State.Die && timer_AttackCoolDown <= 0)
+        {
+            currentToward = nullTransform;
+            Debug.Log("Patrol -> Attack");
+            currentEnemyStateAction = EnemyEWStateAction.Attack;
+            return;
+        }
+
         if(IsPlayerAround && playerMovement.GetPlayerState() != State.Die) // alway finds player in here <-- SearchingPlayerAround();
         {
+            Debug.Log("Patrol -> Chase");
             currentToward = nullTransform; // đổi hướng khi chuyển trạng thái cho đỡ phải tốn chi phí, lại còn tạo ra random hướng của mỗi enemy
             currentEnemyStateAction = EnemyEWStateAction.Chase;
             return;
@@ -249,19 +259,14 @@ public class EnemyEWAI : MonoBehaviour, IEnemyAI
             currentToward = nullTransform;
             // isJumping = true;
             // enemyPathFindingMovement.hasLeaveGround = true;
+            Debug.Log("Patrol -> Jump");
             currentEnemyStateAction = EnemyEWStateAction.Jump;
             
             return;
         }
         // ReadyToAttackImmediately();
 
-        // NEW FOR EW @@@
-        if(DistanceEnemyToPlayer <= ATTACK_RANGE && playerMovement.GetPlayerState() != State.Die && timer_AttackCoolDown <= 0)
-        {
-            currentToward = nullTransform;
-            currentEnemyStateAction = EnemyEWStateAction.Attack;
-            return;
-        }
+        
     }
 
     private void IdleActionHandler()
@@ -282,27 +287,32 @@ public class EnemyEWAI : MonoBehaviour, IEnemyAI
         }
         else
         {
+            Debug.Log("Idle -> Patrol");
             m_IdleTimer = idleTimer; // reset lại biến thời gian đứng IDLE
             currentEnemyStateAction = EnemyEWStateAction.Patrol;
             // Debug.Log("Đổi thanh Patrol");
             return;
         }
+
+        // NEW FOR EW @@@
+        // Debug.Log("DistanceEnemyToPlayer:" + DistanceEnemyToPlayer + " IsSeePlayer:" + IsSeePlayer);
+        if(DistanceEnemyToPlayer <= ATTACK_RANGE && IsSeePlayer == true && timer_AttackCoolDown <= 0)
+        {
+            Debug.Log("Idle -> Attack");
+            currentEnemyStateAction = EnemyEWStateAction.Attack;
+            return;
+        }
+        
         if(IsPlayerAround && IsSeePlayer == true)// alway finds player in here <-- SearchingPlayerAround();
         {
-            Debug.Log("Idle -> Patrol");
+            Debug.Log("Idle -> Chase");
             m_IdleTimer = idleTimer;// reset lại biến thời gian đứng IDLE
             currentEnemyStateAction = EnemyEWStateAction.Chase;
             return;
         }
         // ReadyToAttackImmediately();
 
-        // NEW FOR EW @@@
-        // Debug.Log("DistanceEnemyToPlayer:" + DistanceEnemyToPlayer + " IsSeePlayer:" + IsSeePlayer);
-        if(DistanceEnemyToPlayer <= ATTACK_RANGE && IsSeePlayer == true && timer_AttackCoolDown <= 0)
-        {
-            currentEnemyStateAction = EnemyEWStateAction.Attack;
-            return;
-        }
+        
     }
 
     private void ChaseActionHandler()
@@ -334,12 +344,14 @@ public class EnemyEWAI : MonoBehaviour, IEnemyAI
         // trong lúc đang đuổi theo nên check hố chướng ngại vật các thứ v.v tại đây --> IN HERE <-- tại đây
         if(enemyEWPathFindingMovement.IsHavePath() == false) // nếu đang đuổi theo mà không thấy player thì thôi quay về patrol
         {
+            Debug.Log("Chase -> Patrol 1");
             currentEnemyStateAction = EnemyEWStateAction.Patrol;
             return;
         }
 
         if (DistanceEnemyToPlayer >= DISENGAGE_DISTANCE && IsPlayerAround == false)
         {
+            Debug.Log("Chase -> Patrol 2");
             currentEnemyStateAction = EnemyEWStateAction.Patrol;
             return;
         }
@@ -348,6 +360,7 @@ public class EnemyEWAI : MonoBehaviour, IEnemyAI
             // Debug.Log("Is Hole:" + enemySensor.IsHole() + "  ;;;   IfCanJumpOverTheInFrontWall:" + enemySensor.IfCanJumpOverTheInFrontWall());
             // isJumping = true;
             // enemyPathFindingMovement.hasLeaveGround = true;
+            Debug.Log("Chase -> Jump");
             currentEnemyStateAction = EnemyEWStateAction.Jump;
             
             return;
@@ -356,6 +369,7 @@ public class EnemyEWAI : MonoBehaviour, IEnemyAI
         // NEW FOR EW @@@
         if(DistanceEnemyToPlayer <= ATTACK_RANGE && IsSeePlayer == true && timer_AttackCoolDown <= 0)
         {
+            Debug.Log("Chase -> Attack");
             currentEnemyStateAction = EnemyEWStateAction.Attack;
             return;
         }
@@ -401,6 +415,7 @@ public class EnemyEWAI : MonoBehaviour, IEnemyAI
         enemyEWPathFindingMovement.StopMovingPhysicalHandler();
         if (DistanceEnemyToPlayer <= ATTACK_DISTANCE && IsPlayerAround == true && timer_AttackCoolDown <= 0)
         {
+            Debug.Log("Chase -> Attack");
             currentEnemyStateAction = EnemyEWStateAction.Attack;
             return;
         }
@@ -446,6 +461,7 @@ public class EnemyEWAI : MonoBehaviour, IEnemyAI
             DistanceEnemyToPlayer >= CHASE_MIN_DISTANCE/* && 
             enemyPathFindingMovement.hasLeaveGround == false*/)
             {
+                Debug.Log("Jump -> Chase");
                 currentEnemyStateAction = EnemyEWStateAction.Chase;
                 return;
             }
@@ -481,6 +497,7 @@ public class EnemyEWAI : MonoBehaviour, IEnemyAI
 
         if(DistanceEnemyToPlayer <= ATTACK_RANGE && IsSeePlayer == true && timer_AttackCoolDown <= 0)
         {
+            Debug.Log("WaitAttack -> Attack");
             currentEnemyStateAction = EnemyEWStateAction.Attack;
             return;
         }
@@ -505,6 +522,7 @@ public class EnemyEWAI : MonoBehaviour, IEnemyAI
         {
             // patrol
             // Immediately_timer_AttackCoolDown();
+            Debug.Log("WaitAttack -> Patrol");
             currentEnemyStateAction = EnemyEWStateAction.Patrol;
             return;
         }
@@ -529,7 +547,7 @@ public class EnemyEWAI : MonoBehaviour, IEnemyAI
         {
             SetUpEWWhenPlayerDie();
             resetCoolDownTimeAttack();
-
+            Debug.Log("Last Attack -> WaitAttack");
             currentEnemyStateAction = EnemyEWStateAction.WaitAttack; // bắn xong thì chuyển trạng thái về đợi bắn
             return;
         }
@@ -561,6 +579,7 @@ public class EnemyEWAI : MonoBehaviour, IEnemyAI
             bool IsPlayerAround = enemyEWSensor.IsSearchedPlayerAround();
             if (DistanceEnemyToPlayer <= READY_TO_ATTACK_DISTANCE && IsPlayerAround == true && timer_AttackCoolDown <= 0)
             {
+                Debug.Log("Last Hurt -> Attack");
                 currentEnemyStateAction = EnemyEWStateAction.Attack;
                 return;
             }
@@ -568,17 +587,20 @@ public class EnemyEWAI : MonoBehaviour, IEnemyAI
             IsPlayerAround == true && 
             DistanceEnemyToPlayer >= CHASE_MIN_DISTANCE)
             {
+                Debug.Log("Last Hurt -> Chase");
                 currentEnemyStateAction = EnemyEWStateAction.Chase;
                 return;
             }
 
             if(DistanceEnemyToPlayer <= ATTACK_DISTANCE && IsSeePlayer == true && IsPlayerAround == true)
             {
+                Debug.Log("Last Hurt -> WaitAttack");
                 currentEnemyStateAction = EnemyEWStateAction.WaitAttack;
                 return;
             }
 
             // Debug.Log("K nhảy vào state nào cả thì nhảy vào patrol");
+            Debug.Log("Last Hurt -> Null -> Patrol");
             currentEnemyStateAction = EnemyEWStateAction.Patrol; // safe state
             return;
             
@@ -599,6 +621,7 @@ public class EnemyEWAI : MonoBehaviour, IEnemyAI
         {
             enemyHealthHandler.Heal(100);
             gameObject.layer = LayerMask.NameToLayer("Enemy");
+            Debug.Log("Last Recovery -> Idle");
             currentEnemyStateAction = EnemyEWStateAction.Idle;
             return;
         }
@@ -608,6 +631,7 @@ public class EnemyEWAI : MonoBehaviour, IEnemyAI
     {
         if(sprites == enemyEWAnimation.WaitToFightSprites)
         {
+            Debug.Log("Last WaitToFight -> Patrol");
             currentEnemyStateAction = EnemyEWStateAction.Patrol;
             return;
         }
@@ -617,6 +641,7 @@ public class EnemyEWAI : MonoBehaviour, IEnemyAI
     {
         if(currentEnemyStateAction == EnemyEWStateAction.Null)
         {
+            Debug.Log("Null State -> WaitToFight");
             currentEnemyStateAction = EnemyEWStateAction.WaitToFight;
             return;
         }
