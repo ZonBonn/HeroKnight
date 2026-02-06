@@ -1,5 +1,19 @@
 using UnityEngine;
 
+public enum AttackType // thật ra cái này chung vì dùng trong IDamageable, vì chỉ có mỗi Player trong game này là có combo nên để tạm ở đây vậy
+{
+    Attack1, 
+    Attack2, 
+    Attack3
+}
+
+public enum Team
+{
+    Enemy,
+    Player,
+    // Orthes, // cái này tạm sau có thì thêm
+}
+
 public class PlayerAttack : MonoBehaviour
 {
     private PlayerMovement playerMovement;
@@ -107,8 +121,11 @@ public class PlayerAttack : MonoBehaviour
             // {
             //     enemyHealthHandler.Damage(minDamageReceived);
             // }
-                
-            damageable.Damage(minDamageReceived);
+
+            DamageInfo damageInfo = new DamageInfo();
+            damageInfo.attackType = AttackType.Attack1;   
+            damageInfo.layerMask = gameObject.layer;
+            damageable.Damage(damageInfo);
 
         }
         else if (currentSprite == playerAnimation.Attack2Sprites)
@@ -128,7 +145,9 @@ public class PlayerAttack : MonoBehaviour
             // else
             //     enemyHealthHandler.Damage(maxDamageReceived);
 
-            damageable.Damage(maxDamageReceived);
+            DamageInfo damageInfo = new DamageInfo();
+            damageInfo.attackType = AttackType.Attack2;   
+            damageable.Damage(damageInfo);
         }
         else // currentSprite == playerAnimation.Attack3Sprites
         {
@@ -147,7 +166,9 @@ public class PlayerAttack : MonoBehaviour
             // else
             //     enemyHealthHandler.Damage(maxDamageReceived + 15);
             
-            damageable.Damage(maxDamageReceived + 15);
+            DamageInfo damageInfo = new DamageInfo();
+            damageInfo.attackType = AttackType.Attack3;   
+            damageable.Damage(damageInfo);
         }
     }
 

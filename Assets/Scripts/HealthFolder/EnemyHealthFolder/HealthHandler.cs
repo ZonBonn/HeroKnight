@@ -17,6 +17,10 @@ public class HealthHandler : MonoBehaviour, IHealthSystemProvider, IDamageable, 
     // private for debunging
     private float currentHealth;
 
+    private Enemy enemy;
+    private float minDamageReceived;
+    private float maxDamageReceived;
+
     private void Awake()
     {
         if (!enabled) return;
@@ -27,6 +31,15 @@ public class HealthHandler : MonoBehaviour, IHealthSystemProvider, IDamageable, 
         
         healthBar = healthBarTransform.GetComponent<HealthBar>();
         healthBar.SetUp(healthSystem);
+
+        enemy.gameObject.GetComponent<Enemy>();
+    }
+
+    private void Start()
+    {
+        enemy.getFeature(out float minDamageReceived, out float maxDamageReceived, out float minDamageAttack, out float maxDamageAttack);
+        this.minDamageReceived = minDamageReceived;
+        this.maxDamageReceived = maxDamageReceived;
     }
     
     public void Damage(float damageAmount)
@@ -58,5 +71,31 @@ public class HealthHandler : MonoBehaviour, IHealthSystemProvider, IDamageable, 
     public float GetHP()
     {
         return healthSystem.GetCurrentHealth();
+    }
+
+    // ============== INTERFACE ==============
+    public void Damage(DamageInfo damageInfo)
+    {
+        if(damageInfo.layerMask == gameObject.layer) return; // tránh không cho cùng Layer vã lẫn nhau
+        
+        float finalDamage = caculateFinalDamage(damageInfo);
+        Damage(finalDamage);
+    }
+
+    public float caculateFinalDamage(DamageInfo damageInfo)
+    {
+        if(damageInfo.attackType == AttackType.Attack1)
+        {
+            return minDamageReceived;
+        }
+        else if(damageInfo.attackType == AttackType.Attack2)
+        {
+            return maxDamageReceived;
+        }
+        else if(damageInfo.attackType == AttackType.Attack3)
+        {
+            return maxDamageReceived + 5;
+        }
+        return 0;
     }
 }

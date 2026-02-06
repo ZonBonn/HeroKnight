@@ -1,4 +1,4 @@
 public interface IDamageable
 {
-    public void Damage(float amountDamage);
+    public void Damage(DamageInfo damageInfo);
 }

@@ -6,7 +6,11 @@ public class BossHealthHandler : MonoBehaviour, IHealthSystemProvider, IDamageab
     private HealthSystem healthSystem;
     private BossHealthBar bossHealthBar;
     private BossLevelCombatManager bossLevelCombatManager;
+    private Enemy enemy;
     // private float 
+
+    private float minDamageReceived;
+    private float maxDamageReceived;
 
     private void Awake()
     {
@@ -17,11 +21,16 @@ public class BossHealthHandler : MonoBehaviour, IHealthSystemProvider, IDamageab
         bossHealthBar.SetUp(healthSystem);
 
         bossLevelCombatManager  = gameObject.GetComponent<BossLevelCombatManager>();
+
+        enemy = gameObject.GetComponent<Enemy>();
     }
 
     private void Start()
     {
         // Debug.Log("Boss HealthSystem instance: " + healthSystem.GetHashCode());
+        enemy.getFeature(out float minDamageReceived, out float maxDamageReceived, out float minDamageAttack, out float maxDamageAttack);
+        this.minDamageReceived = minDamageReceived;
+        this.maxDamageReceived = maxDamageReceived;
     }
 
     public void DamageBoss(float damageAmount)
@@ -67,5 +76,38 @@ public class BossHealthHandler : MonoBehaviour, IHealthSystemProvider, IDamageab
     public HealthSystem GetHealthSystem()
     {
         return healthSystem;
+    }
+
+    // ============================ INTERFACE ============================
+    public void Damage(DamageInfo damageInfo)
+    {
+        if(damageInfo.layerMask == gameObject.layer) return; // tránh không cho cùng Layer vã lẫn nhau
+        
+        if(bossLevelCombatManager.getCanMakeDamage() == true)
+        {
+            float finalDamage = caculateFinalDamage(damageInfo);
+            DamageBoss(finalDamage);
+        }
+        else
+        {
+            DamageBoss(0);
+        }
+    }
+
+    public float caculateFinalDamage(DamageInfo damageInfo)
+    {
+        if(damageInfo.attackType == AttackType.Attack1)
+        {
+            return minDamageReceived;
+        }
+        else if(damageInfo.attackType == AttackType.Attack2)
+        {
+            return maxDamageReceived;
+        }
+        else if(damageInfo.attackType == AttackType.Attack3)
+        {
+            return maxDamageReceived + 5;
+        }
+        return 0;
     }
 }

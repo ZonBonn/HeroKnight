@@ -56,6 +56,19 @@ public class BossAttack : MonoBehaviour
                 // playerHealthHandler.Damage(UnityEngine.Random.Range(45, 50));
                 // playerHealthStaminaHandler.DamageHealth(UnityEngine.Random.Range(minDamageAttack, maxDamageAttack));
                 // playerDefense.ReceiveDamage(minDamageAttack, maxDamageAttack, bossPathFindingMovement.currentVisualDir);
+
+                // NEW dùng interface cho sạch
+                DamageInfo damageInfo = new DamageInfo();
+                damageInfo.attackerDir = bossPathFindingMovement.currentVisualDir;
+                damageInfo.minDamage = minDamageAttack;
+                damageInfo.maxDamage = maxDamageAttack;
+                damageInfo.layerMask = gameObject.layer;
+                Collider2D[] hitedCollider = Physics2D.OverlapCircleAll(attackPosition, 0.1f);
+                for(int i = 0 ; i < hitedCollider.Length ; i++)
+                {
+                    IDamageable damageable = hitedCollider[i].gameObject.GetComponent<IDamageable>();
+                    damageable.Damage(damageInfo);
+                }
             }
         }
         

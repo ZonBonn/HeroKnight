@@ -56,7 +56,21 @@ public class EnemyAttack : MonoBehaviour
             if(IsHitedPlayer == true)
             {
                 // playerHealthStaminaHandler.DamageHealth(UnityEngine.Random.Range(minDamageAttack, maxDamageAttack));
-                playerDefense.ReceiveDamage(minDamageAttack, maxDamageAttack, enemyPathFindingMovement.currentVisualDir);
+                // playerDefense.ReceiveDamage(minDamageAttack, maxDamageAttack, enemyPathFindingMovement.currentVisualDir);
+
+                // NEW dùng interface cho sạch
+                DamageInfo damageInfo = new DamageInfo();
+                damageInfo.attackerDir = enemyPathFindingMovement.currentVisualDir;
+                damageInfo.minDamage = minDamageAttack;
+                damageInfo.maxDamage = maxDamageAttack;
+                damageInfo.layerMask = gameObject.layer;
+                Collider2D[] hitedCollider = Physics2D.OverlapCircleAll(attackPosition, 0.1f);
+                for(int i = 0 ; i < hitedCollider.Length ; i++)
+                {
+                    IDamageable damageable = hitedCollider[i].gameObject.GetComponent<IDamageable>();
+                    damageable.Damage(damageInfo);
+                }
+
             }
         }
         

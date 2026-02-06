@@ -95,23 +95,26 @@ public class PlayerHealthStaminaHandler : MonoBehaviour, IDamageable, IHealable 
         return playerHealthSystem.GetMaxHealth();
     }
 
+    // public caculateFinalDamage
 // ============================== INTERFACE ==============================
-    public void Damage(float damageAmount)
+    public void Damage(DamageInfo damageInfo)
     {
-        // bool isBlockingShieldVar = playerDefense.isBlockingShield();
-        // if(isBlockingShieldVar == true && playerDefense.CanBlockByDir(enemyDir) == false)
-        // {
-        //     playerHealthStaminaHandler.DamageHealth(UnityEngine.Random.Range(minDamageAttack, maxDamageAttack));
-        // }
-        // else if(isBlockingShieldVar == true && CanBlockByDir(enemyDir) == true)
-        // {
-        //     playerHealthStaminaHandler.DamageHealth(0);
-        //     OnBlockIdleIsHited?.Invoke();
-        // }
-        // else
-        // {
-        //     playerHealthStaminaHandler.DamageHealth(UnityEngine.Random.Range(minDamageAttack, maxDamageAttack));
-        // }
+        if(damageInfo.layerMask == gameObject.layer) return; // tránh không cho cùng Layer vã lẫn nhau
+
+        bool isBlockingShieldVar = playerDefense.isBlockingShield();
+        if(isBlockingShieldVar == true && playerDefense.CanBlockByDir(damageInfo.attackerDir) == false)
+        {
+            DamageHealth(UnityEngine.Random.Range(damageInfo.minDamage, damageInfo.maxDamage));
+        }
+        else if(isBlockingShieldVar == true && playerDefense.CanBlockByDir(damageInfo.attackerDir) == true)
+        {
+            DamageHealth(0);
+            playerDefense.OnBlockIdleIsHited?.Invoke();
+        }
+        else
+        {
+            DamageHealth(UnityEngine.Random.Range(damageInfo.minDamage, damageInfo.maxDamage));
+        }
     }
 
     public void Heal(float healAmount)
