@@ -90,7 +90,7 @@ public class EnemyEWAI : MonoBehaviour, IEnemyAI
         enemyEWAnimation.OnTriggerLastFrames += TriggerEWLastWaitToFightFrame;
         Stone.OnTriggerStoneSymbolActive += TriggerEWStartFight;
 
-        enemyHealthSystem.OnTriggerHealthBarChange += TriggerHurtWhenHealthChange;
+        enemyHealthSystem.OnDamaged += TriggerHurtWhenHealthChange;
         enemyHealthSystem.OnTriggerHealthBarAsZero += TriggerDieWhenHealthAsZero;
 
         supportorLevelCombatManager.OnTriggerReviveSupportor += OnTriggerRecovery;

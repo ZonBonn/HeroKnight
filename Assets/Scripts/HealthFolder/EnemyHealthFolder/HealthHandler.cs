@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class HealthHandler : MonoBehaviour, IHealthSystemProvider // class thuộc về nhân vật sở hữu HealthBar (cầu nối để khởi tạo healthSystem)
+public class HealthHandler : MonoBehaviour, IHealthSystemProvider, IDamageable, IHealable // class thuộc về nhân vật sở hữu HealthBar (cầu nối để khởi tạo healthSystem)
 { 
     // Health System
     private HealthSystem healthSystem = new HealthSystem(100f);

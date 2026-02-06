@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BottleHP : MonoBehaviour
+public class BottleHP : MonoBehaviour // cái này chỉ dùng được cho Player nếu sau này muốn mở rộng Enemy cũng hồi được HP thì dùng Interface thôi
 {
     private bool canPickUpBottleHP;
 

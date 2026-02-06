@@ -119,7 +119,7 @@ public class BossAI : MonoBehaviour
         Stone.OnTriggerStoneSymbolActive += TriggerBossStartFight;
         //  bossAnimation.OnTriggerEachFrames += TriggerBossFirstInvisibleSkill1FrameHandler;
 
-        enemyHealthSystem.OnTriggerHealthBarChange += TriggerHurtWhenHealthChange;
+        enemyHealthSystem.OnDamaged += TriggerHurtWhenHealthChange;
         enemyHealthSystem.OnTriggerHealthBarAsZero += TriggerDieWhenHealthAsZero;
 
         idleTimer = UnityEngine.Random.Range(2.5f, 3f);

@@ -10,7 +10,8 @@ public class HealthBar : MonoBehaviour // class này quản lý UI của HealthB
     private void Start()
     {
         Bar = gameObject.transform.Find("Heal").transform;
-        healthSystem.OnTriggerHealthBarChange += TriggerHealthBarChange;
+        healthSystem.OnDamaged += TriggerHealthBarChange;
+        healthSystem.OnHealed += TriggerHealthBarChange;
     }
 
     private void TriggerHealthBarChange()

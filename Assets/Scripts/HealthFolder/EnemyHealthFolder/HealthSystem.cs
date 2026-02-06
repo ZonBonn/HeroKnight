@@ -6,7 +6,8 @@ public class HealthSystem // đây là nơi thực sự chứa hp
     private float currentHealth;
     private float maxHealth;
 
-    public Action OnTriggerHealthBarChange;
+    public Action OnHealed;
+    public Action OnDamaged; // khi damage tên này không chuẩn (vì BossAI bị Hurt khi máu dù tăng trong Heal ?)
     public Action OnTriggerHealthBarAsZero;
 
     public HealthSystem(float maxHealth)
@@ -24,7 +25,8 @@ public class HealthSystem // đây là nơi thực sự chứa hp
             // Debug.Log("OnTriggerHealthBarAsZero Invoked");
             OnTriggerHealthBarAsZero?.Invoke();
         }
-        OnTriggerHealthBarChange?.Invoke();
+        // OnTriggerHealthBarChange?.Invoke();
+        OnDamaged?.Invoke();
     }
 
     public void Heal(float healAmount)
@@ -34,7 +36,7 @@ public class HealthSystem // đây là nơi thực sự chứa hp
         {
             currentHealth = maxHealth;
         }
-        OnTriggerHealthBarChange?.Invoke();
+        OnHealed?.Invoke();
     }
 
     public float GetHealthNormalized()

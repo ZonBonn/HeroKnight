@@ -26,7 +26,7 @@ public class PlayerDefense : MonoBehaviour
         // nếu là 0: viên đạn thì không thể đỡ :)
     }
 
-    private bool isBlockingShield()
+    public bool isBlockingShield()
     {
         return playerMovement.GetPlayerState() == State.BlockIdle;
     }

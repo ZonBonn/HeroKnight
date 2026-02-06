@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-public class PlayerHealthStaminaHandler : MonoBehaviour // class này quản lý HP và KI của nhân vật (cầu nối để khởi tạo hai class không thừa kế monobehaviour)
+public class PlayerHealthStaminaHandler : MonoBehaviour, IDamageable, IHealable // class này quản lý HP và KI của nhân vật (cầu nối để khởi tạo hai class không thừa kế monobehaviour)
 {
     private PlayerHealthSystem playerHealthSystem = new PlayerHealthSystem(100f);
     private PlayerStaminaSystem playerStaminaSystem = new  PlayerStaminaSystem(100f);
@@ -10,6 +10,7 @@ public class PlayerHealthStaminaHandler : MonoBehaviour // class này quản lý
     public PlayerStaminaBar playerStaminaBar;
 
     public PlayerMovement playerMovement;
+    private PlayerDefense playerDefense;
 
     // public Action OnBlockIdleIsHited;
 
@@ -22,6 +23,8 @@ public class PlayerHealthStaminaHandler : MonoBehaviour // class này quản lý
         // playerStaminaBar = gameObject.GetComponent<PlayerStaminaBar>();
         // playerStaminaBar.playerStaminaSystem = playerStaminaSystem; // làm như này thì playerStaminaSystem không được encapsulation
         playerStaminaBar.SetUp(playerStaminaSystem);
+
+        playerDefense = gameObject.GetComponent<PlayerDefense>();
     }
 
     private void Start()
@@ -90,5 +93,29 @@ public class PlayerHealthStaminaHandler : MonoBehaviour // class này quản lý
     public float GetMaxHealth()
     {
         return playerHealthSystem.GetMaxHealth();
+    }
+
+// ============================== INTERFACE ==============================
+    public void Damage(float damageAmount)
+    {
+        // bool isBlockingShieldVar = playerDefense.isBlockingShield();
+        // if(isBlockingShieldVar == true && playerDefense.CanBlockByDir(enemyDir) == false)
+        // {
+        //     playerHealthStaminaHandler.DamageHealth(UnityEngine.Random.Range(minDamageAttack, maxDamageAttack));
+        // }
+        // else if(isBlockingShieldVar == true && CanBlockByDir(enemyDir) == true)
+        // {
+        //     playerHealthStaminaHandler.DamageHealth(0);
+        //     OnBlockIdleIsHited?.Invoke();
+        // }
+        // else
+        // {
+        //     playerHealthStaminaHandler.DamageHealth(UnityEngine.Random.Range(minDamageAttack, maxDamageAttack));
+        // }
+    }
+
+    public void Heal(float healAmount)
+    {
+        playerHealthSystem.Heal(healAmount);
     }
 }

@@ -76,7 +76,7 @@ public class EnemyAI : MonoBehaviour, IEnemyAI
         enemyAnimation.OnTriggerLastFrames += TriggerEnemyLastDieFrameHandler;
         enemyAnimation.OnTriggerLastFrames += TriggerEnemyLastRecoveryFrame;
 
-        enemyHealthSystem.OnTriggerHealthBarChange += TriggerHurtWhenHealthChange;
+        enemyHealthSystem.OnDamaged += TriggerHurtWhenHealthChange;
         enemyHealthSystem.OnTriggerHealthBarAsZero += TriggerDieWhenHealthAsZero;
 
         idleTimer = UnityEngine.Random.Range(2.5f, 3f);

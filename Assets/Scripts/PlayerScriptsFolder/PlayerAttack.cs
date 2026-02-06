@@ -70,67 +70,84 @@ public class PlayerAttack : MonoBehaviour
     {
         // damage enemy handler
         GameObject enemyGameObject = raycastHit2D.collider.gameObject;
-        HealthHandler enemyHealthHandler = enemyGameObject.GetComponent<HealthHandler>();
+        // HealthHandler enemyHealthHandler = enemyGameObject.GetComponent<HealthHandler>();
         Enemy enemy = enemyGameObject.GetComponent<Enemy>();
         enemy.getFeature(out float minDamageReceived, out float maxDamageReceived, out float minDamageAttack, out float maxDamageAttack);
 
         // xứ lý riêng boss => sẽ không clean nhưng thôi tạm thời thế đã
-        bool isBossDeathBringer = enemyGameObject.CompareTag("BossDeathBringer");
-        BossLevelCombatManager bossLevelCombatManager  = enemyGameObject.GetComponent<BossLevelCombatManager>();
+        // bool isBossDeathBringer = enemyGameObject.CompareTag("BossDeathBringer");
+        // BossLevelCombatManager bossLevelCombatManager  = enemyGameObject.GetComponent<BossLevelCombatManager>();
         // if(bossLevelCombatManager == null) Debug.Log("bossLevelCombatManager == null");
-        BossHealthHandler bossHealthHandler = null;
-        if(isBossDeathBringer == true)
-        {
-            bossHealthHandler = enemyGameObject.GetComponent<BossHealthHandler>();
-        }
+        // BossHealthHandler bossHealthHandler = null;
+        
+        
+        // if(isBossDeathBringer == true)
+        // {
+        //     bossHealthHandler = enemyGameObject.GetComponent<BossHealthHandler>();
+        //     damageable = enemyGameObject.GetComponent<IDamageable>();
+        // }
+        IDamageable damageable = enemyGameObject.GetComponent<IDamageable>();
+        
 
         if(currentSprite == playerAnimation.Attack1Sprites)
         {
-            if(isBossDeathBringer == true && bossLevelCombatManager != null)
-            {
-                if(bossLevelCombatManager.getCanMakeDamage() == true)
-                {
-                    bossHealthHandler.DamageBoss(minDamageReceived);
-                }
-                else
-                {
-                    bossHealthHandler.DamageBoss(0);
-                }
-            }
-            else
-                enemyHealthHandler.Damage(minDamageReceived);
+            // if(isBossDeathBringer == true && bossLevelCombatManager != null)
+            // {
+            //     // if(bossLevelCombatManager.getCanMakeDamage() == true)
+            //     // {
+            //     //     bossHealthHandler.DamageBoss(minDamageReceived);
+            //     // }
+            //     // else
+            //     // {
+            //     //     bossHealthHandler.DamageBoss(0);
+            //     // }
+            //     damageable.Damage(minDamageReceived);
+            // }
+            // else
+            // {
+            //     enemyHealthHandler.Damage(minDamageReceived);
+            // }
+                
+            damageable.Damage(minDamageReceived);
+
         }
         else if (currentSprite == playerAnimation.Attack2Sprites)
         {
-            if(isBossDeathBringer == true && bossLevelCombatManager != null)
-            {
-                if(bossLevelCombatManager.getCanMakeDamage() == true)
-                {
-                    bossHealthHandler.DamageBoss(maxDamageReceived);
-                }
-                else
-                {
-                    bossHealthHandler.DamageBoss(0);
-                }
-            }
-            else
-                enemyHealthHandler.Damage(maxDamageReceived);
+            // if(isBossDeathBringer == true && bossLevelCombatManager != null)
+            // {
+            //     // if(bossLevelCombatManager.getCanMakeDamage() == true)
+            //     // {
+            //     //     bossHealthHandler.DamageBoss(maxDamageReceived);
+            //     // }
+            //     // else
+            //     // {
+            //     //     bossHealthHandler.DamageBoss(0);
+            //     // }
+            //     damageable.Damage(maxDamageReceived);
+            // }
+            // else
+            //     enemyHealthHandler.Damage(maxDamageReceived);
+
+            damageable.Damage(maxDamageReceived);
         }
         else // currentSprite == playerAnimation.Attack3Sprites
         {
-            if(isBossDeathBringer == true && bossLevelCombatManager != null)
-            {
-                if(bossLevelCombatManager.getCanMakeDamage() == true)
-                    {
-                        bossHealthHandler.DamageBoss(maxDamageReceived + 5);
-                    }
-                    else
-                    {
-                        bossHealthHandler.DamageBoss(0);
-                    }
-            }
-            else
-                enemyHealthHandler.Damage(maxDamageReceived + 15);
+            // if(isBossDeathBringer == true && bossLevelCombatManager != null)
+            // {
+            //     // if(bossLevelCombatManager.getCanMakeDamage() == true)
+            //     // {
+            //     //     bossHealthHandler.DamageBoss(maxDamageReceived + 5);
+            //     // }
+            //     // else
+            //     // {
+            //     //     bossHealthHandler.DamageBoss(0);
+            //     // }
+            //     damageable.Damage(maxDamageReceived + 5);
+            // }
+            // else
+            //     enemyHealthHandler.Damage(maxDamageReceived + 15);
+            
+            damageable.Damage(maxDamageReceived + 15);
         }
     }
 

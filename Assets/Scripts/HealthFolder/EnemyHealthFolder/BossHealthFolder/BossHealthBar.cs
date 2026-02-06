@@ -21,7 +21,8 @@ public class BossHealthBar : MonoBehaviour
 
     private void OnEnable()
     {
-        healthSystem.OnTriggerHealthBarChange += TriggerChangeHealthBarUI;
+        healthSystem.OnDamaged += TriggerChangeHealthBarUI;
+        healthSystem.OnHealed += TriggerChangeHealthBarUI;
     }
 
     public void SetUp(HealthSystem healthSystem)

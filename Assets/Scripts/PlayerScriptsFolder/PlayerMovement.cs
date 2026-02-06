@@ -4,7 +4,22 @@ using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-public enum State { Null, Idle, Run, Attack1, Attack2, Attack3, Die, Jump, Roll, ClimbingOnWall, ClimbingActionWall, Fall, Hit, BlockIdle, BlockHit }
+public enum State { Null, 
+                    Idle, 
+                    Run, 
+                    Attack1, 
+                    Attack2, 
+                    Attack3, 
+                    Die, 
+                    Jump, 
+                    Roll, 
+                    ClimbingOnWall, 
+                    ClimbingActionWall, 
+                    Fall, 
+                    Hit, 
+                    BlockIdle, 
+                    BlockHit 
+}
 
 // Idle, Run, Jump == Normal ???
 public class PlayerMovement : MonoBehaviour
