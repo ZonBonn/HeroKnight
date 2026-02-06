@@ -7,8 +7,8 @@ public class EnemyAttack : MonoBehaviour
 
     private EnemyPathFindingMovement enemyPathFindingMovement;
     private EnemyAnimation enemyAnimation;
-    public PlayerHealthStaminaHandler playerHealthStaminaHandler;
-    private PlayerDefense playerDefense; // =))) truy cập ngược tới gameObject = playerHealth =))) (không nên lạm dụng nếu không muốn các scripts phụ thuộc nhau sai 1 thì đi 1 dàn đều sai nếu sau này sửa)
+    // public PlayerHealthStaminaHandler playerHealthStaminaHandler;
+    // private PlayerDefense playerDefense; // =))) truy cập ngược tới gameObject = playerHealth =))) (không nên lạm dụng nếu không muốn các scripts phụ thuộc nhau sai 1 thì đi 1 dàn đều sai nếu sau này sửa)
 
 
     private void Awake()
@@ -22,12 +22,12 @@ public class EnemyAttack : MonoBehaviour
         enemyAnimation.OnTriggerEachFrames += TriggerCreateAttackPoint;
 
         // tham chiếu cho level 2
-        if(playerHealthStaminaHandler == null)
-        {
-            playerHealthStaminaHandler = PlayerManager.Instance.GetPlayerGameObject().GetComponent<PlayerHealthStaminaHandler>();
-        }
+        // if(playerHealthStaminaHandler == null)
+        // {
+        //     playerHealthStaminaHandler = PlayerManager.Instance.GetPlayerGameObject().GetComponent<PlayerHealthStaminaHandler>();
+        // }
 
-        playerDefense = playerHealthStaminaHandler.gameObject.GetComponent<PlayerDefense>(); // cái này phải sau playerHealthStaminaHandler vì cái này phụ thuộc playerHealthStaminaHandler mà cái playerHealthStaminaHandler khởi tạo khi level được reload thì mởi khởi tạo được PlayerDefense
+        // playerDefense = playerHealthStaminaHandler.gameObject.GetComponent<PlayerDefense>(); // cái này phải sau playerHealthStaminaHandler vì cái này phụ thuộc playerHealthStaminaHandler mà cái playerHealthStaminaHandler khởi tạo khi level được reload thì mởi khởi tạo được PlayerDefense
     }
 
     
@@ -68,7 +68,10 @@ public class EnemyAttack : MonoBehaviour
                 for(int i = 0 ; i < hitedCollider.Length ; i++)
                 {
                     IDamageable damageable = hitedCollider[i].gameObject.GetComponent<IDamageable>();
-                    damageable.Damage(damageInfo);
+                    if (damageable != null)
+                    {
+                        damageable.Damage(damageInfo);  
+                    }
                 }
 
             }

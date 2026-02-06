@@ -61,7 +61,7 @@ public class BossAI : MonoBehaviour
     private bool isJumping;
     private bool isDied = false;
 
-    public PlayerMovement playerMovement;
+    public PlayerMovement playerMovement; // cái biến này có thể thay = C1: Singleton Pattern + Interface, C2: Sensor viết một hàm trả về trực tiếp player Game Object , nhưng hiện tại không coupling lắm chỉ hỏi mỗi State Player có Die thôi không mà
     private BossSensor bossSensor;
 
     private const float READY_TO_COMBAT_COOLDOWN = 0.5f;

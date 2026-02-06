@@ -32,7 +32,7 @@ public class HealthHandler : MonoBehaviour, IHealthSystemProvider, IDamageable, 
         healthBar = healthBarTransform.GetComponent<HealthBar>();
         healthBar.SetUp(healthSystem);
 
-        enemy.gameObject.GetComponent<Enemy>();
+        enemy = gameObject.GetComponent<Enemy>();
     }
 
     private void Start()
@@ -77,7 +77,7 @@ public class HealthHandler : MonoBehaviour, IHealthSystemProvider, IDamageable, 
     public void Damage(DamageInfo damageInfo)
     {
         if(damageInfo.layerMask == gameObject.layer) return; // tránh không cho cùng Layer vã lẫn nhau
-        
+
         float finalDamage = caculateFinalDamage(damageInfo);
         Damage(finalDamage);
     }

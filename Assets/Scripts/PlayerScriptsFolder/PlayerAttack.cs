@@ -85,8 +85,8 @@ public class PlayerAttack : MonoBehaviour
         // damage enemy handler
         GameObject enemyGameObject = raycastHit2D.collider.gameObject;
         // HealthHandler enemyHealthHandler = enemyGameObject.GetComponent<HealthHandler>();
-        Enemy enemy = enemyGameObject.GetComponent<Enemy>();
-        enemy.getFeature(out float minDamageReceived, out float maxDamageReceived, out float minDamageAttack, out float maxDamageAttack);
+        // Enemy enemy = enemyGameObject.GetComponent<Enemy>();
+        // enemy.getFeature(out float minDamageReceived, out float maxDamageReceived, out float minDamageAttack, out float maxDamageAttack);
 
         // xứ lý riêng boss => sẽ không clean nhưng thôi tạm thời thế đã
         // bool isBossDeathBringer = enemyGameObject.CompareTag("BossDeathBringer");

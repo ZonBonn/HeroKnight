@@ -31,21 +31,21 @@ public class PlayerDefense : MonoBehaviour
         return playerMovement.GetPlayerState() == State.BlockIdle;
     }
 
-    public void ReceiveDamage(float minDamageAttack, float maxDamageAttack, int enemyDir) // xử lý nhận damage player
-    {
-        bool isBlockingShieldVar = isBlockingShield();
-        if(isBlockingShieldVar == true && CanBlockByDir(enemyDir) == false)
-        {
-            playerHealthStaminaHandler.DamageHealth(UnityEngine.Random.Range(minDamageAttack, maxDamageAttack));
-        }
-        else if(isBlockingShieldVar == true && CanBlockByDir(enemyDir) == true)
-        {
-            playerHealthStaminaHandler.DamageHealth(0);
-            OnBlockIdleIsHited?.Invoke();
-        }
-        else
-        {
-            playerHealthStaminaHandler.DamageHealth(UnityEngine.Random.Range(minDamageAttack, maxDamageAttack));
-        }
-    }
+    // public void ReceiveDamage(float minDamageAttack, float maxDamageAttack, int enemyDir) // xử lý nhận damage player
+    // {
+    //     bool isBlockingShieldVar = isBlockingShield();
+    //     if(isBlockingShieldVar == true && CanBlockByDir(enemyDir) == false)
+    //     {
+    //         playerHealthStaminaHandler.DamageHealth(UnityEngine.Random.Range(minDamageAttack, maxDamageAttack));
+    //     }
+    //     else if(isBlockingShieldVar == true && CanBlockByDir(enemyDir) == true)
+    //     {
+    //         playerHealthStaminaHandler.DamageHealth(0);
+    //         OnBlockIdleIsHited?.Invoke();
+    //     }
+    //     else
+    //     {
+    //         playerHealthStaminaHandler.DamageHealth(UnityEngine.Random.Range(minDamageAttack, maxDamageAttack));
+    //     }
+    // }
 }

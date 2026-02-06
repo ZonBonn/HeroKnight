@@ -7,8 +7,8 @@ public class BossAttack : MonoBehaviour
 
     private BossPathFindingMovement bossPathFindingMovement;
     private BossAnimation bossAnimation;
-    public PlayerHealthStaminaHandler playerHealthStaminaHandler;
-    private PlayerDefense playerDefense;
+    // public PlayerHealthStaminaHandler playerHealthStaminaHandler;
+    // private PlayerDefense playerDefense;
     
     void Start()
     {
@@ -18,11 +18,11 @@ public class BossAttack : MonoBehaviour
         bossAnimation.OnTriggerEachFrames += TriggerCreateAttackPoint;
 
         // tham chiếu cho level 2
-        if(playerHealthStaminaHandler == null)
-        {
-            playerHealthStaminaHandler = PlayerManager.Instance.GetPlayerGameObject().GetComponent<PlayerHealthStaminaHandler>();
-            playerDefense = playerHealthStaminaHandler.gameObject.GetComponent<PlayerDefense>();
-        }
+        // if(playerHealthStaminaHandler == null)
+        // {
+        //     playerHealthStaminaHandler = PlayerManager.Instance.GetPlayerGameObject().GetComponent<PlayerHealthStaminaHandler>();
+        //     playerDefense = playerHealthStaminaHandler.gameObject.GetComponent<PlayerDefense>();
+        // }
     }
 
     
@@ -67,7 +67,10 @@ public class BossAttack : MonoBehaviour
                 for(int i = 0 ; i < hitedCollider.Length ; i++)
                 {
                     IDamageable damageable = hitedCollider[i].gameObject.GetComponent<IDamageable>();
-                    damageable.Damage(damageInfo);
+                    if (damageable != null)
+                    {
+                        damageable.Damage(damageInfo);  
+                    }
                 }
             }
         }
