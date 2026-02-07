@@ -1,3 +1,4 @@
+using NUnit.Framework.Constraints;
 using UnityEngine;
 
 public class BossAttack : MonoBehaviour
@@ -50,7 +51,7 @@ public class BossAttack : MonoBehaviour
             bool IsHitedPlayer = IsPlayerInAttackPoint(attackPosition);
             if(IsHitedPlayer == true)
             {
-                // Debug.Log("Hited Player");
+                Debug.Log("Hited Player");
                 // Debug.Log("Damage Player: " + UnityEngine.Random.Range(45, 50));
                 // damage player in here
                 // playerHealthHandler.Damage(UnityEngine.Random.Range(45, 50));
@@ -63,10 +64,13 @@ public class BossAttack : MonoBehaviour
                 damageInfo.minDamage = minDamageAttack;
                 damageInfo.maxDamage = maxDamageAttack;
                 damageInfo.layerMask = gameObject.layer;
-                Collider2D[] hitedCollider = Physics2D.OverlapCircleAll(attackPosition, 0.1f);
-                for(int i = 0 ; i < hitedCollider.Length ; i++)
+                Debug.Log("attackPosition" + attackPosition);
+            
+                Debug.Log("caculateLocationCheck" + caculateLocationCheck(attackPosition, EnemyPosition, dirVisual));
+                Collider2D[] hitedColliders = Physics2D.OverlapCircleAll(caculateLocationCheck(attackPosition, EnemyPosition, dirVisual), attackDistance/2);
+                for(int i = 0 ; i < hitedColliders.Length ; i++)
                 {
-                    IDamageable damageable = hitedCollider[i].gameObject.GetComponent<IDamageable>();
+                    IDamageable damageable = hitedColliders[i].gameObject.GetComponent<IDamageable>();
                     if (damageable != null)
                     {
                         damageable.Damage(damageInfo);  
@@ -76,6 +80,43 @@ public class BossAttack : MonoBehaviour
         }
         
     }
+
+
+    private void TriggerCreateAttackPoint2(int idxFrame, Sprite[] sprites)// hàm này được gọi ở fame thứ 4 (tính từ 0) của enemy
+    {
+        Vector3 EnemyPosition = BossPositionHolder.Instance.GetRealBossPosition();
+        if(sprites == bossAnimation.AttackSprites && idxFrame == 4)
+        {
+            const float attackDistance = 2.5f;
+            int dirVisual = bossPathFindingMovement.currentVisualDir;
+            Vector3 attackPosition = new Vector3(EnemyPosition.x + dirVisual * attackDistance, EnemyPosition.y, EnemyPosition.z);
+            // Debug.Log("Real Enemy Position Center: " + EnemyPosition);
+            // Debug.Log("attackPosition: " + attackPosition);
+            bool IsHitedPlayer = IsPlayerInAttackPoint(attackPosition);
+            if(IsHitedPlayer == true)
+            {
+                // NEW dùng interface cho sạch
+                DamageInfo damageInfo = new DamageInfo();
+                damageInfo.attackerDir = bossPathFindingMovement.currentVisualDir;
+                damageInfo.minDamage = minDamageAttack;
+                damageInfo.maxDamage = maxDamageAttack;
+                damageInfo.layerMask = gameObject.layer;
+
+                Vector2 dirRaycast = dirVisual == -1 ? Vector2.left : Vector2.right;
+                RaycastHit2D raycastHit2D = Physics2D.Raycast(EnemyPosition, dirRaycast, attackDistance);
+                if(raycastHit2D.collider != null)
+                {
+                    IDamageable damageable = raycastHit2D.collider.gameObject.GetComponent<IDamageable>();
+                    if (damageable != null)
+                    {
+                        damageable.Damage(damageInfo);  
+                    }
+                }
+            }
+        }
+        
+    }
+
 
     private bool IsPlayerInAttackPoint(Vector3 attackPosition)
     {
@@ -106,5 +147,24 @@ public class BossAttack : MonoBehaviour
         // Debug.Log("EnemyAngleVisualDirectToPlayer:"+EnemyAngleVisualDirectToPlayer);
         // Debug.Log("IsInRangeAttack: " + IsInRangeAttack + "        IsInVision: " + IsInVision);
         return IsInRangeAttack && IsInVision;
+    }
+
+    private Vector3 caculateLocationCheck(Vector3 attackPosition, Vector3 enemyPosition, int dirVisual)
+    {
+        
+        attackPosition.z = 0;
+        enemyPosition.z = 0;
+        Vector3 locationCheck = enemyPosition;
+        float distance = Vector3.Distance(attackPosition, enemyPosition);
+        if(dirVisual == 1)
+        {
+             locationCheck.x = locationCheck.x + (distance/2);
+        }
+        else
+        {
+             locationCheck.x = locationCheck.x - (distance/2);
+        }
+       
+        return locationCheck;
     }
 }

@@ -38,22 +38,33 @@ public class ProjectileCollision : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collider2D)
     {
         rb2d.linearVelocity = Vector3.zero;// khi va chạm thì thôi không di chuyển nữa 
-        projectileAnimation.ProjectileAnimationHandler(ProjectileState.Explode); // sau cái này thì nó sẽ tự hủy mà 
+        projectileAnimation.ProjectileAnimationHandler(ProjectileState.Explode); // sau cái này thì nó sẽ tự hủy mà
 
-        if (collider2D.CompareTag("Player"))
+        IDamageable damageable = collider2D.GetComponent<IDamageable>();
+        if(damageable != null)
         {
-            // Debug.Log("tốc độ x của viên Đạn của EW:" + rb2d.linearVelocityX
-            // giảm HP người chơi ở đây
-            PlayerHealthStaminaHandler playerHealthStaminaHandler = collider2D.gameObject.GetComponent<PlayerHealthStaminaHandler>();
-            PlayerDefense playerDefense = collider2D.gameObject.GetComponent<PlayerDefense>();
-
-            if(playerHealthStaminaHandler != null && isHitedPlayer == false)
-            {
-                // playerHealthStaminaHandler.DamageHealth(UnityEngine.Random.Range(minDamageAttack, maxDamageAttack));
-                // playerDefense.ReceiveDamage(minDamageAttack, maxDamageAttack, dirBulletLeftOrRight);
-                isHitedPlayer = true;
-            }
+            DamageInfo damageInfo = new DamageInfo();
+            damageInfo.attackerDir = dirBulletLeftOrRight;
+            damageInfo.minDamage = minDamageAttack;
+            damageInfo.maxDamage = maxDamageAttack;
+            damageInfo.layerMask = shooterGameObject.layer;
+            damageable.Damage(damageInfo);
         }
+
+        // if (collider2D.CompareTag("Player"))
+        // {
+        //     // Debug.Log("tốc độ x của viên Đạn của EW:" + rb2d.linearVelocityX
+        //     // giảm HP người chơi ở đây
+        //     PlayerHealthStaminaHandler playerHealthStaminaHandler = collider2D.gameObject.GetComponent<PlayerHealthStaminaHandler>();
+        //     PlayerDefense playerDefense = collider2D.gameObject.GetComponent<PlayerDefense>();
+
+        //     if(playerHealthStaminaHandler != null && isHitedPlayer == false)
+        //     {
+        //         // playerHealthStaminaHandler.DamageHealth(UnityEngine.Random.Range(minDamageAttack, maxDamageAttack));
+        //         // playerDefense.ReceiveDamage(minDamageAttack, maxDamageAttack, dirBulletLeftOrRight);
+        //         isHitedPlayer = true;
+        //     }
+        // }
     }
 
     public void SetShooter(GameObject shooterGameObject)

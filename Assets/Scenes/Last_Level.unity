@@ -504,7 +504,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3067322110126562727, guid: ccca1ee1b22df41499bd860e23c3ec3a, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5917890074991209829, guid: ccca1ee1b22df41499bd860e23c3ec3a, type: 3}
       propertyPath: gridMap
@@ -11743,7 +11743,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3067322110126562727, guid: ccca1ee1b22df41499bd860e23c3ec3a, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5917890074991209829, guid: ccca1ee1b22df41499bd860e23c3ec3a, type: 3}
       propertyPath: gridMap
@@ -20251,6 +20251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0270c04f0c6bc840ba40137e06eb3b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraDrag
+  dragSpeed: 1
 --- !u!1 &1582889501
 GameObject:
   m_ObjectHideFlags: 0

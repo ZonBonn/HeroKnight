@@ -7,7 +7,7 @@ public class BossHealthHandler : MonoBehaviour, IHealthSystemProvider, IDamageab
     private BossHealthBar bossHealthBar;
     private BossLevelCombatManager bossLevelCombatManager;
     private Enemy enemy;
-    // private float 
+    private float RegenHPAmount = 2.5f;
 
     private float minDamageReceived;
     private float maxDamageReceived;
@@ -62,7 +62,7 @@ public class BossHealthHandler : MonoBehaviour, IHealthSystemProvider, IDamageab
 
     public void RegenHPBoss()
     {
-        
+        Heal(RegenHPAmount * Time.deltaTime);
     }
 
     public HealthSystem getBossHealthSystem(){ return healthSystem; }

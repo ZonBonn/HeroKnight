@@ -17,6 +17,7 @@ public class PlayerDefense : MonoBehaviour
     public bool CanBlockByDir(int enemyVisualDir)
     {
         // Debug.Log("playerVisual: " + playerMovement.GetPlayerVisualDirection() + " enemyVisualDir: " + enemyVisualDir);
+        if(enemyVisualDir == 0) return false; // nếu hướng là 0 thì vẫn ăn false (không cùng hướng) vì không thể đỡ được dù cùng hay không cùng hướng
         if(playerMovement.GetPlayerVisualDirection() == enemyVisualDir)
         {
             return false; // cùng hướng không đỡ được

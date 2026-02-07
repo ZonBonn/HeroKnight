@@ -64,10 +64,11 @@ public class EnemyAttack : MonoBehaviour
                 damageInfo.minDamage = minDamageAttack;
                 damageInfo.maxDamage = maxDamageAttack;
                 damageInfo.layerMask = gameObject.layer;
-                Collider2D[] hitedCollider = Physics2D.OverlapCircleAll(attackPosition, 0.1f);
-                for(int i = 0 ; i < hitedCollider.Length ; i++)
+                Collider2D[] hitedColliders = Physics2D.OverlapCircleAll(attackPosition, 0.1f);
+                // Debug.Log("attackPosition:" + attackPosition);
+                for(int i = 0 ; i < hitedColliders.Length ; i++)
                 {
-                    IDamageable damageable = hitedCollider[i].gameObject.GetComponent<IDamageable>();
+                    IDamageable damageable = hitedColliders[i].gameObject.GetComponent<IDamageable>();
                     if (damageable != null)
                     {
                         damageable.Damage(damageInfo);  
