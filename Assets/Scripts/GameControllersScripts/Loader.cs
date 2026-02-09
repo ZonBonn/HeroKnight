@@ -1,25 +1,39 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
+using System.Collections;
+using Unity.VisualScripting;
 
 public static class Loader
 {
-    public enum Scene
+    public class DummyMonoBehaviourClass : MonoBehaviour { } // StartCoroutine thuộc class MonoBehaviour => cần class giả này để chạy coroutine
+    private static AsyncOperation asyncOperation;
+    public enum Scene // phải giống trong build setting scene litst
     {
         StartMenu,
+        LoadingScene,
         Level_1,
         Level_2,
         Last_Level,
-        LoadingScene,
     }
 
-    public static Action OnSceneCallback; // gọi load màn tiếp theo
+    public static Action OnLoaderCallback; // gọi load màn tiếp theo
+
+    private static bool isLoading;
 
     public static void Load(Scene scene)
     {
+        asyncOperation = null;
         // đăng ký hàm gọi scene tiếp theo để khi nào tới loading scene thì loading scene sẽ gọi cái màn mà cần tới
-        OnSceneCallback = () => {
-            FunctionTimer.Create(() => { SceneManager.LoadSceneAsync(scene.ToString()); }, 1f);
+        // ĐĂNG KÝ CHỨ KHÔNG PHẢI LOAD SCENE CHÍNH NÀY
+        OnLoaderCallback = () => {
+            // FunctionTimer.Create(() => { SceneManager.LoadSceneAsync(scene.ToString()); }, 1f);
+            GameObject gameObject = new GameObject("Loading Game Object");
+            gameObject.AddComponent<DummyMonoBehaviourClass>();
+            
+            // FunctionTimer.Create(() => { asyncOperation = SceneManager.LoadSceneAsync(scene.ToString()); }, 1f);
+            
+            gameObject.GetComponent<DummyMonoBehaviourClass>().StartCoroutine(LoadingSceneASync(scene, gameObject));
             
         };
 
@@ -28,13 +42,59 @@ public static class Loader
         SceneManager.LoadSceneAsync(Scene.LoadingScene.ToString());
     }
 
+    public static void LoadNextLevel()
+    {
+        if (isLoading) return;
+        isLoading = true;
+
+        asyncOperation = null;
+
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        int nextSceneIndex = currentSceneIndex + 1;
+
+        Scene nextScene = (Scene)nextSceneIndex; // ép sang giá trị kế bên phải của scene hiện tại
+        Debug.Log("Load Level" + nextScene);
+
+        Load(nextScene);
+    }
+
     public static void sceneCallback()
     {
-        if(OnSceneCallback != null)
+        if(OnLoaderCallback != null)
         {
-            OnSceneCallback?.Invoke();
-            OnSceneCallback = null;
+            OnLoaderCallback?.Invoke(); // tới loading scene thì bắt đầu load scene chính
+            OnLoaderCallback = null;
 
         }
+    }
+
+    static IEnumerator LoadingSceneASync(Scene scene, GameObject gameObject)
+    {
+        asyncOperation = SceneManager.LoadSceneAsync(scene.ToString());
+        asyncOperation.allowSceneActivation = false; // chặn khi tải xong thì chưa cho bật scene
+        
+        while (asyncOperation.progress < 0.9f)
+        {
+            // Debug.Log(asyncOperation.progress);
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(1f); // tải xong thì đợi 1s mới load vào scene chính
+
+        
+        // set up
+        asyncOperation.allowSceneActivation = true;
+        isLoading = false;
+
+        // Cho phép chuyển scene
+        asyncOperation.allowSceneActivation = true;
+        GameObject.Destroy(gameObject);
+    }
+
+    public static float getLoadProgress()
+    {
+        if(asyncOperation != null)
+            return Mathf.Clamp01(asyncOperation.progress / 0.9f);
+        return 1f;
     }
 }

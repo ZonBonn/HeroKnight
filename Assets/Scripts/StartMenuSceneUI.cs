@@ -10,6 +10,6 @@ public class StartMenuSceneUI : MonoBehaviour
     {
         playButton.onClick.AddListener(() => { Loader.Load(Loader.Scene.Level_1); });
 
-        quitButton.onClick.AddListener(() => { Application.Quit(); });
+        quitButton.onClick.AddListener(() => {/* Debug.Log("Quited Game");*/ Application.Quit(); });
     }
 }

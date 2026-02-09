@@ -14,7 +14,8 @@ public class Portal : MonoBehaviour
     {
         if(Input.GetKey(KeyCode.N) && Input.GetKey(KeyCode.E) && Input.GetKeyDown(KeyCode.T))
         {
-            SenceController.instance.NextLevel();
+            // SenceController.instance.NextLevel();
+            Loader.LoadNextLevel();
         }
     }
 
@@ -22,7 +23,9 @@ public class Portal : MonoBehaviour
     {
         if (col.gameObject.CompareTag("Player") == true)
         {
-            SenceController.instance.NextLevel();
+            // Debug.Log("Load Scene" + SceneManager.GetActiveScene().buildIndex + 1);
+            // SenceController.instance.NextLevel();
+            Loader.LoadNextLevel();
         }
     }
 }
