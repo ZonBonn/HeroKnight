@@ -19,11 +19,10 @@ public static class Loader
 
     public static Action OnLoaderCallback; // gọi load màn tiếp theo
 
-    private static bool isLoading;
-
     public static void Load(Scene scene)
     {
         asyncOperation = null;
+
         // đăng ký hàm gọi scene tiếp theo để khi nào tới loading scene thì loading scene sẽ gọi cái màn mà cần tới
         // ĐĂNG KÝ CHỨ KHÔNG PHẢI LOAD SCENE CHÍNH NÀY
         OnLoaderCallback = () => {
@@ -44,21 +43,16 @@ public static class Loader
 
     public static void LoadNextLevel()
     {
-        if (isLoading) return;
-        isLoading = true;
-
-        asyncOperation = null;
-
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         int nextSceneIndex = currentSceneIndex + 1;
 
         Scene nextScene = (Scene)nextSceneIndex; // ép sang giá trị kế bên phải của scene hiện tại
-        Debug.Log("Load Level" + nextScene);
+        // Debug.Log("Load Level" + nextScene);
 
         Load(nextScene);
     }
 
-    public static void sceneCallback()
+    public static void LoaderCallback()
     {
         if(OnLoaderCallback != null)
         {
@@ -70,6 +64,7 @@ public static class Loader
 
     static IEnumerator LoadingSceneASync(Scene scene, GameObject gameObject)
     {
+        yield return new WaitForSeconds(0.5f);
         asyncOperation = SceneManager.LoadSceneAsync(scene.ToString());
         asyncOperation.allowSceneActivation = false; // chặn khi tải xong thì chưa cho bật scene
         
@@ -79,12 +74,7 @@ public static class Loader
             yield return null;
         }
 
-        yield return new WaitForSeconds(1f); // tải xong thì đợi 1s mới load vào scene chính
-
-        
-        // set up
-        asyncOperation.allowSceneActivation = true;
-        isLoading = false;
+        yield return new WaitForSeconds(0.5f); // tải xong thì đợi 1s mới load vào scene chính
 
         // Cho phép chuyển scene
         asyncOperation.allowSceneActivation = true;
@@ -94,7 +84,19 @@ public static class Loader
     public static float getLoadProgress()
     {
         if(asyncOperation != null)
-            return Mathf.Clamp01(asyncOperation.progress / 0.9f);
-        return 1f;
+        {
+            if(asyncOperation.progress < 0.9f)
+            {
+                return asyncOperation.progress;
+            }
+            else
+            {
+                return 1f;
+            }
+        }
+        else
+        {
+            return 0f;
+        }
     }
 }

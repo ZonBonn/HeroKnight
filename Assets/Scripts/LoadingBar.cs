@@ -12,6 +12,7 @@ public class LoadingBar : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log("Loading Progress %: " + Loader.getLoadProgress());
         image.fillAmount = Loader.getLoadProgress();
     }
 }
