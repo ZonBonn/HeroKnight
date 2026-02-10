@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return;
         }
             
         PlayerManager.Instance.RegisterPlayer(gameObject); // gửi PlayerGameObject đi cho các scene tiếp theo

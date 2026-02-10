@@ -15,6 +15,7 @@ public class SenceController : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return;
         }
     }
 

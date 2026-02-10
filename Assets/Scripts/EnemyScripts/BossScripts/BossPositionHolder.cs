@@ -12,6 +12,11 @@ public class BossPositionHolder : MonoBehaviour
         {
             Instance = this;
         }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
 
         realBossTransform = gameObject.transform.Find("BossRealPosition");
     }

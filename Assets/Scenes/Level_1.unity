@@ -3431,8 +3431,8 @@ MonoBehaviour:
     m_FadeDuration: 0.1
   m_SpriteState:
     m_HighlightedSprite: {fileID: -2381909340392218158, guid: 53aaf1ddcf4497e4dbe1410992953449, type: 3}
-    m_PressedSprite: {fileID: -2381909340392218158, guid: 53aaf1ddcf4497e4dbe1410992953449, type: 3}
-    m_SelectedSprite: {fileID: -2381909340392218158, guid: 53aaf1ddcf4497e4dbe1410992953449, type: 3}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
@@ -3444,7 +3444,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 282600331}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 712709992}
+        m_TargetAssemblyTypeName: UIButtonAction, Assembly-CSharp
+        m_MethodName: ReplayButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 712709991}
+        m_TargetAssemblyTypeName: UICanvasManager, Assembly-CSharp
+        m_MethodName: HidePannel
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1575068094}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &307040308
 GameObject:
   m_ObjectHideFlags: 0
@@ -8404,7 +8428,7 @@ MonoBehaviour:
   m_SpriteState:
     m_HighlightedSprite: {fileID: 3349644112325863184, guid: 53aaf1ddcf4497e4dbe1410992953449, type: 3}
     m_PressedSprite: {fileID: 3349644112325863184, guid: 53aaf1ddcf4497e4dbe1410992953449, type: 3}
-    m_SelectedSprite: {fileID: 3349644112325863184, guid: 53aaf1ddcf4497e4dbe1410992953449, type: 3}
+    m_SelectedSprite: {fileID: 0}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
@@ -8416,7 +8440,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 703643145}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 712709992}
+        m_TargetAssemblyTypeName: UIButtonAction, Assembly-CSharp
+        m_MethodName: PausedButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &703643145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8685,6 +8721,7 @@ GameObject:
   - component: {fileID: 712709988}
   - component: {fileID: 712709987}
   - component: {fileID: 712709991}
+  - component: {fileID: 712709992}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -8771,8 +8808,8 @@ RectTransform:
   - {fileID: 421260866}
   - {fileID: 835561324}
   - {fileID: 1395260161}
-  - {fileID: 703643143}
   - {fileID: 1575068095}
+  - {fileID: 703643143}
   - {fileID: 2089687668}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8814,6 +8851,22 @@ MonoBehaviour:
   bossHealthBGIntroGroup: {fileID: 729525624}
   bossHealthBarChildern: {fileID: 1609917132}
   bossHealthBarIntroChildern: {fileID: 1307860272}
+  diePannel: {fileID: 2089687667}
+  pausedPannel: {fileID: 1575068094}
+--- !u!114 &712709992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 712709986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09d88a4839f87b043b16ac24c1ab2d91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonAction
+  diePannel: {fileID: 2089687667}
+  pausedPannel: {fileID: 1575068094}
 --- !u!1 &713391641
 GameObject:
   m_ObjectHideFlags: 0
@@ -24131,6 +24184,138 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1124209622
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1124209623}
+  - component: {fileID: 1124209626}
+  - component: {fileID: 1124209625}
+  - component: {fileID: 1124209624}
+  m_Layer: 5
+  m_Name: X Button
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1124209623
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1124209622}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1575068095}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 268.4, y: 122.3}
+  m_SizeDelta: {x: 25.09, y: 25.09}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1124209624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1124209622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 2
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 7174167584646727459, guid: 53aaf1ddcf4497e4dbe1410992953449, type: 3}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1124209625}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 712709992}
+        m_TargetAssemblyTypeName: UIButtonAction, Assembly-CSharp
+        m_MethodName: XPausedPannelButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1124209625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1124209622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: -77006150763170147, guid: 53aaf1ddcf4497e4dbe1410992953449, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1124209626
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1124209622}
+  m_CullTransparentMesh: 1
 --- !u!1 &1137115426
 GameObject:
   m_ObjectHideFlags: 0
@@ -25920,8 +26105,8 @@ MonoBehaviour:
     m_FadeDuration: 0.1
   m_SpriteState:
     m_HighlightedSprite: {fileID: -6460607209241108654, guid: 53aaf1ddcf4497e4dbe1410992953449, type: 3}
-    m_PressedSprite: {fileID: -6460607209241108654, guid: 53aaf1ddcf4497e4dbe1410992953449, type: 3}
-    m_SelectedSprite: {fileID: -6460607209241108654, guid: 53aaf1ddcf4497e4dbe1410992953449, type: 3}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
@@ -25933,7 +26118,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1260527674}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 712709992}
+        m_TargetAssemblyTypeName: UIButtonAction, Assembly-CSharp
+        m_MethodName: Home
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 712709991}
+        m_TargetAssemblyTypeName: UICanvasManager, Assembly-CSharp
+        m_MethodName: HidePannel
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2089687667}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1263095741
 GameObject:
   m_ObjectHideFlags: 0
@@ -29410,8 +29619,8 @@ MonoBehaviour:
     m_FadeDuration: 0.1
   m_SpriteState:
     m_HighlightedSprite: {fileID: -6460607209241108654, guid: 53aaf1ddcf4497e4dbe1410992953449, type: 3}
-    m_PressedSprite: {fileID: -6460607209241108654, guid: 53aaf1ddcf4497e4dbe1410992953449, type: 3}
-    m_SelectedSprite: {fileID: -6460607209241108654, guid: 53aaf1ddcf4497e4dbe1410992953449, type: 3}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
@@ -29423,7 +29632,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1504026173}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 712709992}
+        m_TargetAssemblyTypeName: UIButtonAction, Assembly-CSharp
+        m_MethodName: Home
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 712709991}
+        m_TargetAssemblyTypeName: UICanvasManager, Assembly-CSharp
+        m_MethodName: HidePannel
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1575068094}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1506893935
 GameObject:
   m_ObjectHideFlags: 0
@@ -30609,7 +30842,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1575068095
 RectTransform:
   m_ObjectHideFlags: 0
@@ -30626,6 +30859,7 @@ RectTransform:
   - {fileID: 1504026172}
   - {fileID: 282600330}
   - {fileID: 507602359}
+  - {fileID: 1124209623}
   m_Father: {fileID: 712709990}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -35208,6 +35442,8 @@ MonoBehaviour:
   bossHealthBGIntroGroup: {fileID: 0}
   bossHealthBarChildern: {fileID: 0}
   bossHealthBarIntroChildern: {fileID: 0}
+  diePannel: {fileID: 0}
+  pausedPannel: {fileID: 0}
 --- !u!1 &1891899654
 GameObject:
   m_ObjectHideFlags: 0
@@ -37625,8 +37861,8 @@ MonoBehaviour:
     m_FadeDuration: 0.1
   m_SpriteState:
     m_HighlightedSprite: {fileID: -2381909340392218158, guid: 53aaf1ddcf4497e4dbe1410992953449, type: 3}
-    m_PressedSprite: {fileID: -2381909340392218158, guid: 53aaf1ddcf4497e4dbe1410992953449, type: 3}
-    m_SelectedSprite: {fileID: -2381909340392218158, guid: 53aaf1ddcf4497e4dbe1410992953449, type: 3}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
@@ -37638,7 +37874,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2062866665}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 712709992}
+        m_TargetAssemblyTypeName: UIButtonAction, Assembly-CSharp
+        m_MethodName: ReplayButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 712709991}
+        m_TargetAssemblyTypeName: UICanvasManager, Assembly-CSharp
+        m_MethodName: HidePannel
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2089687667}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2074374777
 GameObject:
   m_ObjectHideFlags: 0

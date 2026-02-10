@@ -10,7 +10,7 @@ public class ProjectileCollision : MonoBehaviour
     private ProjectileMoving projectileMoving;
     private GameObject shooterGameObject;
     private Enemy enemy;
-    private bool isHitedPlayer;
+    // private bool isHitedPlayer;
 
     private float minDamageAttack;
     private float maxDamageAttack;
@@ -24,7 +24,7 @@ public class ProjectileCollision : MonoBehaviour
         projectileAnimation = gameObject.GetComponentInParent<ProjectileAnimation>();
         projectileMoving = gameObject.GetComponent<ProjectileMoving>();
 
-        isHitedPlayer = false;
+        // isHitedPlayer = false;
     }
 
     private void Start()

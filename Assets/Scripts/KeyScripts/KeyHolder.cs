@@ -9,13 +9,13 @@ public class KeyHolder : MonoBehaviour
 
     public Action OnTriggerPlayerOpenTheChest;
     
-    private bool CanPickUpKey;
+    // private bool CanPickUpKey;
     
     private void Awake()
     {
         keyList = new List<Key.KeyType>();
 
-        CanPickUpKey = false;
+        // CanPickUpKey = false;
     }
 
     private void Start()
@@ -81,6 +81,6 @@ public class KeyHolder : MonoBehaviour
 
     public void SetCanPickUpKeyTrue()
     {
-        CanPickUpKey = true;
+        // CanPickUpKey = true;
     }
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UICanvasManager : MonoBehaviour
 {
@@ -33,7 +34,8 @@ public class UICanvasManager : MonoBehaviour
     [SerializeField] GameObject bossHealthBarChildern;
     [SerializeField] GameObject bossHealthBarIntroChildern;
 
-    
+    [SerializeField] GameObject diePannel;
+    [SerializeField] GameObject pausedPannel;
 
     private void Awake()
     {
@@ -41,6 +43,11 @@ public class UICanvasManager : MonoBehaviour
         {
             Instance = this;
         }
+        // else
+        // {
+        //     Destroy(gameObject);
+        //     return;
+        // }
 
         DontDestroyOnLoad(gameObject);
         
@@ -56,6 +63,14 @@ public class UICanvasManager : MonoBehaviour
         // bossHealthBarIntro.OnTriggerFullOfHealthBarIntro += OnFullOfHealthBarIntro; // nếu đăng ký kiểu này thì không được do Object con sẽ được khởi tạo sau mà Obj cha khởi tạo trước nên NRE => giải pháp: tạo một hàm đăng ký cho chính thằng con gọi
         // BossTrigger.OnTriggerBossStartFighting += OnBossStartFighting;
     }   
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            UIButtonAction.Instance.PausedButton();
+        }
+    }
 
     // cách đăng ký hay khi không biết được thứ tự sinh ra: + 1 kinh nghiệm
     // B1: gọi hàm từ chỗ "lẽ ra cần đăng ký tại đó
@@ -124,9 +139,16 @@ public class UICanvasManager : MonoBehaviour
     public PlayerHealthBar getPlayerHealthBar(){ return playerHealthBar; }
     public PlayerStaminaBar getPlayerStaminaBar() { return playerStaminaBar; }
     public BossHealthBar getBossHealthBar(){ return bossHealthBar; }
-    public BossHealthBarIntro getBossHealthBarIntro()
+    public BossHealthBarIntro getBossHealthBarIntro(){ return bossHealthBarIntroChildern.GetComponent<BossHealthBarIntro>(); }
+
+    public void ShowPannel(GameObject pannel)
     {
-        return bossHealthBarIntroChildern.GetComponent<BossHealthBarIntro>();
+        pannel.SetActive(true);
+    }
+
+    public void HidePannel(GameObject pannel)
+    {
+        pannel.SetActive(false);
     }
 }
 

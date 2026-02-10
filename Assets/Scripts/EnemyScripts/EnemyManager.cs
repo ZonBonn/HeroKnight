@@ -24,6 +24,11 @@ public class EnemyManager : MonoBehaviour
         {
             Instance = this;
         }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
 
         // listEnemyAmount = new List<EnemyAmount>();
         DiedEnemyWithoutSpawnKeyAmountDic = new Dictionary<EnemyType, int>();
