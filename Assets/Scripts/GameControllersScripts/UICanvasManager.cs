@@ -39,18 +39,21 @@ public class UICanvasManager : MonoBehaviour
 
     private void Awake()
     {
+        // Debug.Log("UICanvasManager Awake from: " + gameObject.scene.name);
         if(Instance == null)
         {
+            // Debug.Log("UICanvasManager == null");
             Instance = this;
         }
-        // else
-        // {
-        //     Destroy(gameObject);
-        //     return;
-        // }
+        else
+        {
+            // Debug.Log("UICanvasManager != null");
+            Destroy(gameObject);
+            return;
+        }
 
         DontDestroyOnLoad(gameObject);
-        
+        // Debug.Log("UIButtonAction ID:" + UIButtonAction.Instance.GetHashCode());
     }
 
     void Start()
@@ -151,40 +154,3 @@ public class UICanvasManager : MonoBehaviour
         pannel.SetActive(false);
     }
 }
-
-// removed
-// void ShowBossIntro()
-//     {
-//         bossHPPannelIntroGroup.alpha = 1;
-//         bossHPPannelIntroGroup.interactable = true;
-//         bossHPPannelIntroGroup.blocksRaycasts = true;
-//     }
-
-//     void HideBossIntro_ShowMain()
-//     {
-//         bossHPPannelIntroGroup.alpha = 0;
-//         bossHPPannelIntroGroup.interactable = false;
-//         bossHPPannelIntroGroup.blocksRaycasts = false;
-
-//         bossHPPannelGroup.alpha = 1;
-//         bossHPPannelGroup.interactable = true;
-//         bossHPPannelGroup.blocksRaycasts = true;
-//     }
-
-//     private void ShowBossHPChildrenPannel()
-//     {
-//         bossHealthBarChild.SetActive(true); bossHealthBarName.SetActive(true); bossHealthBarFrame.SetActive(true);
-//     }
-//     private void HideBossHPChildrenPannel()
-//     {
-//         bossHealthBarChild.SetActive(false); bossHealthBarName.SetActive(false); bossHealthBarFrame.SetActive(false);
-//     }
-
-//     private void ShowBossHPIntroChildrenPannel()
-//     {
-//         bossHealthBarIntroChild.SetActive(true); bossHealthBarNameIntro.SetActive(true); bossHealthBarFrameIntro.SetActive(true); 
-//     }
-//     private void HideBossHPIntroChildrenPannel()
-//     {
-//         bossHealthBarIntroChild.SetActive(false); bossHealthBarNameIntro.SetActive(false); bossHealthBarFrameIntro.SetActive(false);
-//     }

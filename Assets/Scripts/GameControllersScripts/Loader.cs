@@ -56,7 +56,7 @@ public static class Loader
     public static void ReloadLevel()
     {
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-       Load((Scene)currentSceneIndex);
+        Load((Scene)currentSceneIndex);
     }
     
     public static void LoaderCallback()

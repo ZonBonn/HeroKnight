@@ -12,11 +12,17 @@ public class UIButtonAction : MonoBehaviour
         {
             Instance = this;
         }
-        // else
-        // {
-        //     Destroy(gameObject);
-        //     return;
-        // }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+        // Debug.Log("UIButtonAction ID:" + Instance.GetHashCode());
+    }
+
+    private void Update()
+    {
+        
     }
 
     public void Home()

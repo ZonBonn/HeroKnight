@@ -1881,6 +1881,56 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &147792923
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 147792924}
+  - component: {fileID: 147792925}
+  m_Layer: 5
+  m_Name: UIButtonAction
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &147792924
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 147792923}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 712709990}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &147792925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 147792923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09d88a4839f87b043b16ac24c1ab2d91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonAction
+  diePannel: {fileID: 2089687667}
+  pausedPannel: {fileID: 1575068094}
 --- !u!1 &160744007
 GameObject:
   m_ObjectHideFlags: 0
@@ -3445,7 +3495,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 712709992}
+      - m_Target: {fileID: 147792925}
         m_TargetAssemblyTypeName: UIButtonAction, Assembly-CSharp
         m_MethodName: ReplayButton
         m_Mode: 1
@@ -8441,7 +8491,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 712709992}
+      - m_Target: {fileID: 147792925}
         m_TargetAssemblyTypeName: UIButtonAction, Assembly-CSharp
         m_MethodName: PausedButton
         m_Mode: 1
@@ -8721,7 +8771,6 @@ GameObject:
   - component: {fileID: 712709988}
   - component: {fileID: 712709987}
   - component: {fileID: 712709991}
-  - component: {fileID: 712709992}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -8804,6 +8853,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 147792924}
   - {fileID: 1346806549}
   - {fileID: 421260866}
   - {fileID: 835561324}
@@ -8851,20 +8901,6 @@ MonoBehaviour:
   bossHealthBGIntroGroup: {fileID: 729525624}
   bossHealthBarChildern: {fileID: 1609917132}
   bossHealthBarIntroChildern: {fileID: 1307860272}
-  diePannel: {fileID: 2089687667}
-  pausedPannel: {fileID: 1575068094}
---- !u!114 &712709992
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 712709986}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09d88a4839f87b043b16ac24c1ab2d91, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UIButtonAction
   diePannel: {fileID: 2089687667}
   pausedPannel: {fileID: 1575068094}
 --- !u!1 &713391641
@@ -24266,7 +24302,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 712709992}
+      - m_Target: {fileID: 147792925}
         m_TargetAssemblyTypeName: UIButtonAction, Assembly-CSharp
         m_MethodName: XPausedPannelButton
         m_Mode: 1
@@ -26119,7 +26155,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 712709992}
+      - m_Target: {fileID: 147792925}
         m_TargetAssemblyTypeName: UIButtonAction, Assembly-CSharp
         m_MethodName: Home
         m_Mode: 1
@@ -29633,7 +29669,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 712709992}
+      - m_Target: {fileID: 147792925}
         m_TargetAssemblyTypeName: UIButtonAction, Assembly-CSharp
         m_MethodName: Home
         m_Mode: 1
@@ -35340,7 +35376,6 @@ GameObject:
   - component: {fileID: 1869005986}
   - component: {fileID: 1869005985}
   - component: {fileID: 1869005984}
-  - component: {fileID: 1869005987}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -35409,41 +35444,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1869005987
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1869005983}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 198fc71abab3f8945866a4206675e1be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UICanvasManager
-  playerHealthBar: {fileID: 0}
-  playerStaminaBar: {fileID: 0}
-  bossHealthBar: {fileID: 0}
-  bossHPPannel: {fileID: 0}
-  bossHPPannelIntro: {fileID: 0}
-  bossHealthBarIntro: {fileID: 0}
-  bossHPPannelGroup: {fileID: 0}
-  bossHPPannelIntroGroup: {fileID: 0}
-  bossHealthBarChild: {fileID: 0}
-  bossHealthBarName: {fileID: 0}
-  bossHealthBarFrame: {fileID: 0}
-  bossHealthBarIntroChild: {fileID: 0}
-  bossHealthBarNameIntro: {fileID: 0}
-  bossHealthBarFrameIntro: {fileID: 0}
-  bossFrameGroup: {fileID: 0}
-  bossNameGroup: {fileID: 0}
-  bossFrameIntroGroup: {fileID: 0}
-  bossNameIntroGroup: {fileID: 0}
-  bossHealthBGIntroGroup: {fileID: 0}
-  bossHealthBarChildern: {fileID: 0}
-  bossHealthBarIntroChildern: {fileID: 0}
-  diePannel: {fileID: 0}
-  pausedPannel: {fileID: 0}
 --- !u!1 &1891899654
 GameObject:
   m_ObjectHideFlags: 0
@@ -37875,7 +37875,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 712709992}
+      - m_Target: {fileID: 147792925}
         m_TargetAssemblyTypeName: UIButtonAction, Assembly-CSharp
         m_MethodName: ReplayButton
         m_Mode: 1
