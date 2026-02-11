@@ -28,7 +28,7 @@ public class UIButtonAction : MonoBehaviour
     public void Home()
     {
         ResumeGame();
-        Loader.Load(Loader.Scene.StartMenu);
+        Loader.Load(Loader.Scene.Start_Menu);
     }
 
     public void ReplayButton()

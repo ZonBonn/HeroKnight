@@ -15,7 +15,7 @@ public class PersistentVisibility : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if(scene.name == "LoadingScene" || scene.name == "StartMenu")
+        if(scene.name == "LoadingScene" || scene.name == "Start_Menu")
         {
             gameObject.SetActive(false);
         }

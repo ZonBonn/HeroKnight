@@ -10,10 +10,11 @@ public static class Loader
     private static AsyncOperation asyncOperation;
 
     public static Action OnSeneReloaded;
+    public static Action<Scene> OnSceneLoaded;
 
     public enum Scene // phải giống trong build setting scene litst
     {
-        StartMenu,
+        Start_Menu,
         LoadingScene,
         Level_1,
         Level_2,
@@ -24,6 +25,7 @@ public static class Loader
 
     public static void Load(Scene scene)
     {
+        OnSceneLoaded?.Invoke(scene);
         asyncOperation = null;
 
         // đăng ký hàm gọi scene tiếp theo để khi nào tới loading scene thì loading scene sẽ gọi cái màn mà cần tới

@@ -29,7 +29,7 @@ public class PersistentManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMod)
     {
-        if(scene.name == "LoadingScene" || scene.name == "StartMenu")
+        if(scene.name == "LoadingScene" || scene.name == "Start_Menu")
         {
             SetActiveOffAllGO();
         }
