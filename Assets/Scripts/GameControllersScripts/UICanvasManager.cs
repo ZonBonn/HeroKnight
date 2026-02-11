@@ -53,7 +53,7 @@ public class UICanvasManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(gameObject);
-        // Debug.Log("UIButtonAction ID:" + UIButtonAction.Instance.GetHashCode());
+        Debug.Log("UICanvasManager ID:" + UICanvasManager.Instance.GetHashCode());
     }
 
     void Start()
