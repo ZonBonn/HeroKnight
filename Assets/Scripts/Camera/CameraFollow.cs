@@ -17,6 +17,7 @@ public class CameraFollow : MonoBehaviour
         {
             playerTransform = PlayerManager.Instance.GetPlayerGameObject().transform;
         }
+        playerTransform = PlayerManager.Instance.GetPlayerGameObject().transform;
     }
 
     private void LateUpdate()

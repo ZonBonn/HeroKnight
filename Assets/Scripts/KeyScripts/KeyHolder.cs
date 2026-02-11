@@ -83,4 +83,6 @@ public class KeyHolder : MonoBehaviour
     {
         // CanPickUpKey = true;
     }
+
+    public void ResetKeyList(){ if(keyList != null) keyList.Clear(); }
 }

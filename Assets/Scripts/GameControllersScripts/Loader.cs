@@ -8,6 +8,9 @@ public static class Loader
 {
     public class DummyMonoBehaviourClass : MonoBehaviour { } // StartCoroutine thuộc class MonoBehaviour => cần class giả này để chạy coroutine
     private static AsyncOperation asyncOperation;
+
+    public static Action OnSeneReloaded;
+
     public enum Scene // phải giống trong build setting scene litst
     {
         StartMenu,
@@ -57,6 +60,7 @@ public static class Loader
     {
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         Debug.Log("Load scene:" + (Scene)currentSceneIndex);
+        OnSeneReloaded?.Invoke();
         Load((Scene)currentSceneIndex);
     }
     

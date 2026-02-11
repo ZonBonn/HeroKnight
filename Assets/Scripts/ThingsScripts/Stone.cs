@@ -41,4 +41,12 @@ public class Stone : MonoBehaviour
     {
         symbolTransform.gameObject.SetActive(false);
     }
+
+    private void OnDestroy()
+{
+    if (bossHealthBarIntro != null)
+        bossHealthBarIntro.OnTriggerFullOfHealthBarIntro -= StoneSymbolOn;
+
+    BossAI.OnTriggerBossDeath -= StoneSymbolOff;
+}
 }

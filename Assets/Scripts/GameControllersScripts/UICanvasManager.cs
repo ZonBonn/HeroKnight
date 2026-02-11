@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UICanvasManager : MonoBehaviour
+public class UICanvasManager : MonoBehaviour, IResettable
 {
     public static UICanvasManager Instance; // thằng này giữ tham chiếu tới các Bar của UI tới màn nào thì thằng đó Awake tới đây để lấy 
 
@@ -152,5 +152,12 @@ public class UICanvasManager : MonoBehaviour
     public void HidePannel(GameObject pannel)
     {
         pannel.SetActive(false);
+    }
+
+    public void ResetState()
+    {
+        shoudShowBossHPIntroPannel(false);
+        shoudShowBossHPPannel(false);
+        bossHealthBarIntroChildern.GetComponent<BossHealthBarIntro>().Reset();
     }
 }

@@ -38,4 +38,11 @@ public class BossHealthBarIntro : MonoBehaviour
         }
         HealthBarIntro.fillAmount += fillSpeed * Time.deltaTime;
     }
+
+    public void Reset()
+    {
+        isDone = false;
+        if(HealthBarIntro != null)
+            HealthBarIntro.fillAmount = 0f;
+    }
 }

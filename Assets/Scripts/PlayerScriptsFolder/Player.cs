@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IResettable
 {
     public static Player Instance { get; private set; } // lưu chữ instance (chính là cái component của người chơi (mỗi 1 component là một instance), để có thể gọi cái component này ở bất kì đâu)
 
@@ -44,5 +44,13 @@ public class Player : MonoBehaviour
     public Vector3 GetPlayerPosition()
     {
         return gameObject.transform.position;
+    }
+
+    public void ResetState()
+    {
+        playerHealthStaminaHandler.Heal(100);
+        playerHealthStaminaHandler.HealStamina(100);
+        KeyHolder keyHolder = gameObject.GetComponent<KeyHolder>();
+        if(keyHolder != null) keyHolder.ResetKeyList();
     }
 }

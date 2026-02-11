@@ -27,11 +27,13 @@ public class UIButtonAction : MonoBehaviour
 
     public void Home()
     {
+        ResumeGame();
         Loader.Load(Loader.Scene.StartMenu);
     }
 
     public void ReplayButton()
     {
+        ResumeGame();
         Loader.ReloadLevel();
     }
 
