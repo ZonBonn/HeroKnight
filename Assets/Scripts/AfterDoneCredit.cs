@@ -16,9 +16,18 @@ public class AfterDoneCredit : MonoBehaviour
             return;
         }
     }
-    private void Start()
+    private void OnEnable()
     {
-        CreditsScrolling.Instance.OnTriggerDoneTextCredit += SetOnAfterCreditPannel;
+        // CreditsScrolling.Instance.OnTriggerDoneTextCredit += SetOnAfterCreditPannel;
+    }
+
+    private void Update()
+    {
+        if (Input.anyKeyDown)
+        {
+            Loader.Load(Loader.Scene.Start_Menu);
+            // UICanvasManager.Instance.HidePannel(UICanvasManager.Instance.endingPannel);
+        }
     }
 
     public void SetOnAfterCreditPannel()

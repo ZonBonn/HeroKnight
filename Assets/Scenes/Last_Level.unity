@@ -18302,6 +18302,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5481570085514943212, guid: ab99f911081ae064f99b47789afb82c8, type: 3}
+      propertyPath: itemsInSetedChest.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5481570085514943212, guid: ab99f911081ae064f99b47789afb82c8, type: 3}
+      propertyPath: 'itemsInSetedChest.Array.data[0]'
+      value: 
+      objectReference: {fileID: 3614317216005199212, guid: 9b7594588b895244a9a3d5c5addeeecd, type: 3}
     - target: {fileID: 7223303294700175538, guid: ab99f911081ae064f99b47789afb82c8, type: 3}
       propertyPath: m_Name
       value: ChestGolden

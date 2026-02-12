@@ -8643,7 +8643,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'The battle is over...
+  m_Text: 'HERO KNIGHT
 
 
 
@@ -9099,6 +9099,7 @@ MonoBehaviour:
   bossHealthBarIntroChildern: {fileID: 1307860272}
   diePannel: {fileID: 2089687667}
   pausedPannel: {fileID: 1575068094}
+  endingPannel: {fileID: 1034824872}
 --- !u!1 &713391641
 GameObject:
   m_ObjectHideFlags: 0
@@ -14035,7 +14036,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1034824873
 RectTransform:
   m_ObjectHideFlags: 0
@@ -26814,7 +26815,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cab37a0a8addecb409b97e18ed022d40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AfterDoneCredit
-  afterDoneCredit: {fileID: 0}
 --- !u!1 &1287429463
 GameObject:
   m_ObjectHideFlags: 0

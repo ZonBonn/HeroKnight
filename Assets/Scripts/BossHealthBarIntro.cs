@@ -16,7 +16,7 @@ public class BossHealthBarIntro : MonoBehaviour
         HealthBarIntro = gameObject.GetComponent<Image>();
     }
 
-    private void Start()
+    private void OnEnable() // replace start => onenable
     {
         UICanvasManager.Instance.RegisterBossIntroBar(this); // đăng ký hàm khi mà nó được sinh ra
     }

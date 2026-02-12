@@ -2,15 +2,19 @@ using UnityEngine;
 
 public class TrophyCollision : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private bool isPicked = false;
+    private void OnTriggerEnter2D(Collider2D collider2D)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (collider2D.gameObject.CompareTag("Player") && !isPicked)
+        {
+            FunctionTimer.Create(() => { 
+                if(UICanvasManager.Instance.endingPannel != null)
+                {
+                    UICanvasManager.Instance.ShowPannel( UICanvasManager.Instance.endingPannel);
+                }
+            }, 1f);
+            isPicked = true;
+            Destroy(gameObject);
+        }
     }
 }

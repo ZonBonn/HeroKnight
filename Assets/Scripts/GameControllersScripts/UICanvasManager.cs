@@ -37,6 +37,8 @@ public class UICanvasManager : MonoBehaviour, IResettable
     [SerializeField] GameObject diePannel;
     [SerializeField] GameObject pausedPannel;
 
+    public GameObject endingPannel;
+
     private void Awake()
     {
         // Debug.Log("UICanvasManager Awake from: " + gameObject.scene.name);
@@ -73,6 +75,11 @@ public class UICanvasManager : MonoBehaviour, IResettable
         {
             UIButtonAction.Instance.PausedButton();
         }
+    }
+
+    void OnDisable()
+    {
+        HidePannel(endingPannel);
     }
 
     // cách đăng ký hay khi không biết được thứ tự sinh ra: + 1 kinh nghiệm

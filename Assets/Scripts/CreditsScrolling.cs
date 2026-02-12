@@ -6,8 +6,17 @@ using Unity.VisualScripting;
 public class CreditsScrolling : MonoBehaviour
 {
     [SerializeField] GameObject afterDoneCredit;
+    private bool isDoneScrolling = false;
 
     public static CreditsScrolling Instance;
+    
+    [SerializeField] float scrollingSpeed = 40f;
+    private RectTransform reactTransform;
+
+    // public Action OnTriggerDoneTextCredit;
+
+    public bool isDone = false;
+
     private void Awake()
     {
         if(Instance == null)
@@ -21,12 +30,6 @@ public class CreditsScrolling : MonoBehaviour
         }
         reactTransform = gameObject.GetComponent<RectTransform>();
     } 
-    [SerializeField] float scrollingSpeed = 40f;
-    private RectTransform reactTransform;
-
-    public Action OnTriggerDoneTextCredit;
-
-    public bool isDone = false;
 
     private void Update()
     {
@@ -34,9 +37,12 @@ public class CreditsScrolling : MonoBehaviour
         {
             if (!isDone)
             {
-                OnTriggerDoneTextCredit?.Invoke();
-                if(afterDoneCredit != null) afterDoneCredit.SetActive(true);
-                // AfterDoneCredit.Instance.SetOnAfterCreditPannel();
+                if(afterDoneCredit != null)
+                {
+                    FunctionTimer.Create(() => { afterDoneCredit.SetActive(true); }, 0.5f);
+                }
+                // OnTriggerDoneTextCredit?.Invoke();
+                isDoneScrolling = true;
             }
                 
             isDone = true;
