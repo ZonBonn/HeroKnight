@@ -445,12 +445,12 @@ public class BossPathFindingMovement : MonoBehaviour
     {
         int miss_time = 0;
         Vector3 dirFlee = -(playerPosition - enemyPosition).normalized;
-        Debug.Log("dirFlee:" + dirFlee);
+        // Debug.Log("dirFlee:" + dirFlee);
         for(int i = 0 ; i < maxTry ; i++)
         {
             int randomFleeDistance = UnityEngine.Random.Range(MIN_DISTANCE, MAX_DISTANCE + 1-miss_time);
             Vector3 candicatePosition = enemyPosition + dirFlee * randomFleeDistance;
-            Debug.Log("candicatePosition:" + candicatePosition);
+            // Debug.Log("candicatePosition:" + candicatePosition);
             // lấy ra vị trí i,j trên grid map
             refRootGrid.worldPosToIJPos(candicatePosition, out int iPos, out int jPos);
             if(refRootGrid.isInGrid(iPos, jPos) == false)
@@ -462,7 +462,7 @@ public class BossPathFindingMovement : MonoBehaviour
             }
             if(gridMap.getIsWalkableByGridPosition(iPos, jPos) == false)
             {
-                Debug.Log("FleeCandicatePosition Eliminated By: getIsWalkableByGridPosition");
+                // Debug.Log("FleeCandicatePosition Eliminated By: getIsWalkableByGridPosition");
                 continue;
             }
 
@@ -471,26 +471,26 @@ public class BossPathFindingMovement : MonoBehaviour
             float newDistance = Vector3.Distance(candicatePosition, playerPosition);
             if(newDistance < currentDistance)
             {
-                Debug.Log("FleeCandicatePosition Eliminated By: newDistance < currentDistance");
+                // Debug.Log("FleeCandicatePosition Eliminated By: newDistance < currentDistance");
                 continue;
             }
             if(bossSensor.IsWallBetween(enemyPosition, candicatePosition) == true)
             {
-                Debug.Log("FleeCandicatePosition Eliminated By: IsWallBetween");
+                // Debug.Log("FleeCandicatePosition Eliminated By: IsWallBetween");
                 continue;
             }
             if(refRootGrid.IsInsideGridByWorldPosition(candicatePosition) == false)
             {
-                Debug.Log("FleeCandicatePosition Eliminated By: IsNullAtPosition");
+                // Debug.Log("FleeCandicatePosition Eliminated By: IsNullAtPosition");
                 continue;
             }
 
             // return value 
-            Debug.Log("Valid Flee Position:" + candicatePosition);
+            // Debug.Log("Valid Flee Position:" + candicatePosition);
             return candicatePosition;
 
         }
-        Debug.Log("None Flee Position => Return EnemyPosition:" + enemyPosition);
+        // Debug.Log("None Flee Position => Return EnemyPosition:" + enemyPosition);
         return enemyPosition;
     }
     // ==========================================================

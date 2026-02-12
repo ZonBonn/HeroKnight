@@ -25,7 +25,7 @@ public class FPS : MonoBehaviour
         timer -= Time.deltaTime;
         if(timer <= 0)
         {
-            Debug.Log("FPS: " + 1 / Time.deltaTime);
+            // Debug.Log("FPS: " + 1 / Time.deltaTime);
             timer = EachTimeFPS;
         }
     }

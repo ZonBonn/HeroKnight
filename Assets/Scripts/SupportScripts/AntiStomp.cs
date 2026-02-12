@@ -12,7 +12,7 @@ public class AntiStomp : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider2D)
     {
-        Debug.Log("đang va chạm với Anti Stomp");
+        // Debug.Log("đang va chạm với Anti Stomp");
         if(!collider2D.gameObject.CompareTag("Player")) return;
 
         FunctionTimer.Create(CheckAfterAmountOfTime, 0.5f);
@@ -37,7 +37,7 @@ public class AntiStomp : MonoBehaviour
                     {
                         if(transform.parent != null)
                         {
-                            Debug.Log("người chơi bị kẹt, chuyển layer into StompEnemy chống kẹt cho player");
+                            // Debug.Log("người chơi bị kẹt, chuyển layer into StompEnemy chống kẹt cho player");
                             gameObject.transform.parent.gameObject.layer = LayerMask.NameToLayer("StompEnemy");
                             FunctionTimer.Create(ChangeIntoEnemyLayer, 0.2f);
                         }

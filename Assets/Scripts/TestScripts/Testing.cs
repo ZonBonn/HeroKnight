@@ -11,11 +11,11 @@ public class Testing : MonoBehaviour
 
     private void Action()
     {
-        Debug.Log("Test !");
+        // Debug.Log("Test !");
     }
 
     private void Action2()
     {
-        Debug.Log("Test 2!");
+        // Debug.Log("Test 2!");
     }
 }

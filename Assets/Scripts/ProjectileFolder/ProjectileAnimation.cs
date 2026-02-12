@@ -91,7 +91,7 @@ public class ProjectileAnimation : MonoBehaviour
         }
         else
         {
-            Debug.Log("chưa có state này thêm ở ProjectileAnimationHandler");
+            // Debug.Log("chưa có state này thêm ở ProjectileAnimationHandler");
         }
     }
 
@@ -107,7 +107,7 @@ public class ProjectileAnimation : MonoBehaviour
         }
         else
         {
-            Debug.Log("chưa có state này thêm ở ChangeProjectileAnimationByState");
+            // Debug.Log("chưa có state này thêm ở ChangeProjectileAnimationByState");
         }
     }
 

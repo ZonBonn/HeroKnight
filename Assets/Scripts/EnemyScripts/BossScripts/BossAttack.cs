@@ -51,7 +51,7 @@ public class BossAttack : MonoBehaviour
             bool IsHitedPlayer = IsPlayerInAttackPoint(attackPosition);
             if(IsHitedPlayer == true)
             {
-                Debug.Log("Hited Player");
+                // Debug.Log("Hited Player");
                 // Debug.Log("Damage Player: " + UnityEngine.Random.Range(45, 50));
                 // damage player in here
                 // playerHealthHandler.Damage(UnityEngine.Random.Range(45, 50));
@@ -64,9 +64,9 @@ public class BossAttack : MonoBehaviour
                 damageInfo.minDamage = minDamageAttack;
                 damageInfo.maxDamage = maxDamageAttack;
                 damageInfo.layerMask = gameObject.layer;
-                Debug.Log("attackPosition" + attackPosition);
+                // Debug.Log("attackPosition" + attackPosition);
             
-                Debug.Log("caculateLocationCheck" + caculateLocationCheck(attackPosition, EnemyPosition, dirVisual));
+                // Debug.Log("caculateLocationCheck" + caculateLocationCheck(attackPosition, EnemyPosition, dirVisual));
                 Collider2D[] hitedColliders = Physics2D.OverlapCircleAll(caculateLocationCheck(attackPosition, EnemyPosition, dirVisual), attackDistance/2);
                 for(int i = 0 ; i < hitedColliders.Length ; i++)
                 {

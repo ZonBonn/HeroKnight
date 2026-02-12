@@ -573,7 +573,7 @@ public class BossAI : MonoBehaviour
             //     currentEnemyStateAction = BossStateAction.Attack;
             //     return;
             // }
-            Debug.Log("Flee -> Flee Attack -> Null"); /*bossPathFindingMovement.StopMovingPhysicalHandler();*/
+            // Debug.Log("Flee -> Flee Attack -> Null"); /*bossPathFindingMovement.StopMovingPhysicalHandler();*/
         }
         else if(/*IsPlayerAround == true || */DistanceEnemyToPlayer < DISENGAGE_DISTANCE) // nếu player gần lúc đang flee
         {
@@ -1013,7 +1013,7 @@ public class BossAI : MonoBehaviour
         if(playerMovement.GetPlayerState() == State.Die) // --> error in here  <--
         {
             currentEnemyStateAction = BossStateAction.Patrol;
-            Debug.Log(currentEnemyStateAction + "-> Patrol");
+            // Debug.Log(currentEnemyStateAction + "-> Patrol");
             return;
         }
     }

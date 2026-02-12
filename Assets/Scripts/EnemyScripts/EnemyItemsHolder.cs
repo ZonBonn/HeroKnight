@@ -72,7 +72,7 @@ public class EnemyItemsHolder : MonoBehaviour
         healthSystem.OnTriggerHealthBarAsZero += OnTriggerSpawnItems;
         if(healthSystem == null)
         {
-            Debug.Log("healthSystem == null");
+            // Debug.Log("healthSystem == null");
         }
         // Debug.Log("EnemyItemsHolder HealthSystem instance: " + healthSystem.GetHashCode());
     }
@@ -131,7 +131,7 @@ public class EnemyItemsHolder : MonoBehaviour
                     bool ShouldDropKeyVar = ShouldDropKey(listKeyRate[randomListIdx[j]].rate, keyType);
                     if(ShouldDropKeyVar == true) // và thêm cả tỉ lệ cũng ra thì cho phép
                     {
-                        Debug.Log("Spawn: " + listKeyRate[randomListIdx[j]].keyGameObject);
+                        // Debug.Log("Spawn: " + listKeyRate[randomListIdx[j]].keyGameObject);
 
                         GameObject item = Instantiate(listKeyRate[randomListIdx[j]].keyGameObject, gameObject.transform.position, Quaternion.identity);
                         EffectDropItemsVertical(item);
@@ -153,14 +153,14 @@ public class EnemyItemsHolder : MonoBehaviour
                         // đánh dấu kẻ địch chết mà có key không được spawn
                         shouldIncreaseEnemyDiedWithoutSpawnKeyAmount = true;
                         
-                        Debug.Log("Không spawn key được vì KHÔNG GACHA ra được: " + listKeyRate[randomListIdx[j]].keyGameObject);
+                        // Debug.Log("Không spawn key được vì KHÔNG GACHA ra được: " + listKeyRate[randomListIdx[j]].keyGameObject);
                         // Debug.Log("Không spawn key được vì không gacha ra được");
                     }
                 }
                 else
                 {
                     // nếu vượt quá số lượng cho phép rồi thì tăng IncreaseEnemyDiedWithoutSpawnKeyAmount() làm gì nữa
-                    Debug.Log("Không spawn key được vì QUÁ SỐ LƯỢNG rồi" + listKeyRate[randomListIdx[j]].keyGameObject);
+                    // Debug.Log("Không spawn key được vì QUÁ SỐ LƯỢNG rồi" + listKeyRate[randomListIdx[j]].keyGameObject);
                 }
             }
 
@@ -171,7 +171,7 @@ public class EnemyItemsHolder : MonoBehaviour
         }
         else
         {
-            Debug.Log("listKeyRate is null");
+            // Debug.Log("listKeyRate is null");
         }
     }
 

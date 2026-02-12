@@ -24,7 +24,7 @@ public class ChestItemsHolder : MonoBehaviour
         transformSpawnPosition = gameObject.transform.Find("SpawnPosition");
         if (transformSpawnPosition == null)
         {
-            Debug.LogError("SpawnPosition not found!"); // for safe
+            // Debug.LogError("SpawnPosition not found!"); // for safe
 
         }
 

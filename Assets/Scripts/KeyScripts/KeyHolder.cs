@@ -49,7 +49,7 @@ public class KeyHolder : MonoBehaviour
         Key key = collider.gameObject.GetComponent<Key>();
         if(key != null && key.getCanPickUpKey() == true) // nếu cái va chạm chính là chìa khóa thì:
         {
-            Debug.Log("Add key" + key.GetKeyType());
+            // Debug.Log("Add key" + key.GetKeyType());
             AddKey(key.GetKeyType());
             Destroy(key.gameObject); // xóa Object chìa khóa đi vì player nhặt rồi
         }

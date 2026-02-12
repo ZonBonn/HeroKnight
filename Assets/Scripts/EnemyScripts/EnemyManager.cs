@@ -48,11 +48,11 @@ public class EnemyManager : MonoBehaviour
     {
         if (!DiedEnemyWithoutSpawnKeyAmountDic.ContainsKey(enemyType))
         {
-            Debug.Log("chưa có enemyType này khởi tạo đã = 1");
+            // Debug.Log("chưa có enemyType này khởi tạo đã = 1");
             DiedEnemyWithoutSpawnKeyAmountDic[enemyType] = 1; // 1 vì khi enemy truyền vào không có lúc đấy đã chết rồi mà
             return;
         }
-        Debug.Log("Công thêm số lượng " + enemyType + " chết mà không rơi ra key");
+        // Debug.Log("Công thêm số lượng " + enemyType + " chết mà không rơi ra key");
         DiedEnemyWithoutSpawnKeyAmountDic[enemyType]++;
     }
 
@@ -80,10 +80,10 @@ public class EnemyManager : MonoBehaviour
     {
         if (!DiedEnemyWithoutSpawnKeyAmountDic.ContainsKey(enemyType))
         {
-            Debug.Log(enemyType + " Died:0");
+            // Debug.Log(enemyType + " Died:0");
             return;
         }
-        Debug.Log(enemyType + " Died:" + DiedEnemyWithoutSpawnKeyAmountDic[enemyType]);
+        // Debug.Log(enemyType + " Died:" + DiedEnemyWithoutSpawnKeyAmountDic[enemyType]);
     }
 
     public List<EnemyAmount> getListEnemyMaximumAmount()

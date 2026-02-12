@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 2421879109688974311}
   - component: {fileID: 3192405696014320743}
   - component: {fileID: 9150322815938112762}
+  - component: {fileID: 6148579596669901652}
   - component: {fileID: 2832467865815294}
   - component: {fileID: 4716377038895757383}
   - component: {fileID: 8042440113265876996}
@@ -363,6 +364,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86b488b3e5d1b8c42b01e087ae2df3e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySupportTestTool
+--- !u!114 &6148579596669901652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3067322110126562727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b51a33f767d1caf4a99cad8948fd6340, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DropRandomItems
+  randomItemsDropList:
+  - rateDrop: 0.3
+    itemGO: {fileID: 8308712617738637068, guid: c952a85773d3c024fa68edb183939e91, type: 3}
+  minDrop: 1
+  maxDrop: 1
 --- !u!114 &2832467865815294
 MonoBehaviour:
   m_ObjectHideFlags: 0

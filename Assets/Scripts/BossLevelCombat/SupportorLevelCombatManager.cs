@@ -40,7 +40,7 @@ public class SupportorLevelCombatManager : MonoBehaviour
     public void OnSupportorDie() // khi supportor tạch thì hàm này sẽ được chạy bởi
     {
         isSupportorDie = true;
-        Debug.Log("Thực hiện hồi sinh Supportor sau 10s");
+        // Debug.Log("Thực hiện hồi sinh Supportor sau 10s");
         FunctionTimer.Create(OnTriggerReviveSupportor, 10f); // đăng ký action rồi cho hàm đăng ký chỉ việc chạy Action để chạy các publisher
     }
 

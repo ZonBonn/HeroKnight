@@ -18,7 +18,7 @@ public class UIButtonAction : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        Debug.Log("UIButtonAction ID:" + Instance.GetHashCode());
+        // Debug.Log("UIButtonAction ID:" + Instance.GetHashCode());
     }
 
     private void Update()

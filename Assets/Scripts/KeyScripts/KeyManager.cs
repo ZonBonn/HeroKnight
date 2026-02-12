@@ -103,9 +103,9 @@ public class KeyManager : MonoBehaviour
     {
         if(spawnedKey.ContainsKey(keyType) == false)
         {
-            Debug.Log("spawnedKey" + 0 + " limitAmountKeyType:" + limitAmountKeyType[keyType]);
+            // Debug.Log("spawnedKey" + 0 + " limitAmountKeyType:" + limitAmountKeyType[keyType]);
         }
-        else
-            Debug.Log("spawnedKey" + spawnedKey[keyType] + " limitAmountKeyType:" + limitAmountKeyType[keyType]);
+        // else
+            // Debug.Log("spawnedKey" + spawnedKey[keyType] + " limitAmountKeyType:" + limitAmountKeyType[keyType]);
     }
 }
