@@ -39,6 +39,7 @@ public class UICanvasManager : MonoBehaviour, IResettable
     [SerializeField] GameObject intructionPannel;
 
     public GameObject endingPannel;
+    public GameObject instructionKillBossPannel;
 
     private void Awake()
     {
