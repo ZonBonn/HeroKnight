@@ -52,5 +52,6 @@ public class Player : MonoBehaviour, IResettable
         playerHealthStaminaHandler.HealStamina(100);
         KeyHolder keyHolder = gameObject.GetComponent<KeyHolder>();
         if(keyHolder != null) keyHolder.ResetKeyList();
+        gameObject.layer = LayerMask.NameToLayer("Player");
     }
 }

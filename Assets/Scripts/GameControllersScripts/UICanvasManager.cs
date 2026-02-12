@@ -36,6 +36,7 @@ public class UICanvasManager : MonoBehaviour, IResettable
 
     [SerializeField] GameObject diePannel;
     [SerializeField] GameObject pausedPannel;
+    [SerializeField] GameObject intructionPannel;
 
     public GameObject endingPannel;
 
@@ -61,6 +62,7 @@ public class UICanvasManager : MonoBehaviour, IResettable
     void Start()
     {
         InitStart();
+        PlayerHealthSystem.OnTriggerPlayerHealthAsZero += ShowDiePannel;
 
     }
     private void InitStart()
@@ -80,6 +82,7 @@ public class UICanvasManager : MonoBehaviour, IResettable
     void OnDisable()
     {
         HidePannel(endingPannel);
+        HidePannel(diePannel);
     }
 
     // cách đăng ký hay khi không biết được thứ tự sinh ra: + 1 kinh nghiệm
@@ -167,4 +170,10 @@ public class UICanvasManager : MonoBehaviour, IResettable
         shoudShowBossHPPannel(false);
         bossHealthBarIntroChildern.GetComponent<BossHealthBarIntro>().Reset();
     }
+
+    private void ShowDiePannel()
+    {
+        ShowPannel(diePannel);
+    }
+
 }

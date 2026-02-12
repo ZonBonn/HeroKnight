@@ -4,7 +4,8 @@ public class UIButtonAction : MonoBehaviour
 {
     public static UIButtonAction Instance;
     [SerializeField] GameObject diePannel;
-    [SerializeField] GameObject pausedPannel; 
+    [SerializeField] GameObject pausedPannel;
+    [SerializeField] GameObject instructionPannel;
 
     private void Awake()
     {
@@ -48,6 +49,19 @@ public class UIButtonAction : MonoBehaviour
         {
             UICanvasManager.Instance.ShowPannel(pausedPannel);
             PauseGame();
+        }
+        
+    }
+
+    public void InstructionButton()
+    {
+        if(instructionPannel.activeSelf == true)
+        {
+            UICanvasManager.Instance.HidePannel(instructionPannel);
+        }
+        else
+        {
+            UICanvasManager.Instance.ShowPannel(instructionPannel);
         }
         
     }

@@ -6,7 +6,7 @@ public class PlayerHealthSystem // class này lưu giữ HP thật
     private float maxHealth;
 
     public Action<float> OnTriggerPlayerHealthChange;
-    public Action OnTriggerPlayerHealthAsZero;
+    public static Action OnTriggerPlayerHealthAsZero;
 
     public PlayerHealthSystem(float maxHealth)
     {
