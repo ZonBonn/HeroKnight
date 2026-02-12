@@ -31,9 +31,12 @@ public class BlockSaveLoadManager : MonoBehaviour
         string persistentPath = Path.Combine(Application.persistentDataPath, fileName); // đường dẫn tới file "blockNodes.json" -> ngoài project folder
         string sourcePath = Path.Combine(Application.streamingAssetsPath, fileName); // đường dẫn tới file "blockNodes.json" ở trong Assets -> StreamingAssets
 
+        // Debug.Log("persistentPath:" + persistentPath);
+        // Debug.Log("sourcePath:" + sourcePath);
+
         if (!File.Exists(persistentPath)) // nếu chưa tồn tại
         {
-            File.Copy(sourcePath, persistentPath); // thì copy file từ 
+            File.Copy(sourcePath, persistentPath); // thì copy file: fileName từ sourcePath cho persistentPath
         }
 
     }

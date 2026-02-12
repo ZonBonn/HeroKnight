@@ -56,7 +56,7 @@ public class UICanvasManager : MonoBehaviour, IResettable
         }
 
         DontDestroyOnLoad(gameObject);
-        Debug.Log("UICanvasManager ID:" + UICanvasManager.Instance.GetHashCode());
+        // Debug.Log("UICanvasManager ID:" + UICanvasManager.Instance.GetHashCode());
     }
 
     void Start()

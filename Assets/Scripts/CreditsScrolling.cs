@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 public class CreditsScrolling : MonoBehaviour
 {
     [SerializeField] GameObject afterDoneCredit;
-    private bool isDoneScrolling = false;
+    // private bool isDoneScrolling = false;
 
     public static CreditsScrolling Instance;
     
@@ -42,7 +42,7 @@ public class CreditsScrolling : MonoBehaviour
                     FunctionTimer.Create(() => { afterDoneCredit.SetActive(true); }, 0.5f);
                 }
                 // OnTriggerDoneTextCredit?.Invoke();
-                isDoneScrolling = true;
+                // isDoneScrolling = true;
             }
                 
             isDone = true;
