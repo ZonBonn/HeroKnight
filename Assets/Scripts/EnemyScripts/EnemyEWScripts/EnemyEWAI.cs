@@ -122,10 +122,10 @@ public class EnemyEWAI : MonoBehaviour, IEnemyAI
         IsSeePlayer = enemyEWSensor.CanEWSeeThePlayer();
 
         // test
-        if(Input.GetKey(KeyCode.C) && Input.GetKeyDown(KeyCode.P))
-        {
-            Debug.Log("DistanceEnemyToPlayer: " + DistanceEnemyToPlayer);
-        }
+        // if(Input.GetKey(KeyCode.C) && Input.GetKeyDown(KeyCode.P))
+        // {
+        //     Debug.Log("DistanceEnemyToPlayer: " + DistanceEnemyToPlayer);
+        // }
 
         switch (currentEnemyStateAction)
         {

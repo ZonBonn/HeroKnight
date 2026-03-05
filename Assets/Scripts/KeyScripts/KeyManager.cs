@@ -56,7 +56,7 @@ public class KeyManager : MonoBehaviour
 
     private void Update()
     {
-        ChoseToWatch();
+        // ChoseToWatch();
     }
 
     public void IncreaseAmountKey(Key.KeyType keyType)
@@ -81,22 +81,22 @@ public class KeyManager : MonoBehaviour
 
     public void ChoseToWatch()
     {
-        if (Input.GetKey(KeyCode.C) && Input.GetKey(KeyCode.W))
-        {
-            CheckAmountSpawnedKeyAndMaximumKey(Key.KeyType.Wooden);
-        }
-        else if (Input.GetKey(KeyCode.C) && Input.GetKey(KeyCode.I))
-        {
-            CheckAmountSpawnedKeyAndMaximumKey(Key.KeyType.Iron);
-        }
-        else if (Input.GetKey(KeyCode.C) && Input.GetKey(KeyCode.S))
-        {
-            CheckAmountSpawnedKeyAndMaximumKey(Key.KeyType.Silver);
-        }
-        else if (Input.GetKey(KeyCode.C) && Input.GetKey(KeyCode.G))
-        {
-            CheckAmountSpawnedKeyAndMaximumKey(Key.KeyType.Golden);
-        }
+        // if (Input.GetKey(KeyCode.C) && Input.GetKey(KeyCode.W))
+        // {
+        //     CheckAmountSpawnedKeyAndMaximumKey(Key.KeyType.Wooden);
+        // }
+        // else if (Input.GetKey(KeyCode.C) && Input.GetKey(KeyCode.I))
+        // {
+        //     CheckAmountSpawnedKeyAndMaximumKey(Key.KeyType.Iron);
+        // }
+        // else if (Input.GetKey(KeyCode.C) && Input.GetKey(KeyCode.S))
+        // {
+        //     CheckAmountSpawnedKeyAndMaximumKey(Key.KeyType.Silver);
+        // }
+        // else if (Input.GetKey(KeyCode.C) && Input.GetKey(KeyCode.G))
+        // {
+        //     CheckAmountSpawnedKeyAndMaximumKey(Key.KeyType.Golden);
+        // }
     }
 
     private void CheckAmountSpawnedKeyAndMaximumKey(Key.KeyType keyType)

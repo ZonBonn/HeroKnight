@@ -42,14 +42,14 @@ public class ProjectileAnimation : MonoBehaviour
     private void Update()
     {
         PlayProjectileAnimation();
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            ProjectileAnimationHandler(ProjectileState.Moving);
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            ProjectileAnimationHandler(ProjectileState.Explode);
-        }
+        // if (Input.GetKeyDown(KeyCode.Q))
+        // {
+        //     ProjectileAnimationHandler(ProjectileState.Moving);
+        // }
+        // if (Input.GetKeyDown(KeyCode.R))
+        // {
+        //     ProjectileAnimationHandler(ProjectileState.Explode);
+        // }
     }
 
     private void PlayProjectileAnimation()

@@ -304,7 +304,7 @@ public class PathFinding
         return SetRootLocation;
     }
 
-    private bool IsStandable(PathNode_S pathNode_S) // Node này có phải là node đứng trên đó được ?
+    private bool IsStandable(PathNode_S pathNode_S) // Node này có phải là node đứng trên đó được ? (nghĩa là nếu dưới node này là một unWalkable Node thì có nghĩa là đây là node đứng được)
     {
         if(pathNode_S == null) return false;
         PathNode_S NodeBelow = grid.getNodeTypeByGridPosition(pathNode_S.i, pathNode_S.j-1);
@@ -323,20 +323,10 @@ public class PathFinding
             return true;
         }
 
-        for(int j = endJ -1 ; j >= 0 ; j--)
+        for(int j = endJ -1 ; j >= 0 ; j--) // bắt đầu gióng xuống dưới để tìm ô IsStandable
         {
             PathNode_S node = grid.getNodeTypeByGridPosition(endI, j);
             
-            // C1: dò tìm Node Standable đầu tiên dưới Node endI, endJ
-            // if(node == null) continue;
-
-            // if(IsStandable(node) == true)
-            // {
-            //     groundNode = node;
-            //     return true;
-            // }
-
-            // C2: tìm  Node IsWakable == false đầu tiên
             if (node.getIsWalkable() == false)
             {
                 PathNode_S standNode = grid.getNodeTypeByGridPosition(endI, j+1);
@@ -351,17 +341,17 @@ public class PathFinding
 
     }
 
-    private bool CanEnterNode(PathNode_S from, PathNode_S to) // HIỂU HÀM NÀY
+    private bool CanEnterNode(PathNode_S from, PathNode_S to) // có thể đi từ from -> to không ?
     {
         if (to == null || !to.getIsWalkable()) // node to không hợp lệ hoặc bị blocked
             return false;
 
-        // Nếu node có đất bên dưới → OK (đứng được)
+        // Nếu node có đất bên dưới -> OK (đứng được)
         PathNode_S below = grid.getNodeTypeByGridPosition(to.i, to.j - 1); // node dưới node to
         if (below != null && below.getIsWalkable() == false) // nếu node below đó null hoặc là bị blocked (nghĩa là false) 
             return true;
 
-        // Nếu đang đi xuống (rơi) → CHO PHÉP
+        // Nếu đang đi xuống (rơi) -> CHO PHÉP (có nghĩa là vì game platform không cho tìm đường đi lên nếu below của to là Walkable)
         if (to.j < from.j) // nếu node to đi xuống chứ không tính đi lên hoặc xang trái hoặc phải
             return true;
 

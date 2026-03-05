@@ -32,8 +32,11 @@ public class GameResetManager : MonoBehaviour
     {
         for(int i = 0 ; i < resettableGameObject.Count ; i++)
         {
-            IResettable resettable = resettableGameObject[i].GetComponent<IResettable>();
-            resettable.ResetState();
+            IResettable resettable = null;
+            if(resettableGameObject[i] != null)
+                resettable = resettableGameObject[i].GetComponent<IResettable>();
+            if(resettable != null)
+                resettable.ResetState();
         }
     }
 
@@ -43,8 +46,11 @@ public class GameResetManager : MonoBehaviour
         {
             for(int i = 0 ; i < resettableGameObject.Count ; i++)
             {
-                IResettable resettable = resettableGameObject[i].GetComponent<IResettable>();
-                resettable.ResetState();
+                IResettable resettable = null;
+                if(resettableGameObject[i] != null)
+                    resettable = resettableGameObject[i].GetComponent<IResettable>();
+                if(resettable != null)
+                    resettable.ResetState();
             }
         }
     }

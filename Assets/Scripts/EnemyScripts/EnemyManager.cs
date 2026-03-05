@@ -41,7 +41,7 @@ public class EnemyManager : MonoBehaviour
 
     private void Update()
     {
-        DebugEnemyDiedWithoutSpawnKeyAmountHook();
+        // DebugEnemyDiedWithoutSpawnKeyAmountHook();
     }
 
     public void IncreaseEnemyDiedWithoutSpawnKeyAmount(EnemyType enemyType)
@@ -67,14 +67,14 @@ public class EnemyManager : MonoBehaviour
 
     private void DebugEnemyDiedWithoutSpawnKeyAmountHook()
     {
-        if(Input.GetKey(KeyCode.C) && Input.GetKey(KeyCode.D)  && Input.GetKey(KeyCode.L))
-        {
-            DebugEnemyDiedWithoutSpawnKeyAmount(EnemyType.LightEnemy);
-        }
-        else if(Input.GetKey(KeyCode.C) && Input.GetKey(KeyCode.D)  && Input.GetKey(KeyCode.H))
-        {
-            DebugEnemyDiedWithoutSpawnKeyAmount(EnemyType.HeavyEnemy);
-        }
+        // if(Input.GetKey(KeyCode.C) && Input.GetKey(KeyCode.D)  && Input.GetKey(KeyCode.L))
+        // {
+        //     DebugEnemyDiedWithoutSpawnKeyAmount(EnemyType.LightEnemy);
+        // }
+        // else if(Input.GetKey(KeyCode.C) && Input.GetKey(KeyCode.D)  && Input.GetKey(KeyCode.H))
+        // {
+        //     DebugEnemyDiedWithoutSpawnKeyAmount(EnemyType.HeavyEnemy);
+        // }
     }
     private void DebugEnemyDiedWithoutSpawnKeyAmount(EnemyType enemyType)
     {

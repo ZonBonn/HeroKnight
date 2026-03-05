@@ -2043,66 +2043,6 @@ PrefabInstance:
       propertyPath: supportorDieStateManager2
       value: 
       objectReference: {fileID: 375445122}
-    - target: {fileID: 3305914011508613442, guid: 5f240bda1e31b314598e16c2588ca957, type: 3}
-      propertyPath: NullSprites.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3305914011508613442, guid: 5f240bda1e31b314598e16c2588ca957, type: 3}
-      propertyPath: 'NullSprites.Array.data[0]'
-      value: 
-      objectReference: {fileID: -2410919893335871942, guid: 87dea819afb90f44b962721ed117c412, type: 3}
-    - target: {fileID: 3305914011508613442, guid: 5f240bda1e31b314598e16c2588ca957, type: 3}
-      propertyPath: WaitToFightSprites.Array.size
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 3305914011508613442, guid: 5f240bda1e31b314598e16c2588ca957, type: 3}
-      propertyPath: 'WaitToFightSprites.Array.data[0]'
-      value: 
-      objectReference: {fileID: -2410919893335871942, guid: 87dea819afb90f44b962721ed117c412, type: 3}
-    - target: {fileID: 3305914011508613442, guid: 5f240bda1e31b314598e16c2588ca957, type: 3}
-      propertyPath: 'WaitToFightSprites.Array.data[1]'
-      value: 
-      objectReference: {fileID: -2960163153839071603, guid: 1914d95466e3d4341a618c35a56d5f82, type: 3}
-    - target: {fileID: 3305914011508613442, guid: 5f240bda1e31b314598e16c2588ca957, type: 3}
-      propertyPath: 'WaitToFightSprites.Array.data[2]'
-      value: 
-      objectReference: {fileID: -4818586564699129774, guid: 1914d95466e3d4341a618c35a56d5f82, type: 3}
-    - target: {fileID: 3305914011508613442, guid: 5f240bda1e31b314598e16c2588ca957, type: 3}
-      propertyPath: 'WaitToFightSprites.Array.data[3]'
-      value: 
-      objectReference: {fileID: -8721093536611414691, guid: 1914d95466e3d4341a618c35a56d5f82, type: 3}
-    - target: {fileID: 3305914011508613442, guid: 5f240bda1e31b314598e16c2588ca957, type: 3}
-      propertyPath: 'WaitToFightSprites.Array.data[4]'
-      value: 
-      objectReference: {fileID: -6959215256267499731, guid: 1914d95466e3d4341a618c35a56d5f82, type: 3}
-    - target: {fileID: 3305914011508613442, guid: 5f240bda1e31b314598e16c2588ca957, type: 3}
-      propertyPath: 'WaitToFightSprites.Array.data[5]'
-      value: 
-      objectReference: {fileID: 1900342803882551889, guid: 1914d95466e3d4341a618c35a56d5f82, type: 3}
-    - target: {fileID: 3305914011508613442, guid: 5f240bda1e31b314598e16c2588ca957, type: 3}
-      propertyPath: 'WaitToFightSprites.Array.data[6]'
-      value: 
-      objectReference: {fileID: -1554090680192844270, guid: 1914d95466e3d4341a618c35a56d5f82, type: 3}
-    - target: {fileID: 3305914011508613442, guid: 5f240bda1e31b314598e16c2588ca957, type: 3}
-      propertyPath: 'WaitToFightSprites.Array.data[7]'
-      value: 
-      objectReference: {fileID: -643843233168925960, guid: 1914d95466e3d4341a618c35a56d5f82, type: 3}
-    - target: {fileID: 3305914011508613442, guid: 5f240bda1e31b314598e16c2588ca957, type: 3}
-      propertyPath: 'WaitToFightSprites.Array.data[8]'
-      value: 
-      objectReference: {fileID: -4964555800879844387, guid: 1914d95466e3d4341a618c35a56d5f82, type: 3}
-    - target: {fileID: 3305914011508613442, guid: 5f240bda1e31b314598e16c2588ca957, type: 3}
-      propertyPath: 'WaitToFightSprites.Array.data[9]'
-      value: 
-      objectReference: {fileID: 8914642584386402721, guid: 1914d95466e3d4341a618c35a56d5f82, type: 3}
-    - target: {fileID: 3305914011508613442, guid: 5f240bda1e31b314598e16c2588ca957, type: 3}
-      propertyPath: 'WaitToFightSprites.Array.data[10]'
-      value: 
-      objectReference: {fileID: -8645012906986925910, guid: 1914d95466e3d4341a618c35a56d5f82, type: 3}
-    - target: {fileID: 3305914011508613442, guid: 5f240bda1e31b314598e16c2588ca957, type: 3}
-      propertyPath: 'WaitToFightSprites.Array.data[11]'
-      value: 
-      objectReference: {fileID: 2090659836945643480, guid: 1914d95466e3d4341a618c35a56d5f82, type: 3}
     - target: {fileID: 3923733939696831211, guid: 5f240bda1e31b314598e16c2588ca957, type: 3}
       propertyPath: leftPoint
       value: 
@@ -2162,10 +2102,6 @@ PrefabInstance:
     - target: {fileID: 4366999354659894197, guid: 5f240bda1e31b314598e16c2588ca957, type: 3}
       propertyPath: m_Name
       value: BossDeathBringer
-      objectReference: {fileID: 0}
-    - target: {fileID: 4366999354659894197, guid: 5f240bda1e31b314598e16c2588ca957, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7386796392121080538, guid: 5f240bda1e31b314598e16c2588ca957, type: 3}
       propertyPath: gridMap

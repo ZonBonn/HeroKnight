@@ -142,25 +142,25 @@ public class BossAI : MonoBehaviour
         }
 
         // testetn
-        if (Input.GetKeyDown(KeyCode.G)/* && bossSkill1.getCanUseSkill1() == true*/)
-        {
-            currentEnemyStateAction = BossStateAction.InvisibleSkill1;
-            bossSkill1.UseSkill1();
-            bossSkill1.SetSkill1CoolDown(); // cái này sẽ đặt lại khi mà hết tàng hình
-        }
-        else if(Input.GetKeyDown(KeyCode.F) && bossCallerSkill2.getCanUseSkill2() == true)
-        {
-            // currentEnemyStateAction = BossStateAction.PrepareSkill2;
-            // bossCallerSkill2.SetSkill2CoolDown(); // cái này sẽ đặt lại khi mà skill 2 được hoàn tất triển khai
-        }
-        else if (Input.GetKeyDown(KeyCode.H))
-        {
-            bossHealthHandlerReal.HealBoss(100);
-        }
-        else if (Input.GetKeyDown(KeyCode.J))
-        {
-            bossHealthHandlerReal.DamageBoss(80);
-        }
+        // if (Input.GetKeyDown(KeyCode.G)/* && bossSkill1.getCanUseSkill1() == true*/)
+        // {
+        //     currentEnemyStateAction = BossStateAction.InvisibleSkill1;
+        //     bossSkill1.UseSkill1();
+        //     bossSkill1.SetSkill1CoolDown(); // cái này sẽ đặt lại khi mà hết tàng hình
+        // }
+        // else if(Input.GetKeyDown(KeyCode.F) && bossCallerSkill2.getCanUseSkill2() == true)
+        // {
+        //     // currentEnemyStateAction = BossStateAction.PrepareSkill2;
+        //     // bossCallerSkill2.SetSkill2CoolDown(); // cái này sẽ đặt lại khi mà skill 2 được hoàn tất triển khai
+        // }
+        // else if (Input.GetKeyDown(KeyCode.H))
+        // {
+        //     bossHealthHandlerReal.HealBoss(100);
+        // }
+        // else if (Input.GetKeyDown(KeyCode.J))
+        // {
+        //     bossHealthHandlerReal.DamageBoss(80);
+        // }
         
 
         IsPlayerAround = bossSensor.IsSearchedPlayerAround();

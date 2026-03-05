@@ -20,20 +20,20 @@ public class PlayerSupportTestTool : MonoBehaviour
     public void Update()
     {
         #if UNITY_EDITOR
-        if (Input.GetKeyDown(KeyCode.P)) // hoi hp
-        {
-            playerHealthStaminaHandler.HealHealth(100);
-            gameObject.layer = LayerMask.NameToLayer("Player");
+        // if (Input.GetKeyDown(KeyCode.P)) // hoi hp
+        // {
+        //     playerHealthStaminaHandler.HealHealth(100);
+        //     gameObject.layer = LayerMask.NameToLayer("Player");
             
-        }
-        if (Input.GetKeyDown(KeyCode.O)) // tu sat
-        {
-            playerHealthStaminaHandler.DamageHealth(100);
-        }
-        if (Input.GetKeyDown(KeyCode.I)) // hoi sinh player
-        {
-            CustomizePlayerRecovery();
-        }
+        // }
+        // if (Input.GetKeyDown(KeyCode.O)) // tu sat
+        // {
+        //     playerHealthStaminaHandler.DamageHealth(100);
+        // }
+        // if (Input.GetKeyDown(KeyCode.I)) // hoi sinh player
+        // {
+        //     CustomizePlayerRecovery();
+        // }
 
         #endif
     }

@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 4157271361199303455}
   - component: {fileID: 3951344336962577033}
   - component: {fileID: 8079794026034091091}
+  - component: {fileID: 417696302205690665}
   - component: {fileID: 8049660328784562960}
   - component: {fileID: 3923733939696831211}
   - component: {fileID: 7386796392121080538}
@@ -157,6 +158,18 @@ MonoBehaviour:
   maxDamageReceived: 3
   minDamageAttack: 30
   maxDamageAttack: 30
+--- !u!114 &417696302205690665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4366999354659894197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3655f17a9f792f44791df1a23ebefb72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Boss
 --- !u!114 &8049660328784562960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -322,8 +335,21 @@ MonoBehaviour:
   - {fileID: 3879292089760221355, guid: 1914d95466e3d4341a618c35a56d5f82, type: 3}
   KeepInvisibleSprites:
   - {fileID: -2410919893335871942, guid: 87dea819afb90f44b962721ed117c412, type: 3}
-  NullSprites: []
-  WaitToFightSprites: []
+  NullSprites:
+  - {fileID: -2410919893335871942, guid: 87dea819afb90f44b962721ed117c412, type: 3}
+  WaitToFightSprites:
+  - {fileID: -2410919893335871942, guid: 87dea819afb90f44b962721ed117c412, type: 3}
+  - {fileID: -2960163153839071603, guid: 1914d95466e3d4341a618c35a56d5f82, type: 3}
+  - {fileID: -4818586564699129774, guid: 1914d95466e3d4341a618c35a56d5f82, type: 3}
+  - {fileID: -8721093536611414691, guid: 1914d95466e3d4341a618c35a56d5f82, type: 3}
+  - {fileID: -6959215256267499731, guid: 1914d95466e3d4341a618c35a56d5f82, type: 3}
+  - {fileID: 1900342803882551889, guid: 1914d95466e3d4341a618c35a56d5f82, type: 3}
+  - {fileID: -1554090680192844270, guid: 1914d95466e3d4341a618c35a56d5f82, type: 3}
+  - {fileID: -643843233168925960, guid: 1914d95466e3d4341a618c35a56d5f82, type: 3}
+  - {fileID: -4964555800879844387, guid: 1914d95466e3d4341a618c35a56d5f82, type: 3}
+  - {fileID: 8914642584386402721, guid: 1914d95466e3d4341a618c35a56d5f82, type: 3}
+  - {fileID: -8645012906986925910, guid: 1914d95466e3d4341a618c35a56d5f82, type: 3}
+  - {fileID: 2090659836945643480, guid: 1914d95466e3d4341a618c35a56d5f82, type: 3}
   RecoverSprites:
   - {fileID: -750047184722822154, guid: 1914d95466e3d4341a618c35a56d5f82, type: 3}
   - {fileID: 8445469178646879675, guid: 1914d95466e3d4341a618c35a56d5f82, type: 3}
@@ -366,7 +392,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7766d859311169943823bbf3e6d2604e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossAttack
-  playerHealthStaminaHandler: {fileID: 0}
 --- !u!114 &8502813240185407891
 MonoBehaviour:
   m_ObjectHideFlags: 0
