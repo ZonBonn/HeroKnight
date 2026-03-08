@@ -132,7 +132,7 @@ public class EnemyPathFindingMovement : MonoBehaviour
         if (PathOnVector != null)
         {
             UnityEngine.Vector3 targetPosition = PathOnVector[currentIdxPath];
-            // +1 kinh nghiệm: cái này không thể chỉnh thành 0.1f chính xác được, vì tâm của enemy nó cao hơn ô, và cái targer thường thì nó nằm ở tâm giữa ô grid, và tất nhiên sẽ không thể đến được vì do rigidbody sẽ không cho cái tâm ở giữa nó lùi xuống được mà => giải pháp tạo một tâm mới ?? let's test
+            // +1 kinh nghiệm: cái này không thể chỉnh thành 0.1f chính xác được, vì tâm của enemy nó cao hơn ô, và cái targer thường thì nó nằm ở tâm giữa ô grid, và tất nhiên sẽ không thể đến được vì do rigidbody sẽ không cho cái tâm ở giữa nó lùi xuống được mà => giải pháp tạo một tâm mới
             // Debug.Log("pathFindingCenter Position:" + pathFindingCenter.transform.position + " targetPosition:" + targetPosition);
             if (UnityEngine.Vector2.Distance(pathFindingCenter.transform.position, targetPosition) <= 0.1f) // 0.6f == PATROL_REACHED_DISTANCE
             {

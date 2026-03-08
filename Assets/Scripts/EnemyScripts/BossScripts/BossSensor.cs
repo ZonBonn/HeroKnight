@@ -55,7 +55,7 @@ public class BossSensor : MonoBehaviour
         return false;
     }
 
-    public float GetObstacleHeight() // viết lại cái hàm này 
+    public float GetObstacleHeight()
     {
         UnityEngine.Vector3 dir = bossPathFindingMovement.currentVisualDir == -1 ? UnityEngine.Vector3.left : UnityEngine.Vector3.right;
         Bounds b = capsuleCollider2D.bounds;
@@ -149,7 +149,7 @@ public class BossSensor : MonoBehaviour
 
         if(rayCastHit2DWallLayerMask.collider != null || rayCastHit2DPlatformLayerMask.collider != null) // kiểm tra tường phía trên -> nếu có va chạm với tường -> cao -> true
         {
-            return true; // lẽ ra chỗ này return true nhưng mà có vẻ cơ chế nhảy không cần thiết lắm
+            return true; 
         }
         return false;
     }
@@ -185,7 +185,7 @@ public class BossSensor : MonoBehaviour
         {
             return false; 
         }
-        return true; // lẽ ra chỗ này return true nhưng mà có vẻ cơ chế nhảy không cần thiết lắm
+        return true;
     }
 
     public bool IsWallBetween(UnityEngine.Vector3 from, UnityEngine.Vector3 to)
@@ -216,7 +216,7 @@ public class BossSensor : MonoBehaviour
         Debug.DrawRay(origin, dir * RayLenght, Color.darkGreen);
         if(/*rayCastHit2DWallLayerMask.collider != null ||*/ rayCastHit2DPlatformLayerMask.collider != null) // có va chạm với wallLayerMask -> có tường -> true
         {
-            return true; // lẽ ra chỗ này return true nhưng mà có vẻ cơ chế nhảy không cần thiết lắm
+            return true;
         }
         return false;
     }

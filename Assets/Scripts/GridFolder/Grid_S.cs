@@ -24,6 +24,7 @@ public class Grid_S<NodeType>
 
     public Grid_S(int width, int height, float cellSize, Vector3 SetRootLocation, Func<Grid_S<NodeType>, int, int, NodeType> createNodeType) // constructor
     {
+        // Func<Grid_S<NodeType>, int, int, NodeType> createNodeType; trả về một Nodetype =>  
         this.width = width;
         this.height = height;
         this.cellSize = cellSize;
@@ -35,7 +36,7 @@ public class Grid_S<NodeType>
         {
             for (int j = 0; j < height; j++)
             {
-                gridArr[i, j] = createNodeType(this, i, j); // cứ gọi tên delegate Func thì nó lại chạy hàm lambda kia thôi 
+                gridArr[i, j] = createNodeType(this, i, j); // cứ gọi tên delegate Func thì nó lại chạy hàm lambda kia thôi dù chỉ là một tham số của constructor
             }
         }
 

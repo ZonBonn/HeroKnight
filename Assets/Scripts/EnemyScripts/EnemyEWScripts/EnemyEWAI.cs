@@ -28,9 +28,9 @@ public class EnemyEWAI : MonoBehaviour, IEnemyAI
     private Vector3 EnemyPosition;
     private float DistanceEnemyToPlayer;
 
-    // public PlayerHealthStaminaHandler playerHealthStaminaHandler; // ???
+    // public PlayerHealthStaminaHandler playerHealthStaminaHandler; 
 
-    public bool IsHurting; // ????
+    // public bool IsHurting;
 
     private HealthHandler enemyHealthHandler;
     private HealthSystem enemyHealthSystem;
@@ -110,8 +110,6 @@ public class EnemyEWAI : MonoBehaviour, IEnemyAI
     {
         if(isDied == true)
         {
-            // recovery enemy in here ????
-
             return;
         }
 

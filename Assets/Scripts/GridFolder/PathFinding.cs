@@ -293,7 +293,7 @@ public class PathFinding
 
     public void removeNodeFromeCloseList(PathNode_S PathNode)
     {
-        if (closeHashSet != null && closeHashSet.Contains(PathNode)) // maybe get error NullReference ??? 
+        if (closeHashSet != null && closeHashSet.Contains(PathNode))
         {
             closeHashSet.Remove(PathNode);
         }

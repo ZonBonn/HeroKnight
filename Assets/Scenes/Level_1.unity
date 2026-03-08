@@ -30201,7 +30201,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: "\t\t\t                   instruction\n\nA D: Move\nSpace: Jump\nHold w
     during climbing wall\nleft mouse: attack\nright mouse: defend\nf: rolling\nHold
-    V + Hold right mouse and drag for camera freely\n\n\n"
+    V + Hold right mouse and drag for camera freely\n\nTOOls: U = kill the boss immediately\n\n\n"
 --- !u!222 &1460734459
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -33846,7 +33846,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1740213228
 RectTransform:
   m_ObjectHideFlags: 0

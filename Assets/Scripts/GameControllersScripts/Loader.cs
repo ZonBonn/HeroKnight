@@ -61,7 +61,7 @@ public static class Loader
     public static void ReloadLevel()
     {
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        Debug.Log("Load scene:" + (Scene)currentSceneIndex);
+        // Debug.Log("Load scene:" + (Scene)currentSceneIndex);
         OnSeneReloaded?.Invoke();
         Load((Scene)currentSceneIndex);
     }

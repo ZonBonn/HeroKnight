@@ -313,7 +313,6 @@ public class BossPathFindingMovement : MonoBehaviour
                     // Debug.Log("Stop Moving");
                     StopMovingPhysicalHandler();
                 }
-                // có nên check nếu có tường ở đây thì đổi hướng không nhỉ ????
             }
             else
             {

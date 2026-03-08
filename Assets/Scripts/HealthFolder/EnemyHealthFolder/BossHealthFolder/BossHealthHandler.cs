@@ -15,9 +15,7 @@ public class BossHealthHandler : MonoBehaviour, IHealthSystemProvider, IDamageab
     private void Awake()
     {
         healthSystem = new HealthSystem(100f);
-
-        // shoud in awake() ???
-        bossHealthBar = UICanvasManager.Instance.getBossHealthBar(); // không cùng scene thì phải chịu cách này thôi
+        bossHealthBar = UICanvasManager.Instance.getBossHealthBar(); // không cùng scene thì phải tham chiếu khi load scene này
         bossHealthBar.SetUp(healthSystem);
 
         bossLevelCombatManager  = gameObject.GetComponent<BossLevelCombatManager>();

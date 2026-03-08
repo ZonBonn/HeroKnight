@@ -21,7 +21,7 @@ public enum State { Null,
                     BlockHit 
 }
 
-// Idle, Run, Jump == Normal ???
+// Idle, Run, Jump == Normal
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float MOVE_SPEED = 5f;
@@ -78,10 +78,6 @@ public class PlayerMovement : MonoBehaviour
     // private const float ClampXRight = 60f;
     // private const float ClampYUp = 30f;
     // private const float ClamYDown = -6f;
-    
-    // giờ gọi một tham chiếu LevelBoundary tại đây ? rồi tham chiếu tới biến ????? MY WAY ????
-
-
 
     private void Awake()
     {
@@ -122,8 +118,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (playerState == State.Die)
         {
-            // recovery player in here ????
-            
             return;
         }
     

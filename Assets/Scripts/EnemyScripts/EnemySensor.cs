@@ -50,7 +50,7 @@ public class EnemySensor : MonoBehaviour
         return false;
     }
 
-    public float GetObstacleHeight() // viết lại cái hàm này 
+    public float GetObstacleHeight()
     {
         Vector3 dir = enemyPathFindingMovement.currentVisualDir == -1 ? Vector3.left : Vector3.right;
         Bounds b = capsuleCollider2D.bounds;
@@ -90,12 +90,12 @@ public class EnemySensor : MonoBehaviour
         Debug.DrawRay(origin, dir * RayLenght, Color.blueViolet);
         if(rayCastHit2DWallLayerMask.collider != null || rayCastHit2DPlatformLayerMask.collider != null) // có va chạm với wallLayerMask -> có tường -> true
         {
-            return true; // lẽ ra chỗ này return true nhưng mà có vẻ cơ chế nhảy không cần thiết lắm
+            return true; 
         }
         return false;
     }
 
-    private bool IsBlockedDuringJump() // hàm này nếu đúng thì có nghĩa là cao hơn enemy => bỏ không nhảy được còn đâu thì ngược lại
+    private bool IsBlockedDuringJump() 
     {
         // mô phỏng một capsule tại đây nhảy xem có nhảy qua được không ?
         // UnityEngine.Vector3 direct = new UnityEngine.Vector3(currentVisualDir, 1).normalized;
@@ -144,7 +144,7 @@ public class EnemySensor : MonoBehaviour
 
         if(rayCastHit2DWallLayerMask.collider != null || rayCastHit2DPlatformLayerMask.collider != null) // kiểm tra tường phía trên -> nếu có va chạm với tường -> cao -> true
         {
-            return true; // lẽ ra chỗ này return true nhưng mà có vẻ cơ chế nhảy không cần thiết lắm
+            return true;
         }
         return false;
     }
@@ -180,6 +180,6 @@ public class EnemySensor : MonoBehaviour
         {
             return false; 
         }
-        return true; // lẽ ra chỗ này return true nhưng mà có vẻ cơ chế nhảy không cần thiết lắm
+        return true; 
     }
 }

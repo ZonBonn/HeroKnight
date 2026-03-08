@@ -48,9 +48,9 @@ public class BossAI : MonoBehaviour
     private Vector3 EnemyPosition;
     private float DistanceEnemyToPlayer;
 
-    // public PlayerHealthStaminaHandler playerHealthStaminaHandler; // ???
+    // public PlayerHealthStaminaHandler playerHealthStaminaHandler;
 
-    public bool IsHurting; // ????
+    // public bool IsHurting;
 
     // private HealthHandler enemyHealthHandler;
     private BossHealthHandler bossHealthHandlerReal;
@@ -136,8 +136,6 @@ public class BossAI : MonoBehaviour
     {
         if(isDied == true)
         {
-            // recovery enemy in here ????
-
             return;
         }
 
@@ -384,7 +382,7 @@ public class BossAI : MonoBehaviour
             currentEnemyStateAction = BossStateAction.Recover;
             return;
         }
-        if(DistanceEnemyToPlayer <= ATTACK_DISTANCE && IsPlayerAround == true/* && timer_AttackCoolDown > 0*/)// timer_AttackCoolDown > 0 ???
+        if(DistanceEnemyToPlayer <= ATTACK_DISTANCE && IsPlayerAround == true/* && timer_AttackCoolDown > 0*/)
         {
             bossPathFindingMovement.StopMovingPhysicalHandler(); 
         }
@@ -497,7 +495,7 @@ public class BossAI : MonoBehaviour
     private void InvisibleSkill1Handler()
     {
         // Debug.Log("đang ở InvisibleSkill1Handler");
-        bossSkill1.SetDefaultValueForSkill1(); // cho đầu frame ??? Invisible ??
+        bossSkill1.SetDefaultValueForSkill1();
         // bossSensor.AlwayTowardToPlayer();
     }
     
@@ -510,7 +508,6 @@ public class BossAI : MonoBehaviour
             {
                 bossSensor.AlwayTowardToPlayer();
             }
-            // attack, chase ???
             if (DistanceEnemyToPlayer <= ATTACK_DISTANCE && IsPlayerAround == true && timer_AttackCoolDown <= 0)
             {
                 // Debug.Log("KeepInvisible -> Attack");
@@ -681,12 +678,6 @@ public class BossAI : MonoBehaviour
             bossPathFindingMovement.StopMovingPhysicalHandler();
             return;
         }
-        
-        // if(DistanceEnemyToPlayer >= ATTACK_DISTANCE && IsPlayerAround == true && timer_AttackCoolDown <= 0) // đi gần tới để sẵn sàng tấn công player? có thể sẽ sai ??? testing
-        // {
-        //     bossPathFindingMovement.MoveTo(PlayerPosition);
-        // }
-        
         // safe state
         // Debug.Log("Recover -> Null -> Patrol");
         // Immediately_timer_AttackCoolDownAsZero();
