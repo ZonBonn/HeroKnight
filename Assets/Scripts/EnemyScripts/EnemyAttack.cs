@@ -7,8 +7,7 @@ public class EnemyAttack : MonoBehaviour
 
     private EnemyPathFindingMovement enemyPathFindingMovement;
     private EnemyAnimation enemyAnimation;
-    // public PlayerHealthStaminaHandler playerHealthStaminaHandler;
-    // private PlayerDefense playerDefense; // =))) truy cập ngược tới gameObject = playerHealth =))) (không nên lạm dụng nếu không muốn các scripts phụ thuộc nhau sai 1 thì đi 1 dàn đều sai nếu sau này sửa)
+    
 
 
     private void Awake()
