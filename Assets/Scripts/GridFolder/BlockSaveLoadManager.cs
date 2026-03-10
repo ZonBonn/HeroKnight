@@ -45,11 +45,11 @@ public class BlockSaveLoadManager : MonoBehaviour
         string sourcePath = Path.Combine(Application.streamingAssetsPath, fileName); // đường dẫn tới file "blockNodes.json" ở trong Assets -> StreamingAssets
 
         #if UNITY_WEBGL // nếu thuộc nền tảng web
-            UnityWebRequest request = UnityWebRequest.Get(sourcePath);
+            UnityWebRequest request = UnityWebRequest.Get(sourcePath); // web chạy trên browser nên không có quyền truy cập tới file system => phải tải về và sử dụng không thể sử dụng trực tiếp
             yield return request.SendWebRequest(); // đợi return xong request
             if(request.result == UnityWebRequest.Result.Success)
             {
-                File.WriteAllText(saveFilePath, request.downloadHandler.text);
+                File.WriteAllText(saveFilePath, request.downloadHandler.text); // request.downloadHandler == dữ liệu được tải về sau khi lấy từ sourcePath
             }
             else
             {
