@@ -2103,6 +2103,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BossDeathBringer
       objectReference: {fileID: 0}
+    - target: {fileID: 5322065382081072561, guid: 5f240bda1e31b314598e16c2588ca957, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7386796392121080538, guid: 5f240bda1e31b314598e16c2588ca957, type: 3}
       propertyPath: gridMap
       value: 

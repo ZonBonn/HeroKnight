@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
-using Unity.Android.Gradle;
+using UnityEngine.Networking;
+using System.Collections;
 
 [System.Serializable]
 public class BlockData // wrapper vì Utility.Json thực hiện trên object/class chứ không hoạt đông trên các DS độc lập đứng một mình
@@ -25,29 +26,54 @@ public class BlockSaveLoadManager : MonoBehaviour
 
     private void Awake()
     { 
-        string fileName = $"blockedNodesHeroKnight{nameLevel}.json";
+        
         // Debug.Log(fileName);
         
-        string persistentPath = Path.Combine(Application.persistentDataPath, fileName); // đường dẫn tới file "blockNodes.json" -> ngoài project folder
-        string sourcePath = Path.Combine(Application.streamingAssetsPath, fileName); // đường dẫn tới file "blockNodes.json" ở trong Assets -> StreamingAssets
-
+        
         // Debug.Log("persistentPath:" + persistentPath);
         // Debug.Log("sourcePath:" + sourcePath);
 
-        if (!File.Exists(persistentPath)) // nếu chưa tồn tại
-        {
-            File.Copy(sourcePath, persistentPath); // thì copy file: fileName từ sourcePath cho persistentPath
-        }
-
+        saveFilePath = Application.persistentDataPath + $"/blockedNodesHeroKnight{nameLevel}.json"; // <=> == persistentPath
+        StartCoroutine(InitDataLoad(saveFilePath)); // bắt đầu khởi tạo load blocked Node cho tùy nền tảng
+        
     }
 
-    private void Start()
+    IEnumerator InitDataLoad(string saveFilePath)
     {
-        saveFilePath = Application.persistentDataPath + $"/blockedNodesHeroKnight{nameLevel}.json";
+        string fileName = $"blockedNodesHeroKnight{nameLevel}.json";
+        string persistentPath = Path.Combine(Application.persistentDataPath, fileName); // đường dẫn tới file "blockNodes.json" -> ngoài project folder
+        string sourcePath = Path.Combine(Application.streamingAssetsPath, fileName); // đường dẫn tới file "blockNodes.json" ở trong Assets -> StreamingAssets
+
+        #if UNITY_WEBGL // nếu thuộc nền tảng web
+            UnityWebRequest request = UnityWebRequest.Get(sourcePath);
+            yield return request.SendWebRequest(); // đợi return xong request
+            if(request.result == UnityWebRequest.Result.Success)
+            {
+                File.WriteAllText(saveFilePath, request.downloadHandler.text);
+            }
+            else
+            {
+                Debug.LogError("Load StreamingAssets failed: " + request.error);
+            }
+
+        #else // nền tảng còn lại   
+            if (!File.Exists(persistentPath)) // nếu chưa tồn tại
+            {
+                File.Copy(sourcePath, persistentPath); // thì copy file: fileName từ sourcePath cho persistentPath
+            }
+            yield return null;
+        #endif
+
         // Debug.Log(saveFilePath);
         pathFinding = refGridMap.pathFinding;
         LoadData();
         AddlyBlockNode();
+    }
+
+    private void Start()
+    {
+        
+        
     }
 
     private void LoadData()
@@ -56,7 +82,10 @@ public class BlockSaveLoadManager : MonoBehaviour
         {
             string json = File.ReadAllText(saveFilePath); // đọc tất file json thành chuỗi
             BlockData data = JsonUtility.FromJson<BlockData>(json); // tự dộng gán các field trong class BlockData // chuyển dữ liệu string json thành dữ liệu kiểu BlockData
-            BlockNodeGridPositionList = data.BlockNodesList; // chuyển xong rồi thì lấy dữ liệu ra từ data của kiểu BlockData thôi
+            if (data != null)
+            {
+                BlockNodeGridPositionList = data.BlockNodesList;// chuyển xong rồi thì lấy dữ liệu ra từ data của kiểu BlockData thôi
+            } 
         }
         else
         {
