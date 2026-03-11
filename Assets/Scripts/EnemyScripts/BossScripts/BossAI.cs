@@ -80,6 +80,8 @@ public class BossAI : MonoBehaviour
 
     public static Action OnTriggerBossDeath;
 
+    [SerializeField] BlockSaveLoadManager blockSaveLoadManager;
+
     private void Awake()
     {
         bossPathFindingMovement = gameObject.GetComponent<BossPathFindingMovement>();
@@ -134,7 +136,7 @@ public class BossAI : MonoBehaviour
 
     private void Update()
     {
-        if(isDied == true)
+        if(isDied == true || blockSaveLoadManager.GetIsLoaded() == false)
         {
             return;
         }

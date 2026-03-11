@@ -42,6 +42,8 @@ public class EnemyPathFindingMovement : MonoBehaviour
 
     private Transform pathFindingCenter;
 
+    [SerializeField] BlockSaveLoadManager blockSaveLoadManager;
+
 
     private void Awake()
     {
@@ -71,6 +73,7 @@ public class EnemyPathFindingMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if(blockSaveLoadManager.GetIsLoaded() == false) return;
         // Debug.Log("linearVelocityX:" + rb2d.linearVelocityX);
         // IsHole();
         // IsWallInFront();

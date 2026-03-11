@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Mono.Cecil;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "SpawnLootTable", menuName = "SpawnLootTableScriptableObject/SpawnLootTable")]

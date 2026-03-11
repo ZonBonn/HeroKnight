@@ -40,6 +40,8 @@ public class BossPathFindingMovement : MonoBehaviour
 
     private const float AIR_MIN_X_VELOCITY = 2.5f;
 
+    [SerializeField] BlockSaveLoadManager blockSaveLoadManager;
+
     private void Start()
     {
         bossAnimation = gameObject.GetComponent<BossAnimation>();
@@ -63,6 +65,7 @@ public class BossPathFindingMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if(blockSaveLoadManager.GetIsLoaded() == false) return;
         // Debug.Log("linearVelocityX:" + rb2d.linearVelocityX);
         // IsHole();
         // IsWallInFront();

@@ -510,6 +510,10 @@ PrefabInstance:
       propertyPath: gridMap
       value: 
       objectReference: {fileID: 1595559442}
+    - target: {fileID: 5917890074991209829, guid: ccca1ee1b22df41499bd860e23c3ec3a, type: 3}
+      propertyPath: blockSaveLoadManager
+      value: 
+      objectReference: {fileID: 1058219831}
     - target: {fileID: 5931635288444087284, guid: ccca1ee1b22df41499bd860e23c3ec3a, type: 3}
       propertyPath: leftPoint
       value: 
@@ -526,6 +530,10 @@ PrefabInstance:
       propertyPath: chaseRightPoint
       value: 
       objectReference: {fileID: 2037991475}
+    - target: {fileID: 5931635288444087284, guid: ccca1ee1b22df41499bd860e23c3ec3a, type: 3}
+      propertyPath: blockSaveLoadManager
+      value: 
+      objectReference: {fileID: 1058219831}
     - target: {fileID: 8212861897617306822, guid: ccca1ee1b22df41499bd860e23c3ec3a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.5
@@ -2059,6 +2067,10 @@ PrefabInstance:
       propertyPath: chaseRightPoint
       value: 
       objectReference: {fileID: 273671839}
+    - target: {fileID: 3923733939696831211, guid: 5f240bda1e31b314598e16c2588ca957, type: 3}
+      propertyPath: blockSaveLoadManager
+      value: 
+      objectReference: {fileID: 1058219831}
     - target: {fileID: 4157271361199303455, guid: 5f240bda1e31b314598e16c2588ca957, type: 3}
       propertyPath: m_LocalPosition.x
       value: 10.76
@@ -2105,12 +2117,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5322065382081072561, guid: 5f240bda1e31b314598e16c2588ca957, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7386796392121080538, guid: 5f240bda1e31b314598e16c2588ca957, type: 3}
       propertyPath: gridMap
       value: 
       objectReference: {fileID: 1595559442}
+    - target: {fileID: 7386796392121080538, guid: 5f240bda1e31b314598e16c2588ca957, type: 3}
+      propertyPath: blockSaveLoadManager
+      value: 
+      objectReference: {fileID: 1058219831}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11933,6 +11949,10 @@ PrefabInstance:
       propertyPath: gridMap
       value: 
       objectReference: {fileID: 1595559442}
+    - target: {fileID: 5917890074991209829, guid: ccca1ee1b22df41499bd860e23c3ec3a, type: 3}
+      propertyPath: blockSaveLoadManager
+      value: 
+      objectReference: {fileID: 1058219831}
     - target: {fileID: 5931635288444087284, guid: ccca1ee1b22df41499bd860e23c3ec3a, type: 3}
       propertyPath: leftPoint
       value: 
@@ -11949,6 +11969,10 @@ PrefabInstance:
       propertyPath: chaseRightPoint
       value: 
       objectReference: {fileID: 1927549732}
+    - target: {fileID: 5931635288444087284, guid: ccca1ee1b22df41499bd860e23c3ec3a, type: 3}
+      propertyPath: blockSaveLoadManager
+      value: 
+      objectReference: {fileID: 1058219831}
     - target: {fileID: 8212861897617306822, guid: ccca1ee1b22df41499bd860e23c3ec3a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 15.5

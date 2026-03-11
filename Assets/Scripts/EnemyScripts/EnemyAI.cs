@@ -49,6 +49,8 @@ public class EnemyAI : MonoBehaviour, IEnemyAI
     private const float  DISENGAGE_DISTANCE = 4f; // ngưỡng mà enemy quyết định còn đuổi hay không đuổi tiếp ??? nó như là MAX_CHASE vậy
     private const float CHASE_MIN_DISTANCE = 2f; // ngưỡng mà enemy quyết định còn đuổi hay không đuổi tiếp ??? nó như là MIN_CHASE vậy
 
+    [SerializeField] BlockSaveLoadManager blockSaveLoadManager;
+
     
     private void Awake()
     {
@@ -91,7 +93,7 @@ public class EnemyAI : MonoBehaviour, IEnemyAI
 
     private void Update()
     {
-        if(isDied == true)
+        if(isDied == true || blockSaveLoadManager.GetIsLoaded() == false)
         {
             return;
         }

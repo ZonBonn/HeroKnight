@@ -6308,6 +6308,10 @@ PrefabInstance:
       propertyPath: chaseRightPoint
       value: 
       objectReference: {fileID: 558859359}
+    - target: {fileID: 1857032143653887226, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
+      propertyPath: blockSaveLoadManager
+      value: 
+      objectReference: {fileID: 2119886861}
     - target: {fileID: 1941584455295481914, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
       propertyPath: m_Name
       value: HeavyEnemy (5)
@@ -6320,6 +6324,10 @@ PrefabInstance:
       propertyPath: gridMap
       value: 
       objectReference: {fileID: 1162341017}
+    - target: {fileID: 3303357594505969035, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
+      propertyPath: blockSaveLoadManager
+      value: 
+      objectReference: {fileID: 2119886861}
     - target: {fileID: 7707523144904227639, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
       propertyPath: spawnLootTableLevel
       value: 
@@ -6455,6 +6463,10 @@ PrefabInstance:
       propertyPath: chaseRightPoint
       value: 
       objectReference: {fileID: 1940838372}
+    - target: {fileID: 1857032143653887226, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
+      propertyPath: blockSaveLoadManager
+      value: 
+      objectReference: {fileID: 2119886861}
     - target: {fileID: 1941584455295481914, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
       propertyPath: m_Name
       value: HeavyEnemy (3)
@@ -6463,6 +6475,10 @@ PrefabInstance:
       propertyPath: gridMap
       value: 
       objectReference: {fileID: 1162341017}
+    - target: {fileID: 3303357594505969035, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
+      propertyPath: blockSaveLoadManager
+      value: 
+      objectReference: {fileID: 2119886861}
     - target: {fileID: 8944218315491927769, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
       propertyPath: m_LocalPosition.x
       value: 48.921364
@@ -8787,6 +8803,10 @@ PrefabInstance:
       propertyPath: chaseRightPoint
       value: 
       objectReference: {fileID: 1026629362}
+    - target: {fileID: 1857032143653887226, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
+      propertyPath: blockSaveLoadManager
+      value: 
+      objectReference: {fileID: 2119886861}
     - target: {fileID: 1941584455295481914, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
       propertyPath: m_Name
       value: HeavyEnemy (2)
@@ -8795,6 +8815,10 @@ PrefabInstance:
       propertyPath: gridMap
       value: 
       objectReference: {fileID: 1162341017}
+    - target: {fileID: 3303357594505969035, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
+      propertyPath: blockSaveLoadManager
+      value: 
+      objectReference: {fileID: 2119886861}
     - target: {fileID: 8944218315491927769, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
       propertyPath: m_LocalPosition.x
       value: 35.011387
@@ -16107,6 +16131,10 @@ PrefabInstance:
       propertyPath: chaseRightPoint
       value: 
       objectReference: {fileID: 86012473}
+    - target: {fileID: 1857032143653887226, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
+      propertyPath: blockSaveLoadManager
+      value: 
+      objectReference: {fileID: 2119886861}
     - target: {fileID: 1941584455295481914, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
       propertyPath: m_Name
       value: HeavyEnemy (4)
@@ -16119,6 +16147,10 @@ PrefabInstance:
       propertyPath: gridMap
       value: 
       objectReference: {fileID: 1162341017}
+    - target: {fileID: 3303357594505969035, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
+      propertyPath: blockSaveLoadManager
+      value: 
+      objectReference: {fileID: 2119886861}
     - target: {fileID: 7707523144904227639, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
       propertyPath: spawnLootTableLevel
       value: 
@@ -34338,6 +34370,10 @@ PrefabInstance:
       propertyPath: gridMap
       value: 
       objectReference: {fileID: 1162341017}
+    - target: {fileID: 6844258306073565937, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
+      propertyPath: blockSaveLoadManager
+      value: 
+      objectReference: {fileID: 2119886861}
     - target: {fileID: 7628453824878567232, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
       propertyPath: m_Name
       value: LightEnemy
@@ -34358,6 +34394,10 @@ PrefabInstance:
       propertyPath: chaseRightPoint
       value: 
       objectReference: {fileID: 1726644760}
+    - target: {fileID: 7703920037629606784, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
+      propertyPath: blockSaveLoadManager
+      value: 
+      objectReference: {fileID: 2119886861}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -36087,6 +36127,10 @@ PrefabInstance:
       propertyPath: chaseRightPoint
       value: 
       objectReference: {fileID: 1532617841}
+    - target: {fileID: 1857032143653887226, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
+      propertyPath: blockSaveLoadManager
+      value: 
+      objectReference: {fileID: 2119886861}
     - target: {fileID: 1941584455295481914, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
       propertyPath: m_Name
       value: HeavyEnemy (1)
@@ -36099,6 +36143,10 @@ PrefabInstance:
       propertyPath: gridMap
       value: 
       objectReference: {fileID: 1162341017}
+    - target: {fileID: 3303357594505969035, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
+      propertyPath: blockSaveLoadManager
+      value: 
+      objectReference: {fileID: 2119886861}
     - target: {fileID: 7707523144904227639, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
       propertyPath: spawnLootTableLevel
       value: 
@@ -41142,6 +41190,10 @@ PrefabInstance:
       propertyPath: chaseRightPoint
       value: 
       objectReference: {fileID: 6033007}
+    - target: {fileID: 1857032143653887226, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
+      propertyPath: blockSaveLoadManager
+      value: 
+      objectReference: {fileID: 2119886861}
     - target: {fileID: 1941584455295481914, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
       propertyPath: m_Name
       value: HeavyEnemy
@@ -41154,6 +41206,10 @@ PrefabInstance:
       propertyPath: gridMap
       value: 
       objectReference: {fileID: 1162341017}
+    - target: {fileID: 3303357594505969035, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
+      propertyPath: blockSaveLoadManager
+      value: 
+      objectReference: {fileID: 2119886861}
     - target: {fileID: 7707523144904227639, guid: 97ae8bf8fc95822459f78860fc76a5ea, type: 3}
       propertyPath: spawnLootTableLevel
       value: 

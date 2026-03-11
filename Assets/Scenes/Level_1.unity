@@ -3912,6 +3912,10 @@ PrefabInstance:
       propertyPath: playerMovement
       value: 
       objectReference: {fileID: 319703034}
+    - target: {fileID: 6844258306073565937, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
+      propertyPath: blockSaveLoadManager
+      value: 
+      objectReference: {fileID: 931815936}
     - target: {fileID: 7628453824878567232, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
       propertyPath: m_Name
       value: LightEnemy (3)
@@ -3940,6 +3944,10 @@ PrefabInstance:
       propertyPath: chaseRightPoint
       value: 
       objectReference: {fileID: 1114488981}
+    - target: {fileID: 7703920037629606784, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
+      propertyPath: blockSaveLoadManager
+      value: 
+      objectReference: {fileID: 931815936}
     - target: {fileID: 7703920037629606784, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
       propertyPath: playerHealthStaminaHandler
       value: 
@@ -11208,6 +11216,10 @@ PrefabInstance:
       propertyPath: playerMovement
       value: 
       objectReference: {fileID: 319703034}
+    - target: {fileID: 6844258306073565937, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
+      propertyPath: blockSaveLoadManager
+      value: 
+      objectReference: {fileID: 931815936}
     - target: {fileID: 7628453824878567232, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
       propertyPath: m_Name
       value: LightEnemy (4)
@@ -11240,6 +11252,10 @@ PrefabInstance:
       propertyPath: chaseRightPoint
       value: 
       objectReference: {fileID: 42839532}
+    - target: {fileID: 7703920037629606784, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
+      propertyPath: blockSaveLoadManager
+      value: 
+      objectReference: {fileID: 931815936}
     - target: {fileID: 7703920037629606784, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
       propertyPath: playerHealthStaminaHandler
       value: 
@@ -13161,6 +13177,10 @@ PrefabInstance:
       propertyPath: playerMovement
       value: 
       objectReference: {fileID: 319703034}
+    - target: {fileID: 6844258306073565937, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
+      propertyPath: blockSaveLoadManager
+      value: 
+      objectReference: {fileID: 931815936}
     - target: {fileID: 7628453824878567232, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
       propertyPath: m_Name
       value: LightEnemy
@@ -13185,6 +13205,10 @@ PrefabInstance:
       propertyPath: chaseRightPoint
       value: 
       objectReference: {fileID: 713391642}
+    - target: {fileID: 7703920037629606784, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
+      propertyPath: blockSaveLoadManager
+      value: 
+      objectReference: {fileID: 931815936}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -14185,6 +14209,10 @@ PrefabInstance:
       propertyPath: playerMovement
       value: 
       objectReference: {fileID: 319703034}
+    - target: {fileID: 6844258306073565937, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
+      propertyPath: blockSaveLoadManager
+      value: 
+      objectReference: {fileID: 931815936}
     - target: {fileID: 7628453824878567232, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
       propertyPath: m_Name
       value: LightEnemy (1)
@@ -14213,6 +14241,10 @@ PrefabInstance:
       propertyPath: chaseRightPoint
       value: 
       objectReference: {fileID: 1358972816}
+    - target: {fileID: 7703920037629606784, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
+      propertyPath: blockSaveLoadManager
+      value: 
+      objectReference: {fileID: 931815936}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -30164,7 +30196,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 377.45, y: 176.92}
+  m_SizeDelta: {x: 377.45, y: 192.66}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1460734458
 MonoBehaviour:
@@ -30199,9 +30231,10 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\t\t\t                   instruction\n\nA D: Move\nSpace: Jump\nHold w
-    during climbing wall\nleft mouse: attack\nright mouse: defend\nf: rolling\nHold
-    V + Hold right mouse and drag for camera freely\n\nTOOls: U = kill the boss immediately\n\n\n"
+  m_Text: "\t\t\t                   instruction\nA D: Move\nSpace: Jump\nHold w during
+    climbing wall\nleft mouse: attack\nright mouse: defend\nf: rolling\nHold V +
+    Hold right mouse and drag for camera freely\n\nTOOls: \nU = kill the boss immediately\nPress
+    Key N, E, T same time to next level\n\n\n"
 --- !u!222 &1460734459
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -33401,6 +33434,10 @@ PrefabInstance:
       propertyPath: playerMovement
       value: 
       objectReference: {fileID: 319703034}
+    - target: {fileID: 6844258306073565937, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
+      propertyPath: blockSaveLoadManager
+      value: 
+      objectReference: {fileID: 931815936}
     - target: {fileID: 7628453824878567232, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
       propertyPath: m_Name
       value: LightEnemy (2)
@@ -33429,6 +33466,10 @@ PrefabInstance:
       propertyPath: chaseRightPoint
       value: 
       objectReference: {fileID: 1449554747}
+    - target: {fileID: 7703920037629606784, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
+      propertyPath: blockSaveLoadManager
+      value: 
+      objectReference: {fileID: 931815936}
     - target: {fileID: 7703920037629606784, guid: 410a36f66ce010e45a6d52faa2319ccc, type: 3}
       propertyPath: playerHealthStaminaHandler
       value: 

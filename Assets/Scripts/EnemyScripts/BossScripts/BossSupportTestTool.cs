@@ -19,7 +19,7 @@ public class BossSupportTestTool : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.U) && canKillTheBoss == true)
+        if(Input.GetKeyDown(KeyCode.U))
         {
             bossHealthHandler.DamageBoss(100);
         }

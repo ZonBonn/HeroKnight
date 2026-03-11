@@ -56,6 +56,8 @@ public class EnemyEWAI : MonoBehaviour, IEnemyAI
     private SupportorLevelCombatManager supportorLevelCombatManager;
 
     public Action OnTriggerWhenBossDie;
+
+    [SerializeField] BlockSaveLoadManager blockSaveLoadManager;
     
     private void Awake()
     {
@@ -108,10 +110,11 @@ public class EnemyEWAI : MonoBehaviour, IEnemyAI
 
     private void Update()
     {
-        if(isDied == true)
+        if(isDied == true || blockSaveLoadManager.GetIsLoaded() == false)
         {
             return;
         }
+
 
         IsPlayerAround = enemyEWSensor.IsSearchedPlayerAround();
         PlayerPosition = Player.Instance.GetPlayerPosition();
