@@ -23,6 +23,8 @@ public class BossHealthBar : MonoBehaviour
     {
         healthSystem.OnDamaged += TriggerChangeHealthBarUI;
         healthSystem.OnHealed += TriggerChangeHealthBarUI;
+
+        healthSystem.Heal(100);
     }
 
     public void SetUp(HealthSystem healthSystem)
