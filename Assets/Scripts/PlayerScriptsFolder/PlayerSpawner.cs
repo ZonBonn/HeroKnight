@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerSpawner : MonoBehaviour
 {
     private GameObject playerGameObject;
-    private void OnEnable()
+    private void Start()
     {
         if(playerGameObject == null)
         {
