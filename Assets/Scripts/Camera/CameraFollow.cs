@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CameraFollow : MonoBehaviour
 {
@@ -22,6 +23,21 @@ public class CameraFollow : MonoBehaviour
 
     private void LateUpdate()
     {
+        // for WebGL
+        if(playerTransform == null)
+        {
+            var PlayerTransformVar = PlayerManager.Instance.GetPlayerGameObject();
+            if(PlayerTransformVar != null)
+            {
+                playerTransform = PlayerTransformVar.transform;  // chạy lần 2 khi scene được load để check gán playerTransform
+            }
+            else
+            {
+                Debug.Log("PlayerTransformVar == null");
+                return;
+            }
+        }
+
         Vector3 newPosition = playerTransform.position;
         float clampedX = playerTransform.position.x;
         float clampedY = playerTransform.position.y;
@@ -57,5 +73,37 @@ public class CameraFollow : MonoBehaviour
         xRight = xRightClamp;
         yUp = yUpClamp;
         yDown = yDownClamp;
+    }
+
+    // for WebGL
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded; // chạy lần 1 khi scene được load để check gán playerTransform
+    }
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        TryGetPlayer();
+    }
+
+    private void TryGetPlayer()
+    {
+        if(playerTransform == null)
+        {
+            var playerTransformVar = PlayerManager.Instance.GetPlayerGameObject().transform;
+            if(playerTransformVar != null)
+            {
+                playerTransform = playerTransformVar;
+            }
+            else
+            {
+                Debug.Log("playerTransformVar == null");
+            }
+            return;
+        }
+        return;
     }
 }

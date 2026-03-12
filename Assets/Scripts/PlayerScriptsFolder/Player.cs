@@ -41,6 +41,15 @@ public class Player : MonoBehaviour, IResettable
 
     }
 
+    private  void LateUpdate()
+    {
+        // for WebGL
+        if(PlayerManager.Instance.GetPlayerGameObject() == null)
+        {
+            PlayerManager.Instance.RegisterPlayer(gameObject); // đăng ký cho WebGL
+        }
+    }
+
     public Vector3 GetPlayerPosition()
     {
         return gameObject.transform.position;
