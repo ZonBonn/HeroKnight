@@ -6596,6 +6596,7 @@ MonoBehaviour:
   xRightClamp: 60
   yUpClamp: 26
   yDownClamp: -2
+  followSpeed: 5
 --- !u!114 &519420034
 MonoBehaviour:
   m_ObjectHideFlags: 0

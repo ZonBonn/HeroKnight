@@ -11,6 +11,8 @@ public class CameraFollow : MonoBehaviour
     public float xRightClamp;
     public float yUpClamp;
     public float yDownClamp;
+    
+    [SerializeField] float followSpeed = 3f;
 
     private void Start()
     {
@@ -62,7 +64,9 @@ public class CameraFollow : MonoBehaviour
         }
         if(!(Input.GetKey(KeyCode.V) && Input.GetMouseButton(1)))
         {
-            gameObject.transform.position = new Vector3(clampedX, clampedY, -10f);
+            Vector3 targetPos = new Vector3(clampedX, clampedY, -10f);
+            transform.position = Vector3.Lerp(transform.position, targetPos, followSpeed * Time.deltaTime);
+            // gameObject.transform.position = new Vector3(clampedX, clampedY, -10f);
         }
         
     }
