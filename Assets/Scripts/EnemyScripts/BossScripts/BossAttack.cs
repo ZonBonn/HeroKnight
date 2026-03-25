@@ -8,8 +8,7 @@ public class BossAttack : MonoBehaviour
 
     private BossPathFindingMovement bossPathFindingMovement;
     private BossAnimation bossAnimation;
-    // public PlayerHealthStaminaHandler playerHealthStaminaHandler;
-    // private PlayerDefense playerDefense;
+
     
     void Start()
     {
@@ -18,12 +17,6 @@ public class BossAttack : MonoBehaviour
         
         bossAnimation.OnTriggerEachFrames += TriggerCreateAttackPoint;
 
-        // tham chiếu cho level 2
-        // if(playerHealthStaminaHandler == null)
-        // {
-        //     playerHealthStaminaHandler = PlayerManager.Instance.GetPlayerGameObject().GetComponent<PlayerHealthStaminaHandler>();
-        //     playerDefense = playerHealthStaminaHandler.gameObject.GetComponent<PlayerDefense>();
-        // }
     }
 
     
@@ -46,18 +39,9 @@ public class BossAttack : MonoBehaviour
             const float attackDistance = 2.5f;
             int dirVisual = bossPathFindingMovement.currentVisualDir;
             Vector3 attackPosition = new Vector3(EnemyPosition.x + dirVisual * attackDistance, EnemyPosition.y, EnemyPosition.z);
-            // Debug.Log("Real Enemy Position Center: " + EnemyPosition);
-            // Debug.Log("attackPosition: " + attackPosition);
             bool IsHitedPlayer = IsPlayerInAttackPoint(attackPosition);
             if(IsHitedPlayer == true)
             {
-                // Debug.Log("Hited Player");
-                // Debug.Log("Damage Player: " + UnityEngine.Random.Range(45, 50));
-                // damage player in here
-                // playerHealthHandler.Damage(UnityEngine.Random.Range(45, 50));
-                // playerHealthStaminaHandler.DamageHealth(UnityEngine.Random.Range(minDamageAttack, maxDamageAttack));
-                // playerDefense.ReceiveDamage(minDamageAttack, maxDamageAttack, bossPathFindingMovement.currentVisualDir);
-
                 // NEW dùng interface cho sạch
                 DamageInfo damageInfo = new DamageInfo();
                 damageInfo.attackerDir = bossPathFindingMovement.currentVisualDir;
@@ -144,8 +128,6 @@ public class BossAttack : MonoBehaviour
         {
             IsInVision = -110 >= EnemyAngleVisualDirectToPlayer || EnemyAngleVisualDirectToPlayer >= 110;
         }
-        // Debug.Log("EnemyAngleVisualDirectToPlayer:"+EnemyAngleVisualDirectToPlayer);
-        // Debug.Log("IsInRangeAttack: " + IsInRangeAttack + "        IsInVision: " + IsInVision);
         return IsInRangeAttack && IsInVision;
     }
 

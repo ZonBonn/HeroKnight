@@ -66,19 +66,10 @@ public class BossPathFindingMovement : MonoBehaviour
     private void FixedUpdate()
     {
         if(blockSaveLoadManager.GetIsLoaded() == false) return;
-        // Debug.Log("linearVelocityX:" + rb2d.linearVelocityX);
-        // IsHole();
-        // IsWallInFront();
         if(bossAI.currentEnemyStateAction == BossAI.BossStateAction.Chase || bossAI.currentEnemyStateAction == BossAI.BossStateAction.Patrol)
         {
             MovementPhysicPlatformerHandler();
         }
-        // else if(bossAI.currentEnemyStateAction == BossAI.BossStateAction.Jump)
-        // {
-        //     IsGroundedVar = enemySensor.IsGrounded();
-        //     JumpPhysicalPlatformerHandler();
-        //     MaintainHorizontalVelocityInAir();
-        // }
         else if(bossAI.currentEnemyStateAction == BossAI.BossStateAction.Hurt)
         {
             KnockBackPhysicalPlatformerHandler(currentVisualDir * -1);
@@ -157,18 +148,15 @@ public class BossPathFindingMovement : MonoBehaviour
             
             if (UnityEngine.Vector3.Distance(BossPositionHolder.Instance.GetRealBossPosition(), targetPosition) <= 0.6f) // 0.6f == PATROL_REACHED_DISTANCE
             {
-                // Debug.Log(Vector3.Distance(realTransform.transform.position, targetPosition));
-                // Debug.Log("Đã tới ô thứ: " + currentIdxPath);
+
                 ++currentIdxPath;
                 if (currentIdxPath >= PathOnVector.Count)
                 {
-                    // Debug.Log("Stop Moving");
                     StopMovingPhysicalHandler();
                 }
             }
             else
             {
-                // Debug.Log(Vector3.Distance(realTransform.transform.position, targetPosition));
                 float distanceBefore = UnityEngine.Vector3.Distance(BossPositionHolder.Instance.GetRealBossPosition(), targetPosition); // for fixing bug
                 UnityEngine.Vector2 DirToTarget = targetPosition - BossPositionHolder.Instance.GetRealBossPosition();
                 
@@ -179,8 +167,7 @@ public class BossPathFindingMovement : MonoBehaviour
                 
                 int moveDirX = Math.Sign(tmpDirToTargetX);
                 currentVisualDir = LeftOrRightPlatformer(moveDirX) == true ? 1 : -1;
-                // Debug.Log("DirToTarget.x: " + DirToTarget.x);
-                // Debug.Log(moveDirX);
+
                 
                 // PHYSICAL MOVEMENT HANDLER:
                 // realTransform.transform.position = realTransform.transform.position + moveDirection * moveSpeed * Time.deltaTime; // C1: di chuyển bằng transform position
