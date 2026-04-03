@@ -12,7 +12,7 @@ public class DamagePopup : MonoBehaviour
     Color tmpTextMeshProColor;
 
     // Create damage popup
-    public static DamagePopup Create(Vector3 pos, int damageAmount, bool isCriticalHit)
+    public static DamagePopup Create(Vector3 pos, float damageAmount, bool isCriticalHit)
     {
         Transform pfDamagePopup = Instantiate(GameAssets.i.pfDamagePopup, pos, Quaternion.identity); // một đối tượng bên ngoài chỉ việc gọi hàm này và DamagePopup tự tạo ra DamagePopup
         DamagePopup damagePopup = pfDamagePopup.GetComponent<DamagePopup>();
@@ -26,7 +26,7 @@ public class DamagePopup : MonoBehaviour
         
     }
 
-    private void SetUp(int damageAmount, bool isCriticalHit)
+    private void SetUp(float damageAmount, bool isCriticalHit)
     {
         if(isCriticalHit == true)
         {

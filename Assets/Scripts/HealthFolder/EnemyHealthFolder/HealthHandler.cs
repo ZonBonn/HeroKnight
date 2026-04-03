@@ -80,6 +80,8 @@ public class HealthHandler : MonoBehaviour, IHealthSystemProvider, IDamageable, 
 
         float finalDamage = caculateFinalDamage(damageInfo);
         Damage(finalDamage);
+
+        DamagePopup.Create(gameObject.transform.position, finalDamage, false);
     }
 
     public float caculateFinalDamage(DamageInfo damageInfo)

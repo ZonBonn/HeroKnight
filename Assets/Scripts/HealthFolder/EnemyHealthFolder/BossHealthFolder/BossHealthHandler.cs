@@ -85,9 +85,12 @@ public class BossHealthHandler : MonoBehaviour, IHealthSystemProvider, IDamageab
         {
             float finalDamage = caculateFinalDamage(damageInfo);
             DamageBoss(finalDamage);
+
+            DamagePopup.Create(gameObject.transform.position, finalDamage, false); // bật hiệu ứng hiển thị HP bị mất 
         }
         else
         {
+            DamagePopup.Create(gameObject.transform.position, 0, false);
             DamageBoss(0);
         }
     }
